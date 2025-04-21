@@ -1,0 +1,18 @@
+{
+  "id": "content",
+  "require": {
+    "net": false,
+    "debug": false
+  },
+  "i18n": {
+    "title": {
+      "en": "My Content"
+    },
+    "summary": {
+      "en": "A place to view and manage my content, including read-only resources and content I am helping to create"
+    },
+    "stub_content": {
+      "en": "Content goes here"
+    }
+  }
+}
