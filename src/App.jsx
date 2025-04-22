@@ -22,6 +22,11 @@ function App() {
     const handleMenuClick = event => {
         setFabMenuAnchor(null);
     };
+
+    const handleCreateMenuClick = event => {
+        setNewIsOpen(true);
+        setFabMenuAnchor(null);
+    };
     const handleMenuClose = () => {
         setFabMenuAnchor(null);
     };
@@ -70,9 +75,9 @@ function App() {
                 onClose={handleMenuClose}
                 onClick={handleMenuClick}
             >
-                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-                <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-                <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+                <MenuItem onClick={handleCreateMenuClick}>Create New Content</MenuItem>
+                <MenuItem onClick={handleMenuClose} disabled={true}>Download Content</MenuItem>
+                <MenuItem onClick={handleMenuClose} disabled={true}>Sideload Content</MenuItem>
             </Menu>
             <NewContent
                 open={newIsOpen}
