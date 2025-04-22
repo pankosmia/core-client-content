@@ -1,12 +1,13 @@
 import {useState, useEffect, useCallback, useContext} from "react"
 import {Box, Grid2, Fab, Menu, MenuItem} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import {getJson, debugContext} from "pithekos-lib";
+import {getJson, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import NewContent from "./components/NewContent";
 
 function App() {
 
     const {debugRef} = useContext(debugContext);
+    const {i18nRef} = useContext(i18nContext);
 
     const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 64);
 
@@ -55,7 +56,7 @@ function App() {
         <Box>
             <Fab
                 color="primary"
-                aria-label="add"
+                aria-label={doI18n("pages:content:add", i18nRef.current)}
                 sx={{
                     margin: 0,
                     top: 'auto',
@@ -75,9 +76,9 @@ function App() {
                 onClose={handleMenuClose}
                 onClick={handleMenuClick}
             >
-                <MenuItem onClick={handleCreateMenuClick}>Create New Content</MenuItem>
-                <MenuItem onClick={handleMenuClose} disabled={true}>Download Content</MenuItem>
-                <MenuItem onClick={handleMenuClose} disabled={true}>Sideload Content</MenuItem>
+                <MenuItem onClick={handleCreateMenuClick}>{doI18n("pages:content:create_content", i18nRef.current)}</MenuItem>
+                <MenuItem onClick={handleMenuClose} disabled={true}>{doI18n("pages:content:download_content", i18nRef.current)}</MenuItem>
+                <MenuItem onClick={handleMenuClose} disabled={true}>{doI18n("pages:content:sideload_content", i18nRef.current)}</MenuItem>
             </Menu>
             <NewContent
                 open={newIsOpen}

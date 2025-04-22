@@ -13,6 +13,62 @@
     },
     "stub_content": {
       "en": "Content goes here"
+    },
+    "close": {
+      "en":"close",
+      "es":"cerrar"
+    },
+    "new_content": {
+      "en":"New Content",
+      "es":"Nuevo Contenido"
+    },
+    "create": {
+      "en":"Create",
+      "es":"Crear"
+    },
+    "name": {
+      "en":"Name",
+      "es":"Nombre"
+    },
+    "abbreviation": {
+      "en":"Abbreviation",
+      "es":"Abreviación"
+    },
+    "type": {
+      "en":"Type",
+      "es":"Tipo"
+    },
+    "lang_code": {
+      "en":"Language Code ('und' for undetermined)",
+      "es":"Código del Idioma (si no está determinado, use 'und')"
+    },
+    "add": {
+      "en":"add",
+      "es":"agregar"
+    },
+    "create_content": {
+      "en":"Create New Content",
+      "es":"Crear Nuevo Contenido"
+    },
+    "download_content": {
+      "en":"Download Content",
+      "es":"Descargar Contenido"
+    },
+    "sideload_content": {
+      "en":"Sideload Content",
+      "es":"Cargar Contenido"
+    },
+    "": {
+      "en":"",
+      "es":""
+    },
+    "": {
+      "en":"",
+      "es":""
+    },
+    "": {
+      "en":"",
+      "es":""
     }
   }
 }
