@@ -1,19 +1,17 @@
 import {useState} from 'react';
 import {
-    AppBar, Box,
+    AppBar,
     Button,
     Dialog,
-    Divider,
     IconButton,
-    List,
-    ListItemButton,
-    ListItemText, Stack, TextField,
+    Stack,
+    TextField,
     Toolbar,
     Typography
 } from "@mui/material";
 import {Close as CloseIcon} from '@mui/icons-material';
 
-export default function NewPicker({open, setOpen}) {
+export default function NewContent({open, setOpen}) {
 
     const handleClose = () => {
         setOpen(false);
@@ -23,6 +21,11 @@ export default function NewPicker({open, setOpen}) {
     const [contentAbbr, setContentAbbr] = useState("");
     const [contentType, setContentType] = useState("");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
+
+    const handleCreate = () => {
+        console.log("CREATE");
+        setOpen(false);
+    };
 
     return (
         <Dialog
@@ -41,9 +44,9 @@ export default function NewPicker({open, setOpen}) {
                         <CloseIcon/>
                     </IconButton>
                     <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        New Project
+                        New Content
                     </Typography>
-                    <Button autoFocus color="inherit" onClick={handleClose}>
+                    <Button autoFocus color="inherit" onClick={handleCreate}>
                         Create
                     </Button>
                 </Toolbar>

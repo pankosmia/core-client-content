@@ -1,8 +1,8 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, Grid2, Fab} from "@mui/material";
+import {Box, Grid2, Fab, Menu, MenuItem} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import {getJson, debugContext} from "pithekos-lib";
-import NewPicker from "./components/NewPicker";
+import NewContent from "./components/NewContent";
 
 function App() {
 
@@ -17,7 +17,14 @@ function App() {
     const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
 
-
+    const [fabMenuAnchor, setFabMenuAnchor] = useState(null);
+    const fabMenuOpen = Boolean(fabMenuAnchor);
+    const handleMenuClick = event => {
+        setFabMenuAnchor(null);
+    };
+    const handleMenuClose = () => {
+        setFabMenuAnchor(null);
+    };
     useEffect(() => {
         window.addEventListener('resize', handleWindowResize);
         return () => {
@@ -52,11 +59,22 @@ function App() {
                     left: 'auto',
                     position: 'fixed',
                 }}
-                onClick={() => setNewIsOpen(true)}
+                onClick={event => setFabMenuAnchor(event.currentTarget)}
             >
                 <AddIcon/>
             </Fab>
-            <NewPicker
+            <Menu
+                id="fab-menu"
+                anchorEl={fabMenuAnchor}
+                open={fabMenuOpen}
+                onClose={handleMenuClose}
+                onClick={handleMenuClick}
+            >
+                <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+                <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+                <MenuItem onClick={handleMenuClose}>Logout</MenuItem>
+            </Menu>
+            <NewContent
                 open={newIsOpen}
                 setOpen={setNewIsOpen}
             />
