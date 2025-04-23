@@ -23,24 +23,28 @@ export default function NewContent({open, setOpen}) {
     const {debugRef} = useContext(debugContext);
     const [contentName, setContentName] = useState("");
     const [contentAbbr, setContentAbbr] = useState("");
-    const [contentType, setContentType] = useState("");
+    const [contentType, setContentType] = useState("text_translation");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
     const [showBookFields, setShowBookFields] = useState(false);
     const [bookCode, setBookCode] = useState("");
     const [bookTitle, setBookTitle] = useState("");
     const [bookAbbr, setBookAbbr] = useState("");
     const [postCount, setPostCount] = useState(0);
+    const [showVersification, setShowVersification] = useState(false);
+    const [versification, setVersification] = useState("");
 
     useEffect(
         () => {
             setContentName("");
             setContentAbbr("");
-            setContentType("");
+            setContentType("text_translation");
             setContentLanguageCode("und");
             setBookCode("");
             setBookTitle("");
             setBookAbbr("");
             setShowBookFields(false);
+            setShowVersification(false);
+            setVersification("");
         },
         [postCount]
     );
@@ -55,7 +59,9 @@ export default function NewContent({open, setOpen}) {
             add_book: showBookFields,
             book_code: showBookFields ? bookCode : null,
             book_title: showBookFields ? bookTitle : null,
-            book_abbr: showBookFields ? bookAbbr : null
+            book_abbr: showBookFields ? bookAbbr : null,
+            add_cv: showBookFields ? bookAbbr : showVersification,
+            versification: showBookFields && showVersification ? versification : null
         };
         const response = await postJson(
             "/git/new",
@@ -109,7 +115,12 @@ export default function NewContent({open, setOpen}) {
                                     !showBookFields || (
                                         bookCode.trim().length === 3 &&
                                         bookTitle.trim().length > 0 &&
-                                        bookAbbr.trim().length > 0
+                                        bookAbbr.trim().length > 0 &&
+                                        (
+                                            !showVersification || (
+                                                versification.trim().length === 3
+                                            )
+                                        )
                                     )
                                 )
                             )
@@ -139,6 +150,7 @@ export default function NewContent({open, setOpen}) {
                 />
                 <TextField
                     id="type"
+                    disabled={true}
                     label={doI18n("pages:content:type", i18nRef.current)}
                     value={contentType}
                     onChange={(event) => {
@@ -190,6 +202,30 @@ export default function NewContent({open, setOpen}) {
                                 setBookAbbr(event.target.value);
                             }}
                         />
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={showVersification}
+                                        onChange={() => setShowVersification(!showVersification)}
+                                    />
+                                }
+                                label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
+                            />
+                        </FormGroup>
+                        {
+                            showVersification && <>
+                                <TextField
+                                    id="bookVersification"
+                                    label={doI18n("pages:content:versification_scheme", i18nRef.current)}
+                                    value={versification}
+                                    onChange={(event) => {
+                                        setVersification(event.target.value);
+                                    }}
+                                />
+
+                            </>
+                        }
                     </>
                 }
             </Stack>

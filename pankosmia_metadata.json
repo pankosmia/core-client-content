@@ -81,6 +81,14 @@
     "content_creation_error": {
       "en":"An error occurred while attempting to create Content",
       "fr":"Une erreur est survenue pendant la création du contenu"
+    },
+    "add_versification_checkbox": {
+      "en": "Add empty chapters and verses?",
+      "fr": "Ajouter des chapitres et des versets vides ?"
+    },
+    "versification_scheme": {
+      "en": "Versification scheme",
+      "fr": "Schéma de versification"
     }
   }
 }
