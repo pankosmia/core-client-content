@@ -13,7 +13,7 @@ import {Close as CloseIcon} from '@mui/icons-material';
 import {enqueueSnackbar} from "notistack";
 import {i18nContext, debugContext, postJson, doI18n} from "pithekos-lib";
 
-export default function NewContent({open, setOpen}) {
+export default function NewContent({open, setOpen, }) {
 
     const handleClose = () => {
         setOpen(false);

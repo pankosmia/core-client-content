@@ -48,9 +48,11 @@ function App() {
 
     useEffect(
         () => {
-            getRepoList().then();
+            if (!newIsOpen) {
+                getRepoList().then();
+            }
         },
-        []
+        [newIsOpen]
     );
 
     return (
