@@ -58,17 +58,21 @@
       "en":"Sideload Content",
       "es":"Cargar Contenido"
     },
-    "": {
-      "en":"",
-      "es":""
+    "add_book_checkbox": {
+      "en":"Add a Bible book?",
+      "fr":"Ajouter un livre biblique ?"
     },
-    "": {
-      "en":"",
-      "es":""
+    "book_code": {
+      "en":"Book Code",
+      "fr":"Code du livre"
     },
-    "": {
-      "en":"",
-      "es":""
+    "book_title": {
+      "en":"Title",
+      "fr":"Titre"
+    },
+    "book_abbr": {
+      "en":"Abbreviation",
+      "fr":"Abbréviation"
     }
   }
 }

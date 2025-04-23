@@ -1,8 +1,8 @@
 import {useState, useContext} from 'react';
 import {
     AppBar,
-    Button,
-    Dialog,
+    Button, Checkbox,
+    Dialog, FormControlLabel, FormGroup,
     IconButton,
     Stack,
     TextField,
@@ -23,6 +23,10 @@ export default function NewContent({open, setOpen}) {
     const [contentAbbr, setContentAbbr] = useState("");
     const [contentType, setContentType] = useState("");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
+    const [showBookFields, setShowBookFields] = useState(false);
+    const [bookCode, setBookCode] = useState("");
+    const [bookTitle, setBookTitle] = useState("");
+    const [bookAbbr, setBookAbbr] = useState("");
 
     const handleCreate = () => {
         console.log("CREATE");
@@ -46,14 +50,14 @@ export default function NewContent({open, setOpen}) {
                         <CloseIcon/>
                     </IconButton>
                     <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                    {doI18n("pages:content:new_content", i18nRef.current)}
+                        {doI18n("pages:content:new_content", i18nRef.current)}
                     </Typography>
                     <Button autoFocus color="inherit" onClick={handleCreate}>
-                    {doI18n("pages:content:create", i18nRef.current)}
+                        {doI18n("pages:content:create", i18nRef.current)}
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Stack spacing={2} sx={{mt: 2}}>
+            <Stack spacing={2} sx={{m: 2}}>
                 <TextField
                     id="name"
                     label={doI18n("pages:content:name", i18nRef.current)}
@@ -86,6 +90,45 @@ export default function NewContent({open, setOpen}) {
                         setContentLanguageCode(event.target.value);
                     }}
                 />
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={showBookFields}
+                                onChange={() => setShowBookFields(!showBookFields)}
+                            />
+                        }
+                        label={doI18n("pages:content:add_book_checkbox", i18nRef.current)}
+                    />
+                </FormGroup>
+                {
+                    showBookFields && <>
+                        <TextField
+                            id="bookCode"
+                            label={doI18n("pages:content:book_code", i18nRef.current)}
+                            value={bookCode}
+                            onChange={(event) => {
+                                setBookCode(event.target.value);
+                            }}
+                        />
+                        <TextField
+                            id="bookTitle"
+                            label={doI18n("pages:content:book_title", i18nRef.current)}
+                            value={bookTitle}
+                            onChange={(event) => {
+                                setBookTitle(event.target.value);
+                            }}
+                        />
+                        <TextField
+                            id="bookAbbr"
+                            label={doI18n("pages:content:book_abbr", i18nRef.current)}
+                            value={bookAbbr}
+                            onChange={(event) => {
+                                setBookAbbr(event.target.value);
+                            }}
+                        />
+                    </>
+                }
             </Stack>
         </Dialog>
     );
