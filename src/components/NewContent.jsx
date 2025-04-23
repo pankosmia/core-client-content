@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {
     AppBar,
     Button, Checkbox,
@@ -29,9 +29,24 @@ export default function NewContent({open, setOpen}) {
     const [bookCode, setBookCode] = useState("");
     const [bookTitle, setBookTitle] = useState("");
     const [bookAbbr, setBookAbbr] = useState("");
+    const [postCount, setPostCount] = useState(0);
+
+    useEffect(
+        () => {
+            setContentName("");
+            setContentAbbr("");
+            setContentType("");
+            setContentLanguageCode("und");
+            setBookCode("");
+            setBookTitle("");
+            setBookAbbr("");
+            setShowBookFields(false);
+        },
+        [postCount]
+    );
 
     const handleCreate = async () => {
-        console.log("CREATE");
+
         const payload = {
             content_name: contentName,
             content_abbr: contentAbbr,
@@ -44,10 +59,11 @@ export default function NewContent({open, setOpen}) {
         };
         const response = await postJson(
             "/git/new",
-            payload,
+            JSON.stringify(payload),
             debugRef.current
         );
         if (response.ok) {
+            setPostCount(postCount + 1);
             enqueueSnackbar(
                 doI18n("pages:content:content_created", i18nRef.current),
                 {variant: "success"}
