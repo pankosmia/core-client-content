@@ -67,12 +67,20 @@
       "fr":"Code du livre"
     },
     "book_title": {
-      "en":"Title",
-      "fr":"Titre"
+      "en":"Book Title",
+      "fr":"Titre du livre"
     },
     "book_abbr": {
-      "en":"Abbreviation",
-      "fr":"Abbréviation"
+      "en":"Book Abbreviation",
+      "fr":"Abbréviation du livre"
+    },
+    "content_created": {
+      "en":"Content created!",
+      "fr":"Contenu créé"
+    },
+    "content_creation_error": {
+      "en":"An error occurred while attempting to create Content",
+      "fr":"Une erreur est survenue pendant la création du contenu"
     }
   }
 }
