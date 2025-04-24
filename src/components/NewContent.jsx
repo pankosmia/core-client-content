@@ -26,12 +26,12 @@ export default function NewContent({open, setOpen, }) {
     const [contentType, setContentType] = useState("text_translation");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
     const [showBookFields, setShowBookFields] = useState(false);
-    const [bookCode, setBookCode] = useState("");
-    const [bookTitle, setBookTitle] = useState("");
-    const [bookAbbr, setBookAbbr] = useState("");
+    const [bookCode, setBookCode] = useState("TIT");
+    const [bookTitle, setBookTitle] = useState("Tit");
+    const [bookAbbr, setBookAbbr] = useState("Ti");
     const [postCount, setPostCount] = useState(0);
     const [showVersification, setShowVersification] = useState(false);
-    const [versification, setVersification] = useState("");
+    const [versification, setVersification] = useState("eng");
 
     useEffect(
         () => {
@@ -39,12 +39,12 @@ export default function NewContent({open, setOpen, }) {
             setContentAbbr("");
             setContentType("text_translation");
             setContentLanguageCode("und");
-            setBookCode("");
-            setBookTitle("");
-            setBookAbbr("");
+            setBookCode("TIT");
+            setBookTitle("Titus");
+            setBookAbbr("Ti");
             setShowBookFields(false);
             setShowVersification(false);
-            setVersification("");
+            setVersification("eng");
         },
         [postCount]
     );
@@ -60,7 +60,7 @@ export default function NewContent({open, setOpen, }) {
             book_code: showBookFields ? bookCode : null,
             book_title: showBookFields ? bookTitle : null,
             book_abbr: showBookFields ? bookAbbr : null,
-            add_cv: showBookFields ? bookAbbr : showVersification,
+            add_cv: showBookFields ? showVersification: null,
             versification: showBookFields && showVersification ? versification : null
         };
         const response = await postJson(
