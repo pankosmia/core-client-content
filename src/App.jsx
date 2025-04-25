@@ -3,7 +3,8 @@ import {Box, Grid2, Fab, Menu, MenuItem, Stack, IconButton} from "@mui/material"
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
-import {getJson, debugContext, i18nContext, netContext, doI18n} from "pithekos-lib";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {getJson, debugContext, i18nContext, netContext, doI18n, postEmptyJson} from "pithekos-lib";
 import dateFormat from 'dateformat';
 import NewContent from "./components/NewContent";
 
@@ -121,7 +122,9 @@ function App() {
                                             <Grid2 key={`${n}-name`} item size={4} sx={{backgroundColor: "#FFF"}}>
                                                 <Stack>
                                                     <Box><b>{`${rep.name} (${rep.abbreviation})`}</b></Box>
-                                                    <Box>{rep.description}</Box>
+                                                    {rep.description !== rep.name &&
+                                                        <Box>{rep.description}</Box>
+                                                    }
                                                 </Stack>
                                             </Grid2>
                                             <Grid2 key={`${n}-language`} item size={1} sx={{backgroundColor: "#FFF"}}>
@@ -131,22 +134,37 @@ function App() {
                                                 {rep.flavor}
                                             </Grid2>
                                             <Grid2 key={`${n}-source`} item size={2} sx={{backgroundColor: "#FFF"}}>
-                                                {rep.path.split("/").slice(0, 2).join(" ")}
+                                                {
+                                                    rep.path.startsWith("_local_") ?
+                                                        "Local" :
+                                                        rep.path.split("/").slice(0, 2).join(" ")
+                                                }
                                             </Grid2>
                                             <Grid2 key={`${n}-date`} item size={1} sx={{backgroundColor: "#FFF"}}>
                                                 {dateFormat(rep.generated_date, "mmm d yyyy")}
                                             </Grid2>
                                             <Grid2 key={`${n}-actions`} item size={2} display="flex"
-                                                   justifyContent="flex-end" alignItems="center" sx={{backgroundColor: "#FFF"}}>
+                                                   justifyContent="flex-end" alignItems="center"
+                                                   sx={{backgroundColor: "#FFF"}}>
                                                 {
                                                     rep.path.startsWith("_local_") ?
-                                                        <IconButton>
+                                                        <IconButton
+                                                            onClick={
+                                                                async () => {
+                                                                    await postEmptyJson(`/app-state/current-project/${rep.path}`);
+                                                                    window.location.href = "/clients/local-projects";
+                                                                }
+                                                            }
+                                                        >
                                                             <EditIcon/>
                                                         </IconButton> :
-                                                        <IconButton>
-                                                            <EditOffIcon disabled={true}/>
+                                                        <IconButton disabled={true}>
+                                                            <EditOffIcon/>
                                                         </IconButton>
                                                 }
+                                                <IconButton>
+                                                    <MoreVertIcon/>
+                                                </IconButton>
                                             </Grid2>
                                         </>
                                     }
