@@ -1,7 +1,10 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, Grid2, Fab, Menu, MenuItem} from "@mui/material";
+import {Box, Grid2, Fab, Menu, MenuItem, Stack, IconButton} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
+import EditOffIcon from '@mui/icons-material/EditOff';
 import {getJson, debugContext, i18nContext, netContext, doI18n} from "pithekos-lib";
+import dateFormat from 'dateformat';
 import NewContent from "./components/NewContent";
 
 function App() {
@@ -40,9 +43,16 @@ function App() {
     }, [handleWindowResize]);
 
     const getRepoList = async () => {
-        const response = await getJson("/git/list-local-repos", debugRef.current);
-        if (response.ok) {
-            setRepos(response.json);
+        const listResponse = await getJson("/git/list-local-repos", debugRef.current);
+        if (listResponse.ok) {
+            let responses = [];
+            for (const repoPath of listResponse.json) {
+                const metadataResponse = await getJson(`/burrito/metadata/summary/${repoPath}`);
+                if (metadataResponse.ok) {
+                    responses.push({path: repoPath, ...metadataResponse.json})
+                }
+            }
+            setRepos(responses);
         }
     }
 
@@ -101,22 +111,50 @@ function App() {
                 open={newIsOpen}
                 setOpen={setNewIsOpen}
             />
-            <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight}}>
-                <Grid2 container>
+            <Box sx={{p: 1, backgroundColor: "#EEE"}}>
+                <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
                     {
                         repos
                             .map(
-                                rep => {
-                                    return <>
-                                        <Grid2 item size={12}>
-                                            {rep}
-                                        </Grid2>
-                                    </>
-                                }
+                                ((rep, n) => {
+                                        return <>
+                                            <Grid2 key={`${n}-name`} item size={4} sx={{backgroundColor: "#FFF"}}>
+                                                <Stack>
+                                                    <Box><b>{`${rep.name} (${rep.abbreviation})`}</b></Box>
+                                                    <Box>{rep.description}</Box>
+                                                </Stack>
+                                            </Grid2>
+                                            <Grid2 key={`${n}-language`} item size={1} sx={{backgroundColor: "#FFF"}}>
+                                                {rep.language_code}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-flavor`} item size={2} sx={{backgroundColor: "#FFF"}}>
+                                                {rep.flavor}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-source`} item size={2} sx={{backgroundColor: "#FFF"}}>
+                                                {rep.path.split("/").slice(0, 2).join(" ")}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-date`} item size={1} sx={{backgroundColor: "#FFF"}}>
+                                                {dateFormat(rep.generated_date, "mmm d yyyy")}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-actions`} item size={2} display="flex"
+                                                   justifyContent="flex-end" alignItems="center" sx={{backgroundColor: "#FFF"}}>
+                                                {
+                                                    rep.path.startsWith("_local_") ?
+                                                        <IconButton>
+                                                            <EditIcon/>
+                                                        </IconButton> :
+                                                        <IconButton>
+                                                            <EditOffIcon disabled={true}/>
+                                                        </IconButton>
+                                                }
+                                            </Grid2>
+                                        </>
+                                    }
+                                )
                             )
                     }
                 </Grid2>
-            </Grid2>
+            </Box>
         </Box>
     );
 }
