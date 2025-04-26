@@ -97,6 +97,46 @@
     "book_or_books": {
       "en": "book(s)",
       "fr": "livre(s)"
+    },
+    "export_usfm": {
+      "en": "Export USFM",
+      "es": "Exportar USFM"
+    },
+    "export_label": {
+      "en": "EXPORT",
+      "es": "EXPORTAR"
+    },
+    "cancel": {
+      "en": "CANCEL",
+      "es": "CANCELAR"
+    },
+    "pick_book_export": {
+      "en": "Choose one or more books to export",
+      "es": "Elige uno o más libros para exportar"
+    },
+    "books": {
+      "en": "Books",
+      "es": "Libros"
+    },
+    "export_as_usfm": {
+      "en": "Export Content as USFM",
+      "es": "Exportar Contenido como USFM"
+    },
+    "save_book_file": {
+      "en": "Save book file",
+      "es": "Guardar el archivo del libro"
+    },
+    "saved": {
+      "en": "Saved",
+      "es": "Se guardó"
+    },
+    "to_download_folder": {
+      "en": "to Download folder",
+      "es": "a la carpeta de Descargas"
+    },
+    "coudldnt_fetch": {
+      "en": "Could not fetch",
+      "es": "No se pudo obtener"
     }
   }
 }
