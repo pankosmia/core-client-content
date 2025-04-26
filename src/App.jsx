@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, Grid2, Fab, Menu, MenuItem, Stack, IconButton} from "@mui/material";
+import {Box, Grid2, Fab, Menu, MenuItem, Stack, IconButton, Card, CardActionArea, CardContent} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
@@ -114,6 +114,11 @@ function App() {
             />
             <Box sx={{p: 1, backgroundColor: "#EEE"}}>
                 <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
+                    {repos.length === 0 &&
+                        <Grid2 item size={4} sx={{backgroundColor: "#FFF"}}>
+                          {doI18n("pages:content:where_create_content", i18nRef.current)}
+                        </Grid2>
+                    }
                     {
                         repos
                             .map(
