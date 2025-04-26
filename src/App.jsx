@@ -52,6 +52,19 @@ function App() {
                 if (metadataResponse.ok) {
                     responses.push({path: repoPath, ...metadataResponse.json})
                 }
+                const fullMetadataResponse = await getJson(`/burrito/metadata/raw/${repoPath}`);
+                if (fullMetadataResponse.ok) {
+                    responses[responses.length - 1]["bookCodes"] =
+                        Object.entries(fullMetadataResponse.json.ingredients)
+                            .map(
+                                i =>
+                                    Object.keys(i[1].scope || {})
+                            )
+                            .reduce(
+                                (a, b) => [...a, ...b],
+                                []
+                            );
+                }
             }
             setRepos(responses);
         }
@@ -115,8 +128,8 @@ function App() {
             <Box sx={{p: 1, backgroundColor: "#EEE"}}>
                 <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
                     {repos.length === 0 &&
-                        <Grid2 item size={4} sx={{backgroundColor: "#FFF"}}>
-                          {doI18n("pages:content:where_create_content", i18nRef.current)}
+                        <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
+                            {doI18n("pages:content:where_create_content", i18nRef.current)}
                         </Grid2>
                     }
                     {
@@ -135,6 +148,9 @@ function App() {
                                             <Grid2 key={`${n}-language`} item size={1} sx={{backgroundColor: "#FFF"}}>
                                                 {rep.language_code}
                                             </Grid2>
+                                            <Grid2 key={`${n}-books`} item size={1} sx={{backgroundColor: "#FFF"}}>
+                                                {`${rep.bookCodes.length} ${doI18n("pages:content:book_or_books", i18nRef.current)}`}
+                                            </Grid2>
                                             <Grid2 key={`${n}-flavor`} item size={2} sx={{backgroundColor: "#FFF"}}>
                                                 {rep.flavor}
                                             </Grid2>
@@ -148,7 +164,7 @@ function App() {
                                             <Grid2 key={`${n}-date`} item size={1} sx={{backgroundColor: "#FFF"}}>
                                                 {dateFormat(rep.generated_date, "mmm d yyyy")}
                                             </Grid2>
-                                            <Grid2 key={`${n}-actions`} item size={2} display="flex"
+                                            <Grid2 key={`${n}-actions`} item size={1} display="flex"
                                                    justifyContent="flex-end" alignItems="center"
                                                    sx={{backgroundColor: "#FFF"}}>
                                                 {

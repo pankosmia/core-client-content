@@ -93,6 +93,10 @@
     "versification_scheme": {
       "en": "Versification scheme",
       "fr": "Schéma de versification"
+    },
+    "book_or_books": {
+      "en": "book(s)",
+      "fr": "livre(s)"
     }
   }
 }
