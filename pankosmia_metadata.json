@@ -63,8 +63,8 @@
       "es":"Cargar Contenido"
     },
     "add_book_checkbox": {
-      "en":"Add a Bible book?",
-      "fr":"Ajouter un livre biblique ?"
+      "en":"Add a Bible book",
+      "fr":"Ajouter un livre biblique"
     },
     "book_code": {
       "en":"Book Code",
@@ -87,8 +87,8 @@
       "fr":"Une erreur est survenue pendant la création du contenu"
     },
     "add_versification_checkbox": {
-      "en": "Add empty chapters and verses?",
-      "fr": "Ajouter des chapitres et des versets vides ?"
+      "en": "Add empty chapters and verses",
+      "fr": "Ajouter des chapitres et des versets vides"
     },
     "versification_scheme": {
       "en": "Versification scheme",
