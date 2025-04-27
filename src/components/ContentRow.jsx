@@ -42,7 +42,7 @@ function ContentRow({repoInfo}) {
             {
                 repoInfo.path.startsWith("_local_") ?
                     doI18n("pages:content:local_org", i18nRef.current) :
-                    repoInfo.path.split("/").slice(0, 2).join(" ")
+                    `${repoInfo.path.split("/")[1]} (${repoInfo.path.split("/")[0]})`
             }
         </Grid2>
         <Grid2 item size={1} sx={{backgroundColor: "#FFF"}}>

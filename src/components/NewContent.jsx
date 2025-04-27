@@ -314,7 +314,9 @@ export default function NewContent({open, setOpen,}) {
                                     {
                                         versificationCodes.map((listItem, n) => <MenuItem key={n} value={listItem}
                                                                                           dense>
-                                                <ListMenuItem listItem={listItem}/>
+                                                <ListMenuItem
+                                                    listItem={`${listItem.toUpperCase()} - ${doI18n(`scripture:versifications:${listItem}`, i18nRef.current)}`}
+                                                />
                                             </MenuItem>
                                         )
                                     }
