@@ -31,10 +31,13 @@ function ContentRowButtonPlusMenu({repoInfo}) {
             }}
             slotProps={{list: {'aria-labelledby': 'basic-button',}}}
         >
-            <MenuItem onClick={(event) => {
-                setUsfmExportAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
-            }}>
+            <MenuItem
+                onClick={(event) => {
+                    setUsfmExportAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+                disabled={repoInfo.flavor !== "textTranslation"}
+            >
                 {doI18n("pages:content:export_usfm", i18nRef.current)}
             </MenuItem>
         </Menu>
@@ -46,4 +49,5 @@ function ContentRowButtonPlusMenu({repoInfo}) {
         />
     </>
 }
+
 export default ContentRowButtonPlusMenu;
