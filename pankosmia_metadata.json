@@ -140,6 +140,10 @@
     "local_org": {
       "en": "This computer",
       "fr": "Cet ordinateur"
+    },
+    "no_books_selected": {
+      "en": "No books were selected so nothing was exported",
+      "fr": "Aucun livre n'a été selectionné pour exportation"
     }
   }
 }

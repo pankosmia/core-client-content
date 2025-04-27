@@ -1,20 +1,17 @@
 import {useState, useEffect, useCallback, useContext} from "react"
 import {Box, Grid2, Fab, Menu, MenuItem, Stack, IconButton } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import CloseIcon from '@mui/icons-material/Close';
 import {getJson, debugContext, i18nContext, netContext, doI18n, postEmptyJson} from "pithekos-lib";
 import dateFormat from 'dateformat';
-import NewContent from "./components/NewContent";
+import FabPlusMenu from "./components/FabPlusMenu";
 import UsfmExport from "./components/UsfmExport";
 
 function App() {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
-    const {enabledRef} = useContext(netContext);
 
     const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 64);
 
@@ -25,22 +22,12 @@ function App() {
     const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
 
-    const [fabMenuAnchor, setFabMenuAnchor] = useState(null);
-    const fabMenuOpen = Boolean(fabMenuAnchor);
-
     const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
     const usfmExportOpen = Boolean(usfmExportAnchorEl);
 
     const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
     const contentRowOpen = Boolean(contentRowAnchorEl);
 
-    const handleCreateMenuClick = event => {
-        setNewIsOpen(true);
-        setFabMenuAnchor(null);
-    };
-    const handleMenuClose = () => {
-        setFabMenuAnchor(null);
-    };
     useEffect(() => {
         window.addEventListener('resize', handleWindowResize);
         return () => {
@@ -86,50 +73,7 @@ function App() {
 
     return (
         <Box>
-            <Fab
-                color="primary"
-                aria-label={doI18n("pages:content:add", i18nRef.current)}
-                sx={{
-                    margin: 0,
-                    top: 'auto',
-                    right: 20,
-                    bottom: 20,
-                    left: 'auto',
-                    position: 'fixed',
-                }}
-                onClick={event => setFabMenuAnchor(event.currentTarget)}
-            >
-                <AddIcon/>
-            </Fab>
-            <Menu
-                id="fab-menu"
-                anchorEl={fabMenuAnchor}
-                open={fabMenuOpen}
-                onClose={handleMenuClose}
-                onClick={handleMenuClose}
-            >
-                <MenuItem
-                    onClick={handleCreateMenuClick}
-                >
-                    {doI18n("pages:content:create_content", i18nRef.current)}
-                </MenuItem>
-                <MenuItem
-                    onClick={() => window.location.href = "/clients/download"}
-                    disabled={!enabledRef.current}
-                >
-                    {doI18n("pages:content:download_content", i18nRef.current)}
-                </MenuItem>
-                <MenuItem
-                    onClick={handleMenuClose}
-                    disabled={true}
-                >
-                    {doI18n("pages:content:sideload_content", i18nRef.current)}
-                </MenuItem>
-            </Menu>
-            <NewContent
-                open={newIsOpen}
-                setOpen={setNewIsOpen}
-            />
+            <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             <Box sx={{p: 1, backgroundColor: "#EEE"}}>
                   <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
                       {repos.length === 0 &&
@@ -190,7 +134,7 @@ function App() {
                                                   }
                                                   <IconButton
                                                     onClick={(event) => {
-                                                      setUsfmExportAnchorEl(event.currentTarget);
+                                                      setContentRowAnchorEl(event.currentTarget);
                                                   }}
                                                   >
                                                       <MoreVertIcon/>
@@ -206,6 +150,7 @@ function App() {
                                                   >
                                                     <MenuItem onClick={(event) => {
                                                       setUsfmExportAnchorEl(event.currentTarget);
+                                                      setContentRowAnchorEl(null);
                                                     }}>
                                                       {doI18n("pages:content:export_usfm", i18nRef.current)}
                                                     </MenuItem>

@@ -22,20 +22,30 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState([]);
 
-    const handleChange = (event) => {
+    const usfmExportOneBook = async bookCode => {
+        const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
+        const bookUsfmResponse = await getText(bookUrl, debugRef.current);
+        if (!bookUsfmResponse.ok) {
+            enqueueSnackbar(
+                `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
+                {variant: "error"}
+            );
+            return false;
+        }
+        let blob = new Blob([bookUsfmResponse.text], {type: "text/plain;charset=utf-8"});
+        saveAs(blob, `${bookCode}.usfm`);
+        enqueueSnackbar(
+            `${doI18n("pages:content:saved", i18nRef.current)} ${bookCode} ${doI18n("pages:content:to_download_folder", i18nRef.current)}`,
+            {variant: "success"}
+        );
+        return true;
+    }
+
+    const handleBooksChange = (event) => {
         const value = event.target.value;
         setSelectedBooks(
             typeof value === 'string' ? value.split(',') : value,
         );
-    };
-
-    const MenuProps = {
-        PaperProps: {
-            style: {
-                maxHeight: 224,
-                width: 250,
-            },
-        },
     };
 
     return <Dialog
@@ -54,7 +64,7 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                 multiple
                 displayEmpty
                 value={selectedBooks}
-                onChange={handleChange}
+                onChange={handleBooksChange}
                 input={<OutlinedInput/>}
                 renderValue={(selected) => {
                     if (selected.length === 0) {
@@ -63,7 +73,14 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                     fileExport.current = selected;
                     return selected.join(', ');
                 }}
-                MenuProps={MenuProps}
+                MenuProps={{
+                    PaperProps: {
+                        style: {
+                            maxHeight: 224,
+                            width: 250,
+                        },
+                    }
+                }}
                 inputProps={{'aria-label': 'Without label'}}
             >
                 <MenuItem disabled value="">
@@ -90,26 +107,14 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             </Button>
             <Button
                 onClick={() => {
-                    fileExport.current.forEach(
-                        async (bookCode, i) => {
-                            const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
-                            const bookUsfmResponse = await getText(bookUrl, debugRef.current);
-                            if (!bookUsfmResponse.ok) {
-                                console.log(`Could not fetch ${bookCode}`)
-                                enqueueSnackbar(
-                                    `${doI18n("pages:content:couldnt_fetch", i18nRef.current)} ${bookCode}`,
-                                    {variant: "error"}
-                                );
-                                return;
-                            }
-                            let blob = new Blob([bookUsfmResponse.text], {type: "text/plain;charset=utf-8"});
-                            saveAs(blob, `${bookCode}.usfm`);
-                            enqueueSnackbar(
-                                `${doI18n("pages:content:saved", i18nRef.current)} ${bookCode} ${doI18n("pages:content:to_download_folder", i18nRef.current)}`,
-                                {variant: "success"}
-                            );
-                        }
-                    );
+                    if (!fileExport.current || fileExport.current.length === 0) {
+                        enqueueSnackbar(
+                            doI18n("pages:content:no_books_selected", i18nRef.current),
+                            {variant: "warning"}
+                        );
+                    } else {
+                        fileExport.current.forEach(usfmExportOneBook);
+                    }
                     closeFn();
                 }}
             >{doI18n("pages:content:export_label", i18nRef.current)}</Button>
