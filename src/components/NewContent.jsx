@@ -235,6 +235,7 @@ export default function NewContent({open, setOpen,}) {
                 <TextField
                     id="type"
                     disabled={true}
+                    sx={{display: "none"}}
                     label={doI18n("pages:content:type", i18nRef.current)}
                     value={contentType}
                     onChange={(event) => {

@@ -6,6 +6,14 @@ import EditOffIcon from "@mui/icons-material/EditOff";
 import dateFormat from 'dateformat';
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 
+const flavorTypes = {
+    textTranslation: "scripture",
+    "x-bcvNotes": "parascriptural",
+    "x-bcvArticles": "parascriptural",
+    "x-bcvQuestions": "parascriptural",
+    "x-bcvImages": "parascriptural"
+};
+
 function ContentRow({repoInfo}) {
     const {i18nRef} = useContext(i18nContext);
     return <>
@@ -24,7 +32,11 @@ function ContentRow({repoInfo}) {
             {`${repoInfo.bookCodes.length} ${doI18n("pages:content:book_or_books", i18nRef.current)}`}
         </Grid2>
         <Grid2 item size={2} sx={{backgroundColor: "#FFF"}}>
-            {repoInfo.flavor}
+            {
+                flavorTypes[repoInfo.flavor] ?
+                    doI18n(`flavors:names:${flavorTypes[repoInfo.flavor]}/${repoInfo.flavor}`, i18nRef.current) :
+                    repoInfo.flavor
+            }
         </Grid2>
         <Grid2 item size={2} sx={{backgroundColor: "#FFF"}}>
             {
