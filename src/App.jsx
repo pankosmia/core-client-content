@@ -1,12 +1,11 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, Grid2, Fab, Menu, MenuItem, Stack, IconButton } from "@mui/material";
+import {Box, Grid2, Stack, IconButton} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import {getJson, debugContext, i18nContext, netContext, doI18n, postEmptyJson} from "pithekos-lib";
+import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import dateFormat from 'dateformat';
 import FabPlusMenu from "./components/FabPlusMenu";
-import UsfmExport from "./components/UsfmExport";
+import ContentRowButtonPlusMenu from "./components/ContentRowButtonPlusMenu";
 
 function App() {
 
@@ -21,12 +20,6 @@ function App() {
 
     const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
-
-    const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
-    const usfmExportOpen = Boolean(usfmExportAnchorEl);
-
-    const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
-    const contentRowOpen = Boolean(contentRowAnchorEl);
 
     useEffect(() => {
         window.addEventListener('resize', handleWindowResize);
@@ -75,100 +68,73 @@ function App() {
         <Box>
             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             <Box sx={{p: 1, backgroundColor: "#EEE"}}>
-                  <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
-                      {repos.length === 0 &&
-                          <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
-                              {doI18n("pages:content:where_create_content", i18nRef.current)}
-                          </Grid2>
-                      }
-                      {
-                          repos
-                              .map(
-                                  ((rep, n) => {
-                                          return <>
-                                              <Grid2 key={`${n}-name`} item size={4} sx={{backgroundColor: "#FFF"}}>
-                                                  <Stack>
-                                                      <Box><b>{`${rep.name} (${rep.abbreviation})`}</b></Box>
-                                                      {rep.description !== rep.name &&
-                                                          <Box>{rep.description}</Box>
-                                                      }
-                                                  </Stack>
-                                              </Grid2>
-                                              <Grid2 key={`${n}-language`} item size={1} sx={{backgroundColor: "#FFF"}}>
-                                                  {rep.language_code}
-                                              </Grid2>
-                                              <Grid2 key={`${n}-books`} item size={1} sx={{backgroundColor: "#FFF"}}>
-                                                  {`${rep.bookCodes.length} ${doI18n("pages:content:book_or_books", i18nRef.current)}`}
-                                              </Grid2>
-                                              <Grid2 key={`${n}-flavor`} item size={2} sx={{backgroundColor: "#FFF"}}>
-                                                  {rep.flavor}
-                                              </Grid2>
-                                              <Grid2 key={`${n}-source`} item size={2} sx={{backgroundColor: "#FFF"}}>
-                                                  {
-                                                      rep.path.startsWith("_local_") ?
-                                                          doI18n("pages:content:local_org", i18nRef.current) :
-                                                          rep.path.split("/").slice(0, 2).join(" ")
-                                                  }
-                                              </Grid2>
-                                              <Grid2 key={`${n}-date`} item size={1} sx={{backgroundColor: "#FFF"}}>
-                                                  {dateFormat(rep.generated_date, "mmm d yyyy")}
-                                              </Grid2>
-                                              <Grid2 key={`${n}-actions`} item size={1} display="flex"
-                                                    justifyContent="flex-end" alignItems="center"
-                                                    sx={{backgroundColor: "#FFF"}}>
-                                                  {
-                                                      rep.path.startsWith("_local_") ?
-                                                          <IconButton
-                                                              onClick={
-                                                                  async () => {
-                                                                      await postEmptyJson(`/app-state/current-project/${rep.path}`);
-                                                                      window.location.href = "/clients/local-projects";
-                                                                  }
-                                                              }
-                                                          >
-                                                              <EditIcon/>
-                                                          </IconButton> :
-                                                          <IconButton disabled={true}>
-                                                              <EditOffIcon/>
-                                                          </IconButton>
-                                                  }
-                                                  <IconButton
-                                                    onClick={(event) => {
-                                                      setContentRowAnchorEl(event.currentTarget);
-                                                  }}
-                                                  >
-                                                      <MoreVertIcon/>
-                                                  </IconButton>
-                                                  <Menu
-                                                    id="basic-menu"
-                                                    anchorEl={contentRowAnchorEl}
-                                                    open={contentRowOpen}
-                                                    onClose={() => {
-                                                      setContentRowAnchorEl(null);
-                                                    }}
-                                                    slotProps={{ list: {'aria-labelledby': 'basic-button',} }}
-                                                  >
-                                                    <MenuItem onClick={(event) => {
-                                                      setUsfmExportAnchorEl(event.currentTarget);
-                                                      setContentRowAnchorEl(null);
-                                                    }}>
-                                                      {doI18n("pages:content:export_usfm", i18nRef.current)}
-                                                    </MenuItem>
-                                                  </Menu>
-                                                  <UsfmExport
-                                                      bookNames={rep.bookCodes}
-                                                      repoSourcePath={rep.path}
-                                                      open={usfmExportOpen}
-                                                      closeFn={() => setUsfmExportAnchorEl(null)}
-                                                  />
-                                              </Grid2>
-                                          </>
-                                      }
-                                  )
-                              )
-                      }
-                  </Grid2>
-              </Box>
+                <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
+                    {
+                        repos.length === 0 &&
+                        <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
+                            {doI18n("pages:content:where_create_content", i18nRef.current)}
+                        </Grid2>
+                    }
+                    {
+                        repos
+                            .map(
+                                ((rep, n) => {
+                                        return <>
+                                            <Grid2 key={`${n}-name`} item size={4} sx={{backgroundColor: "#FFF"}}>
+                                                <Stack>
+                                                    <Box><b>{`${rep.name} (${rep.abbreviation})`}</b></Box>
+                                                    {rep.description !== rep.name &&
+                                                        <Box>{rep.description}</Box>
+                                                    }
+                                                </Stack>
+                                            </Grid2>
+                                            <Grid2 key={`${n}-language`} item size={1} sx={{backgroundColor: "#FFF"}}>
+                                                {rep.language_code}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-books`} item size={1} sx={{backgroundColor: "#FFF"}}>
+                                                {`${rep.bookCodes.length} ${doI18n("pages:content:book_or_books", i18nRef.current)}`}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-flavor`} item size={2} sx={{backgroundColor: "#FFF"}}>
+                                                {rep.flavor}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-source`} item size={2} sx={{backgroundColor: "#FFF"}}>
+                                                {
+                                                    rep.path.startsWith("_local_") ?
+                                                        doI18n("pages:content:local_org", i18nRef.current) :
+                                                        rep.path.split("/").slice(0, 2).join(" ")
+                                                }
+                                            </Grid2>
+                                            <Grid2 key={`${n}-date`} item size={1} sx={{backgroundColor: "#FFF"}}>
+                                                {dateFormat(rep.generated_date, "mmm d yyyy")}
+                                            </Grid2>
+                                            <Grid2 key={`${n}-actions`} item size={1} display="flex"
+                                                   justifyContent="flex-end" alignItems="center"
+                                                   sx={{backgroundColor: "#FFF"}}>
+                                                {
+                                                    rep.path.startsWith("_local_") ?
+                                                        <IconButton
+                                                            onClick={
+                                                                async () => {
+                                                                    await postEmptyJson(`/app-state/current-project/${rep.path}`);
+                                                                    window.location.href = "/clients/local-projects";
+                                                                }
+                                                            }
+                                                        >
+                                                            <EditIcon/>
+                                                        </IconButton> :
+                                                        <IconButton disabled={true}>
+                                                            <EditOffIcon/>
+                                                        </IconButton>
+                                                }
+                                                <ContentRowButtonPlusMenu repoInfo={rep}/>
+                                            </Grid2>
+                                        </>
+                                    }
+                                )
+                            )
+                    }
+                </Grid2>
+            </Box>
         </Box>
     );
 }
