@@ -6,13 +6,12 @@
   },
   "i18n": {
     "title": {
-      "en": "My Content"
+      "en": "My Content",
+      "fr": "Mon Contenu"
     },
     "summary": {
-      "en": "A place to view and manage my content, including read-only resources and content I am helping to create"
-    },
-    "stub_content": {
-      "en": "Content goes here"
+      "en": "View and manage my content, including content I am creating with others and resources I am using.",
+      "fr": "Voir et gérer mon contenu, y compris des documents que je crée avec d'autres et ceux qui servent d'aide à la traduction."
     },
     "close": {
       "en":"close",
@@ -51,8 +50,8 @@
       "es":"Crear Nuevo Contenido"
     },
     "where_create_content": {
-      "en":"Create new content with the + button at the bottom of the screen.",
-      "es":"Crear nuevo contenido con el botón + en la parte inferior de la pantalla."
+      "en":"Add new content with the + button at the bottom of the screen.",
+      "es":"Añadir nuevo contenido con el botón + en la parte inferior de la pantalla."
     },
     "download_content": {
       "en":"Download Content",
@@ -134,9 +133,13 @@
       "en": "to Download folder",
       "es": "a la carpeta de Descargas"
     },
-    "coudldnt_fetch": {
+    "could_not_fetch": {
       "en": "Could not fetch",
       "es": "No se pudo obtener"
+    },
+    "local_org": {
+      "en": "This computer",
+      "fr": "Cet ordinateur"
     }
   }
 }

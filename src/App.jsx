@@ -8,17 +8,13 @@ import CloseIcon from '@mui/icons-material/Close';
 import {getJson, debugContext, i18nContext, netContext, doI18n, postEmptyJson} from "pithekos-lib";
 import dateFormat from 'dateformat';
 import NewContent from "./components/NewContent";
-import DataOut from "./components/DataOut";
+import UsfmExport from "./components/UsfmExport";
 
 function App() {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
     const {enabledRef} = useContext(netContext);
-
-    const [contentMenu, setContentMenu] = useState('table');
-    const [bookNames, setBookNames] = useState([]);
-    const [repoSourcePath, setRepoSourcePath] = useState([]);
 
     const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 64);
 
@@ -31,9 +27,12 @@ function App() {
 
     const [fabMenuAnchor, setFabMenuAnchor] = useState(null);
     const fabMenuOpen = Boolean(fabMenuAnchor);
-    const handleMenuClick = event => {
-        setFabMenuAnchor(null);
-    };
+
+    const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
+    const usfmExportOpen = Boolean(usfmExportAnchorEl);
+
+    const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
+    const contentRowOpen = Boolean(contentRowAnchorEl);
 
     const handleCreateMenuClick = event => {
         setNewIsOpen(true);
@@ -85,14 +84,6 @@ function App() {
         [newIsOpen]
     );
 
-    const dataOutProps = {
-      bookNames,
-      repoSourcePath,
-    }
-
-    const [anchorEl, setAnchorEl] = useState(null);
-    const open = Boolean(anchorEl);
-    
     return (
         <Box>
             <Fab
@@ -115,7 +106,7 @@ function App() {
                 anchorEl={fabMenuAnchor}
                 open={fabMenuOpen}
                 onClose={handleMenuClose}
-                onClick={handleMenuClick}
+                onClick={handleMenuClose}
             >
                 <MenuItem
                     onClick={handleCreateMenuClick}
@@ -139,8 +130,7 @@ function App() {
                 open={newIsOpen}
                 setOpen={setNewIsOpen}
             />
-            {contentMenu === 'table' &&
-              <Box sx={{p: 1, backgroundColor: "#EEE"}}>
+            <Box sx={{p: 1, backgroundColor: "#EEE"}}>
                   <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
                       {repos.length === 0 &&
                           <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
@@ -172,7 +162,7 @@ function App() {
                                               <Grid2 key={`${n}-source`} item size={2} sx={{backgroundColor: "#FFF"}}>
                                                   {
                                                       rep.path.startsWith("_local_") ?
-                                                          "Local" :
+                                                          doI18n("pages:content:local_org", i18nRef.current) :
                                                           rep.path.split("/").slice(0, 2).join(" ")
                                                   }
                                               </Grid2>
@@ -200,29 +190,32 @@ function App() {
                                                   }
                                                   <IconButton
                                                     onClick={(event) => {
-                                                      setAnchorEl(event.currentTarget);
-                                                      setBookNames(rep.bookCodes);
-                                                      setRepoSourcePath(rep.path);
-                                                  
+                                                      setUsfmExportAnchorEl(event.currentTarget);
                                                   }}
                                                   >
                                                       <MoreVertIcon/>
                                                   </IconButton>
                                                   <Menu
                                                     id="basic-menu"
-                                                    anchorEl={anchorEl}
-                                                    open={open}
+                                                    anchorEl={contentRowAnchorEl}
+                                                    open={contentRowOpen}
                                                     onClose={() => {
-                                                      setAnchorEl(null);
+                                                      setContentRowAnchorEl(null);
                                                     }}
                                                     slotProps={{ list: {'aria-labelledby': 'basic-button',} }}
                                                   >
-                                                    <MenuItem onClick={() => {
-                                                      setContentMenu('export');
+                                                    <MenuItem onClick={(event) => {
+                                                      setUsfmExportAnchorEl(event.currentTarget);
                                                     }}>
                                                       {doI18n("pages:content:export_usfm", i18nRef.current)}
                                                     </MenuItem>
                                                   </Menu>
+                                                  <UsfmExport
+                                                      bookNames={rep.bookCodes}
+                                                      repoSourcePath={rep.path}
+                                                      open={usfmExportOpen}
+                                                      closeFn={() => setUsfmExportAnchorEl(null)}
+                                                  />
                                               </Grid2>
                                           </>
                                       }
@@ -231,17 +224,6 @@ function App() {
                       }
                   </Grid2>
               </Box>
-            }
-            {contentMenu === 'export' &&
-              <>
-                <IconButton
-                  onClick={() => {setContentMenu('table')}}
-                >
-                    <CloseIcon/>
-                </IconButton>
-                <DataOut {...dataOutProps}/>
-              </>
-            }
         </Box>
     );
 }
