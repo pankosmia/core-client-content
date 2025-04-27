@@ -148,6 +148,10 @@
     "protestant_books_only": {
       "en": "List protestant books only",
       "fr": "Proposer uniquement les livres protestants"
+    },
+    "export_docx": {
+      "en": "Export as Word document",
+      "fr": "Exporter comme document Word"
     }
   }
 }
