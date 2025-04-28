@@ -75,14 +75,15 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         cl.renderDocument({docId, config: sectionConfig, output});
         const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
         const newPage = window.open("", "_self");
+        const server = window.location.origin;
         newPage.document.body.innerHTML = pdfHtml;
         newPage.document.head.innerHTML = '<title>PDF Preview</title>'
         const script = document.createElement('script')
-        script.src = "/app-resources/pdf/paged.polyfill.js";
+        script.src = `${server}/app-resources/pdf/paged.polyfill.js`;
         newPage.document.head.appendChild(script)
         const link = document.createElement('link');
         link.rel="stylesheet";
-        link.href = "/app-resources/pdf/para_bible_page_styles.css";
+        link.href = `${server}/app-resources/pdf/para_bible_page_styles.css`;
         newPage.document.head.appendChild(link)
         return true;
     }
