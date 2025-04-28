@@ -21,9 +21,25 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
-    const [selectedBooks, setSelectedBooks] = useState([]);
+    const [selectedBooks, setSelectedBooks] = useState(null);
 
     const generatePdf = async bookCode => {
+        const pdfTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../resources/para_bible_page_styles.css">
+    <script src="../resources/paged.polyfill.js"></script>
+    <title>PDF</title>
+</head>
+<body>
+<section style="page-break-inside: avoid">
+%%BODY%%
+</section>
+</body>
+</html>
+`;
         const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
         const bookUsfmResponse = await getText(bookUrl, debugRef.current);
         if (!bookUsfmResponse.ok) {
@@ -63,19 +79,17 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         const output = {};
         sectionConfig.selectedBcvNotes = ["foo"];
         sectionConfig.renderers = renderers;
-        sectionConfig.renderers.verses_label = (vn, bcv, _, currentIndex) => {
+        sectionConfig.renderers.verses_label = vn => {
             return `<span class="marks_verses_label">${vn}</span>`;
-        }
+        };
         cl.renderDocument({docId, config: sectionConfig, output});
-        console.log(output.paras);
+        const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
+        console.log(pdfHtml);
         return true;
     }
 
     const handleBooksChange = (event) => {
-        const value = event.target.value;
-        setSelectedBooks(
-            typeof value === 'string' ? value.split(',') : value,
-        );
+        setSelectedBooks(event.target.value);
     };
 
     return <Dialog
@@ -95,12 +109,12 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                 value={selectedBooks}
                 onChange={handleBooksChange}
                 input={<OutlinedInput/>}
-                renderValue={(selected) => {
-                    if (selected.length === 0) {
+                renderValue={selected => {
+                    if (!selected) {
                         return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
                     }
                     fileExport.current = selected;
-                    return selected.join(', ');
+                    return selected;
                 }}
                 MenuProps={{
                     PaperProps: {
@@ -136,13 +150,13 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             </Button>
             <Button
                 onClick={() => {
-                    if (!fileExport.current || fileExport.current.length === 0) {
+                    if (!fileExport.current) {
                         enqueueSnackbar(
                             doI18n("pages:content:no_books_selected", i18nRef.current),
                             {variant: "warning"}
                         );
                     } else {
-                        generatePdf(fileExport.current[0]).then();
+                        generatePdf(fileExport.current).then();
                     }
                     closeFn();
                 }}

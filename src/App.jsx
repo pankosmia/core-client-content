@@ -1,6 +1,6 @@
 import {useState, useEffect, useCallback, useContext} from "react"
 import {Box, Grid2} from "@mui/material";
-import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
+import {getJson, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import ContentRow from "./components/ContentRow";
 
