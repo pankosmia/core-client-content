@@ -1,4 +1,4 @@
-import {IconButton, Menu, MenuItem} from "@mui/material";
+import {IconButton, Menu, MenuItem, Divider} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
@@ -6,7 +6,7 @@ import PdfGenerate from "./PdfGenerate";
 import DeleteContent from "./DeleteContent";
 import {useState, useContext} from "react";
 
-function ContentRowButtonPlusMenu({repoInfo}) {
+function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
 
     const {i18nRef} = useContext(i18nContext);
 
@@ -57,6 +57,7 @@ function ContentRowButtonPlusMenu({repoInfo}) {
             >
                 {doI18n("pages:content:generate_pdf", i18nRef.current)}
             </MenuItem>
+            <Divider/>
             <MenuItem
                 onClick={(event) => {
                     setDeleteContentAnchorEl(event.currentTarget);
@@ -82,6 +83,8 @@ function ContentRowButtonPlusMenu({repoInfo}) {
             repoInfo={repoInfo}
             open={deleteContentOpen}
             closeFn={() => setDeleteContentAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
         />
     </>
 }

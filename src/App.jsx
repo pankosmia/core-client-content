@@ -17,6 +17,7 @@ function App() {
 
     const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
+    const [reposModCount, setReposModCount] = useState(0);
 
     useEffect(() => {
         window.addEventListener('resize', handleWindowResize);
@@ -58,7 +59,7 @@ function App() {
                 getRepoList().then();
             }
         },
-        [newIsOpen]
+        [newIsOpen, reposModCount]
     );
 
     return (
@@ -73,7 +74,12 @@ function App() {
                         </Grid2>
                     }
                     {
-                        repos.map((rep, n) => <ContentRow key={n} repoInfo={rep}/>)
+                        repos.map((rep, n) => <ContentRow
+                            key={n}
+                            repoInfo={rep}
+                            reposModCount={reposModCount}
+                            setReposModCount={setReposModCount}
+                        />)
                     }
                 </Grid2>
             </Box>
