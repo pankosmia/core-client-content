@@ -11,9 +11,10 @@ import {
     OutlinedInput,
     Typography
 } from "@mui/material";
+import {Proskomma} from 'proskomma-core';
+import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
-import {saveAs} from 'file-saver';
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
@@ -32,7 +33,41 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             );
             return false;
         }
-        console.log("PDF GENERATED HERE");
+        const sectionConfig = {
+            "showWordAtts": false,
+            "showTitles": true,
+            "showHeadings": true,
+            "showIntroductions": true,
+            "showFootnotes": false,
+            "showXrefs": false,
+            "showParaStyles": true,
+            "showCharacterMarkup": true,
+            "showChapterLabels": true,
+            "showVersesLabels": true,
+            "showFirstVerseLabel": true,
+            "nColumns": 2,
+            "showGlossaryStar": false
+        }
+        const pk = new Proskomma();
+        pk.importDocument({
+                lang: "xxx",
+                abbr: "yyy"
+            },
+            "usfm",
+            bookUsfmResponse.text
+        );
+        const docId = pk.gqlQuerySync('{documents { id } }').data.documents[0].id;
+        const actions = render.sofria2web.renderActions.sofria2WebActions;
+        const renderers = render.sofria2web.sofria2html.renderers;
+        const cl = new SofriaRenderFromProskomma({proskomma: pk, actions, debugLevel: 0})
+        const output = {};
+        sectionConfig.selectedBcvNotes = ["foo"];
+        sectionConfig.renderers = renderers;
+        sectionConfig.renderers.verses_label = (vn, bcv, _, currentIndex) => {
+            return `<span class="marks_verses_label">${vn}</span>`;
+        }
+        cl.renderDocument({docId, config: sectionConfig, output});
+        console.log(output.paras);
         return true;
     }
 
