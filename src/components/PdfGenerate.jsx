@@ -74,7 +74,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         };
         cl.renderDocument({docId, config: sectionConfig, output});
         const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
-        const newPage = window.open('about:blank', '_blank');
+        const newPage = window.open("", "_self");
         newPage.document.body.innerHTML = pdfHtml;
         newPage.document.head.innerHTML = '<title>PDF Preview</title>'
         const script = document.createElement('script')
