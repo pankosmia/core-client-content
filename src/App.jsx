@@ -64,7 +64,7 @@ function App() {
     return (
         <Box>
             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
-            <Box sx={{p: 1, backgroundColor: "#EEE"}}>
+            <Box sx={{p: 0, backgroundColor: "#EEE"}}>
                 <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
                     {
                         repos.length === 0 &&
