@@ -3,6 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
+import DeleteContent from "./DeleteContent";
 import {useState, useContext} from "react";
 
 function ContentRowButtonPlusMenu({repoInfo}) {
@@ -17,6 +18,9 @@ function ContentRowButtonPlusMenu({repoInfo}) {
 
     const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
     const contentRowOpen = Boolean(contentRowAnchorEl);
+
+    const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
+    const deleteContentOpen = Boolean(deleteContentAnchorEl);
 
     return <>
         <IconButton
@@ -53,6 +57,14 @@ function ContentRowButtonPlusMenu({repoInfo}) {
             >
                 {doI18n("pages:content:generate_pdf", i18nRef.current)}
             </MenuItem>
+            <MenuItem
+                onClick={(event) => {
+                    setDeleteContentAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+            >
+                {doI18n("pages:content:delete_content", i18nRef.current)}
+            </MenuItem>
         </Menu>
         <UsfmExport
             bookNames={repoInfo.bookCodes}
@@ -65,6 +77,11 @@ function ContentRowButtonPlusMenu({repoInfo}) {
             repoSourcePath={repoInfo.path}
             open={pdfGenerateOpen}
             closeFn={() => setPdfGenerateAnchorEl(null)}
+        />
+        <DeleteContent
+            repoInfo={repoInfo}
+            open={deleteContentOpen}
+            closeFn={() => setDeleteContentAnchorEl(null)}
         />
     </>
 }
