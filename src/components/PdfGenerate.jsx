@@ -14,20 +14,15 @@ import {
 import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import {saveAs} from 'file-saver';
-import {Packer} from "docx";
-console.log("Packer", Packer)
 
-function DocxExport({bookNames, repoSourcePath, open, closeFn}) {
+function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState([]);
-    const { Proskomma } = require('proskomma-core');
-    const { SofriaRenderFromProskomma } = require('proskomma-json-tools');
-    const actions = require("./docxActions.js");
 
-    const docxExportOneBook = async bookCode => {
+    const generatePdf = async bookCode => {
         const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
         const bookUsfmResponse = await getText(bookUrl, debugRef.current);
         if (!bookUsfmResponse.ok) {
@@ -37,28 +32,7 @@ function DocxExport({bookNames, repoSourcePath, open, closeFn}) {
             );
             return false;
         }
-        const pk = new Proskomma();
-
-        pk.importDocument(
-            {
-                lang: "xxx",
-                "abbr": "yyy"
-            },
-            "usfm",
-            bookUsfmResponse.text
-        );
-        const docId = pk.gqlQuerySync('{documents { id } }').data.documents[0].id;
-        const cl = new SofriaRenderFromProskomma({proskomma: pk, actions});
-        const output = {};
-        cl.renderDocument({docId, config: {}, output});
-        console.log(output);
-        const docxDoc = await Packer.toBuffer(output.doc);
-        let blob = new Blob([docxDoc], {type: "text/plain;charset=utf-8"});
-        saveAs(blob, `${bookCode}.docxDoc`);
-        enqueueSnackbar(
-            `${doI18n("pages:content:saved", i18nRef.current)} ${bookCode} ${doI18n("pages:content:to_download_folder", i18nRef.current)}`,
-            {variant: "success"}
-        );
+        console.log("PDF GENERATED HERE");
         return true;
     }
 
@@ -78,11 +52,10 @@ function DocxExport({bookNames, repoSourcePath, open, closeFn}) {
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
+        <DialogTitle><b>{doI18n("pages:content:generate_as_pdf", i18nRef.current)}</b></DialogTitle>
         <DialogContent>
             <Select
                 variant="standard"
-                multiple
                 displayEmpty
                 value={selectedBooks}
                 onChange={handleBooksChange}
@@ -118,7 +91,7 @@ function DocxExport({bookNames, repoSourcePath, open, closeFn}) {
             </Select>
             <DialogContentText>
                 <Typography>
-                    {doI18n("pages:content:pick_book_export", i18nRef.current)}
+                    {doI18n("pages:content:pick_one_book_export", i18nRef.current)}
                 </Typography>
             </DialogContentText>
         </DialogContent>
@@ -134,7 +107,7 @@ function DocxExport({bookNames, repoSourcePath, open, closeFn}) {
                             {variant: "warning"}
                         );
                     } else {
-                        fileExport.current.forEach(docxExportOneBook);
+                        generatePdf(fileExport.current[0]).then();
                     }
                     closeFn();
                 }}
@@ -143,4 +116,4 @@ function DocxExport({bookNames, repoSourcePath, open, closeFn}) {
     </Dialog>;
 }
 
-export default DocxExport;
+export default PdfGenerate;

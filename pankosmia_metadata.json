@@ -109,7 +109,11 @@
       "en": "CANCEL",
       "es": "CANCELAR"
     },
-    "pick_book_export": {
+    "pick_one_book_export": {
+      "en": "Choose a book to export",
+      "es": "Elige uno libro para exportar"
+    },
+    "pick_one_or_more_books_export": {
       "en": "Choose one or more books to export",
       "es": "Elige uno o más libros para exportar"
     },
@@ -152,6 +156,12 @@
     "export_docx": {
       "en": "Export as Word document",
       "fr": "Exporter comme document Word"
+    },
+    "generate_pdf": {
+      "en": "Generate a PDF"
+    },
+    "generate_as_pdf": {
+      "en": "Generate a PDF"
     }
   }
 }

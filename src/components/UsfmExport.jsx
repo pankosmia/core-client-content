@@ -97,7 +97,7 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             </Select>
             <DialogContentText>
                 <Typography>
-                    {doI18n("pages:content:pick_book_export", i18nRef.current)}
+                    {doI18n("pages:content:pick_one_or_more_books_export", i18nRef.current)}
                 </Typography>
             </DialogContentText>
         </DialogContent>
