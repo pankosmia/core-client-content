@@ -25,20 +25,10 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     const generatePdf = async bookCode => {
         const pdfTemplate = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="../resources/para_bible_page_styles.css">
-    <script src="../resources/paged.polyfill.js"></script>
-    <title>PDF</title>
-</head>
-<body>
+
 <section style="page-break-inside: avoid">
 %%BODY%%
 </section>
-</body>
-</html>
 `;
         const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
         const bookUsfmResponse = await getText(bookUrl, debugRef.current);
@@ -84,7 +74,16 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         };
         cl.renderDocument({docId, config: sectionConfig, output});
         const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
-        console.log(pdfHtml);
+        const newPage = window.open('about:blank', '_blank');
+        newPage.document.body.innerHTML = pdfHtml;
+        newPage.document.head.innerHTML = '<title>PDF Preview</title>'
+        const script = document.createElement('script')
+        script.src = "/app-resources/pdf/paged.polyfill.js";
+        newPage.document.head.appendChild(script)
+        const link = document.createElement('link');
+        link.rel="stylesheet";
+        link.href = "/app-resources/pdf/para_bible_page_styles.css";
+        newPage.document.head.appendChild(link)
         return true;
     }
 
