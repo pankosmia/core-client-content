@@ -13,12 +13,13 @@ import {
 } from "@mui/material";
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
-import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
+import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
-import { fontFeatureSettings, useAssumeGraphite } from "font-detect-rhl";
+import { useAssumeGraphite } from "font-detect-rhl";
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
+    const { typographyRef } = useContext(typographyContext);
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
@@ -79,11 +80,16 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
         const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
         const server = window.location.origin;
-        newPage.document.body.innerHTML = pdfHtml;
+        if (!isFirefox) newPage.document.body.innerHTML = `<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`
+        isFirefox && newPage.document.write(`<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`);  
         newPage.document.head.innerHTML = '<title>PDF Preview</title>'
         const script = document.createElement('script')
         script.src = `${server}/app-resources/pdf/paged.polyfill.js`;
         newPage.document.head.appendChild(script)
+        const fontSetLink = document.createElement('link');
+        fontSetLink.rel="stylesheet";
+        fontSetLink.href="/webfonts/_webfonts.css";
+        newPage.document.head.appendChild(fontSetLink);
         const link = document.createElement('link');
         link.rel="stylesheet";
         link.href = `${server}/app-resources/pdf/para_bible_page_styles.css`;
