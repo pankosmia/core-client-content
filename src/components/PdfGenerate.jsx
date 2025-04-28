@@ -15,6 +15,7 @@ import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
+import { fontFeatureSettings, useAssumeGraphite } from "font-detect-rhl";
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
@@ -22,6 +23,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(null);
+
+    const isFirefox = useAssumeGraphite({});
 
     const generatePdf = async bookCode => {
         const pdfTemplate = `
@@ -74,7 +77,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         };
         cl.renderDocument({docId, config: sectionConfig, output});
         const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
-        const newPage = window.open("", "_self");
+        const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
         const server = window.location.origin;
         newPage.document.body.innerHTML = pdfHtml;
         newPage.document.head.innerHTML = '<title>PDF Preview</title>'
