@@ -14,7 +14,7 @@ const flavorTypes = {
     "x-bcvImages": "parascriptural"
 };
 
-function ContentRow({repoInfo}) {
+function ContentRow({repoInfo, reposModCount, setReposModCount}) {
     const {i18nRef} = useContext(i18nContext);
     return <>
         <Grid2 item size={4} sx={{backgroundColor: "#FFF"}}>
@@ -67,7 +67,11 @@ function ContentRow({repoInfo}) {
                         <EditOffIcon/>
                     </IconButton>
             }
-            <ContentRowButtonPlusMenu repoInfo={repoInfo}/>
+            <ContentRowButtonPlusMenu
+                repoInfo={repoInfo}
+                reposModCount={reposModCount}
+                setReposModCount={setReposModCount}
+            />
         </Grid2>
     </>
 
