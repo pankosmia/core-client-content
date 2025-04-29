@@ -7,6 +7,7 @@ import {
     DialogContentText,
     DialogTitle,
     Select,
+    Menu,
     MenuItem,
     OutlinedInput,
     Typography
@@ -24,6 +25,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(null);
+    const [selectedColumns, setSelectedColumns] = useState(2);
 
     const isFirefox = useAssumeGraphite({});
 
@@ -55,7 +57,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             "showChapterLabels": true,
             "showVersesLabels": true,
             "showFirstVerseLabel": true,
-            "nColumns": 2,
+            "nColumns": selectedColumns,
             "showGlossaryStar": false
         }
         const pk = new Proskomma();
@@ -100,6 +102,15 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const handleBooksChange = (event) => {
         setSelectedBooks(event.target.value);
     };
+    
+    const [anchorEl, setAnchorEl] = useState(null);
+    const openAnchor = Boolean(anchorEl);
+    const handleClick = (event) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
 
     return <Dialog
         open={open}
@@ -143,15 +154,40 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                         key={bookName}
                         value={bookName}
                     >
-                        {bookName}
+                        {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
                     </MenuItem>
                 ))}
             </Select>
-            <DialogContentText>
-                <Typography>
-                    {doI18n("pages:content:pick_one_book_export", i18nRef.current)}
-                </Typography>
-            </DialogContentText>
+            {!selectedBooks 
+            ?
+                <DialogContentText>
+                    <Typography>
+                        {doI18n("pages:content:pick_one_book_export", i18nRef.current)}
+                    </Typography>
+                </DialogContentText>
+            :
+                <DialogContentText>
+                    <Button
+                        id="basic-button"
+                        aria-controls={openAnchor ? 'basic-menu' : undefined}
+                        aria-haspopup="true"
+                        aria-expanded={openAnchor ? 'true' : undefined}
+                        onClick={handleClick}
+                    >
+                        Columns({selectedColumns})
+                    </Button>
+                    <Menu
+                        id="basic-menu"
+                        anchorEl={anchorEl}
+                        open={openAnchor}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={() => {setSelectedColumns(1); handleClose()}}>1</MenuItem>
+                        <MenuItem onClick={() => {setSelectedColumns(2); handleClose()}}>2</MenuItem>
+                        <MenuItem onClick={() => {setSelectedColumns(3); handleClose()}}>3</MenuItem>
+                    </Menu>
+                </DialogContentText>
+            }
         </DialogContent>
         <DialogActions>
             <Button onClick={closeFn}>
