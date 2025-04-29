@@ -19,6 +19,8 @@ import {
     Checkbox,
     IconButton
 } from "@mui/material";
+import Icon from '@mdi/react';
+import { mdiNumeric1BoxOutline, mdiNumeric2BoxOutline, mdiNumeric3BoxOutline } from '@mdi/js';
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
@@ -257,9 +259,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                 <ListItemText primary={`Show verses labels`} />
                             </ListItemButton>
                         </ListItem>
-                        <ListItem
-                            disablePadding
-                            >
+                        <ListItem disablePadding >
                             <ListItemButton onClick={() => setShowFirstVerseLabel(!showFirstVerseLabel)} dense>
                                 <ListItemIcon>
                                     <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
@@ -268,15 +268,16 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             </ListItemButton>
                         </ListItem>
                         <ListItem>
-                            <Button
+                            <ListItemButton
                                 id="basic-button"
                                 aria-controls={openAnchor ? 'basic-menu' : undefined}
                                 aria-haspopup="true"
                                 aria-expanded={openAnchor ? 'true' : undefined}
                                 onClick={handleClick}
                             >
-                                Columns({selectedColumns})
-                            </Button>
+                                    <Icon path={`mdiNumeric${selectedColumns}BoxOutline`} size={1} />
+                                    Columns
+                            </ListItemButton>
                             <Menu
                                 id="basic-menu"
                                 anchorEl={anchorEl}
