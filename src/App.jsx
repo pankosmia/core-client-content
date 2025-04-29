@@ -8,6 +8,9 @@ function App() {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
+    const [repos, setRepos] = useState([]);
+    const [newIsOpen, setNewIsOpen] = useState(false);
+    const [reposModCount, setReposModCount] = useState(0);
 
     const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 64);
 
@@ -15,9 +18,6 @@ function App() {
         setMaxWindowHeight(window.innerHeight - 64);
     }, []);
 
-    const [repos, setRepos] = useState([]);
-    const [newIsOpen, setNewIsOpen] = useState(false);
-    const [reposModCount, setReposModCount] = useState(0);
 
     useEffect(() => {
         window.addEventListener('resize', handleWindowResize);
@@ -63,10 +63,10 @@ function App() {
     );
 
     return (
-        <Box>
+        <Box sx={{maxHeight: maxWindowHeight}}>
             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             <Box sx={{p: 0, backgroundColor: "#EEE"}}>
-                <Grid2 container spacing={1} sx={{maxHeight: maxWindowHeight, backgroundColor: "#EEE"}}>
+                <Grid2 container spacing={1} sx={{backgroundColor: "#EEE"}}>
                     {
                         repos.length === 0 &&
                         <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
