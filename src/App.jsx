@@ -15,7 +15,7 @@ function App() {
     const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 64);
 
     const handleWindowResize = useCallback(() => {
-        setMaxWindowHeight(window.innerHeight - 64);
+        setMaxWindowHeight(window.innerHeight - 48);
     }, []);
 
 
