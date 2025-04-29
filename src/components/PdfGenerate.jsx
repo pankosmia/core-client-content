@@ -32,8 +32,17 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(null);
-    const [selectedColumns, setSelectedColumns] = useState(2);
     const [showTitles, setShowTitles] = useState(true);
+    const [showHeadings, setShowHeadings] = useState(true);
+    const [showIntroductions, setShowIntroductions] = useState(true);
+    const [showFootnotes, setShowFootnotes] = useState(false);
+    const [showXrefs, setShowXrefs] = useState(false);
+    const [showParaStyles, setShowParaStyles] = useState(true);
+    const [showCharacterMarkup, setShowCharacterMarkup] = useState(true);
+    const [showChapterLabels, setShowChapterLabels] = useState(true);
+    const [showVersesLabels, setShowVersesLabels] = useState(true);
+    const [showFirstVerseLabel, setShowFirstVerseLabel] = useState(true);
+    const [selectedColumns, setSelectedColumns] = useState(2);
 
     const isFirefox = useAssumeGraphite({});
 
@@ -56,15 +65,15 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         const sectionConfig = {
             "showWordAtts": false,
             "showTitles": showTitles,
-            "showHeadings": true,
-            "showIntroductions": true,
-            "showFootnotes": false,
-            "showXrefs": false,
-            "showParaStyles": true,
-            "showCharacterMarkup": true,
-            "showChapterLabels": true,
-            "showVersesLabels": true,
-            "showFirstVerseLabel": true,
+            "showHeadings": showHeadings,
+            "showIntroductions": showIntroductions,
+            "showFootnotes": showFootnotes,
+            "showXrefs": showXrefs,
+            "showParaStyles": showParaStyles,
+            "showCharacterMarkup": showCharacterMarkup,
+            "showChapterLabels": showChapterLabels,
+            "showVersesLabels": showVersesLabels,
+            "showFirstVerseLabel": showFirstVerseLabel,
             "nColumns": selectedColumns,
             "showGlossaryStar": false
         }
@@ -142,7 +151,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                         return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
                     }
                     fileExport.current = selected;
-                    return selected;
+                    return doI18n(`scripture:books:${selected}`, i18nRef.current);
                 }}
                 MenuProps={{
                     PaperProps: {
@@ -176,19 +185,86 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             :
                 <DialogContentText>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show title`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowHeadings(!showHeadings)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showHeadings} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show headings`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowIntroductions(!showIntroductions)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showIntroductions} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show introductions`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowFootnotes(!showFootnotes)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showFootnotes} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show footnotes`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowXrefs(!showXrefs)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showXrefs} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show Xrefs`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowParaStyles(!showParaStyles)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showParaStyles} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show paraStyles`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowCharacterMarkup(!showCharacterMarkup)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showCharacterMarkup} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show character markup`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowChapterLabels(!showChapterLabels)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showChapterLabels} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show chapter labels`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowVersesLabels(!showVersesLabels)} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showVersesLabels} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show verses labels`} />
+                            </ListItemButton>
+                        </ListItem>
                         <ListItem
                             disablePadding
                             >
-                            <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
+                            <ListItemButton onClick={() => setShowFirstVerseLabel(!showFirstVerseLabel)} dense>
                                 <ListItemIcon>
-                                <Checkbox
-                                    edge="start"
-                                    checked={showTitles}
-                                    tabIndex={-1}
-                                    disableRipple
-                                />
+                                    <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
                                 </ListItemIcon>
-                                <ListItemText primary={`Show title`} />
+                                <ListItemText primary={`Show first verse label`} />
                             </ListItemButton>
                         </ListItem>
                         <ListItem>
