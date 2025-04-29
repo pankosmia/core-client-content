@@ -10,7 +10,14 @@ import {
     Menu,
     MenuItem,
     OutlinedInput,
-    Typography
+    Typography,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Checkbox,
+    IconButton
 } from "@mui/material";
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
@@ -26,6 +33,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(null);
     const [selectedColumns, setSelectedColumns] = useState(2);
+    const [showTitles, setShowTitles] = useState(true);
 
     const isFirefox = useAssumeGraphite({});
 
@@ -47,7 +55,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         }
         const sectionConfig = {
             "showWordAtts": false,
-            "showTitles": true,
+            "showTitles": showTitles,
             "showHeadings": true,
             "showIntroductions": true,
             "showFootnotes": false,
@@ -167,25 +175,44 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                 </DialogContentText>
             :
                 <DialogContentText>
-                    <Button
-                        id="basic-button"
-                        aria-controls={openAnchor ? 'basic-menu' : undefined}
-                        aria-haspopup="true"
-                        aria-expanded={openAnchor ? 'true' : undefined}
-                        onClick={handleClick}
-                    >
-                        Columns({selectedColumns})
-                    </Button>
-                    <Menu
-                        id="basic-menu"
-                        anchorEl={anchorEl}
-                        open={openAnchor}
-                        onClose={handleClose}
-                    >
-                        <MenuItem onClick={() => {setSelectedColumns(1); handleClose()}}>1</MenuItem>
-                        <MenuItem onClick={() => {setSelectedColumns(2); handleClose()}}>2</MenuItem>
-                        <MenuItem onClick={() => {setSelectedColumns(3); handleClose()}}>3</MenuItem>
-                    </Menu>
+                    <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
+                        <ListItem
+                            disablePadding
+                            >
+                            <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
+                                <ListItemIcon>
+                                <Checkbox
+                                    edge="start"
+                                    checked={showTitles}
+                                    tabIndex={-1}
+                                    disableRipple
+                                />
+                                </ListItemIcon>
+                                <ListItemText primary={`Show title`} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem>
+                            <Button
+                                id="basic-button"
+                                aria-controls={openAnchor ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={openAnchor ? 'true' : undefined}
+                                onClick={handleClick}
+                            >
+                                Columns({selectedColumns})
+                            </Button>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={openAnchor}
+                                onClose={handleClose}
+                            >
+                                <MenuItem onClick={() => {setSelectedColumns(1); handleClose()}}>1</MenuItem>
+                                <MenuItem onClick={() => {setSelectedColumns(2); handleClose()}}>2</MenuItem>
+                                <MenuItem onClick={() => {setSelectedColumns(3); handleClose()}}>3</MenuItem>
+                            </Menu>
+                        </ListItem>
+                    </List>
                 </DialogContentText>
             }
         </DialogContent>
