@@ -71,7 +71,9 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                         return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
                     }
                     fileExport.current = selected;
-                    return selected.join(', ');
+                    return selected
+                    .map(s=>doI18n(`scripture:books:${s}`, i18nRef.current))
+                    .join(', ');
                 }}
                 MenuProps={{
                     PaperProps: {
@@ -91,7 +93,7 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                         key={bookName}
                         value={bookName}
                     >
-                        {bookName}
+                        {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
                     </MenuItem>
                 ))}
             </Select>
