@@ -12,7 +12,7 @@ function App() {
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
 
-    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 64);
+    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 48);
 
     const handleWindowResize = useCallback(() => {
         setMaxWindowHeight(window.innerHeight - 48);
@@ -63,7 +63,7 @@ function App() {
     );
 
     return (
-        <Box sx={{maxHeight: maxWindowHeight}}>
+        <Box sx={{maxHeight: maxWindowHeight, m:0}}>
             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             <Box sx={{p: 0, backgroundColor: "#EEE"}}>
                 <Grid2 container spacing={1} sx={{backgroundColor: "#EEE"}}>
