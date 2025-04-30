@@ -17,10 +17,12 @@ import {
     ListItemIcon,
     ListItemText,
     Checkbox,
-    IconButton
+    IconButton,
+    Box
 } from "@mui/material";
-import Icon from '@mdi/react';
-import { mdiNumeric1BoxOutline, mdiNumeric2BoxOutline, mdiNumeric3BoxOutline } from '@mdi/js';
+import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
+import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
+import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
@@ -130,6 +132,26 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    function columnIcon({ selectedColumns }) {
+        let content;
+      
+        switch (selectedColumns) {
+          case 1:
+            content = <LooksOneOutlinedIcon color='primary' />;
+            break;
+          case 2:
+            content = <LooksTwoOutlinedIcon color='primary' />;
+            break;
+          case 3:
+            content = <Looks3OutlinedIcon color='primary' />;
+            break;
+          default:
+            content = <LooksTwoOutlinedIcon color='primary' />;
+        }
+      
+        return content;
+      }
 
     return <Dialog
         open={open}
@@ -275,8 +297,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                 aria-expanded={openAnchor ? 'true' : undefined}
                                 onClick={handleClick}
                             >
-                                    <Icon path={`mdiNumeric${selectedColumns}BoxOutline`} size={1} />
-                                    Columns
+                                    <ListItemIcon>{() => columnIcon()}</ListItemIcon>
+                                    <ListItemText primary={`Number of columns`} />
                             </ListItemButton>
                             <Menu
                                 id="basic-menu"

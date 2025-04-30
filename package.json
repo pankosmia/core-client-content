@@ -6,9 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
-    "@mdi/js": "^7.4.47",
-    "@mdi/react": "^1.6.1",
-    "@mui/icons-material": "^6.1.5",
+    "@mui/icons-material": "^6.4.11",
     "@mui/material": "^6.1.5",
     "dateformat": "^5.0.3",
     "eslint-config-react-app": "^7.0.1",
