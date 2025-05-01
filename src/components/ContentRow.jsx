@@ -56,6 +56,7 @@ function ContentRow({repoInfo, reposModCount, setReposModCount}) {
                     <IconButton
                         onClick={
                             async () => {
+                                await postEmptyJson(`/navigation/bcv/${repoInfo.bookCodes[0]}/1/1`);
                                 await postEmptyJson(`/app-state/current-project/${repoInfo.path}`);
                                 window.location.href = "/clients/local-projects";
                             }
