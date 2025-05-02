@@ -36,6 +36,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(null);
+    const [showByVerse, setShowByVerse] = useState(false);
+
     const [showTitles, setShowTitles] = useState(true);
     const [showHeadings, setShowHeadings] = useState(true);
     const [showIntroductions, setShowIntroductions] = useState(true);
@@ -47,6 +49,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const [showVersesLabels, setShowVersesLabels] = useState(true);
     const [showFirstVerseLabel, setShowFirstVerseLabel] = useState(true);
     const [selectedColumns, setSelectedColumns] = useState(2);
+
 
     const isFirefox = useAssumeGraphite({});
 
@@ -135,6 +138,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     function columnIcon({ selectedColumns }) {
         let content;
+        console.log('column update');
       
         switch (selectedColumns) {
           case 1:
@@ -207,6 +211,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                     </Typography>
                 </DialogContentText>
             :
+                !showByVerse &&
                 <DialogContentText>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         <ListItem disablePadding >
@@ -298,7 +303,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                 onClick={handleClick}
                             >
                                     <ListItemIcon>{() => columnIcon()}</ListItemIcon>
-                                    <ListItemText primary={`Number of columns`} />
+                                    <ListItemText primary={<Typography>Number of columns</Typography>} />
                             </ListItemButton>
                             <Menu
                                 id="basic-menu"
