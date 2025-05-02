@@ -68,7 +68,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setContentRowAnchorEl(null);
                 }}
             >
-                {doI18n("pages:content:add_book", i18nRef.current)}
+                {doI18n("pages:content:new_book", i18nRef.current)}
             </MenuItem>
             <Divider/>
             <MenuItem
