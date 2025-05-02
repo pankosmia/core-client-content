@@ -12,10 +12,11 @@ function App() {
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
 
-    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 48);
+    /** header 48px + SpSpa margins 32px (top and bottom) + FAB 56px + inset 20px + add 4px to SpaSpa bottom margin to match the inset = 160 */
+    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 160);
 
     const handleWindowResize = useCallback(() => {
-        setMaxWindowHeight(window.innerHeight - 48);
+        setMaxWindowHeight(window.innerHeight - 160);
     }, []);
 
 
