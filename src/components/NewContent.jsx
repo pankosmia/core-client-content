@@ -87,12 +87,12 @@ export default function NewContent({open, setOpen,}) {
             content_abbr: contentAbbr,
             content_type: contentType,
             content_language_code: contentLanguageCode,
+            versification: versification,
             add_book: showBookFields,
             book_code: showBookFields ? bookCode : null,
             book_title: showBookFields ? bookTitle : null,
             book_abbr: showBookFields ? bookAbbr : null,
             add_cv: showBookFields ? showVersification : null,
-            versification: showBookFields && showVersification ? versification : null
         };
         const response = await postJson(
             "/git/new",
@@ -142,16 +142,12 @@ export default function NewContent({open, setOpen,}) {
                                 contentAbbr.trim().length > 0 &&
                                 contentType.trim().length > 0 &&
                                 contentLanguageCode.trim().length > 0 &&
+                                versification.trim().length === 3 &&
                                 (
                                     !showBookFields || (
                                         bookCode.trim().length === 3 &&
                                         bookTitle.trim().length > 0 &&
-                                        bookAbbr.trim().length > 0 &&
-                                        (
-                                            !showVersification || (
-                                                versification.trim().length === 3
-                                            )
-                                        )
+                                        bookAbbr.trim().length > 0
                                     )
                                 )
                             )
@@ -197,6 +193,36 @@ export default function NewContent({open, setOpen,}) {
                         setContentLanguageCode(event.target.value);
                     }}
                 />
+                <FormControl>
+                    <InputLabel id="booksVersification-label" htmlFor="booksVersification"
+                                sx={sx.inputLabel}>
+                        {doI18n("pages:content:versification_scheme", i18nRef.current)}
+                    </InputLabel>
+                    <Select
+                        variant="outlined"
+                        labelId="booksVersification-label"
+                        name="booksVersification"
+                        inputProps={{
+                            id: "bookVersification",
+                        }}
+                        value={versification}
+                        label={doI18n("pages:content:versification_scheme", i18nRef.current)}
+                        onChange={(event) => {
+                            setVersification(event.target.value);
+                        }}
+                        sx={sx.select}
+                    >
+                        {
+                            versificationCodes.map((listItem, n) => <MenuItem key={n} value={listItem}
+                                                                              dense>
+                                    <ListMenuItem
+                                        listItem={`${listItem.toUpperCase()} - ${doI18n(`scripture:versifications:${listItem}`, i18nRef.current)}`}
+                                    />
+                                </MenuItem>
+                            )
+                        }
+                    </Select>
+                </FormControl>
                 <FormGroup>
                     <FormControlLabel
                         control={
@@ -290,39 +316,6 @@ export default function NewContent({open, setOpen,}) {
                                 label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
                             />
                         </FormGroup>
-                        {
-                            showVersification &&
-                            <FormControl>
-                                <InputLabel id="booksVersification-label" htmlFor="booksVersification"
-                                            sx={sx.inputLabel}>
-                                    {doI18n("pages:content:versification_scheme", i18nRef.current)}
-                                </InputLabel>
-                                <Select
-                                    variant="outlined"
-                                    labelId="booksVersification-label"
-                                    name="booksVersification"
-                                    inputProps={{
-                                        id: "bookVersification",
-                                    }}
-                                    value={versification}
-                                    label={doI18n("pages:content:versification_scheme", i18nRef.current)}
-                                    onChange={(event) => {
-                                        setVersification(event.target.value);
-                                    }}
-                                    sx={sx.select}
-                                >
-                                    {
-                                        versificationCodes.map((listItem, n) => <MenuItem key={n} value={listItem}
-                                                                                          dense>
-                                                <ListMenuItem
-                                                    listItem={`${listItem.toUpperCase()} - ${doI18n(`scripture:versifications:${listItem}`, i18nRef.current)}`}
-                                                />
-                                            </MenuItem>
-                                        )
-                                    }
-                                </Select>
-                            </FormControl>
-                        }
                     </>
                 }
             </Stack>
