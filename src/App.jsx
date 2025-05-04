@@ -1,22 +1,25 @@
 import {useState, useEffect, useCallback, useContext} from "react"
 import {Box, Grid2} from "@mui/material";
-import {getJson, debugContext, i18nContext, doI18n} from "pithekos-lib";
+import {getJson, debugContext} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import ContentRow from "./components/ContentRow";
 
 function App() {
 
     const {debugRef} = useContext(debugContext);
-    const {i18nRef} = useContext(i18nContext);
     const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
 
-    /** header 48px + SpSpa margins 32px (top and bottom) + FAB 56px + inset 20px + add 4px to SpaSpa bottom margin to match the inset = 160 */
-    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 160);
+    /** 
+     * header 48px + FabPlusMenu 34px + shadow 7px = 89
+     * Applied inside the SpSpa margins, so that's not included.
+     * Bottom margin comes from this component, and SpaSpa's bottom margin is hidden.
+     */
+    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 89);
 
     const handleWindowResize = useCallback(() => {
-        setMaxWindowHeight(window.innerHeight - 160);
+        setMaxWindowHeight(window.innerHeight - 89);
     }, []);
 
 
@@ -64,9 +67,11 @@ function App() {
     );
 
     return (
-        <Box sx={{maxHeight: maxWindowHeight, m:0}}>
-            <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
-            <Box sx={{p: 0}}>
+        <Box>
+            <Box style={{position: 'fixed', width: '100%'}}>
+              <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
+            </Box>
+            <Box sx={{p: 0, maxHeight: maxWindowHeight, mb:'16px'}} style={{position: 'fixed', top: '105px', bottom: 0, overflow: 'scroll'}}>
                 <Grid2 container
                     sx={{'--Grid-borderWidth': '1px',
                 borderTop: 'var(--Grid-borderWidth) solid',
@@ -79,12 +84,6 @@ function App() {
             }
                 }}
                 >
-                    {
-                        repos.length === 0 &&
-                        <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
-                            {doI18n("pages:content:where_create_content", i18nRef.current)}
-                        </Grid2>
-                    }
                     {
                         repos.map((rep, n) => <ContentRow
                             key={n}
