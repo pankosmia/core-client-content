@@ -66,8 +66,19 @@ function App() {
     return (
         <Box sx={{maxHeight: maxWindowHeight, m:0}}>
             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
-            <Box sx={{p: 0, backgroundColor: "#EEE"}}>
-                <Grid2 container spacing={1} sx={{backgroundColor: "#EEE"}}>
+            <Box sx={{p: 0}}>
+                <Grid2 container
+                    sx={{'--Grid-borderWidth': '1px',
+                borderTop: 'var(--Grid-borderWidth) solid',
+                borderLeft: 'var(--Grid-borderWidth) solid',
+                borderColor: 'divider',
+                '& > div': {
+                borderRight: 'var(--Grid-borderWidth) solid',
+                borderBottom: 'var(--Grid-borderWidth) solid',
+                borderColor: 'divider',
+            }
+                }}
+                >
                     {
                         repos.length === 0 &&
                         <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
