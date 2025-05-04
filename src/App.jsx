@@ -71,7 +71,7 @@ function App() {
             <Box style={{position: 'fixed', width: '100%'}}>
               <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             </Box>
-            <Box sx={{p: 0, maxHeight: maxWindowHeight, mb:'16px'}} style={{position: 'fixed', top: '105px', bottom: 0, overflow: 'scroll'}}>
+            <Box sx={{p: 0, maxHeight: maxWindowHeight, mb:'16px'}} style={{position: 'fixed', top: '105px', bottom: 0, overflow: 'scroll', width: '100%'}}>
                 <Grid2 container
                     sx={{'--Grid-borderWidth': '1px',
                 borderTop: 'var(--Grid-borderWidth) solid',
