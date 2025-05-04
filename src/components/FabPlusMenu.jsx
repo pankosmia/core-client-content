@@ -1,5 +1,5 @@
 import AddIcon from "@mui/icons-material/Add";
-import {Fab, Menu, MenuItem} from "@mui/material";
+import {Fab, Menu, MenuItem, Typography} from "@mui/material";
 import NewContent from "./NewContent";
 import {useState, useContext} from "react";
 import {i18nContext, netContext, doI18n} from "pithekos-lib";
@@ -21,19 +21,25 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
 
     return <>
         <Fab
-            color="primary"
+            variant="extended"
+            size="small"
             aria-label={doI18n("pages:content:add", i18nRef.current)}
             sx={{
                 margin: 0,
-                top: 'auto',
-                right: 20,
-                bottom: 20,
-                left: 'auto',
+                top: '-18',
+                right: "auto",
+                bottom: "auto",
+                left: 20,
                 position: 'fixed',
+                backgroundColor: "#DAB1DA",
+                color: "#OOO"
             }}
             onClick={event => setFabMenuAnchor(event.currentTarget)}
         >
             <AddIcon/>
+            <Typography variant="body2">
+              {doI18n("pages:content:add", i18nRef.current)}
+            </Typography>
         </Fab>
         <Menu
             id="fab-menu"
@@ -66,4 +72,5 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
         />
     </>;
 }
+
 export default FabPlusMenu;
