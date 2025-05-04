@@ -21,19 +21,23 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
 
     return <>
         <Fab
-            color="primary"
+            variant="extended"
+            size="small"
             aria-label={doI18n("pages:content:add", i18nRef.current)}
             sx={{
                 margin: 0,
-                top: 'auto',
-                right: 20,
-                bottom: 20,
-                left: 'auto',
+                top: '-18',
+                right: "auto",
+                bottom: "auto",
+                left: 20,
                 position: 'fixed',
+                backgroundColor: "#DAB1DA",
+                color: "#OOO"
             }}
             onClick={event => setFabMenuAnchor(event.currentTarget)}
         >
-            <AddIcon/>
+            <AddIcon sx={{mr: 1}}/>
+            {doI18n("pages:content:add", i18nRef.current)}
         </Fab>
         <Menu
             id="fab-menu"

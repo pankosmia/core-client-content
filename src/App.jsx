@@ -1,8 +1,9 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, Grid2} from "@mui/material";
+import {Box, StyledEngineProvider} from "@mui/material";
+import {DataGrid} from '@mui/x-data-grid';
 import {getJson, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
-import ContentRow from "./components/ContentRow";
+import ContentRowButtonPlusMenu from "./components/ContentRowButtonPlusMenu";
 
 function App() {
 
@@ -63,17 +64,77 @@ function App() {
         [newIsOpen, reposModCount]
     );
 
+    const columns = [
+        {
+            field: 'name',
+            headerName: doI18n("pages:content:row_name", i18nRef.current),
+            flex: 1
+        },
+        {
+            field: 'language',
+            headerName: doI18n("pages:content:row_language", i18nRef.current),
+            flex: 1
+        },
+        {
+            field: 'nBooks',
+            headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
+            type: "number",
+            flex: 1
+        },
+        {
+            field: 'type',
+            headerName: doI18n("pages:content:row_type", i18nRef.current),
+            flex: 1
+        },
+        {
+            field: 'source',
+            headerName: doI18n("pages:content:row_source", i18nRef.current),
+            flex: 1
+        },
+        {
+            field: 'dateUpdated',
+            headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
+            flex: 1
+        },
+        {
+            field: 'actions',
+            headerName: doI18n("pages:content:row_actions", i18nRef.current),
+            flex: 1,
+            renderCell: rep => <ContentRowButtonPlusMenu
+                    repoInfo={rep}
+                    reposModCount={reposModCount}
+                    setReposModCount={setReposModCount}
+                />
+        }
+    ]
+
+    const rows = repos.map(rep => {
+        return {
+            name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
+            language: rep.language_code,
+            nBooks: rep.bookCodes.length,
+            type: rep.flavor,
+            source: rep.path.startsWith("_local_") ?
+                doI18n("pages:content:local_org", i18nRef.current) :
+                `${rep.path.split("/")[1]} (${rep.path.split("/")[0]})`,
+            dateUpdated: rep.generated_date,
+        }
+    });
+
     return (
-        <Box sx={{maxHeight: maxWindowHeight, m:0}}>
-            <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
-            <Box sx={{p: 0, backgroundColor: "#EEE"}}>
+            <Box sx={{maxHeight: maxWindowHeight, m: 0}}>
+                <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    sx={{paddingTop: "36px"}}
+                />
+            </Box>
+    );
+}
+
+/*
                 <Grid2 container spacing={1} sx={{backgroundColor: "#EEE"}}>
-                    {
-                        repos.length === 0 &&
-                        <Grid2 item size={12} sx={{backgroundColor: "#FFF"}}>
-                            {doI18n("pages:content:where_create_content", i18nRef.current)}
-                        </Grid2>
-                    }
                     {
                         repos.map((rep, n) => <ContentRow
                             key={n}
@@ -83,9 +144,6 @@ function App() {
                         />)
                     }
                 </Grid2>
-            </Box>
-        </Box>
-    );
-}
+ */
 
 export default App;

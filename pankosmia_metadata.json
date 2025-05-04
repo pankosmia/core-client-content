@@ -42,16 +42,12 @@
       "es":"Código del Idioma (si no está determinado, use 'und')"
     },
     "add": {
-      "en":"add",
-      "es":"agregar"
+      "en":"Add Content",
+      "fr":"Ajouter du contenu"
     },
     "create_content": {
       "en":"Create New Content",
       "es":"Crear Nuevo Contenido"
-    },
-    "where_create_content": {
-      "en":"Add new content with the + button at the bottom of the screen.",
-      "es":"Añadir nuevo contenido con el botón + en la parte inferior de la pantalla."
     },
     "download_content": {
       "en":"Download Content",
