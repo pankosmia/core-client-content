@@ -78,7 +78,7 @@ export default function NewBook({repoInfo, open, setOpen, reposModCount, setRepo
             book_abbr: bookAbbr,
         };
         const response = await postJson(
-            "/git/new-scripture-book",
+            `/git/new-scripture-book/${repoInfo.path}`,
             JSON.stringify(payload),
             debugRef.current
         );
