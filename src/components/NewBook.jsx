@@ -20,7 +20,7 @@ import ListMenuItem from "./ListMenuItem";
 
 export default function NewBook({repoInfo, open, setOpen, reposModCount, setReposModCount}) {
 
-    const [showVersification, setShowVersification] = useState(false);
+    const [addCV, setAddCV] = useState(false);
     const [bookCode, setBookCode] = useState("");
     const [bookTitle, setBookTitle] = useState("");
     const [bookAbbr, setBookAbbr] = useState("");
@@ -76,6 +76,7 @@ export default function NewBook({repoInfo, open, setOpen, reposModCount, setRepo
             book_code: bookCode,
             book_title: bookTitle,
             book_abbr: bookAbbr,
+            add_cv: addCV
         };
         const response = await postJson(
             `/git/new-scripture-book/${repoInfo.path}`,
@@ -213,8 +214,8 @@ export default function NewBook({repoInfo, open, setOpen, reposModCount, setRepo
                     <FormControlLabel
                         control={
                             <Checkbox
-                                checked={showVersification}
-                                onChange={() => setShowVersification(!showVersification)}
+                                checked={addCV}
+                                onChange={() => setAddCV(!addCV)}
                             />
                         }
                         label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
