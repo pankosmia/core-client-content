@@ -30,6 +30,7 @@ import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import { useAssumeGraphite } from "font-detect-rhl";
+import {getCVTexts, getBookName} from "../helpers/cv";
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
@@ -55,57 +56,126 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     const isFirefox = useAssumeGraphite({});
 
-    const generatePdf = async bookCode => {
-        const pdfTemplate = `
+    const generatePdf = async (bookCode, pdfType="para") => {
+        let pdfHtml;
+        if (pdfType === "para") {
+            const pdfTemplate = `
 
 <section style="page-break-inside: avoid">
 %%BODY%%
 </section>
 `;
-        const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
-        const bookUsfmResponse = await getText(bookUrl, debugRef.current);
-        if (!bookUsfmResponse.ok) {
-            enqueueSnackbar(
-                `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
-                {variant: "error"}
+            const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
+            const bookUsfmResponse = await getText(bookUrl, debugRef.current);
+            if (!bookUsfmResponse.ok) {
+                enqueueSnackbar(
+                    `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
+                    {variant: "error"}
+                );
+                return false;
+            }
+            const sectionConfig = {
+                "showWordAtts": false,
+                "showTitles": showTitles,
+                "showHeadings": showHeadings,
+                "showIntroductions": showIntroductions,
+                "showFootnotes": showFootnotes,
+                "showXrefs": showXrefs,
+                "showParaStyles": showParaStyles,
+                "showCharacterMarkup": showCharacterMarkup,
+                "showChapterLabels": showChapterLabels,
+                "showVersesLabels": showVersesLabels,
+                "showFirstVerseLabel": showFirstVerseLabel,
+                "nColumns": selectedColumns,
+                "showGlossaryStar": false
+            }
+            const pk = new Proskomma();
+            pk.importDocument({
+                    lang: "xxx",
+                    abbr: "yyy"
+                },
+                "usfm",
+                bookUsfmResponse.text
             );
-            return false;
+            const docId = pk.gqlQuerySync('{documents { id } }').data.documents[0].id;
+            const actions = render.sofria2web.renderActions.sofria2WebActions;
+            const renderers = render.sofria2web.sofria2html.renderers;
+            const cl = new SofriaRenderFromProskomma({proskomma: pk, actions, debugLevel: 0})
+            const output = {};
+            sectionConfig.selectedBcvNotes = ["foo"];
+            sectionConfig.renderers = renderers;
+            sectionConfig.renderers.verses_label = vn => {
+                return `<span class="marks_verses_label">${vn}</span>`;
+            };
+            cl.renderDocument({docId, config: sectionConfig, output});
+            pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
+        } else if (pdfType === "bcv") {
+            const bcvBibleVerseTemplate = `<section class="verseRecord">
+    <span class="cvCol">
+        %%CV%%
+    </span>
+    <span class="verseContent">
+        %%VERSECONTENT%%
+    </span>
+</section>`;
+            const bcvBibleTemplate = `%%BODY%%`;
+            const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
+            const bookUsfmResponse = await getText(bookUrl, debugRef.current);
+            if (!bookUsfmResponse.ok) {
+                enqueueSnackbar(
+                    `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
+                    {variant: "error"}
+                );
+                return false;
+            }
+            const pk = new Proskomma();
+            pk.importDocument({
+                    lang: "xxx",
+                    abbr: "yyy"
+                },
+                "usfm",
+                bookUsfmResponse.text
+            );
+            const bookName = getBookName(pk, "xxx_yyy", bookCode);
+            const cvTexts = getCVTexts(bookCode, pk);
+            const verses = [`<h1>${bookName}</h1>`];
+            const seenCvs = new Set([]);
+            for (const cvRecord of cvTexts) {
+                if (seenCvs.has(cvRecord.cv)) {
+                    continue;
+                } else {
+                    seenCvs.add(cvRecord.cv);
+                }
+                const chapterVerseSeparator = ":";
+                const verseRangeSeparator = "-";
+                const verseHtml = bcvBibleVerseTemplate
+                    .replace(
+                        "%%CV%%",
+                        cvRecord.cv
+                            .replace(/(\d):/, (match, p1) => `${p1}${chapterVerseSeparator}`)
+                            .replace(/(\d)-/, (match, p1) => `${p1}${verseRangeSeparator}`))
+                    .replace(
+                        '%%VERSECONTENT%%',
+                        cvRecord.texts["xxx_yyy"] || "-"
+                    );
+                verses.push(verseHtml);
+            }
+            pdfHtml = bcvBibleTemplate
+                .replace(
+                    "%%TITLE%%",
+                    `PDF`
+                )
+                .replace(
+                    "%%BODY%%",
+                    verses.join('\n')
+                )
+                .replace(
+                    "%%BOOKNAME%%",
+                    bookName
+                )
+        } else {
+            throw new Error(`Unexpected pdfType '${pdfType}'`);
         }
-        const sectionConfig = {
-            "showWordAtts": false,
-            "showTitles": showTitles,
-            "showHeadings": showHeadings,
-            "showIntroductions": showIntroductions,
-            "showFootnotes": showFootnotes,
-            "showXrefs": showXrefs,
-            "showParaStyles": showParaStyles,
-            "showCharacterMarkup": showCharacterMarkup,
-            "showChapterLabels": showChapterLabels,
-            "showVersesLabels": showVersesLabels,
-            "showFirstVerseLabel": showFirstVerseLabel,
-            "nColumns": selectedColumns,
-            "showGlossaryStar": false
-        }
-        const pk = new Proskomma();
-        pk.importDocument({
-                lang: "xxx",
-                abbr: "yyy"
-            },
-            "usfm",
-            bookUsfmResponse.text
-        );
-        const docId = pk.gqlQuerySync('{documents { id } }').data.documents[0].id;
-        const actions = render.sofria2web.renderActions.sofria2WebActions;
-        const renderers = render.sofria2web.sofria2html.renderers;
-        const cl = new SofriaRenderFromProskomma({proskomma: pk, actions, debugLevel: 0})
-        const output = {};
-        sectionConfig.selectedBcvNotes = ["foo"];
-        sectionConfig.renderers = renderers;
-        sectionConfig.renderers.verses_label = vn => {
-            return `<span class="marks_verses_label">${vn}</span>`;
-        };
-        cl.renderDocument({docId, config: sectionConfig, output});
-        const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
         const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
         const server = window.location.origin;
         if (!isFirefox) newPage.document.body.innerHTML = `<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`
@@ -120,7 +190,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         newPage.document.head.appendChild(fontSetLink);
         const link = document.createElement('link');
         link.rel="stylesheet";
-        link.href = `${server}/app-resources/pdf/para_bible_page_styles.css`;
+        link.href = pdfType === "para" ? `${server}/app-resources/pdf/para_bible_page_styles.css` : `${server}/app-resources/pdf/bcv_bible_page_styles.css`;
         newPage.document.head.appendChild(link)
         return true;
     }
@@ -219,7 +289,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             <ListItemIcon>
                                 <ViewHeadlineOutlinedIcon color='primary' />
                             </ListItemIcon>
-                            <ListItemText primary="Show by verse" />
+                            <ListItemText primary={doI18n("pages:content:show_by_verse", i18nRef.current)} />
                             <Switch
                                 edge='end'
                                 onChange={() => setShowByVerse(!showByVerse)}
@@ -235,7 +305,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show title`} />
+                                        <ListItemText primary={doI18n("pages:content:show_title", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -243,7 +313,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showHeadings} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show headings`} />
+                                        <ListItemText primary={doI18n("pages:content:show_headings", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -251,7 +321,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showIntroductions} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show introductions`} />
+                                        <ListItemText primary={doI18n("pages:content:show_introductions", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -259,7 +329,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showFootnotes} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show footnotes`} />
+                                        <ListItemText primary={doI18n("pages:content:show_footnotes", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -267,7 +337,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showXrefs} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show Xrefs`} />
+                                        <ListItemText primary={doI18n("pages:content:show_xrefs", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -275,7 +345,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showParaStyles} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show paraStyles`} />
+                                        <ListItemText primary={doI18n("pages:content:show_para_styles", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -283,7 +353,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showCharacterMarkup} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show character markup`} />
+                                        <ListItemText primary={doI18n("pages:content:show_character_markup", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -291,7 +361,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showChapterLabels} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show chapter labels`} />
+                                        <ListItemText primary={doI18n("pages:content:show_chapter_labels", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -299,7 +369,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showVersesLabels} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show verses labels`} />
+                                        <ListItemText primary={doI18n("pages:content:show_verses_labels", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -307,7 +377,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show first verse label`} />
+                                        <ListItemText primary={doI18n("pages:content:show_first_verse_label", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -320,7 +390,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         dense
                                     >
                                         <ListItemIcon>{columnIcon(selectedColumns)}</ListItemIcon>
-                                        <ListItemText primary={`Number of columns`} />
+                                        <ListItemText primary={doI18n("pages:content:number_of_columns", i18nRef.current)} />
                                     </ListItemButton>
                                     <Menu
                                         id="basic-menu"
@@ -337,12 +407,6 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                         :
                             <>
                                 <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={`Show title`} />
-                                    </ListItemButton>
                                 </ListItem>
                             </>
                     }
@@ -362,7 +426,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             {variant: "warning"}
                         );
                     } else {
-                        !showByVerse ? generatePdf(fileExport.current).then() : console.log("Segunda funcion, no deberia abrir el pdf");
+                        generatePdf(fileExport.current, showByVerse ? "bcv" : "para").then();
                     }
                     closeFn();
                 }}
