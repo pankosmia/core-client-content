@@ -56,7 +56,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     const isFirefox = useAssumeGraphite({});
 
-    const generatePdf = async (bookCode, pdfType="bcv") => {
+    const generatePdf = async (bookCode, pdfType="para") => {
         let pdfHtml;
         if (pdfType === "para") {
             const pdfTemplate = `
@@ -432,7 +432,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             {variant: "warning"}
                         );
                     } else {
-                        !showByVerse ? generatePdf(fileExport.current).then() : console.log("Segunda funcion, no deberia abrir el pdf");
+                        generatePdf(fileExport.current, showByVerse ? "bcv" : "para").then();
                     }
                     closeFn();
                 }}
