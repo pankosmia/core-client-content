@@ -71,17 +71,18 @@ function App() {
             <Box style={{position: 'fixed', width: '100%'}}>
               <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             </Box>
-            <Box sx={{p: 0, maxHeight: maxWindowHeight, mb:'16px'}} style={{position: 'fixed', top: '105px', bottom: 0, overflow: 'scroll', width: '100%'}}>
+            <Box sx={{p: 0, maxHeight: maxWindowHeight, mb:'16px'}} style={{position: 'fixed', top: '105px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
                 <Grid2 container
-                    sx={{'--Grid-borderWidth': '1px',
-                borderTop: 'var(--Grid-borderWidth) solid',
-                borderLeft: 'var(--Grid-borderWidth) solid',
-                borderColor: 'divider',
-                '& > div': {
-                borderRight: 'var(--Grid-borderWidth) solid',
-                borderBottom: 'var(--Grid-borderWidth) solid',
-                borderColor: 'divider',
-            }
+                  sx={{'--Grid-borderWidth': '1px',
+                    ml: 2,
+                    borderTop: 'var(--Grid-borderWidth) solid',
+                    borderLeft: 'var(--Grid-borderWidth) solid',
+                    borderColor: 'divider',
+                    '& > div': {
+                    borderRight: 'var(--Grid-borderWidth) solid',
+                    borderBottom: 'var(--Grid-borderWidth) solid',
+                    borderColor: 'divider',
+                  }
                 }}
                 >
                     {
