@@ -362,7 +362,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             {variant: "warning"}
                         );
                     } else {
-                        !showByVerse ? generatePdf(fileExport.current).then() : () => {};
+                        !showByVerse ? generatePdf(fileExport.current).then() : console.log("Segunda funcion, no deberia abrir el pdf");
                     }
                     closeFn();
                 }}
