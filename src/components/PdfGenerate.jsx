@@ -17,13 +17,13 @@ import {
     ListItemIcon,
     ListItemText,
     Checkbox,
-    IconButton
 } from "@mui/material";
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import { useAssumeGraphite } from "font-detect-rhl";
+import {getCVTexts, getBookName} from "../helpers/cv";
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
@@ -46,57 +46,126 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     const isFirefox = useAssumeGraphite({});
 
-    const generatePdf = async bookCode => {
-        const pdfTemplate = `
+    const generatePdf = async (bookCode, pdfType="bcv") => {
+        let pdfHtml;
+        if (pdfType === "para") {
+            const pdfTemplate = `
 
 <section style="page-break-inside: avoid">
 %%BODY%%
 </section>
 `;
-        const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
-        const bookUsfmResponse = await getText(bookUrl, debugRef.current);
-        if (!bookUsfmResponse.ok) {
-            enqueueSnackbar(
-                `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
-                {variant: "error"}
+            const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
+            const bookUsfmResponse = await getText(bookUrl, debugRef.current);
+            if (!bookUsfmResponse.ok) {
+                enqueueSnackbar(
+                    `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
+                    {variant: "error"}
+                );
+                return false;
+            }
+            const sectionConfig = {
+                "showWordAtts": false,
+                "showTitles": showTitles,
+                "showHeadings": showHeadings,
+                "showIntroductions": showIntroductions,
+                "showFootnotes": showFootnotes,
+                "showXrefs": showXrefs,
+                "showParaStyles": showParaStyles,
+                "showCharacterMarkup": showCharacterMarkup,
+                "showChapterLabels": showChapterLabels,
+                "showVersesLabels": showVersesLabels,
+                "showFirstVerseLabel": showFirstVerseLabel,
+                "nColumns": selectedColumns,
+                "showGlossaryStar": false
+            }
+            const pk = new Proskomma();
+            pk.importDocument({
+                    lang: "xxx",
+                    abbr: "yyy"
+                },
+                "usfm",
+                bookUsfmResponse.text
             );
-            return false;
+            const docId = pk.gqlQuerySync('{documents { id } }').data.documents[0].id;
+            const actions = render.sofria2web.renderActions.sofria2WebActions;
+            const renderers = render.sofria2web.sofria2html.renderers;
+            const cl = new SofriaRenderFromProskomma({proskomma: pk, actions, debugLevel: 0})
+            const output = {};
+            sectionConfig.selectedBcvNotes = ["foo"];
+            sectionConfig.renderers = renderers;
+            sectionConfig.renderers.verses_label = vn => {
+                return `<span class="marks_verses_label">${vn}</span>`;
+            };
+            cl.renderDocument({docId, config: sectionConfig, output});
+            pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
+        } else if (pdfType === "bcv") {
+            const bcvBibleVerseTemplate = `<section class="verseRecord">
+    <span class="cvCol">
+        %%CV%%
+    </span>
+    <span class="verseContent">
+        %%VERSECONTENT%%
+    </span>
+</section>`;
+            const bcvBibleTemplate = `%%BODY%%`;
+            const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
+            const bookUsfmResponse = await getText(bookUrl, debugRef.current);
+            if (!bookUsfmResponse.ok) {
+                enqueueSnackbar(
+                    `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
+                    {variant: "error"}
+                );
+                return false;
+            }
+            const pk = new Proskomma();
+            pk.importDocument({
+                    lang: "xxx",
+                    abbr: "yyy"
+                },
+                "usfm",
+                bookUsfmResponse.text
+            );
+            const bookName = getBookName(pk, "xxx_yyy", bookCode);
+            const cvTexts = getCVTexts(bookCode, pk);
+            const verses = [`<h1>${bookName}</h1>`];
+            const seenCvs = new Set([]);
+            for (const cvRecord of cvTexts) {
+                if (seenCvs.has(cvRecord.cv)) {
+                    continue;
+                } else {
+                    seenCvs.add(cvRecord.cv);
+                }
+                const chapterVerseSeparator = ":";
+                const verseRangeSeparator = "-";
+                const verseHtml = bcvBibleVerseTemplate
+                    .replace(
+                        "%%CV%%",
+                        cvRecord.cv
+                            .replace(/(\d):/, (match, p1) => `${p1}${chapterVerseSeparator}`)
+                            .replace(/(\d)-/, (match, p1) => `${p1}${verseRangeSeparator}`))
+                    .replace(
+                        '%%VERSECONTENT%%',
+                        cvRecord.texts["xxx_yyy"] || "-"
+                    );
+                verses.push(verseHtml);
+            }
+            pdfHtml = bcvBibleTemplate
+                .replace(
+                    "%%TITLE%%",
+                    `PDF`
+                )
+                .replace(
+                    "%%BODY%%",
+                    verses.join('\n')
+                )
+                .replace(
+                    "%%BOOKNAME%%",
+                    bookName
+                )
+        } else {
+            throw new Error(`Unexpected pdfType '${pdfType}'`);
         }
-        const sectionConfig = {
-            "showWordAtts": false,
-            "showTitles": showTitles,
-            "showHeadings": showHeadings,
-            "showIntroductions": showIntroductions,
-            "showFootnotes": showFootnotes,
-            "showXrefs": showXrefs,
-            "showParaStyles": showParaStyles,
-            "showCharacterMarkup": showCharacterMarkup,
-            "showChapterLabels": showChapterLabels,
-            "showVersesLabels": showVersesLabels,
-            "showFirstVerseLabel": showFirstVerseLabel,
-            "nColumns": selectedColumns,
-            "showGlossaryStar": false
-        }
-        const pk = new Proskomma();
-        pk.importDocument({
-                lang: "xxx",
-                abbr: "yyy"
-            },
-            "usfm",
-            bookUsfmResponse.text
-        );
-        const docId = pk.gqlQuerySync('{documents { id } }').data.documents[0].id;
-        const actions = render.sofria2web.renderActions.sofria2WebActions;
-        const renderers = render.sofria2web.sofria2html.renderers;
-        const cl = new SofriaRenderFromProskomma({proskomma: pk, actions, debugLevel: 0})
-        const output = {};
-        sectionConfig.selectedBcvNotes = ["foo"];
-        sectionConfig.renderers = renderers;
-        sectionConfig.renderers.verses_label = vn => {
-            return `<span class="marks_verses_label">${vn}</span>`;
-        };
-        cl.renderDocument({docId, config: sectionConfig, output});
-        const pdfHtml = pdfTemplate.replace("%%BODY%%", output.paras);
         const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
         const server = window.location.origin;
         if (!isFirefox) newPage.document.body.innerHTML = `<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`
@@ -111,7 +180,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         newPage.document.head.appendChild(fontSetLink);
         const link = document.createElement('link');
         link.rel="stylesheet";
-        link.href = `${server}/app-resources/pdf/para_bible_page_styles.css`;
+        link.href = pdfType === "para" ? `${server}/app-resources/pdf/para_bible_page_styles.css` : `${server}/app-resources/pdf/bcv_bible_page_styles.css`;
         newPage.document.head.appendChild(link)
         return true;
     }
