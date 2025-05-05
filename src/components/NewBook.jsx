@@ -14,20 +14,38 @@ import {
 } from "@mui/material";
 import {Close as CloseIcon} from '@mui/icons-material';
 import {enqueueSnackbar} from "notistack";
-import {i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson} from "pithekos-lib";
+import {i18nContext, debugContext, postJson, doI18n, getJson} from "pithekos-lib";
 import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 
-export default function NewBook({open, setOpen, reposModCount, setReposModCount}) {
+export default function NewBook({repoInfo, open, setOpen, reposModCount, setReposModCount}) {
 
     const [showVersification, setShowVersification] = useState(false);
+    const [bookCode, setBookCode] = useState("");
+    const [bookTitle, setBookTitle] = useState("");
+    const [bookAbbr, setBookAbbr] = useState("");
 
     useEffect(
         () => {
             const doFetch = async () => {
                 const versificationResponse = await getJson("/content-utils/versification/eng", debugRef.current);
                 if (versificationResponse.ok) {
-                    setBookCodes(Object.keys(versificationResponse.json.maxVerses));
+                    const newBookCodes = Object.keys(versificationResponse.json.maxVerses);
+                    setBookCodes(newBookCodes);
+                    const shortBooks = [
+                        ["TIT", "Tit", "Ti"],
+                        ["RUT", "Rut", "Rt"],
+                        ["JON", "Jon", "Jon"],
+                        ["3JN", "3Jn", "3Jn"],
+                        ["1JN", "1Jn", "1Jn"],
+                        ["2JN", "2Jn", "2Jn"],
+                    ];
+                    const unusedBooks = shortBooks.filter(sb => !repoInfo.bookCodes.includes(sb[0]));
+                    if (unusedBooks.length > 0) {
+                        setBookCode(unusedBooks[0][0]);
+                        setBookTitle(unusedBooks[0][1]);
+                        setBookAbbr(unusedBooks[0][2]);
+                    }
                 }
             };
             if (bookCodes.length === 0) {
@@ -42,20 +60,14 @@ export default function NewBook({open, setOpen, reposModCount, setReposModCount}
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
-    const [bookCode, setBookCode] = useState("TIT");
-    const [bookTitle, setBookTitle] = useState("Tit");
-    const [bookAbbr, setBookAbbr] = useState("Ti");
     const [postCount, setPostCount] = useState(0);
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
 
     useEffect(
         () => {
-            setBookCode("TIT");
-            setBookTitle("Titus");
-            setBookAbbr("Ti");
         },
-        [postCount]
+        []
     );
 
     const handleCreate = async () => {
@@ -149,9 +161,14 @@ export default function NewBook({open, setOpen, reposModCount, setReposModCount}
                             >
                                 {
                                     (protestantOnly ? bookCodes.slice(0, 66) : bookCodes).map((listItem, n) => <MenuItem
-                                            key={n} value={listItem} dense>
+                                            key={n}
+                                            value={listItem}
+                                            dense
+                                            disabled={repoInfo.bookCodes.includes(listItem)}
+                                        >
                                             <ListMenuItem
-                                                listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`}/>
+                                                listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`}
+                                            />
                                         </MenuItem>
                                     )
                                 }

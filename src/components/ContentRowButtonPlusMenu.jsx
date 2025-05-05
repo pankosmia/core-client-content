@@ -93,6 +93,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             closeFn={() => setPdfGenerateAnchorEl(null)}
         />
         <NewBook
+            repoInfo={repoInfo}
             open={newBookOpen}
             setOpen={setNewBookAnchorEl}
             reposModCount={reposModCount}

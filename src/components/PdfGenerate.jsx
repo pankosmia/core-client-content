@@ -17,8 +17,6 @@ import {
     ListItemIcon,
     ListItemText,
     Checkbox,
-    IconButton,
-    Box,
     Switch
 } from "@mui/material";
 import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
