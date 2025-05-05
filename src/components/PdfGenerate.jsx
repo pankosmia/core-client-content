@@ -17,7 +17,14 @@ import {
     ListItemIcon,
     ListItemText,
     Checkbox,
+    IconButton,
+    Box,
+    Switch
 } from "@mui/material";
+import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
+import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
+import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
+import ViewHeadlineOutlinedIcon from '@mui/icons-material/ViewHeadlineOutlined';
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
@@ -32,6 +39,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(null);
+    const [showByVerse, setShowByVerse] = useState(false);
+
     const [showTitles, setShowTitles] = useState(true);
     const [showHeadings, setShowHeadings] = useState(true);
     const [showIntroductions, setShowIntroductions] = useState(true);
@@ -43,6 +52,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const [showVersesLabels, setShowVersesLabels] = useState(true);
     const [showFirstVerseLabel, setShowFirstVerseLabel] = useState(true);
     const [selectedColumns, setSelectedColumns] = useState(2);
+
 
     const isFirefox = useAssumeGraphite({});
 
@@ -198,6 +208,27 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         setAnchorEl(null);
     };
 
+    function columnIcon( selectedColumns ) {
+        let content;
+        console.log('column update');
+      
+        switch (selectedColumns) {
+          case 1:
+            content = <LooksOneOutlinedIcon color='primary' />;
+            break;
+          case 2:
+            content = <LooksTwoOutlinedIcon color='primary' />;
+            break;
+          case 3:
+            content = <Looks3OutlinedIcon color='primary' />;
+            break;
+          default:
+            content = <LooksTwoOutlinedIcon color='primary' />;
+        }
+      
+        return content;
+      }
+
     return <Dialog
         open={open}
         onClose={closeFn}
@@ -255,108 +286,136 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                 <DialogContentText>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show title`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowHeadings(!showHeadings)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showHeadings} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show headings`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowIntroductions(!showIntroductions)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showIntroductions} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show introductions`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowFootnotes(!showFootnotes)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showFootnotes} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show footnotes`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowXrefs(!showXrefs)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showXrefs} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show Xrefs`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowParaStyles(!showParaStyles)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showParaStyles} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show paraStyles`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowCharacterMarkup(!showCharacterMarkup)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showCharacterMarkup} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show character markup`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowChapterLabels(!showChapterLabels)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showChapterLabels} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show chapter labels`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem disablePadding >
-                            <ListItemButton onClick={() => setShowVersesLabels(!showVersesLabels)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showVersesLabels} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show verses labels`} />
-                            </ListItemButton>
-                        </ListItem>
-                        <ListItem
-                            disablePadding
+                            <ListItemIcon>
+                                <ViewHeadlineOutlinedIcon color='primary' />
+                            </ListItemIcon>
+                            <ListItemText primary="Show by verse" />
+                            <Switch
+                                edge='end'
+                                onChange={() => setShowByVerse(!showByVerse)}
+                                checked={showByVerse}
                             >
-                            <ListItemButton onClick={() => setShowFirstVerseLabel(!showFirstVerseLabel)} dense>
-                                <ListItemIcon>
-                                    <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
-                                </ListItemIcon>
-                                <ListItemText primary={`Show first verse label`} />
-                            </ListItemButton>
+                            </Switch>
                         </ListItem>
-                        <ListItem>
-                            <Button
-                                id="basic-button"
-                                aria-controls={openAnchor ? 'basic-menu' : undefined}
-                                aria-haspopup="true"
-                                aria-expanded={openAnchor ? 'true' : undefined}
-                                onClick={handleClick}
-                            >
-                                Columns({selectedColumns})
-                            </Button>
-                            <Menu
-                                id="basic-menu"
-                                anchorEl={anchorEl}
-                                open={openAnchor}
-                                onClose={handleClose}
-                            >
-                                <MenuItem onClick={() => {setSelectedColumns(1); handleClose()}}>1</MenuItem>
-                                <MenuItem onClick={() => {setSelectedColumns(2); handleClose()}}>2</MenuItem>
-                                <MenuItem onClick={() => {setSelectedColumns(3); handleClose()}}>3</MenuItem>
-                            </Menu>
-                        </ListItem>
+                    {!showByVerse 
+                        ?
+                            <>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show title`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowHeadings(!showHeadings)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showHeadings} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show headings`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowIntroductions(!showIntroductions)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showIntroductions} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show introductions`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowFootnotes(!showFootnotes)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showFootnotes} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show footnotes`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowXrefs(!showXrefs)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showXrefs} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show Xrefs`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowParaStyles(!showParaStyles)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showParaStyles} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show paraStyles`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowCharacterMarkup(!showCharacterMarkup)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showCharacterMarkup} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show character markup`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowChapterLabels(!showChapterLabels)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showChapterLabels} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show chapter labels`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowVersesLabels(!showVersesLabels)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showVersesLabels} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show verses labels`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowFirstVerseLabel(!showFirstVerseLabel)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show first verse label`} />
+                                    </ListItemButton>
+                                </ListItem>
+                                <ListItem disablePadding >
+                                    <ListItemButton
+                                        id="basic-button"
+                                        aria-controls={openAnchor ? 'basic-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={openAnchor ? 'true' : undefined}
+                                        onClick={handleClick}
+                                        dense
+                                    >
+                                        <ListItemIcon>{columnIcon(selectedColumns)}</ListItemIcon>
+                                        <ListItemText primary={`Number of columns`} />
+                                    </ListItemButton>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={anchorEl}
+                                        open={openAnchor}
+                                        onClose={handleClose}
+                                    >
+                                        <MenuItem onClick={() => {setSelectedColumns(1); handleClose()}}>1</MenuItem>
+                                        <MenuItem onClick={() => {setSelectedColumns(2); handleClose()}}>2</MenuItem>
+                                        <MenuItem onClick={() => {setSelectedColumns(3); handleClose()}}>3</MenuItem>
+                                    </Menu>
+                                </ListItem>
+                            </>
+                        :
+                            <>
+                                <ListItem disablePadding >
+                                    <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
+                                        <ListItemIcon>
+                                            <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
+                                        </ListItemIcon>
+                                        <ListItemText primary={`Show title`} />
+                                    </ListItemButton>
+                                </ListItem>
+                            </>
+                    }
                     </List>
                 </DialogContentText>
             }
@@ -373,7 +432,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             {variant: "warning"}
                         );
                     } else {
-                        generatePdf(fileExport.current).then();
+                        !showByVerse ? generatePdf(fileExport.current).then() : console.log("Segunda funcion, no deberia abrir el pdf");
                     }
                     closeFn();
                 }}
