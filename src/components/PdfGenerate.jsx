@@ -289,7 +289,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             <ListItemIcon>
                                 <ViewHeadlineOutlinedIcon color='primary' />
                             </ListItemIcon>
-                            <ListItemText primary="Show by verse" />
+                            <ListItemText primary={doI18n("pages:content:show_by_verse", i18nRef.current)} />
                             <Switch
                                 edge='end'
                                 onChange={() => setShowByVerse(!showByVerse)}
@@ -305,7 +305,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show title`} />
+                                        <ListItemText primary={doI18n("pages:content:show_title", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -313,7 +313,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showHeadings} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show headings`} />
+                                        <ListItemText primary={doI18n("pages:content:show_headings", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -321,7 +321,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showIntroductions} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show introductions`} />
+                                        <ListItemText primary={doI18n("pages:content:show_introductions", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -329,7 +329,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showFootnotes} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show footnotes`} />
+                                        <ListItemText primary={doI18n("pages:content:show_footnotes", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -337,7 +337,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showXrefs} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show Xrefs`} />
+                                        <ListItemText primary={doI18n("pages:content:show_xrefs", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -345,7 +345,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showParaStyles} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show paraStyles`} />
+                                        <ListItemText primary={doI18n("pages:content:show_para_styles", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -353,7 +353,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showCharacterMarkup} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show character markup`} />
+                                        <ListItemText primary={doI18n("pages:content:show_character_markup", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -361,7 +361,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showChapterLabels} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show chapter labels`} />
+                                        <ListItemText primary={doI18n("pages:content:show_chapter_labels", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -369,7 +369,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showVersesLabels} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show verses labels`} />
+                                        <ListItemText primary={doI18n("pages:content:show_verses_labels", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -377,7 +377,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         <ListItemIcon>
                                             <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
                                         </ListItemIcon>
-                                        <ListItemText primary={`Show first verse label`} />
+                                        <ListItemText primary={doI18n("pages:content:show_first_verse_label", i18nRef.current)} />
                                     </ListItemButton>
                                 </ListItem>
                                 <ListItem disablePadding >
@@ -390,7 +390,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         dense
                                     >
                                         <ListItemIcon>{columnIcon(selectedColumns)}</ListItemIcon>
-                                        <ListItemText primary={`Number of columns`} />
+                                        <ListItemText primary={doI18n("pages:content:number_of_columns", i18nRef.current)} />
                                     </ListItemButton>
                                     <Menu
                                         id="basic-menu"
@@ -407,12 +407,6 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                         :
                             <>
                                 <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={`Show title`} />
-                                    </ListItemButton>
                                 </ListItem>
                             </>
                     }

@@ -178,6 +178,54 @@
     "do_delete_button": {
       "en": "Delete",
       "fr": "Supprimer"
+    },
+    "show_by_verse": {
+      "en": "Show by verse",
+      "es": "Mostrar por versículos"
+    },
+    "show_title": {
+      "en": "Show title",
+      "es": "Mostrar el título"
+    },
+    "show_headings": {
+      "en": "Show headings",
+      "es": "Mostrar encabezados"
+    },
+    "show_introductions": {
+      "en": "Show introductions",
+      "es": "Mostrar introducciones"
+    },
+    "show_footnotes": {
+      "en": "Show footnotes",
+      "es": "Mostrar notas a pie de página"
+    },
+    "show_xrefs": {
+      "en": "Show cross references",
+      "es": "Mostrar referencias cruzadas"
+    },
+    "show_para_styles": {
+      "en": "Show paragraph styles",
+      "es": "Mostrar estilos de párrafo"
+    },
+    "show_character_markup": {
+      "en": "Show character markup",
+      "es": "Mostrar el marcado de caracteres"
+    },
+    "show_chapter_labels": {
+      "en": "Show chapter labels",
+      "es": "Mostrar los nombres de los capítulos"
+    },
+    "show_verses_labels": {
+      "en": "Show verses labels",
+      "es": "Mostrar los nomnbres de los versículos"
+    },
+    "show_first_verse_label": {
+      "en": "Show first verse label",
+      "es": "Mostrar el nombre del primer versículo"
+    },
+    "number_of_columns": {
+      "en": "Select the number of columns",
+      "es": "Seleccione el número de columnas"
     }
   }
 }
