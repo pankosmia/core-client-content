@@ -24,7 +24,7 @@ import {
 import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
 import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
 import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
-import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import ViewHeadlineOutlinedIcon from '@mui/icons-material/ViewHeadlineOutlined';
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
@@ -138,7 +138,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         setAnchorEl(null);
     };
 
-    function columnIcon({ selectedColumns }) {
+    function columnIcon( selectedColumns ) {
         let content;
         console.log('column update');
       
@@ -215,9 +215,9 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             :
                 <DialogContentText>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-                        <ListItem>
+                        <ListItem disablePadding >
                             <ListItemIcon>
-                                <FormatListNumberedIcon color='primary' />
+                                <ViewHeadlineOutlinedIcon color='primary' />
                             </ListItemIcon>
                             <ListItemText primary="Show by verse" />
                             <Switch
@@ -319,8 +319,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                                         onClick={handleClick}
                                         dense
                                     >
-                                            <ListItemIcon>{() => columnIcon(selectedColumns)}</ListItemIcon>
-                                            <ListItemText primary={<Typography>Number of columns</Typography>} />
+                                        <ListItemIcon>{columnIcon(selectedColumns)}</ListItemIcon>
+                                        <ListItemText primary={`Number of columns`} />
                                     </ListItemButton>
                                     <Menu
                                         id="basic-menu"
