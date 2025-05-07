@@ -4,6 +4,7 @@ import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import DeleteContent from "./DeleteContent";
+import NewBook from "./NewBook";
 import {useState, useContext} from "react";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
@@ -21,6 +22,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
 
     const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
     const deleteContentOpen = Boolean(deleteContentAnchorEl);
+
+    const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
+    const newBookOpen = Boolean(newBookAnchorEl);
 
     return <>
         <IconButton
@@ -60,6 +64,15 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             <Divider/>
             <MenuItem
                 onClick={(event) => {
+                    setNewBookAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+            >
+                {doI18n("pages:content:new_book", i18nRef.current)}
+            </MenuItem>
+            <Divider/>
+            <MenuItem
+                onClick={(event) => {
                     setDeleteContentAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
@@ -78,6 +91,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             repoSourcePath={repoInfo.path}
             open={pdfGenerateOpen}
             closeFn={() => setPdfGenerateAnchorEl(null)}
+        />
+        <NewBook
+            repoInfo={repoInfo}
+            open={newBookOpen}
+            setOpen={setNewBookAnchorEl}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
         />
         <DeleteContent
             repoInfo={repoInfo}

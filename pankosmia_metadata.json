@@ -179,6 +179,18 @@
       "en": "Delete",
       "fr": "Supprimer"
     },
+    "book_created": {
+      "en": "Book created",
+      "fr": "Livre crée"
+    },
+    "book_creation_error": {
+      "en": "An error occurred: the book has not been created",
+      "fr": "Une erreur est survenue : le livre n'a pas été créé"
+    },
+    "new_book": {
+      "en":"New Book",
+      "fr":"Nouveau livre"
+    },
     "show_by_verse": {
       "en": "Show by verse",
       "es": "Mostrar por versículos"
