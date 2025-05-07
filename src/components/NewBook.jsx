@@ -32,26 +32,14 @@ export default function NewBook({repoInfo, open, setOpen, reposModCount, setRepo
                 if (versificationResponse.ok) {
                     const newBookCodes = Object.keys(versificationResponse.json.maxVerses);
                     setBookCodes(newBookCodes);
-                    const shortBooks = [
-                        ["TIT", "Tit", "Ti"],
-                        ["RUT", "Rut", "Rt"],
-                        ["JON", "Jon", "Jon"],
-                        ["3JN", "3Jn", "3Jn"],
-                        ["1JN", "1Jn", "1Jn"],
-                        ["2JN", "2Jn", "2Jn"],
-                    ];
-                    const unusedBooks = shortBooks.filter(sb => !repoInfo.bookCodes.includes(sb[0]));
-                    if (unusedBooks.length > 0) {
-                        setBookCode(unusedBooks[0][0]);
-                        setBookTitle(unusedBooks[0][1]);
-                        setBookAbbr(unusedBooks[0][2]);
-                    }
                 }
+                setBookCode("");
+                setBookTitle("");
+                setBookAbbr("");
             };
-            if (bookCodes.length === 0) {
-                doFetch().then();
-            }
-        }
+            doFetch().then();
+        },
+        [open, repoInfo]
     );
 
     const handleClose = () => {
@@ -60,7 +48,6 @@ export default function NewBook({repoInfo, open, setOpen, reposModCount, setRepo
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
-    const [postCount, setPostCount] = useState(0);
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
 
