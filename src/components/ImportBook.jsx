@@ -62,11 +62,12 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
     useEffect(() => {
         if (filesContent.length === 0) {
             return
-    }
-    else {
-        console.log(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id ")).split(" ")[1]);
-        setDuplicatedBook(true);
-    }
+        }
+        if (repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1])){
+            setDuplicatedBook(true);
+        } else {
+            setDuplicatedBook(false);
+        }
     }, [filesContent])
 
     return (
@@ -120,10 +121,9 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
                             .split("\n")
                             .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
                             .map((c) => {
-                            if (repoInfo.bookCodes) {
+                            if (duplicatedBook) {
                                 return <div>
                                     <h3>This book already exists</h3>
-                                    <h3>{}</h3>
                                 </div>
                             }
                             return <div>
