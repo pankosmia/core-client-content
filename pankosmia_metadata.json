@@ -25,6 +25,10 @@
       "en":"Create",
       "es":"Crear"
     },
+    "import": {
+      "en":"Import",
+      "es":"Importar"
+    },
     "name": {
       "en":"Name",
       "es":"Nombre"
@@ -190,6 +194,11 @@
     "new_book": {
       "en":"New Book",
       "fr":"Nouveau livre"
+    },
+    "import_book": {
+      "en":"Import Book",
+      "fr":"Importer un livre",
+      "es": "Importar Libro"
     },
     "show_by_verse": {
       "en": "Show by verse",
