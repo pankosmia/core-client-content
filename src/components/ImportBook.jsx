@@ -19,7 +19,7 @@ import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 import { useFilePicker } from 'use-file-picker';
 
-export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, setReposModCount */}) {
+export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , reposModCount, setReposModCount */}) {
 
     const [addCV, setAddCV] = useState(false);
     const [bookCode, setBookCode] = useState("");
@@ -43,14 +43,13 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
         [open, repoInfo]
     );
 
-    const handleClose = () => {
-        setOpen(false);
+    const handleWrapperDialogClose = () => {
+        setWrapperDialogOpen(false);
     };
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const [bookCodes, setBookCodes] = useState([]);
-    const [duplicatedBook, setDuplicatedBook] = useState(false);
 
 /*     const [protestantOnly, setProtestantOnly] = useState(true); */
     const { openFilePicker, filesContent, loading } = useFilePicker({
@@ -64,22 +63,34 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
         setDuplicatedBook(repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]));
     }, [filesContent]) */
 
-    const bookIsDuplicate = (currentBookCodes, newContent) => {
-        return currentBookCodes.bookCodes.includes(newContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1])
+    const bookIsUsfm = (uploadedContent) => {
+        return uploadedContent[0].startsWith("\\id ")
+    };
+
+    const bookIsDuplicate = (currentBookCodes, uploadedContent) => {
+        return currentBookCodes.bookCodes.includes(uploadedContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1])
+    };
+
+    const fixUsfm = (usfm) => {
+        return usfm
+    };
+
+    const postUsfm = (usfm) => {
+        console.log(usfm)
     };
 
     return (
         <Dialog
             fullScreen
             open={open}
-            onClose={handleClose}
+            onClose={handleWrapperDialogClose}
         >
             <AppBar sx={{position: 'relative'}}>
                 <Toolbar>
                     <IconButton
                         edge="start"
                         color="inherit"
-                        onClick={handleClose}
+                        onClick={handleWrapperDialogClose}
                         aria-label={doI18n("pages:content:close", i18nRef.current)}
                     >
                         <CloseIcon/>
@@ -112,7 +123,19 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
                     <div>
                     <button onClick={() => openFilePicker()}>Select files</button>
                     <br />
-                    {filesContent.map((file, index) => (
+                    <Dialog open={open} onClose={handleClose} slotProps={{ paper: { component: 'form' } }} >
+                        <DialogTitle><b>{doI18n("pages:content:upload_book", i18nRef.current)}</b></DialogTitle>
+                        <DialogContent>
+                            <DialogContentText>
+                                <Typography>{doI18n("pages:content:upload_book_message", i18nRef.current)}</Typography>
+                            </DialogContentText>
+                        </DialogContent>
+                        <DialogActions>
+                            <Button onClick={handleClose}>{doI18n("pages:content:cancel", i18nRef.current)}</Button>
+                            <Button onClick={() => { setInternet(true); handleClose() }}>{doI18n("pages:content:accept", i18nRef.current)}</Button>
+                        </DialogActions>
+                    </Dialog>
+                    {/* {filesContent.map((file, index) => (
                     <div key={index}>
                         <h2>{file.name}</h2>
                         <div key={index}>{file.content
@@ -130,7 +153,7 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
                         })}</div>
                         <br />
                     </div>
-                    ))}
+                    ))} */}
                 </div>
             }
             </DialogContent>
