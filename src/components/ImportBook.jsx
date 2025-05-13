@@ -43,8 +43,6 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
         [open, repoInfo]
     );
 
-  
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -59,16 +57,16 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
         accept: [".sfm", ".usfm", ".txt"],
     });
 
-    useEffect(() => {
+/*     useEffect(() => {
         if (filesContent.length === 0) {
             return
         }
-        if (repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1])){
-            setDuplicatedBook(true);
-        } else {
-            setDuplicatedBook(false);
-        }
-    }, [filesContent])
+        setDuplicatedBook(repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]));
+    }, [filesContent]) */
+
+    const bookIsDuplicate = (currentBookCodes, newContent) => {
+        return currentBookCodes.bookCodes.includes(newContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1])
+    };
 
     return (
         <Dialog
@@ -121,7 +119,7 @@ export default function ImportBook({repoInfo, open, setOpen/* , reposModCount, s
                             .split("\n")
                             .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
                             .map((c) => {
-                            if (duplicatedBook) {
+                            if (bookIsDuplicate(repoInfo, filesContent)) {
                                 return <div>
                                     <h3>This book already exists</h3>
                                 </div>
