@@ -23,6 +23,7 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
         <Fab
             variant="extended"
             size="small"
+            color="secondary"
             aria-label={doI18n("pages:content:add", i18nRef.current)}
             sx={{
                 margin: 0,
@@ -31,8 +32,6 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
                 bottom: "auto",
                 left: 20,
                 position: 'fixed',
-                backgroundColor: "#DAB1DA",
-                color: "#OOO"
             }}
             onClick={event => setFabMenuAnchor(event.currentTarget)}
         >
