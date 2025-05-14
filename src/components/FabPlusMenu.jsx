@@ -15,6 +15,11 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
         setNewIsOpen(true);
         setFabMenuAnchor(null);
     };
+
+    const handleCreateBcvResourcesClick = () => {
+        setNewIsOpen(true);
+        setFabMenuAnchor(null);
+    }
     const handleMenuClose = () => {
         setFabMenuAnchor(null);
     };
@@ -51,6 +56,11 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
                 onClick={handleCreateMenuClick}
             >
                 {doI18n("pages:content:create_content", i18nRef.current)}
+            </MenuItem>
+            <MenuItem
+                onClick={handleCreateBcvResourcesClick}
+            >
+                {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
             </MenuItem>
             <MenuItem
                 onClick={() => window.location.href = "/clients/download"}
