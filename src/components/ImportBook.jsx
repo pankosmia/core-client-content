@@ -63,6 +63,8 @@ export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , rep
         setDuplicatedBook(repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]));
     }, [filesContent]) */
 
+    const importedBookCode = filesContent ? filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1] : undefined;
+
     const bookIsUsfm = (uploadedContent) => {
         return uploadedContent[0].startsWith("\\id ")
     };
@@ -78,6 +80,20 @@ export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , rep
     const postUsfm = (usfm) => {
         console.log(usfm)
     };
+
+    const usfmDialogContent = (bookIsUsfm, bookIsDuplicate, importedBookCode) => {
+        if (importedBookCode){
+            if (!bookIsUsfm) {
+                return <Typography>Bad USFM, please try again</Typography>;
+            }
+            if (bookIsDuplicate){
+                return <Typography>Book already exists, please delete existing one and try again</Typography>;
+            }
+            return <Typography>{`Usfm for book ${importedBookCode}`}</Typography>
+        }
+    }
+
+    // HACER LAS CONDICIONES PARA EL BOTON Y AVERIGUAR COMO VOY A HACER PARA QUE EL BOTON DE SUBIR EL ARCHIVO ABRA EL DIALOGO, DEBE TENER ALGO QUE VER CON UNO DE LOS ESTADOS DEL USEFILE HOOK, ME IMAGINO QUE ES EL FILECONTENT, PROBAR SI EL DIALOG QUE HICE FUNCIONA Y BUENO SEGUIR POR AHI
 
     return (
         <Dialog
@@ -127,7 +143,7 @@ export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , rep
                         <DialogTitle><b>{doI18n("pages:content:upload_book", i18nRef.current)}</b></DialogTitle>
                         <DialogContent>
                             <DialogContentText>
-                                <Typography>{doI18n("pages:content:upload_book_message", i18nRef.current)}</Typography>
+                                {usfmDialogContent(bookIsUsfm, bookIsDuplicate, importedBookCode)}
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
