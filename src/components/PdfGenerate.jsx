@@ -27,7 +27,7 @@ import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
 import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
-import { useAssumeGraphite } from "font-detect-rhl";
+import { useDetectRender, useAssumeGraphite } from "font-detect-rhl";
 import {getCVTexts, getBookName} from "../helpers/cv";
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
@@ -53,6 +53,11 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
 
     const isFirefox = useAssumeGraphite({});
+
+    const testFont = [{ name: 'Pankosmia-Awami Nastaliq for Graphite Test' }];
+    const renderType = useDetectRender({fonts:testFont});
+    const isGraphite = (renderType[0].detectedRender === 'RenderingGraphite')
+    const selectedFontClass = isGraphite ? typographyRef.current.font_set : typographyRef.current.font_set.replace(/Pankosmia-AwamiNastaliq(.*)Pankosmia-NotoNastaliqUrdu/ig, 'Pankosmia-NotoNastaliqUrdu');
 
     const generatePdf = async (bookCode, pdfType="para") => {
         let pdfHtml;
@@ -176,8 +181,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         }
         const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
         const server = window.location.origin;
-        if (!isFirefox) newPage.document.body.innerHTML = `<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`
-        isFirefox && newPage.document.write(`<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`);  
+        if (!isFirefox) newPage.document.body.innerHTML = `<div class="${selectedFontClass}">${pdfHtml}</div>`
+        isFirefox && newPage.document.write(`<div class="${selectedFontClass}">${pdfHtml}</div>`);  
         newPage.document.head.innerHTML = '<title>PDF Preview</title>'
         const script = document.createElement('script')
         script.src = `${server}/app-resources/pdf/paged.polyfill.js`;
