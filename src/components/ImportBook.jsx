@@ -10,7 +10,7 @@ import {
     Typography,
     Select,
     MenuItem,
-    InputLabel, Grid2, DialogContent
+    InputLabel, Grid2, DialogContent, DialogContentText, DialogTitle, DialogActions
 } from "@mui/material";
 import {Close as CloseIcon} from '@mui/icons-material';
 import {enqueueSnackbar} from "notistack";
@@ -19,7 +19,7 @@ import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 import { useFilePicker } from 'use-file-picker';
 
-export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , reposModCount, setReposModCount */}) {
+export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialogOpen/* , reposModCount, setReposModCount */}) {
 
     const [addCV, setAddCV] = useState(false);
     const [bookCode, setBookCode] = useState("");
@@ -40,7 +40,7 @@ export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , rep
             };
             doFetch().then();
         },
-        [open, repoInfo]
+        [wrapperDialogOpen, repoInfo]
     );
 
     const handleWrapperDialogClose = () => {
@@ -63,15 +63,55 @@ export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , rep
         setDuplicatedBook(repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]));
     }, [filesContent]) */
 
-    const importedBookCode = filesContent ? filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1] : undefined;
+    const importedBookCode = filesContent ? filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1] : undefined;
 
-    const bookIsUsfm = (uploadedContent) => {
-        return uploadedContent[0].startsWith("\\id ")
+    const importedBookContent = filesContent.map((file, index) => (
+                    <div key={index}>
+                        <h2>{file.name}</h2>
+                        <div key={index}>{file.content
+                            .split("\n")
+                            .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
+                            .map((c) =><div>{c}</div>
+                        )}</div>
+                        <br />
+                    </div>
+                    ));
+    const usfmFile = filesContent?.map((file, index) => (
+                    <div key={index}>
+                        <h2>{file.name}</h2>
+                        <div key={index}>{file.content
+                            ?.split("\n")
+                            .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
+                            .map((c) => {
+                            return <div>{c}</div>
+                            })}
+                        </div>
+                        <br />
+                    </div>
+                    ));
+
+    const [fileExists, setFileExists] = useState((filesContent.length > 0) ? true : false);
+    const [openUsfmDialog, setOpenUsfmDialog] = useState(false);
+
+    useEffect(() => {
+        if (filesContent.length > 0) {
+            setOpenUsfmDialog(true)
+        }
+    }, [filesContent])
+
+    const handleUsfmDialogOpen = (fileExists) => {
+        if (fileExists){
+            setOpenUsfmDialog(true);
+        }
     };
 
-    const bookIsDuplicate = (currentBookCodes, uploadedContent) => {
-        return currentBookCodes.bookCodes.includes(uploadedContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1])
+    const handleUsfmDialogClose = () => {
+        setOpenUsfmDialog(false);
     };
+
+    const bookIsUsfm = filesContent.length > 0 ? filesContent[0]?.content.startsWith("\\id ") : false;
+
+    const bookIsDuplicate = bookIsUsfm ? repoInfo?.bookCodes.includes(filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]): undefined;
 
     const fixUsfm = (usfm) => {
         return usfm
@@ -81,24 +121,26 @@ export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , rep
         console.log(usfm)
     };
 
-    const usfmDialogContent = (bookIsUsfm, bookIsDuplicate, importedBookCode) => {
-        if (importedBookCode){
+    const usfmDialogContent = (bookIsUsfm, bookIsDuplicate, filesContent, importedBookCode) => {
+         if (filesContent){
             if (!bookIsUsfm) {
-                return <Typography>Bad USFM, please try again</Typography>;
+                return `Bad USFM, please try again.`;
             }
             if (bookIsDuplicate){
-                return <Typography>Book already exists, please delete existing one and try again</Typography>;
+                return `Book already exists, please delete existing one and try again.`;
             }
-            return <Typography>{`Usfm for book ${importedBookCode}`}</Typography>
-        }
-    }
+            return `Usfm for book ${importedBookCode}.`
+        } 
+    };
 
+    console.log(bookIsDuplicate);
+    
     // HACER LAS CONDICIONES PARA EL BOTON Y AVERIGUAR COMO VOY A HACER PARA QUE EL BOTON DE SUBIR EL ARCHIVO ABRA EL DIALOGO, DEBE TENER ALGO QUE VER CON UNO DE LOS ESTADOS DEL USEFILE HOOK, ME IMAGINO QUE ES EL FILECONTENT, PROBAR SI EL DIALOG QUE HICE FUNCIONA Y BUENO SEGUIR POR AHI
 
     return (
         <Dialog
             fullScreen
-            open={open}
+            open={wrapperDialogOpen}
             onClose={handleWrapperDialogClose}
         >
             <AppBar sx={{position: 'relative'}}>
@@ -139,16 +181,18 @@ export default function ImportBook({repoInfo, open, setWrapperDialogOpen/* , rep
                     <div>
                     <button onClick={() => openFilePicker()}>Select files</button>
                     <br />
-                    <Dialog open={open} onClose={handleClose} slotProps={{ paper: { component: 'form' } }} >
+                    <Dialog open={openUsfmDialog} onClose={handleUsfmDialogClose} slotProps={{ paper: { component: 'form' } }} >
                         <DialogTitle><b>{doI18n("pages:content:upload_book", i18nRef.current)}</b></DialogTitle>
                         <DialogContent>
                             <DialogContentText>
-                                {usfmDialogContent(bookIsUsfm, bookIsDuplicate, importedBookCode)}
+                                <Typography>
+                                     {usfmDialogContent(bookIsUsfm, bookIsDuplicate, filesContent, importedBookCode)}
+                                </Typography>
                             </DialogContentText>
                         </DialogContent>
                         <DialogActions>
-                            <Button onClick={handleClose}>{doI18n("pages:content:cancel", i18nRef.current)}</Button>
-                            <Button onClick={() => { setInternet(true); handleClose() }}>{doI18n("pages:content:accept", i18nRef.current)}</Button>
+                            <Button onClick={() => { setFileExists(false); handleUsfmDialogClose(); }}>{doI18n("pages:content:cancel", i18nRef.current)}</Button>
+                            <Button disabled={(!bookIsUsfm || bookIsDuplicate)} onClick={() => { fixUsfm(usfmFile); postUsfm(filesContent); handleUsfmDialogClose() }}>{doI18n("pages:content:accept", i18nRef.current)}</Button>
                         </DialogActions>
                     </Dialog>
                     {/* {filesContent.map((file, index) => (

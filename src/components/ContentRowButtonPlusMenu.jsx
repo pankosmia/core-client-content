@@ -114,7 +114,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
         />
         <ImportBook
             repoInfo={repoInfo}
-            open={importBookOpen}
+            wrapperDialogOpen={importBookOpen}
             setWrapperDialogOpen={setImportBookAnchorEl}
        /*      reposModCount={reposModCount}
             setReposModCount={setReposModCount} */

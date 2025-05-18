@@ -247,6 +247,10 @@
     "number_of_columns": {
       "en": "Select the number of columns",
       "es": "Seleccione el número de columnas"
+    },
+    "upload_book": {
+      "en":"Upload Book",
+      "es": "Subir Libro"
     }
   }
 }
