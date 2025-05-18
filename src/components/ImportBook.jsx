@@ -91,18 +91,6 @@ const usfmFile = filesContent?.map((file, index) => (
         setWrapperDialogOpen(false);
     };
 
-/*     const [protestantOnly, setProtestantOnly] = useState(true); */
-   
-
-/*     useEffect(() => {
-        if (filesContent.length === 0) {
-            return
-        }
-        setDuplicatedBook(repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]));
-    }, [filesContent]) */
-
-
-
     useEffect(() => {
         if (filesContent.length > 0) {
             setOpenUsfmDialog(true)
@@ -138,10 +126,6 @@ const usfmFile = filesContent?.map((file, index) => (
             return `Usfm for book ${importedBookCode}.`
         } 
     };
-
-    console.log(bookIsDuplicate);
-    
-    // HACER LAS CONDICIONES PARA EL BOTON Y AVERIGUAR COMO VOY A HACER PARA QUE EL BOTON DE SUBIR EL ARCHIVO ABRA EL DIALOGO, DEBE TENER ALGO QUE VER CON UNO DE LOS ESTADOS DEL USEFILE HOOK, ME IMAGINO QUE ES EL FILECONTENT, PROBAR SI EL DIALOG QUE HICE FUNCIONA Y BUENO SEGUIR POR AHI
 
     return (
         <Dialog
@@ -201,25 +185,6 @@ const usfmFile = filesContent?.map((file, index) => (
                             <Button disabled={(!bookIsUsfm || bookIsDuplicate)} onClick={() => { fixUsfm(usfmFile); postUsfm(filesContent); handleUsfmDialogClose() }}>{doI18n("pages:content:accept", i18nRef.current)}</Button>
                         </DialogActions>
                     </Dialog>
-                    {/* {filesContent.map((file, index) => (
-                    <div key={index}>
-                        <h2>{file.name}</h2>
-                        <div key={index}>{file.content
-                            .split("\n")
-                            .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
-                            .map((c) => {
-                            if (bookIsDuplicate(repoInfo, filesContent)) {
-                                return <div>
-                                    <h3>This book already exists</h3>
-                                </div>
-                            }
-                            return <div>
-                                        {c}
-                                   </div>
-                        })}</div>
-                        <br />
-                    </div>
-                    ))} */}
                 </div>
             }
             </DialogContent>
