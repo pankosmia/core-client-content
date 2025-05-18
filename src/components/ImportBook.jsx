@@ -25,6 +25,50 @@ export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialo
     const [bookCode, setBookCode] = useState("");
     const [bookTitle, setBookTitle] = useState("");
     const [bookAbbr, setBookAbbr] = useState("");
+    const {i18nRef} = useContext(i18nContext);
+    const {debugRef} = useContext(debugContext);
+    const [bookCodes, setBookCodes] = useState([]);
+    const { openFilePicker, filesContent, loading } = useFilePicker({
+        accept: [".sfm", ".usfm", ".txt"],
+    });
+
+
+
+
+    const [fileExists, setFileExists] = useState((filesContent.length > 0) ? true : false);
+    const [openUsfmDialog, setOpenUsfmDialog] = useState(false);
+
+    const bookIsUsfm = ((filesContent.length > 0) && (typeof filesContent[0].content === 'string') ) ? filesContent[0]?.content.startsWith("\\id ") : false;
+
+    const bookIsDuplicate = bookIsUsfm ? repoInfo?.bookCodes.includes(filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]): undefined;
+
+    const importedBookCode = bookIsUsfm ? filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1] : undefined;
+    
+    const importedBookContent = filesContent.map((file, index) => (
+        <div key={index}>
+            <h2>{file.name}</h2>
+            <div key={index}>{file.content
+                .split("\n")
+                .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
+                .map((c) =><div>{c}</div>
+            )}</div>
+            <br />
+        </div>
+        ));
+
+const usfmFile = filesContent?.map((file, index) => (
+        <div key={index}>
+            <h2>{file.name}</h2>
+            <div key={index}>{file.content
+                ?.split("\n")
+                .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
+                .map((c) => {
+                return <div>{c}</div>
+                })}
+            </div>
+            <br />
+        </div>
+        ));
 
     useEffect(
         () => {
@@ -47,14 +91,8 @@ export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialo
         setWrapperDialogOpen(false);
     };
 
-    const {i18nRef} = useContext(i18nContext);
-    const {debugRef} = useContext(debugContext);
-    const [bookCodes, setBookCodes] = useState([]);
-
 /*     const [protestantOnly, setProtestantOnly] = useState(true); */
-    const { openFilePicker, filesContent, loading } = useFilePicker({
-        accept: [".sfm", ".usfm", ".txt"],
-    });
+   
 
 /*     useEffect(() => {
         if (filesContent.length === 0) {
@@ -63,35 +101,7 @@ export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialo
         setDuplicatedBook(repoInfo.bookCodes.includes(filesContent[0].content.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]));
     }, [filesContent]) */
 
-    const importedBookCode = filesContent ? filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1] : undefined;
 
-    const importedBookContent = filesContent.map((file, index) => (
-                    <div key={index}>
-                        <h2>{file.name}</h2>
-                        <div key={index}>{file.content
-                            .split("\n")
-                            .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
-                            .map((c) =><div>{c}</div>
-                        )}</div>
-                        <br />
-                    </div>
-                    ));
-    const usfmFile = filesContent?.map((file, index) => (
-                    <div key={index}>
-                        <h2>{file.name}</h2>
-                        <div key={index}>{file.content
-                            ?.split("\n")
-                            .filter(item => ["\\id ", "\\h", "\\toc", "\\toc1", "\\toc2", "\\toc3", "\\mt"].some( word => item.startsWith(word)))
-                            .map((c) => {
-                            return <div>{c}</div>
-                            })}
-                        </div>
-                        <br />
-                    </div>
-                    ));
-
-    const [fileExists, setFileExists] = useState((filesContent.length > 0) ? true : false);
-    const [openUsfmDialog, setOpenUsfmDialog] = useState(false);
 
     useEffect(() => {
         if (filesContent.length > 0) {
@@ -109,16 +119,12 @@ export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialo
         setOpenUsfmDialog(false);
     };
 
-    const bookIsUsfm = filesContent.length > 0 ? filesContent[0]?.content.startsWith("\\id ") : false;
-
-    const bookIsDuplicate = bookIsUsfm ? repoInfo?.bookCodes.includes(filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]): undefined;
-
     const fixUsfm = (usfm) => {
         return usfm
     };
 
     const postUsfm = (usfm) => {
-        console.log(usfm)
+        console.log(usfm[0].content)
     };
 
     const usfmDialogContent = (bookIsUsfm, bookIsDuplicate, filesContent, importedBookCode) => {

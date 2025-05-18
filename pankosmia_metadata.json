@@ -105,6 +105,10 @@
       "en": "EXPORT",
       "es": "EXPORTAR"
     },
+    "accept": {
+      "en": "Accept",
+      "es": "Aceptar"
+    },
     "cancel": {
       "en": "CANCEL",
       "es": "CANCELAR"
