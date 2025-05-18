@@ -56,7 +56,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const isFirefox = useAssumeGraphite({});
 
     const isGraphite = GraphiteTest()
-    /** adjSelectedFontClass is reshaped for the presence or absence of Graphite. */
+    /** adjSelectedFontClass reshapes selectedFontClass if Graphite is absent. */
     const adjSelectedFontClass = isGraphite ? typographyRef.current.font_set : typographyRef.current.font_set.replace(/Pankosmia-AwamiNastaliq(.*)Pankosmia-NotoNastaliqUrdu/ig, 'Pankosmia-NotoNastaliqUrdu');
 
     const generatePdf = async (bookCode, pdfType="para") => {
