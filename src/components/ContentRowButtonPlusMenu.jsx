@@ -72,6 +72,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setNewBookAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
+                disabled={!repoInfo.path.startsWith("_local_")}
             >
                 {doI18n("pages:content:new_book", i18nRef.current)}
             </MenuItem>
@@ -80,6 +81,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setImportBookAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
+                disabled={!repoInfo.path.startsWith("_local_")}
             >
                 {doI18n("pages:content:import_book", i18nRef.current)}
             </MenuItem>

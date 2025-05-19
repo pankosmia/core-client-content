@@ -1,22 +1,15 @@
 import {useState, useContext, useEffect} from 'react';
 import {
     AppBar,
-    Button, Checkbox,
-    Dialog, FormControl, FormControlLabel, FormGroup,
+    Button,
+    Dialog,
     IconButton,
-    Stack,
-    TextField,
     Toolbar,
     Typography,
-    Select,
-    MenuItem,
-    InputLabel, Grid2, DialogContent, DialogContentText, DialogTitle, DialogActions
+    DialogContent, DialogContentText, DialogTitle, DialogActions
 } from "@mui/material";
 import {Close as CloseIcon} from '@mui/icons-material';
-import {enqueueSnackbar} from "notistack";
-import {i18nContext, debugContext, postJson, doI18n, getJson} from "pithekos-lib";
-import sx from "./Selection.styles";
-import ListMenuItem from "./ListMenuItem";
+import {i18nContext, debugContext, doI18n, getJson} from "pithekos-lib";
 import { useFilePicker } from 'use-file-picker';
 
 export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialogOpen/* , reposModCount, setReposModCount */}) {
@@ -31,17 +24,10 @@ export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialo
     const { openFilePicker, filesContent, loading } = useFilePicker({
         accept: [".sfm", ".usfm", ".txt"],
     });
-
-
-
-
     const [fileExists, setFileExists] = useState((filesContent.length > 0) ? true : false);
     const [openUsfmDialog, setOpenUsfmDialog] = useState(false);
-
     const bookIsUsfm = ((filesContent.length > 0) && (typeof filesContent[0].content === 'string') ) ? filesContent[0]?.content.startsWith("\\id ") : false;
-
     const bookIsDuplicate = bookIsUsfm ? repoInfo?.bookCodes.includes(filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1]): undefined;
-
     const importedBookCode = bookIsUsfm ? filesContent[0]?.content?.split("\n").filter((item) => item.startsWith("\\id "))[0].split(" ")[1] : undefined;
     
     const importedBookContent = filesContent.map((file, index) => (
