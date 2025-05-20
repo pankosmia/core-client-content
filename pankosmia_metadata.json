@@ -255,6 +255,50 @@
     "upload_book": {
       "en":"Upload Book",
       "es": "Subir Libro"
+    },
+    "select_file_title": {
+      "en":"Please select a USFM file to import.",
+      "es":"Por favor seleccione un archivo USFM para importar."
+    },
+    "select_file": {
+      "en":"Select file",
+      "es":"Seleccionar archivo"
+    },
+    "usfm_for_book": {
+      "en":"Usfm for book",
+      "es":"Usfm para el libro"
+    },
+    "book_exists": {
+      "en":"Book already exists, please delete existing one and try again.",
+      "es":"Este libro ya existe, por favor borre el libro existente e intente de nuevo."
+    },
+    "bad_usfm": {
+      "en":"Bad USFM, please try again.",
+      "es":"USFM inválido, por favor intente de nuevo."
+    },
+    "": {
+      "en":"",
+      "es":""
+    },
+    "": {
+      "en":"",
+      "es":""
+    },
+    "": {
+      "en":"",
+      "es":""
+    },
+    "": {
+      "en":"",
+      "es":""
+    },
+    "": {
+      "en":"",
+      "es":""
+    },
+    "": {
+      "en":"",
+      "es":""
     }
   }
 }
