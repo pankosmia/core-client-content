@@ -55,11 +55,7 @@ export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialo
     };
 
     return (
-        <Dialog
-            fullScreen
-            open={wrapperDialogOpen}
-            onClose={handleWrapperDialogClose}
-        >
+        <Dialog fullScreen open={wrapperDialogOpen} onClose={handleWrapperDialogClose} >
             <AppBar sx={{position: 'relative'}}>
                 <Toolbar>
                     <IconButton
@@ -91,7 +87,7 @@ export default function ImportBook({repoInfo, wrapperDialogOpen, setWrapperDialo
                 :
                     <Box>
                         <Typography>{doI18n("pages:content:select_file_title", i18nRef.current)}</Typography>
-                        <Button onClick={() => openFilePicker()}>{doI18n("pages:content:select_file", i18nRef.current)}</Button>
+                        <Button variant="outlined" size="small" onClick={() => openFilePicker()}>{doI18n("pages:content:select_file", i18nRef.current)}</Button>
                         <br />
                         <DialogContentText>
                             <Typography>
