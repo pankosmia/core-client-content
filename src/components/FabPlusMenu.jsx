@@ -1,28 +1,34 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Fab, Menu, MenuItem, Typography } from "@mui/material";
-import NewContent from "./NewContent";
-import NewBcvResources from "./NewBcvResources";
+import ListSubheader from '@mui/material/ListSubheader';
+import NewBibleContent from "./NewContent";
+import NewBcvContent from "./NewBcvResources";
 import { useState, useContext } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
 
-function FabPlusMenu({ newIsOpen, setNewIsOpen }) {
+function FabPlusMenu() {
 
-    const [fabMenuAnchor, setFabMenuAnchor] = useState(null);
-    const fabMenuOpen = Boolean(fabMenuAnchor);
     const { i18nRef } = useContext(i18nContext);
     const { enabledRef } = useContext(netContext);
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [openedModal, setOpenedModal] = useState(null);
 
-    const handleCreateMenuClick = () => {
-        setNewIsOpen(true);
-        setFabMenuAnchor(null);
+
+    const handleClose = () => {
+        setAnchorEl(null);
     };
 
-    const handleCreateBcvResourcesClick = () => {
-        setNewIsOpen(true);
-        setFabMenuAnchor(null);
+    const handleTextBibleClick = () => {
+        setOpenedModal('text-bible');
+        setAnchorEl(null);
+    };
+
+    const handleBcvResourceClick = () => {
+        setOpenedModal('bcv-content');
+        setAnchorEl(null);
     }
     const handleMenuClose = () => {
-        setFabMenuAnchor(null);
+        setAnchorEl(null);
     };
 
     return <>
@@ -39,7 +45,7 @@ function FabPlusMenu({ newIsOpen, setNewIsOpen }) {
                 left: 20,
                 position: 'fixed',
             }}
-            onClick={event => setFabMenuAnchor(event.currentTarget)}
+            onClick={event => setAnchorEl(event.currentTarget)}
         >
             <AddIcon />
             <Typography variant="body2">
@@ -47,22 +53,19 @@ function FabPlusMenu({ newIsOpen, setNewIsOpen }) {
             </Typography>
         </Fab>
         <Menu
-            id="fab-menu"
-            anchorEl={fabMenuAnchor}
-            open={fabMenuOpen}
-            onClose={handleMenuClose}
-            onClick={handleMenuClose}
+            id="grouped-menu"
+            anchorEl={anchorEl}
+            open={!!anchorEl}
+            onClose={handleClose}
         >
-            <MenuItem
+            <ListSubheader>{doI18n("pages:content:create_content_bcvresources", i18nRef.current)}</ListSubheader>
+            <MenuItem onClick={handleTextBibleClick}>{doI18n("pages:content:create_content", i18nRef.current)}</MenuItem>
+            <MenuItem onClick={handleBcvResourceClick}>{doI18n("pages:content:create_content_bcvresources", i18nRef.current)}</MenuItem>
+            {/* <MenuItem
                 onClick={handleCreateMenuClick}
             >
                 {doI18n("pages:content:create_content", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={handleCreateBcvResourcesClick}
-            >
-                {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem
                 onClick={() => window.location.href = "/clients/download"}
                 disabled={!enabledRef.current}
@@ -76,13 +79,16 @@ function FabPlusMenu({ newIsOpen, setNewIsOpen }) {
                 {doI18n("pages:content:sideload_content", i18nRef.current)}
             </MenuItem>
         </Menu>
-        <NewContent
-            open={newIsOpen}
-            setOpen={setNewIsOpen}
-        />
-        <NewBcvResources
-            open={newIsOpen}
-            setOpen={setNewIsOpen} />
+
+            <NewBibleContent
+                open={openedModal === 'text-bible'}
+                closeModal={() => setOpenedModal(null)}
+            />
+            <NewBcvContent
+                open={openedModal === 'bcv-content'}
+                closeModal={() => setOpenedModal(null)}
+            />
+
     </>;
 }
 

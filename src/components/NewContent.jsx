@@ -18,10 +18,10 @@ import {i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson} fro
 import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 
-export default function NewContent({open, setOpen,}) {
+export default function NewBibleContent({open, closeModal,}) {
 
     const handleClose = () => {
-        setOpen(false);
+        closeModal();
     };
 
     const {i18nRef} = useContext(i18nContext);
@@ -111,7 +111,7 @@ export default function NewContent({open, setOpen,}) {
                 {variant: "error"}
             );
         }
-        setOpen(false);
+        closeModal();
     };
 
     return (
