@@ -29,6 +29,7 @@ import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pit
 import {enqueueSnackbar} from "notistack";
 import { useAssumeGraphite } from "font-detect-rhl";
 import {getCVTexts, getBookName} from "../helpers/cv";
+import GraphiteTest from './GraphiteTest';
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
@@ -53,6 +54,10 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
 
     const isFirefox = useAssumeGraphite({});
+
+    const isGraphite = GraphiteTest()
+    /** adjSelectedFontClass reshapes selectedFontClass if Graphite is absent. */
+    const adjSelectedFontClass = isGraphite ? typographyRef.current.font_set : typographyRef.current.font_set.replace(/Pankosmia-AwamiNastaliq(.*)Pankosmia-NotoNastaliqUrdu/ig, 'Pankosmia-NotoNastaliqUrdu');
 
     const generatePdf = async (bookCode, pdfType="para") => {
         let pdfHtml;
@@ -176,8 +181,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         }
         const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
         const server = window.location.origin;
-        if (!isFirefox) newPage.document.body.innerHTML = `<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`
-        isFirefox && newPage.document.write(`<div class="${typographyRef.current.font_set}">${pdfHtml}</div>`);  
+        if (!isFirefox) newPage.document.body.innerHTML = `<div class="${adjSelectedFontClass}">${pdfHtml}</div>`
+        isFirefox && newPage.document.write(`<div class="${adjSelectedFontClass}">${pdfHtml}</div>`);  
         newPage.document.head.innerHTML = '<title>PDF Preview</title>'
         const script = document.createElement('script')
         script.src = `${server}/app-resources/pdf/paged.polyfill.js`;
