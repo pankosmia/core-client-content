@@ -47,11 +47,12 @@
     },
     "create_content": {
       "en":"Create New Content",
-      "es":"Crear Nuevo Contenido"
+      "es":"Crear Nuevo Contenido",
+      "fr":"Créer un nouveau contenu"
     },
     "create_content_bcvresources":{
       "en":"Create New Bcv Resources Content",
-      "fr":"Création d'une nouvelle Bcv ressources"
+      "fr":"Création d'une nouvelle Bcv ressource"
     },
     "download_content": {
       "en":"Download Content",

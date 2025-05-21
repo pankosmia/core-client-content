@@ -1,15 +1,16 @@
 import AddIcon from "@mui/icons-material/Add";
-import {Fab, Menu, MenuItem, Typography} from "@mui/material";
+import { Fab, Menu, MenuItem, Typography } from "@mui/material";
 import NewContent from "./NewContent";
-import {useState, useContext} from "react";
-import {i18nContext, netContext, doI18n} from "pithekos-lib";
+import NewBcvResources from "./NewBcvResources";
+import { useState, useContext } from "react";
+import { i18nContext, netContext, doI18n } from "pithekos-lib";
 
-function FabPlusMenu({newIsOpen, setNewIsOpen}) {
+function FabPlusMenu({ newIsOpen, setNewIsOpen }) {
 
     const [fabMenuAnchor, setFabMenuAnchor] = useState(null);
     const fabMenuOpen = Boolean(fabMenuAnchor);
-    const {i18nRef} = useContext(i18nContext);
-    const {enabledRef} = useContext(netContext);
+    const { i18nRef } = useContext(i18nContext);
+    const { enabledRef } = useContext(netContext);
 
     const handleCreateMenuClick = () => {
         setNewIsOpen(true);
@@ -40,9 +41,9 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
             }}
             onClick={event => setFabMenuAnchor(event.currentTarget)}
         >
-            <AddIcon/>
+            <AddIcon />
             <Typography variant="body2">
-              {doI18n("pages:content:add", i18nRef.current)}
+                {doI18n("pages:content:add", i18nRef.current)}
             </Typography>
         </Fab>
         <Menu
@@ -79,6 +80,9 @@ function FabPlusMenu({newIsOpen, setNewIsOpen}) {
             open={newIsOpen}
             setOpen={setNewIsOpen}
         />
+        <NewBcvResources
+            open={newIsOpen}
+            setOpen={setNewIsOpen} />
     </>;
 }
 
