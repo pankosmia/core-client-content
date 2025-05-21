@@ -5,6 +5,8 @@ import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import DeleteContent from "./DeleteContent";
 import NewBook from "./NewBook";
+import ImportBook from "./ImportBook";
+
 import {useState, useContext} from "react";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
@@ -25,6 +27,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
 
     const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
     const newBookOpen = Boolean(newBookAnchorEl);
+
+    const [importBookAnchorEl, setImportBookAnchorEl] = useState(null);
+    const importBookOpen = Boolean(importBookAnchorEl);
 
     return <>
         <IconButton
@@ -67,8 +72,18 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setNewBookAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
+                disabled={!repoInfo.path.startsWith("_local_")}
             >
                 {doI18n("pages:content:new_book", i18nRef.current)}
+            </MenuItem>
+            <MenuItem
+                onClick={(event) => {
+                    setImportBookAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+                disabled={!repoInfo.path.startsWith("_local_")}
+            >
+                {doI18n("pages:content:import_book", i18nRef.current)}
             </MenuItem>
             <Divider/>
             <MenuItem
@@ -98,6 +113,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             setOpen={setNewBookAnchorEl}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
+        />
+        <ImportBook
+            repoInfo={repoInfo}
+            wrapperDialogOpen={importBookOpen}
+            setWrapperDialogOpen={setImportBookAnchorEl}
+       /*      reposModCount={reposModCount}
+            setReposModCount={setReposModCount} */
         />
         <DeleteContent
             repoInfo={repoInfo}
