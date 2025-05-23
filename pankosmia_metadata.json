@@ -52,7 +52,7 @@
     },
     "create_content_bcvresources":{
       "en":"Create New Bcv Resources Content",
-      "fr":"Création d'une nouvelle Bcv ressource"
+      "fr":"Créer une nouvelle Bcv ressource"
     },
     "download_content": {
       "en":"Download Content",
@@ -243,6 +243,9 @@
     "number_of_columns": {
       "en": "Select the number of columns",
       "es": "Seleccione el número de columnas"
+    },
+    "resource_format":{
+      "fr":"Choix du format de la ressource"
     }
   }
 }

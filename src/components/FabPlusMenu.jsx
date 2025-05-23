@@ -2,7 +2,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { Fab, Menu, MenuItem, Typography } from "@mui/material";
 import ListSubheader from '@mui/material/ListSubheader';
 import NewBibleContent from "./NewContent";
-import NewBcvContent from "./NewBcvResources";
+import NewBcvContent from "./NewBcvContent";
 import { useState, useContext } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
 
@@ -58,7 +58,7 @@ function FabPlusMenu() {
             open={!!anchorEl}
             onClose={handleClose}
         >
-            <ListSubheader>{doI18n("pages:content:create_content_bcvresources", i18nRef.current)}</ListSubheader>
+            <ListSubheader>{doI18n("pages:content:create_content", i18nRef.current)}</ListSubheader>
             <MenuItem onClick={handleTextBibleClick}>{doI18n("pages:content:create_content", i18nRef.current)}</MenuItem>
             <MenuItem onClick={handleBcvResourceClick}>{doI18n("pages:content:create_content_bcvresources", i18nRef.current)}</MenuItem>
             {/* <MenuItem
