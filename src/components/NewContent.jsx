@@ -30,12 +30,12 @@ export default function NewBibleContent({open, closeModal,}) {
     const [contentAbbr, setContentAbbr] = useState("");
     const [contentType, setContentType] = useState("text_translation");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
-    const [showBookFields, setShowBookFields] = useState(false);
+    const [showBookFields, setShowBookFields] = useState(true);
     const [bookCode, setBookCode] = useState("TIT");
     const [bookTitle, setBookTitle] = useState("Tit");
     const [bookAbbr, setBookAbbr] = useState("Ti");
     const [postCount, setPostCount] = useState(0);
-    const [showVersification, setShowVersification] = useState(false);
+    const [showVersification, setShowVersification] = useState(true);
     const [versification, setVersification] = useState("eng");
 
     const [versificationCodes, setVersificationCodes] = useState([]);
@@ -73,8 +73,8 @@ export default function NewBibleContent({open, closeModal,}) {
             setBookCode("TIT");
             setBookTitle("Titus");
             setBookAbbr("Ti");
-            setShowBookFields(false);
-            setShowVersification(false);
+            setShowBookFields(true);
+            setShowVersification(true);
             setVersification("eng");
         },
         [postCount]

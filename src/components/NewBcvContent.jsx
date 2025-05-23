@@ -28,12 +28,12 @@ export default function NewBcvContent({ open, closeModal, }) {
     const [contentAbbr, setContentAbbr] = useState("");
     const [contentType, setContentType] = useState("text_translation");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
-    const [showBookFields, setShowBookFields] = useState(false);
+    const [showBookFields, setShowBookFields] = useState(true);
     const [bookCode, setBookCode] = useState("TIT");
     const [bookTitle, setBookTitle] = useState("Tit");
     const [bookAbbr, setBookAbbr] = useState("Ti");
     const [postCount, setPostCount] = useState(0);
-    const [showVersification, setShowVersification] = useState(false);
+    const [showVersification, setShowVersification] = useState(true);
     const [versification, setVersification] = useState("eng");
     const [resourceFormat, setResourceFormat] = useState("tn");
     const [resourceFormatLabel, setResourceFormatLabel] = useState()
@@ -55,6 +55,7 @@ export default function NewBcvContent({ open, closeModal, }) {
             const resourceFormatresponse = await getJson(
                 "/app-resources/tsv/templates.json"
             );
+            console.log("recuperation des formats de ressources", resourceFormatresponse.json)
             setResourceFormatOption(Object.keys(resourceFormatresponse.json));
             setResourceFormatLabel(resourceFormatresponse.json)
         } catch (error) {
@@ -88,8 +89,8 @@ export default function NewBcvContent({ open, closeModal, }) {
             setBookCode("TIT");
             setBookTitle("Titus");
             setBookAbbr("Ti");
-            setShowBookFields(false);
-            setShowVersification(false);
+            setShowBookFields(true);
+            setShowVersification(true);
             setVersification("eng");
             setResourceFormat("tn")
         },
