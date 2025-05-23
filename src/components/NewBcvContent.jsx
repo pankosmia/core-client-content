@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
     Button, Checkbox,
@@ -12,20 +12,18 @@ import {
     MenuItem,
     InputLabel, Grid2
 } from "@mui/material";
-import {Close as CloseIcon} from '@mui/icons-material';
-import {enqueueSnackbar} from "notistack";
-import {i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson} from "pithekos-lib";
+import { Close as CloseIcon } from '@mui/icons-material';
+import { enqueueSnackbar } from "notistack";
+import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } from "pithekos-lib";
 import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 
-export default function NewBibleContent({open, closeModal,}) {
-
+export default function NewBcvContent({ open, closeModal, }) {
     const handleClose = () => {
         closeModal();
     };
-
-    const {i18nRef} = useContext(i18nContext);
-    const {debugRef} = useContext(debugContext);
+    const { i18nRef } = useContext(i18nContext);
+    const { debugRef } = useContext(debugContext);
     const [contentName, setContentName] = useState("");
     const [contentAbbr, setContentAbbr] = useState("");
     const [contentType, setContentType] = useState("text_translation");
@@ -37,18 +35,36 @@ export default function NewBibleContent({open, closeModal,}) {
     const [postCount, setPostCount] = useState(0);
     const [showVersification, setShowVersification] = useState(true);
     const [versification, setVersification] = useState("eng");
-
+    const [resourceFormat, setResourceFormat] = useState("tn");
+    const [resourceFormatLabel, setResourceFormatLabel] = useState()
+    const [resourceFormatOption, setResourceFormatOption] = useState([])
     const [versificationCodes, setVersificationCodes] = useState([]);
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
 
     useEffect(() =>
-            getAndSetJson({
-                url: "/content-utils/versifications",
-                setter: setVersificationCodes
-            }).then(),
+        getAndSetJson({
+            url: "/content-utils/versifications",
+            setter: setVersificationCodes
+        }).then(),
         []
     );
+
+    const fetchFormat = async () => {
+        try {
+            const resourceFormatresponse = await getJson(
+                "/app-resources/tsv/templates.json"
+            );
+            console.log("recuperation des formats de ressources", resourceFormatresponse.json)
+            setResourceFormatOption(Object.keys(resourceFormatresponse.json));
+            setResourceFormatLabel(resourceFormatresponse.json)
+        } catch (error) {
+            console.error("Erreur lors de la récupération des ressources", error);
+        }
+    }
+    useEffect(() => {
+        fetchFormat();
+    }, []);
 
     useEffect(
         () => {
@@ -76,6 +92,7 @@ export default function NewBibleContent({open, closeModal,}) {
             setShowBookFields(true);
             setShowVersification(true);
             setVersification("eng");
+            setResourceFormat("tn")
         },
         [postCount]
     );
@@ -103,12 +120,12 @@ export default function NewBibleContent({open, closeModal,}) {
             setPostCount(postCount + 1);
             enqueueSnackbar(
                 doI18n("pages:content:content_created", i18nRef.current),
-                {variant: "success"}
+                { variant: "success" }
             );
         } else {
             enqueueSnackbar(
                 `${doI18n("pages:content:content_creation_error", i18nRef.current)}: ${response.status}`,
-                {variant: "error"}
+                { variant: "error" }
             );
         }
         closeModal();
@@ -120,7 +137,7 @@ export default function NewBibleContent({open, closeModal,}) {
             open={open}
             onClose={handleClose}
         >
-            <AppBar sx={{position: 'relative'}}>
+            <AppBar sx={{ position: 'relative' }}>
                 <Toolbar>
                     <IconButton
                         edge="start"
@@ -128,10 +145,10 @@ export default function NewBibleContent({open, closeModal,}) {
                         onClick={handleClose}
                         aria-label={doI18n("pages:content:close", i18nRef.current)}
                     >
-                        <CloseIcon/>
+                        <CloseIcon />
                     </IconButton>
-                    <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        {doI18n("pages:content:new_content", i18nRef.current)}
+                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                        {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
                     </Typography>
                     <Button
                         autoFocus
@@ -158,7 +175,7 @@ export default function NewBibleContent({open, closeModal,}) {
                     </Button>
                 </Toolbar>
             </AppBar>
-            <Stack spacing={2} sx={{m: 2}}>
+            <Stack spacing={2} sx={{ m: 2 }}>
                 <TextField
                     id="name"
                     label={doI18n("pages:content:name", i18nRef.current)}
@@ -178,7 +195,7 @@ export default function NewBibleContent({open, closeModal,}) {
                 <TextField
                     id="type"
                     disabled={true}
-                    sx={{display: "none"}}
+                    sx={{ display: "none" }}
                     label={doI18n("pages:content:type", i18nRef.current)}
                     value={contentType}
                     onChange={(event) => {
@@ -194,8 +211,39 @@ export default function NewBibleContent({open, closeModal,}) {
                     }}
                 />
                 <FormControl>
+                    <InputLabel id="resourceFormat-label" htmlFor="resourceFormat"
+                        sx={sx.inputLabel}>
+                        {doI18n("pages:content:resource_format", i18nRef.current)}
+                    </InputLabel>
+                    <Select
+                        variant="outlined"
+                        labelId="resourceFormat-label"
+                        name="resourceFormat"
+                        inputProps={{
+                            id: "resourceFormat",
+                        }}
+                        value={resourceFormat}
+                        label={doI18n("pages:content:resource_format", i18nRef.current)}
+                        onChange={(event) => {
+                            setResourceFormat(event.target.value);
+                        }}
+                        sx={sx.select}
+                    >
+                        {
+                            resourceFormatOption.map((listItem, n) => <MenuItem key={n} value={listItem}
+                                dense>
+                                <ListMenuItem
+                                    listItem={`${listItem} - ${resourceFormatLabel[listItem]?.label}`}
+                                />
+                            </MenuItem>
+                            )
+                        }
+                    </Select>
+                </FormControl>
+
+                <FormControl>
                     <InputLabel id="booksVersification-label" htmlFor="booksVersification"
-                                sx={sx.inputLabel}>
+                        sx={sx.inputLabel}>
                         {doI18n("pages:content:versification_scheme", i18nRef.current)}
                     </InputLabel>
                     <Select
@@ -214,11 +262,11 @@ export default function NewBibleContent({open, closeModal,}) {
                     >
                         {
                             versificationCodes.map((listItem, n) => <MenuItem key={n} value={listItem}
-                                                                              dense>
-                                    <ListMenuItem
-                                        listItem={`${listItem.toUpperCase()} - ${doI18n(`scripture:versifications:${listItem}`, i18nRef.current)}`}
-                                    />
-                                </MenuItem>
+                                dense>
+                                <ListMenuItem
+                                    listItem={`${listItem.toUpperCase()} - ${doI18n(`scripture:versifications:${listItem}`, i18nRef.current)}`}
+                                />
+                            </MenuItem>
                             )
                         }
                     </Select>
@@ -238,7 +286,7 @@ export default function NewBibleContent({open, closeModal,}) {
                     showBookFields && <>
                         <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
                             <Grid2 item size={2}>
-                                <FormControl sx={{width: "100%"}}>
+                                <FormControl sx={{ width: "100%" }}>
                                     <InputLabel id="bookCode-label" htmlFor="bookCode" sx={sx.inputLabel}>
                                         {doI18n("pages:content:book_code", i18nRef.current)}
                                     </InputLabel>
@@ -264,8 +312,8 @@ export default function NewBibleContent({open, closeModal,}) {
                                     >
                                         {
                                             (protestantOnly ? bookCodes.slice(0, 66) : bookCodes).map((listItem, n) => <MenuItem key={n} value={listItem} dense>
-                                                    <ListMenuItem listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`}/>
-                                                </MenuItem>
+                                                <ListMenuItem listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`} />
+                                            </MenuItem>
                                             )
                                         }
                                     </Select>
@@ -285,7 +333,7 @@ export default function NewBibleContent({open, closeModal,}) {
                             <Grid2 item size={2}>
                                 <TextField
                                     id="bookAbbr"
-                                    sx={{width: "100%"}}
+                                    sx={{ width: "100%" }}
                                     label={doI18n("pages:content:book_abbr", i18nRef.current)}
                                     value={bookAbbr}
                                     onChange={(event) => {
@@ -296,7 +344,7 @@ export default function NewBibleContent({open, closeModal,}) {
                             <Grid2 item size={8}>
                                 <TextField
                                     id="bookTitle"
-                                    sx={{width: "100%"}}
+                                    sx={{ width: "100%" }}
                                     label={doI18n("pages:content:book_title", i18nRef.current)}
                                     value={bookTitle}
                                     onChange={(event) => {
@@ -305,17 +353,6 @@ export default function NewBibleContent({open, closeModal,}) {
                                 />
                             </Grid2>
                         </Grid2>
-                        <FormGroup>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={showVersification}
-                                        onChange={() => setShowVersification(!showVersification)}
-                                    />
-                                }
-                                label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
-                            />
-                        </FormGroup>
                     </>
                 }
             </Stack>
