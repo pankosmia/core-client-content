@@ -26,7 +26,7 @@ export default function NewBcvContent({ open, closeModal, }) {
     const { debugRef } = useContext(debugContext);
     const [contentName, setContentName] = useState("");
     const [contentAbbr, setContentAbbr] = useState("");
-    const [contentType, setContentType] = useState("text_translation");
+    const [contentType, setContentType] = useState("x-bcv-notes");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
     const [showBookFields, setShowBookFields] = useState(true);
     const [bookCode, setBookCode] = useState("TIT");
@@ -84,7 +84,7 @@ export default function NewBcvContent({ open, closeModal, }) {
         () => {
             setContentName("");
             setContentAbbr("");
-            setContentType("text_translation");
+            setContentType("x-bcv-notes");
             setContentLanguageCode("und");
             setBookCode("TIT");
             setBookTitle("Titus");

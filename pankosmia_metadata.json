@@ -23,7 +23,8 @@
     },
     "create": {
       "en":"Create",
-      "es":"Crear"
+      "es":"Crear",
+      "fe" : "Créer"
     },
     "name": {
       "en":"Name",
