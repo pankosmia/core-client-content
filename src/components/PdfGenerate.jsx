@@ -213,7 +213,6 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     function columnIcon( selectedColumns ) {
         let content;
-        console.log('column update');
       
         switch (selectedColumns) {
           case 1:
