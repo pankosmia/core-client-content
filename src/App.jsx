@@ -12,9 +12,9 @@ function App() {
     const [reposModCount, setReposModCount] = useState(0);
 
     /** 
-     * header 48px + FabPlusMenu 34px + shadow 7px = 89
-     * Applied inside the SpSpa margins, so that's not included.
-     * Bottom margin comes from this component, and SpaSpa's bottom margin is hidden.
+     * header 48px + SpaSpa's top margin of 16px + FabPlusMenu 34px + shadow 7px = fixed position of 105px
+     * innerHeight is examined in the 2nd Box, so 105px less it's top margin of 16px = 89
+     * bottom margin comes from this component, and SpaSpa's bottom margin of 16px is hidden
      */
     const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 89);
 
