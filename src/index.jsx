@@ -8,8 +8,8 @@ createRoot(document.getElementById("root"))
     .render(
         <SpSpa
             requireNet={false}
-            titleKey="pages:core-content:title"
-            currentId="core-content"
+            titleKey="pages:content:title"
+            currentId="content"
         >
             <App/>
         </SpSpa>
