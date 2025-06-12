@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, StyledEngineProvider} from "@mui/material";
+import {Box} from "@mui/material";
 import {DataGrid} from '@mui/x-data-grid';
 import {getJson, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
@@ -100,16 +100,19 @@ function App() {
             field: 'actions',
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
             flex: 1,
+            /*
             renderCell: rep => <ContentRowButtonPlusMenu
                     repoInfo={rep}
                     reposModCount={reposModCount}
                     setReposModCount={setReposModCount}
                 />
+             */
         }
     ]
 
-    const rows = repos.map(rep => {
+    const rows = repos.map((rep, n) => {
         return {
+            id: n,
             name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
             language: rep.language_code,
             nBooks: rep.bookCodes.length,
@@ -132,18 +135,5 @@ function App() {
             </Box>
     );
 }
-
-/*
-                <Grid2 container spacing={1} sx={{backgroundColor: "#EEE"}}>
-                    {
-                        repos.map((rep, n) => <ContentRow
-                            key={n}
-                            repoInfo={rep}
-                            reposModCount={reposModCount}
-                            setReposModCount={setReposModCount}
-                        />)
-                    }
-                </Grid2>
- */
 
 export default App;
