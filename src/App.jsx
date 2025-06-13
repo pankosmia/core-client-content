@@ -116,7 +116,7 @@ function App() {
                         />;
               }
         }
-    ] 
+    ]
 
     const rows = repos.map((rep, n) => {
         return {
@@ -137,6 +137,15 @@ function App() {
         <Box sx={{maxHeight: maxWindowHeight, m: 0}}>
             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             <DataGrid
+            initialState={{
+                columns: {
+                    columnVisibilityModel: {
+                        nBooks: false,
+                        source: false,
+                        dateUpdated: false
+                     },
+                },
+            }}
                 rows={rows}
                 columns={columns}
                 sx={{paddingTop: "36px"}}
