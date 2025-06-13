@@ -108,18 +108,19 @@ function App() {
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
             flex: 1,
             
-            renderCell: () => {repos.map((rep) => {
-                <ContentRowButtonPlusMenu
-                    repoInfo={rep}
-                    reposModCount={reposModCount}
-                    setReposModCount={setReposModCount}
-                />
-            })}
+            renderCell: (params) => {
+                return <ContentRowButtonPlusMenu
+                            repoInfo={params.row}
+                            reposModCount={reposModCount}
+                            setReposModCount={setReposModCount}
+                        />;
+              }
         }
     ] 
 
     const rows = repos.map((rep, n) => {
         return {
+            ...rep,
             id: n,
             name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
             language: rep.language_code,
