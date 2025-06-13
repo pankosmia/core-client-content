@@ -1,4 +1,4 @@
-import {useState, useEffect, useCallback, useContext} from "react"
+import {useState, useEffect, useContext} from "react"
 import {Box, Grid2} from "@mui/material";
 import {getJson, debugContext} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
@@ -10,25 +10,6 @@ function App() {
     const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
-
-    /** 
-     * header 48px + SpaSpa's top margin of 16px + FabPlusMenu 34px + shadow 7px = fixed position of 105px
-     * innerHeight is examined in the 2nd Box, so 105px less it's top margin of 16px = 89
-     * bottom margin comes from this component, and SpaSpa's bottom margin of 16px is hidden
-     */
-    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 89);
-
-    const handleWindowResize = useCallback(() => {
-        setMaxWindowHeight(window.innerHeight - 89);
-    }, []);
-
-
-    useEffect(() => {
-        window.addEventListener('resize', handleWindowResize);
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, [handleWindowResize]);
 
     const getRepoList = async () => {
         const listResponse = await getJson("/git/list-local-repos", debugRef.current);
@@ -68,13 +49,13 @@ function App() {
 
     return (
         <Box>
-            <Box style={{position: 'fixed', width: '100%'}}>
+            <Box style={{position: 'fixed', top: '64px', width: '100%'}}>
               <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             </Box>
-            <Box sx={{p: 0, maxHeight: maxWindowHeight, mb:'16px'}} style={{position: 'fixed', top: '105px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
+            <Box sx={{ mb: 2, position: 'fixed', top: '121px', bottom: 0, right: 0, overflow: 'scroll', width: '100%' }}>
+              <Box sx={{mx: 2}}>
                 <Grid2 container
                   sx={{'--Grid-borderWidth': '1px',
-                    ml: 2,
                     borderTop: 'var(--Grid-borderWidth) solid',
                     borderLeft: 'var(--Grid-borderWidth) solid',
                     borderColor: 'divider',
@@ -94,6 +75,7 @@ function App() {
                         />)
                     }
                 </Grid2>
+              </Box>
             </Box>
         </Box>
     );
