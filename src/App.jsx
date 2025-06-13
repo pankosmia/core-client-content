@@ -106,7 +106,7 @@ function App() {
         {
             field: 'actions',
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
-            flex: 1,
+            width: 100,
             
             renderCell: (params) => {
                 return <ContentRowButtonPlusMenu
