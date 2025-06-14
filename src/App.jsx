@@ -134,7 +134,7 @@ function App() {
     });
 
     return (
-        <Box sx={{maxHeight: maxWindowHeight, m: 0}}>
+        <Box sx={{height: '100%', width: '100%', maxHeight: maxWindowHeight, m: 0}}>
             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             <DataGrid
             initialState={{
