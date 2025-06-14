@@ -1,6 +1,7 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, Grid2} from "@mui/material";
+import {Box, Grid2, Typography} from "@mui/material";
 import {DataGrid} from '@mui/x-data-grid';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {getJson, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import ContentRow from "./components/ContentRow";
@@ -71,42 +72,48 @@ function App() {
         [newIsOpen, reposModCount]
     );
 
+    const theme = createTheme({
+        typography: {
+          fontSize: 18,
+        },
+      });
+
      const columns = [
         {
             field: 'name',
-            headerName: doI18n("pages:content:row_name", i18nRef.current),
+            headerName: <Typography>{doI18n("pages:content:row_name", i18nRef.current)}</Typography>,
             flex: 1
         },
         {
             field: 'language',
-            headerName: doI18n("pages:content:row_language", i18nRef.current),
+            headerName: <Typography>{doI18n("pages:content:row_language", i18nRef.current)}</Typography>,
             flex: 1
         },
         {
             field: 'nBooks',
-            headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
+            headerName: <Typography>{doI18n("pages:content:row_nbooks", i18nRef.current)}</Typography>,
             type: "number",
             flex: 1
         },
         {
             field: 'type',
-            headerName: doI18n("pages:content:row_type", i18nRef.current),
+            headerName: <Typography>{doI18n("pages:content:row_type", i18nRef.current)}</Typography>,
             flex: 1
         },
         {
             field: 'source',
-            headerName: doI18n("pages:content:row_source", i18nRef.current),
+            headerName: <Typography>{doI18n("pages:content:row_source", i18nRef.current)}</Typography>,
             flex: 1
         },
         {
             field: 'dateUpdated',
-            headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
+            headerName: <Typography>{doI18n("pages:content:row_date_updated", i18nRef.current)}</Typography>,
             flex: 1
         },
         {
             field: 'actions',
-            headerName: doI18n("pages:content:row_actions", i18nRef.current),
-            width: 100,
+            headerName: <Typography>{doI18n("pages:content:row_actions", i18nRef.current)}</Typography>,
+            width: 110,
             
             renderCell: (params) => {
                 return <ContentRowButtonPlusMenu
@@ -134,23 +141,25 @@ function App() {
     });
 
     return (
-        <Box sx={{height: '100%', width: '100%', maxHeight: maxWindowHeight, m: 0}}>
-            <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
-            <DataGrid
-            initialState={{
-                columns: {
-                    columnVisibilityModel: {
-                        nBooks: false,
-                        source: false,
-                        dateUpdated: false
-                     },
-                },
-            }}
-                rows={rows}
-                columns={columns}
-                sx={{paddingTop: "36px"}}
-            />
-        </Box>
+        <ThemeProvider theme={theme}>
+            <Box sx={{height: '100%', width: '100%', maxHeight: maxWindowHeight, m: 0}}>
+                <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
+                <DataGrid
+                initialState={{
+                    columns: {
+                        columnVisibilityModel: {
+                            nBooks: false,
+                            source: false,
+                            dateUpdated: false
+                        },
+                    },
+                }}
+                    rows={rows}
+                    columns={columns}
+                    sx={{fontSize: "1rem", paddingTop: "36px"}}
+                />
+            </Box>
+        </ThemeProvider>
         /* {/* <Box>
             <Box style={{position: 'fixed', width: '100%'}}>
               <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
