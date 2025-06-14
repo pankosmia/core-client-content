@@ -8,6 +8,7 @@
     "@emotion/styled": "^11.13.0",
     "@mui/icons-material": "^6.4.11",
     "@mui/material": "^6.1.5",
+    "@mui/x-data-grid": "^7.29.6",
     "dateformat": "^5.0.3",
     "eslint-config-react-app": "^7.0.1",
     "file-saver": "^2.0.5",
