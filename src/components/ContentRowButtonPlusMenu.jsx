@@ -48,7 +48,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setUsfmExportAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
-                disabled={repoInfo.flavor !== "textTranslation" && repoInfo.flavor !== 'x-bcvNotes'}
+                disabled={repoInfo.flavor !== "textTranslation"}
             >
                 {doI18n("pages:content:export_usfm", i18nRef.current)}
             </MenuItem>
@@ -57,7 +57,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setPdfGenerateAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
-                disabled={repoInfo.flavor !== "textTranslation" && repoInfo.flavor !== 'x-bcvNotes'}
+                disabled={repoInfo.flavor !== "textTranslation"}
             >
                 {doI18n("pages:content:generate_pdf", i18nRef.current)}
             </MenuItem>
@@ -67,6 +67,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setNewBookAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
+                disabled={!["textTranslation"].includes(repoInfo.flavor)}
             >
                 {doI18n("pages:content:new_book", i18nRef.current)}
             </MenuItem>

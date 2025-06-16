@@ -1,12 +1,13 @@
 import {useState, useEffect, useCallback, useContext} from "react"
-import {Box, Grid2, Typography} from "@mui/material";
+
+import {Box, IconButton, Typography} from "@mui/material";
 import {DataGrid} from '@mui/x-data-grid';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {getJson, debugContext, i18nContext, doI18n} from "pithekos-lib";
+import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
-import ContentRow from "./components/ContentRow";
 import ContentRowButtonPlusMenu from "./components/ContentRowButtonPlusMenu";
-
+import EditIcon from "@mui/icons-material/Edit";
+import EditOffIcon from "@mui/icons-material/EditOff";
 
 function App() {
 
@@ -27,7 +28,6 @@ function App() {
     const handleWindowResize = useCallback(() => {
         setMaxWindowHeight(window.innerHeight - 89);
     }, []);
-
 
     useEffect(() => {
         window.addEventListener('resize', handleWindowResize);
@@ -78,27 +78,40 @@ function App() {
         },
       });
 
+
+    const flavorTypes = {
+        texttranslation: "scripture",
+        "x-bcvnotes": "parascriptural",
+        "x-bnotes": "parascriptural",
+        "x-bcvarticles": "parascriptural",
+        "x-bcvquestions": "parascriptural",
+        "x-bcvimages": "parascriptural",
+        "x-juxtalinear": "scripture",
+        "x-parallel": "parascriptural"
+    };
+
      const columns = [
         {
             field: 'name',
             headerName: <Typography>{doI18n("pages:content:row_name", i18nRef.current)}</Typography>,
-            flex: 1
+            flex: 3
         },
         {
             field: 'language',
             headerName: <Typography>{doI18n("pages:content:row_language", i18nRef.current)}</Typography>,
-            flex: 1
+            flex: 0.75
         },
         {
             field: 'nBooks',
             headerName: <Typography>{doI18n("pages:content:row_nbooks", i18nRef.current)}</Typography>,
             type: "number",
-            flex: 1
+            flex: 0.5
         },
         {
             field: 'type',
             headerName: <Typography>{doI18n("pages:content:row_type", i18nRef.current)}</Typography>,
-            flex: 1
+            flex: 0.75,
+            valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
         },
         {
             field: 'source',
@@ -113,14 +126,32 @@ function App() {
         {
             field: 'actions',
             headerName: <Typography>{doI18n("pages:content:row_actions", i18nRef.current)}</Typography>,
-            width: 110,
-            
+            flex: 0.5,
             renderCell: (params) => {
-                return <ContentRowButtonPlusMenu
+                return <>
+                    {
+                        params.row.path.startsWith("_local_") && ["textTranslation"].includes(params.row.type) ?
+                    <IconButton
+                        onClick={
+                            async () => {
+                                await postEmptyJson(`/navigation/bcv/${params.row.bookCodes[0]}/1/1`);
+                                await postEmptyJson(`/app-state/current-project/${params.row.path}`);
+                                window.location.href = "/clients/local-projects";
+                            }
+                        }
+                    >
+                        <EditIcon/>
+                    </IconButton> :
+                    <IconButton disabled={true}>
+                        <EditOffIcon/>
+                    </IconButton>
+                    }
+                    <ContentRowButtonPlusMenu
                             repoInfo={params.row}
                             reposModCount={reposModCount}
                             setReposModCount={setReposModCount}
-                        />;
+                        />
+                    </>;
               }
         }
     ]
@@ -159,36 +190,8 @@ function App() {
                     sx={{fontSize: "1rem", paddingTop: "36px"}}
                 />
             </Box>
+
         </ThemeProvider>
-        /* {/* <Box>
-            <Box style={{position: 'fixed', width: '100%'}}>
-              <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
-            </Box>
-            <Box sx={{p: 0, maxHeight: maxWindowHeight, mb:'16px'}} style={{position: 'fixed', top: '105px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
-                <Grid2 container
-                  sx={{'--Grid-borderWidth': '1px',
-                    ml: 2,
-                    borderTop: 'var(--Grid-borderWidth) solid',
-                    borderLeft: 'var(--Grid-borderWidth) solid',
-                    borderColor: 'divider',
-                    '& > div': {
-                    borderRight: 'var(--Grid-borderWidth) solid',
-                    borderBottom: 'var(--Grid-borderWidth) solid',
-                    borderColor: 'divider',
-                  }
-                }}
-                >
-                    {
-                        repos.map((rep, n) => <ContentRow
-                            key={n}
-                            repoInfo={rep}
-                            reposModCount={reposModCount}
-                            setReposModCount={setReposModCount}
-                        />)
-                    }
-                </Grid2>
-            </Box>
-    //    </Box> *//* } */ 
     );
 }
 
