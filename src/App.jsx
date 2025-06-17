@@ -53,29 +53,28 @@ function App() {
               <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
             </Box>
             <Box sx={{ mb: 2, position: 'fixed', top: '121px', bottom: 0, right: 0, overflow: 'scroll', width: '100%' }}>
-              <Box sx={{mx: 2}}>
-                <Grid2 container
-                  sx={{'--Grid-borderWidth': '1px',
-                    borderTop: 'var(--Grid-borderWidth) solid',
-                    borderLeft: 'var(--Grid-borderWidth) solid',
-                    borderColor: 'divider',
-                    '& > div': {
-                    borderRight: 'var(--Grid-borderWidth) solid',
-                    borderBottom: 'var(--Grid-borderWidth) solid',
-                    borderColor: 'divider',
+              <Grid2 container
+                sx={{mx: 2,
+                  '--Grid-borderWidth': '1px',
+                  borderTop: 'var(--Grid-borderWidth) solid',
+                  borderLeft: 'var(--Grid-borderWidth) solid',
+                  borderColor: 'divider',
+                  '& > div': {
+                  borderRight: 'var(--Grid-borderWidth) solid',
+                  borderBottom: 'var(--Grid-borderWidth) solid',
+                  borderColor: 'divider',
+                }
+              }}
+              >
+                  {
+                      repos.map((rep, n) => <ContentRow
+                          key={n}
+                          repoInfo={rep}
+                          reposModCount={reposModCount}
+                          setReposModCount={setReposModCount}
+                      />)
                   }
-                }}
-                >
-                    {
-                        repos.map((rep, n) => <ContentRow
-                            key={n}
-                            repoInfo={rep}
-                            reposModCount={reposModCount}
-                            setReposModCount={setReposModCount}
-                        />)
-                    }
-                </Grid2>
-              </Box>
+              </Grid2>
             </Box>
         </Box>
     );
