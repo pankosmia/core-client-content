@@ -26,7 +26,7 @@ export default function NewBcvContent({ open, closeModal, }) {
     const { debugRef } = useContext(debugContext);
     const [contentName, setContentName] = useState("");
     const [contentAbbr, setContentAbbr] = useState("");
-    const [contentType, setContentType] = useState("x-bcv-notes");
+    const [contentType, setContentType] = useState("x-bcvnotes");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
     const [showBookFields, setShowBookFields] = useState(true);
     const [bookCode, setBookCode] = useState("TIT");
@@ -84,7 +84,7 @@ export default function NewBcvContent({ open, closeModal, }) {
         () => {
             setContentName("");
             setContentAbbr("");
-            setContentType("x-bcv-notes");
+            setContentType("x-bcvnotes");
             setContentLanguageCode("und");
             setBookCode("TIT");
             setBookTitle("Titus");
@@ -109,10 +109,9 @@ export default function NewBcvContent({ open, closeModal, }) {
             book_code: showBookFields ? bookCode : null,
             book_title: showBookFields ? bookTitle : null,
             book_abbr: showBookFields ? bookAbbr : null,
-            add_cv: showBookFields ? showVersification : null,
         };
         const response = await postJson(
-            "/git/new",
+            "/git/new-bcv-resource",
             JSON.stringify(payload),
             debugRef.current
         );

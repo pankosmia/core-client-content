@@ -39,6 +39,7 @@ function FabPlusMenu() {
             <Fab
                 variant="extended"
                 color="primary"
+                size="small"
                 aria-label={doI18n("pages:content:fab_import", i18nRef.current)}
                 onClick={event => setImportAnchorEl(event.currentTarget)}
             >
@@ -69,6 +70,7 @@ function FabPlusMenu() {
             <Fab
                 variant="extended"
                 color="primary"
+                size="small"
                 aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
                 onClick={event => setCreateAnchorEl(event.currentTarget)}
                 sx={{ml: 2}}

@@ -95,7 +95,7 @@ export default function NewBibleContent({open, closeModal,}) {
             add_cv: showBookFields ? showVersification : null,
         };
         const response = await postJson(
-            "/git/new",
+            "/git/new-text-translation",
             JSON.stringify(payload),
             debugRef.current
         );
