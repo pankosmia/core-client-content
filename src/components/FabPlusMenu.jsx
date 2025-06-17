@@ -1,7 +1,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Fab, Menu, MenuItem, Typography } from "@mui/material";
 import ListSubheader from '@mui/material/ListSubheader';
-import NewBibleContent from "./NewContent";
+import NewBibleContent from "./NewTextTranslationContent";
 import NewBcvContent from "./NewBcvContent";
 import { useState, useContext } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
