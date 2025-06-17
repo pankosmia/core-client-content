@@ -39,7 +39,7 @@ function FabPlusMenu() {
             aria-label={doI18n("pages:content:add", i18nRef.current)}
             sx={{
                 margin: 0,
-                top: '-18',
+                top: '64',
                 right: "auto",
                 bottom: "auto",
                 left: 20,
@@ -58,14 +58,7 @@ function FabPlusMenu() {
             open={!!anchorEl}
             onClose={handleClose}
         >
-            <ListSubheader>{doI18n("pages:content:create_content", i18nRef.current)}</ListSubheader>
             <MenuItem onClick={handleTextBibleClick}>{doI18n("pages:content:create_content", i18nRef.current)}</MenuItem>
-            <MenuItem onClick={handleBcvResourceClick}>{doI18n("pages:content:create_content_bcvresources", i18nRef.current)}</MenuItem>
-            {/* <MenuItem
-                onClick={handleCreateMenuClick}
-            >
-                {doI18n("pages:content:create_content", i18nRef.current)}
-            </MenuItem> */}
             <MenuItem
                 onClick={() => window.location.href = "/clients/download"}
                 disabled={!enabledRef.current}
@@ -92,4 +85,6 @@ function FabPlusMenu() {
     </>;
 }
 
+// <MenuItem onClick={handleBcvResourceClick}>{doI18n("pages:content:create_content_bcvresources", i18nRef.current)}</MenuItem>
+// <ListSubheader>{doI18n("pages:content:create_content", i18nRef.current)}</ListSubheader>
 export default FabPlusMenu;
