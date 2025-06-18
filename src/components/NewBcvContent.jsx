@@ -84,7 +84,6 @@ export default function NewBcvContent({ open, closeModal, }) {
         () => {
             setContentName("");
             setContentAbbr("");
-            setContentType("x-bcvnotes");
             setContentLanguageCode("und");
             setBookCode("TIT");
             setBookTitle("Titus");
@@ -102,7 +101,7 @@ export default function NewBcvContent({ open, closeModal, }) {
         const payload = {
             content_name: contentName,
             content_abbr: contentAbbr,
-            content_type: contentType,
+            tsv_type: resourceFormat,
             content_language_code: contentLanguageCode,
             versification: versification,
             add_book: showBookFields,
