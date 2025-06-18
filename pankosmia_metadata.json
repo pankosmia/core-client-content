@@ -7,73 +7,90 @@
   "i18n": {
     "title": {
       "en": "My Content",
-      "fr": "Mon Contenu"
+      "fr": "Mon Contenu",
+      "es": "Mi Contenido"
     },
     "summary": {
       "en": "View and manage my content, including content I am creating with others and resources I am using.",
-      "fr": "Voir et gérer mon contenu, y compris des documents que je crée avec d'autres et ceux qui servent d'aide à la traduction."
+      "fr": "Voir et gérer mon contenu, y compris des documents que je crée avec d'autres et ceux qui servent d'aide à la traduction.",
+      "es": "Ver y administrar mi contenido, incluyendo contenido que estoy creando con otros y recursos que estoy usando."
     },
     "close": {
       "en":"close",
-      "es":"cerrar"
+      "es":"cerrar",
+      "fr": "fermer"
     },
     "new_content": {
       "en":"New Content",
-      "es":"Nuevo Contenido"
+      "es":"Nuevo Contenido",
+      "fr": "Nouveau Contenu"
     },
     "create": {
       "en":"Create",
       "es":"Crear",
-      "fe" : "Créer"
+      "fr" : "Créer"
     },
     "name": {
       "en":"Name",
-      "es":"Nombre"
+      "es":"Nombre",
+      "fr": "Nom"
     },
     "abbreviation": {
       "en":"Abbreviation",
-      "es":"Abreviación"
+      "es":"Abreviación",
+      "fr": "Abréviation"
     },
     "type": {
       "en":"Type",
-      "es":"Tipo"
+      "es":"Tipo",
+      "fr": "Type"
     },
     "lang_code": {
       "en":"Language Code ('und' for undetermined)",
-      "es":"Código del Idioma (si no está determinado, use 'und')"
+      "es":"Código del Idioma (si no está determinado, use 'und')",
+      "fr": "Code Langue (si non déterminé, utiliser 'und')"
     },
-    "add": {
-      "en":"add",
-      "es":"agregar"
+    "fab_create": {
+      "en":"create",
+      "fr": "créer"
+    },
+    "fab_import": {
+      "en":"import",
+      "fr": "importer"
     },
     "create_content": {
-      "en":"Create New Content",
-      "es":"Crear Nuevo Contenido",
-      "fr":"Créer un nouveau contenu"
+      "en":"Text Translation",
+      "fr":"Traduction (texte)"
     },
     "create_content_bcvresources":{
-      "en":"Create New Bcv Resources Content",
-      "fr":"Créer une nouvelle Bcv ressource"
+      "en":"Book-Chapter-Verse Resource",
+      "fr":"Ressource livre-chapitre-verset (BCV)",
+      "es": "Nuevo contenido de recursos de Bcv"
     },
     "download_content": {
       "en":"Download Content",
-      "es":"Descargar Contenido"
+      "es":"Descargar Contenido",
+      "fr": "Télécharger le contenu"
     },
     "sideload_content": {
       "en":"Sideload Content",
-      "es":"Cargar Contenido"
+      "es":"Cargar Contenido",
+      "fr": "Télécharger le Contenu"
     },
     "add_book_checkbox": {
       "en":"Add a Bible book",
-      "fr":"Ajouter un livre biblique"
+      "fr":"Ajouter un livre biblique",
+      "es": "Agregar un libro bíblico"
     },
     "book_code": {
       "en":"Book Code",
-      "fr":"Code du livre"
+      "fr":"Code du livre",
+      "es": "Código del libro"
     },
     "book_title": {
       "en":"Book Title",
-      "fr":"Titre du livre"
+      "fr":"Titre du livre",
+      "es": "Título del libro"
     },
     "book_abbr": {
       "en":"Book Abbreviation",
@@ -247,6 +264,41 @@
     },
     "resource_format":{
       "fr":"Choix du format de la ressource"
+    },
+    "row_name":{
+      "en":"Name",
+      "fr":"Nom",
+      "es":"Nombre"
+    },
+    "row_language":{
+      "en":"Language",
+      "fr":"Langue",
+      "es":"Idioma"
+    },
+    "row_nbooks":{
+      "en":"Number of books",
+      "fr":"Nombre de livres",
+      "es":"Número de libros"
+    },
+    "row_type":{
+      "en":"Type",
+      "fr":"Type",
+      "es":"Tipo"
+    },
+    "row_source":{
+      "en":"Source",
+      "fr":"Source",
+      "es":"Fuente"
+    },
+    "row_date_updated":{
+      "en":"Date of update",
+      "fr":"Date de mise à jour",
+      "es":"Fecha de actualización"
+    },
+    "row_actions":{
+      "en":"Actions",
+      "fr":"Actions",
+      "es":"Acciones"
     }
   }
 }

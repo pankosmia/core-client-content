@@ -18,7 +18,7 @@ import {i18nContext, debugContext, postJson, doI18n, getJson} from "pithekos-lib
 import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 
-export default function NewBook({repoInfo, open, setOpen, reposModCount, setReposModCount}) {
+export default function NewTextTranslationBook({repoInfo, open, setOpen, reposModCount, setReposModCount}) {
 
     const [addCV, setAddCV] = useState(false);
     const [bookCode, setBookCode] = useState("");

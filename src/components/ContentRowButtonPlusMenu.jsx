@@ -4,7 +4,7 @@ import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import DeleteContent from "./DeleteContent";
-import NewBook from "./NewBook";
+import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
@@ -48,7 +48,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setUsfmExportAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
-                disabled={repoInfo.flavor !== "textTranslation" && repoInfo.flavor !== 'x-bcvNotes'}
+                disabled={repoInfo.flavor !== "textTranslation"}
             >
                 {doI18n("pages:content:export_usfm", i18nRef.current)}
             </MenuItem>
@@ -57,7 +57,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setPdfGenerateAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
-                disabled={repoInfo.flavor !== "textTranslation" && repoInfo.flavor !== 'x-bcvNotes'}
+                disabled={repoInfo.flavor !== "textTranslation"}
             >
                 {doI18n("pages:content:generate_pdf", i18nRef.current)}
             </MenuItem>
@@ -67,6 +67,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setNewBookAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
+                disabled={!["textTranslation"].includes(repoInfo.flavor)}
             >
                 {doI18n("pages:content:new_book", i18nRef.current)}
             </MenuItem>
@@ -92,7 +93,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             open={pdfGenerateOpen}
             closeFn={() => setPdfGenerateAnchorEl(null)}
         />
-        <NewBook
+        <NewTextTranslationBook
             repoInfo={repoInfo}
             open={newBookOpen}
             setOpen={setNewBookAnchorEl}

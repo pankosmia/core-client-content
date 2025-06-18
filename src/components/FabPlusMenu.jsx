@@ -1,95 +1,110 @@
-import AddIcon from "@mui/icons-material/Add";
-import { Fab, Menu, MenuItem, Typography } from "@mui/material";
-import ListSubheader from '@mui/material/ListSubheader';
-import NewBibleContent from "./NewContent";
+import {Box, Fab, Menu, MenuItem, Typography} from "@mui/material";
+import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
+import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
+import NewBibleContent from "./NewTextTranslationContent";
 import NewBcvContent from "./NewBcvContent";
-import { useState, useContext } from "react";
-import { i18nContext, netContext, doI18n } from "pithekos-lib";
+import {useState, useContext} from "react";
+import {i18nContext, netContext, doI18n} from "pithekos-lib";
 
 function FabPlusMenu() {
 
-    const { i18nRef } = useContext(i18nContext);
-    const { enabledRef } = useContext(netContext);
-    const [anchorEl, setAnchorEl] = useState(null);
+    const {i18nRef} = useContext(i18nContext);
+    const {enabledRef} = useContext(netContext);
+    const [importAnchorEl, setImportAnchorEl] = useState(null);
+    const [createAnchorEl, setCreateAnchorEl] = useState(null);
     const [openedModal, setOpenedModal] = useState(null);
 
 
-    const handleClose = () => {
-        setAnchorEl(null);
+    const handleImportClose = () => {
+        setImportAnchorEl(null);
+    };
+
+    const handleCreateClose = () => {
+        setCreateAnchorEl(null);
     };
 
     const handleTextBibleClick = () => {
         setOpenedModal('text-bible');
-        setAnchorEl(null);
+        setCreateAnchorEl(null);
     };
 
     const handleBcvResourceClick = () => {
         setOpenedModal('bcv-content');
-        setAnchorEl(null);
+        setCreateAnchorEl(null);
     }
-    const handleMenuClose = () => {
-        setAnchorEl(null);
-    };
-
     return <>
-        <Fab
-            variant="extended"
-            size="small"
-            color="secondary"
-            aria-label={doI18n("pages:content:add", i18nRef.current)}
-            sx={{
-                margin: 0,
-                top: '-18',
-                right: "auto",
-                bottom: "auto",
-                left: 20,
-                position: 'fixed',
-            }}
-            onClick={event => setAnchorEl(event.currentTarget)}
+        <Box
+            sx={{mb: 2}}
         >
-            <AddIcon />
-            <Typography variant="body2">
-                {doI18n("pages:content:add", i18nRef.current)}
-            </Typography>
-        </Fab>
-        <Menu
-            id="grouped-menu"
-            anchorEl={anchorEl}
-            open={!!anchorEl}
-            onClose={handleClose}
-        >
-            <ListSubheader>{doI18n("pages:content:create_content", i18nRef.current)}</ListSubheader>
-            <MenuItem onClick={handleTextBibleClick}>{doI18n("pages:content:create_content", i18nRef.current)}</MenuItem>
-            <MenuItem onClick={handleBcvResourceClick}>{doI18n("pages:content:create_content_bcvresources", i18nRef.current)}</MenuItem>
-            {/* <MenuItem
-                onClick={handleCreateMenuClick}
+            <Fab
+                variant="extended"
+                color="primary"
+                size="small"
+                aria-label={doI18n("pages:content:fab_import", i18nRef.current)}
+                onClick={event => setImportAnchorEl(event.currentTarget)}
             >
-                {doI18n("pages:content:create_content", i18nRef.current)}
-            </MenuItem> */}
-            <MenuItem
-                onClick={() => window.location.href = "/clients/download"}
-                disabled={!enabledRef.current}
+                <DriveFolderUploadIcon sx={{mr: 1}}/>
+                <Typography variant="body2">
+                    {doI18n("pages:content:fab_import", i18nRef.current)}
+                </Typography>
+            </Fab>
+            <Menu
+                id="grouped-menu"
+                anchorEl={importAnchorEl}
+                open={!!importAnchorEl}
+                onClose={handleImportClose}
             >
-                {doI18n("pages:content:download_content", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={handleMenuClose}
-                disabled={true}
+                <MenuItem
+                    onClick={() => window.location.href = "/clients/download"}
+                    disabled={!enabledRef.current}
+                >
+                    {doI18n("pages:content:download_content", i18nRef.current)}
+                </MenuItem>
+                <MenuItem
+                    onClick={handleImportClose}
+                    disabled={true}
+                >
+                    {doI18n("pages:content:sideload_content", i18nRef.current)}
+                </MenuItem>
+            </Menu>
+            <Fab
+                variant="extended"
+                color="primary"
+                size="small"
+                aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
+                onClick={event => setCreateAnchorEl(event.currentTarget)}
+                sx={{ml: 2}}
             >
-                {doI18n("pages:content:sideload_content", i18nRef.current)}
-            </MenuItem>
-        </Menu>
-
-            <NewBibleContent
-                open={openedModal === 'text-bible'}
-                closeModal={() => setOpenedModal(null)}
-            />
-            <NewBcvContent
-                open={openedModal === 'bcv-content'}
-                closeModal={() => setOpenedModal(null)}
-            />
+                <CreateNewFolderIcon  sx={{mr: 1}}/>
+                <Typography variant="body2">
+                    {doI18n("pages:content:fab_create", i18nRef.current)}
+                </Typography>
+            </Fab>
+            <Menu
+                id="grouped-menu"
+                anchorEl={createAnchorEl}
+                open={!!createAnchorEl}
+                onClose={handleCreateClose}
+            >
+                <MenuItem
+                    onClick={handleTextBibleClick}>{doI18n("pages:content:create_content", i18nRef.current)}
+                </MenuItem>
+                <MenuItem onClick={handleBcvResourceClick}>
+                    {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
+                </MenuItem>
+            </Menu>
+        </Box>
+        <NewBibleContent
+            open={openedModal === 'text-bible'}
+            closeModal={() => setOpenedModal(null)}
+        />
+        <NewBcvContent
+            open={openedModal === 'bcv-content'}
+            closeModal={() => setOpenedModal(null)}
+        />
 
     </>;
 }
+
 
 export default FabPlusMenu;
