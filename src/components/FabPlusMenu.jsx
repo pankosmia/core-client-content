@@ -39,7 +39,7 @@ function FabPlusMenu() {
             aria-label={doI18n("pages:content:add", i18nRef.current)}
             sx={{
                 margin: 0,
-                top: '-18',
+                top: '64',
                 right: "auto",
                 bottom: "auto",
                 left: 20,
