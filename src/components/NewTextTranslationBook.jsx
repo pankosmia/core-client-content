@@ -20,7 +20,7 @@ import ListMenuItem from "./ListMenuItem";
 
 export default function NewTextTranslationBook({repoInfo, open, setOpen, reposModCount, setReposModCount}) {
 
-    const [addCV, setAddCV] = useState(false);
+    const [addCV, setAddCV] = useState(true);
     const [bookCode, setBookCode] = useState("");
     const [bookTitle, setBookTitle] = useState("");
     const [bookAbbr, setBookAbbr] = useState("");
