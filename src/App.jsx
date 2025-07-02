@@ -73,6 +73,7 @@ function App() {
 
     const flavorTypes = {
         texttranslation: "scripture",
+        audiotranslation: "scripture",
         "x-bcvnotes": "parascriptural",
         "x-bnotes": "parascriptural",
         "x-bcvarticles": "parascriptural",
