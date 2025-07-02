@@ -4,7 +4,7 @@ import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import DeleteContent from "./DeleteContent";
-import NewBook from "./NewBook";
+import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
@@ -93,7 +93,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             open={pdfGenerateOpen}
             closeFn={() => setPdfGenerateAnchorEl(null)}
         />
-        <NewBook
+        <NewTextTranslationBook
             repoInfo={repoInfo}
             open={newBookOpen}
             setOpen={setNewBookAnchorEl}
