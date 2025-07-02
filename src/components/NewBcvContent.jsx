@@ -21,7 +21,7 @@ import ListMenuItem from "./ListMenuItem";
 export default function NewBcvContent({ open, closeModal, }) {
     const handleClose = () => {
         closeModal();
-    };
+    }
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
     const [contentName, setContentName] = useState("");
