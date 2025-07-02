@@ -75,7 +75,7 @@
     "sideload_content": {
       "en":"Sideload Content",
       "es":"Cargar Contenido",
-      "fr": "Télécharger le Contenu"
+      "fr": "Importer manuellement le Contenu"
     },
     "add_book_checkbox": {
       "en":"Add a Bible book",
