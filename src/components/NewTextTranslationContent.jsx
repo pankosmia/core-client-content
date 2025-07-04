@@ -18,7 +18,7 @@ import {i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson} fro
 import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 
-export default function NewBibleContent({open, closeModal,}) {
+export default function NewBibleContent({open, closeModal, reposModCount, setReposModCount} ) {
 
     const handleClose = () => {
         closeModal();
@@ -101,6 +101,7 @@ export default function NewBibleContent({open, closeModal,}) {
         );
         if (response.ok) {
             setPostCount(postCount + 1);
+            setReposModCount(reposModCount + 1);
             enqueueSnackbar(
                 doI18n("pages:content:content_created", i18nRef.current),
                 {variant: "success"}
