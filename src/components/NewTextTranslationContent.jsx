@@ -120,7 +120,7 @@ export default function NewBibleContent({open, closeModal,}) {
             open={open}
             onClose={handleClose}
         >
-            <AppBar>
+            <AppBar sx={{position: 'relative'}}>
                 <Toolbar>
                     <IconButton
                         edge="start"
