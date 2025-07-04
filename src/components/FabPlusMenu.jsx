@@ -6,7 +6,7 @@ import NewBcvContent from "./NewBcvContent";
 import {useState, useContext} from "react";
 import {i18nContext, netContext, doI18n} from "pithekos-lib";
 
-function FabPlusMenu() {
+function FabPlusMenu({reposModCount, setReposModCount}) {
 
     const {i18nRef} = useContext(i18nContext);
     const {enabledRef} = useContext(netContext);
@@ -97,10 +97,14 @@ function FabPlusMenu() {
         <NewBibleContent
             open={openedModal === 'text-bible'}
             closeModal={() => setOpenedModal(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
         />
         <NewBcvContent
             open={openedModal === 'bcv-content'}
             closeModal={() => setOpenedModal(null)}
+            reposModCount={reposModCount} 
+            setReposModCount={setReposModCount}
         />
 
     </>;

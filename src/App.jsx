@@ -144,6 +144,7 @@ function App() {
                         reposModCount={reposModCount}
                         setReposModCount={setReposModCount}
                     />
+                   
                 </>;
             }
         }
@@ -167,7 +168,8 @@ function App() {
     return (
             <Grid2 container sx={{height: '100%', width: '100%', maxHeight: maxWindowHeight, m: 0}}>
                 <Grid2 item size={12}>
-                    <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen}/>
+                    <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen} reposModCount={reposModCount}
+                        setReposModCount={setReposModCount}/>
                 </Grid2>
                 <Grid2 item size={12}>
                     <DataGrid
@@ -185,6 +187,7 @@ function App() {
                         sx={{fontSize: "1rem"}}
                     />
                 </Grid2>
+               
             </Grid2>
     );
 }
