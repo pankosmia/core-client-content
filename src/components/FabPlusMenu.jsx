@@ -3,6 +3,7 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import NewBibleContent from "./NewTextTranslationContent";
 import NewBcvContent from "./NewBcvContent";
+import NewOBSContent from "./NewOBSContent";
 import {useState, useContext} from "react";
 import {i18nContext, netContext, doI18n} from "pithekos-lib";
 
@@ -32,6 +33,12 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
         setOpenedModal('bcv-content');
         setCreateAnchorEl(null);
     }
+
+    const handleOBSResourceClick = () => {
+        setOpenedModal('obs-content');
+        setCreateAnchorEl(null);
+    }
+
     return <>
         <Box
             sx={{mb: 2}}
@@ -92,6 +99,9 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 <MenuItem onClick={handleBcvResourceClick}>
                     {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
                 </MenuItem>
+                <MenuItem onClick={handleOBSResourceClick}>
+                    {doI18n("pages:content:create_content_obs", i18nRef.current)}
+                </MenuItem>
             </Menu>
         </Box>
         <NewBibleContent
@@ -104,6 +114,12 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
             open={openedModal === 'bcv-content'}
             closeModal={() => setOpenedModal(null)}
             reposModCount={reposModCount} 
+            setReposModCount={setReposModCount}
+        />
+        <NewOBSContent
+            open={openedModal === 'obs-content'}
+            closeModal={() => setOpenedModal(null)}
+            reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
 

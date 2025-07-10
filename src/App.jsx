@@ -123,7 +123,7 @@ function App() {
             renderCell: (params) => {
                 return <>
                     {
-                        params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions"].includes(params.row.type) ?
+                        params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
                             <IconButton
                                 onClick={
                                     async () => {
