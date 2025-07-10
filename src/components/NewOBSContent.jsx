@@ -1,22 +1,17 @@
 import { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
-    Button, Checkbox,
-    Dialog, FormControl, FormControlLabel, FormGroup,
+    Button,
+    Dialog,
     IconButton,
     Stack,
     TextField,
     Toolbar,
-    Typography,
-    Select,
-    MenuItem,
-    InputLabel, Grid2
+    Typography
 } from "@mui/material";
 import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
-import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } from "pithekos-lib";
-import sx from "./Selection.styles";
-import ListMenuItem from "./ListMenuItem";
+import { i18nContext, debugContext, postJson, doI18n } from "pithekos-lib";
 
 export default function NewOBSContent({ open, closeModal, reposModCount, setReposModCount }) {
     const handleClose = () => {

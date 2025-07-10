@@ -33,7 +33,6 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
     const [bookTitle, setBookTitle] = useState("Tit");
     const [bookAbbr, setBookAbbr] = useState("Ti");
     const [postCount, setPostCount] = useState(0);
-    const [showVersification, setShowVersification] = useState(true);
     const [versification, setVersification] = useState("eng");
     const [resourceFormat, setResourceFormat] = useState("tn");
     const [resourceFormatLabel, setResourceFormatLabel] = useState()
@@ -89,7 +88,6 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
             setBookTitle("Titus");
             setBookAbbr("Ti");
             setShowBookFields(true);
-            setShowVersification(true);
             setVersification("eng");
             setResourceFormat("tn")
         },

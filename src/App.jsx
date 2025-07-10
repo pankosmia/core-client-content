@@ -1,8 +1,7 @@
 import {useState, useEffect, useContext,useCallback} from "react"
 
-import {Box, Grid2, IconButton, Typography} from "@mui/material";
+import {Grid2, IconButton, Typography} from "@mui/material";
 import {DataGrid} from '@mui/x-data-grid';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
 import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import ContentRowButtonPlusMenu from "./components/ContentRowButtonPlusMenu";
