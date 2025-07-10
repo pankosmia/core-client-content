@@ -62,6 +62,10 @@
       "en":"Text Translation",
       "fr":"Traduction (texte)"
     },
+    "create_content_obs":{
+      "en":"OBS Resource",
+      "fr":"Ressource OBS"
+    },
     "create_content_bcvresources":{
       "en":"Book-Chapter-Verse Resource",
       "fr":"Ressource livre-chapitre-verset (BCV)",
