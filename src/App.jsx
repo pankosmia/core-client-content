@@ -166,7 +166,7 @@ function App() {
 
     return (
             <Grid2 container sx={{height: '100%', width: '100%', maxHeight: maxWindowHeight, m: 0}}>
-                <Grid2 item size={12}>
+                <Grid2 item size={12} sx={{pt:2, pl:2}}>
                     <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen} reposModCount={reposModCount}
                         setReposModCount={setReposModCount}/>
                 </Grid2>
