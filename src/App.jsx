@@ -163,7 +163,7 @@ function App() {
             dateUpdated: rep.generated_date,
         }
     });
-
+    
     return (
             <Grid2 container sx={{height: '100%', width: '100%', maxHeight: maxWindowHeight, m: 0}}>
                 <Grid2 item size={12}>
@@ -180,6 +180,9 @@ function App() {
                                     dateUpdated: false
                                 },
                             },
+                            sorting: {
+                                sortModel: [{ field: 'name', sort: 'asc' }],
+                              }
                         }}
                         rows={rows}
                         columns={columns}
