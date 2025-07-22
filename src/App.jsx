@@ -79,7 +79,14 @@ function App() {
         "x-bcvquestions": "parascriptural",
         "x-bcvimages": "parascriptural",
         "x-juxtalinear": "scripture",
-        "x-parallel": "parascriptural"
+        "x-parallel": "parascriptural",
+        textstories: "gloss",
+        "x-obsquestions": "peripheral",
+        "x-obsnotes": "peripheral",
+        "x-obsarticles": "peripheral",
+        "x-obsimages": "peripheral",
+
+
     };
 
     const columns = [
@@ -163,7 +170,7 @@ function App() {
             dateUpdated: rep.generated_date,
         }
     });
-
+    
     return (
             <Box sx={{mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
                 <Grid2 container spacing={1} sx={{mx: 2}}>
@@ -182,7 +189,10 @@ function App() {
                                             dateUpdated: false
                                         },
                                     },
-                                }}
+                                    sorting: {
+                                sortModel: [{ field: 'name', sort: 'asc' }],
+                              }
+                        }}
                                 rows={rows}
                                 columns={columns}
                                 sx={{fontSize: "1rem"}}
