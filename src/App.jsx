@@ -79,7 +79,14 @@ function App() {
         "x-bcvquestions": "parascriptural",
         "x-bcvimages": "parascriptural",
         "x-juxtalinear": "scripture",
-        "x-parallel": "parascriptural"
+        "x-parallel": "parascriptural",
+        textstories: "gloss",
+        "x-obsquestions": "peripheral",
+        "x-obsnotes": "peripheral",
+        "x-obsarticles": "peripheral",
+        "x-obsimages": "peripheral",
+
+
     };
 
     const columns = [
