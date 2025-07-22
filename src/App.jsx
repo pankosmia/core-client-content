@@ -173,7 +173,7 @@ function App() {
     
     return (
             <Box sx={{mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
-                <Grid2 container spacing={1} sx={{mx: 2}}>
+                <Grid2 container sx={{mx: 2}}>
                     <Grid2 container>
                         <Grid2 item size={12} sx={{m: 0}}>
                             <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen} reposModCount={reposModCount}
