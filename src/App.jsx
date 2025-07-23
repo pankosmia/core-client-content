@@ -15,6 +15,7 @@ function App() {
     const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
+    const [projectSummaries, setProjectSummaries] = useState({});
 
     /**
      * header 48px + SpaSpa's top margin of 16px + FabPlusMenu 34px + shadow 7px = fixed position of 105px
@@ -34,42 +35,20 @@ function App() {
         };
     }, [handleWindowResize]);
 
-    const getRepoList = async () => {
-        const listResponse = await getJson("/git/list-local-repos", debugRef.current);
-        if (listResponse.ok) {
-            let responses = [];
-            for (const repoPath of listResponse.json) {
-                const metadataResponse = await getJson(`/burrito/metadata/summary/${repoPath}`);
-                if (metadataResponse.ok) {
-                    responses.push({path: repoPath, ...metadataResponse.json})
-                }
-                const fullMetadataResponse = await getJson(`/burrito/metadata/raw/${repoPath}`);
-                if (fullMetadataResponse.ok) {
-                    responses[responses.length - 1]["bookCodes"] =
-                        Object.entries(fullMetadataResponse.json.ingredients)
-                            .map(
-                                i =>
-                                    Object.keys(i[1].scope || {})
-                            )
-                            .reduce(
-                                (a, b) => [...a, ...b],
-                                []
-                            );
-                }
-            }
-            setRepos(responses);
+    const getProjectSummaries = async () => {
+        const summariesResponse = await getJson("/burrito/metadata/summaries", debugRef.current);
+        if (summariesResponse.ok) {
+            setProjectSummaries(summariesResponse.json);
         }
     }
 
     useEffect(
         () => {
-            if (!newIsOpen) {
-                getRepoList().then();
-            }
+            getProjectSummaries().then();
         },
-        [newIsOpen, reposModCount]
+        []
     );
-
+    
     const flavorTypes = {
         texttranslation: "scripture",
         audiotranslation: "scripture",
@@ -85,8 +64,6 @@ function App() {
         "x-obsnotes": "peripheral",
         "x-obsarticles": "peripheral",
         "x-obsimages": "peripheral",
-
-
     };
 
     const columns = [
@@ -133,7 +110,7 @@ function App() {
                             <IconButton
                                 onClick={
                                     async () => {
-                                        await postEmptyJson(`/navigation/bcv/${params.row.bookCodes[0]}/1/1`);
+                                        await postEmptyJson(`/navigation/bcv/${params.row.book_codes[0]}/1/1`);
                                         await postEmptyJson(`/app-state/current-project/${params.row.path}`);
                                         window.location.href = "/clients/local-projects";
                                     }
@@ -156,13 +133,15 @@ function App() {
         }
     ]
 
-    const rows = repos.map((rep, n) => {
+    const filteredProject = Object.entries(projectSummaries).map((obj) => {return {...obj[1], path: obj[0]}})
+
+    const rows = filteredProject.map((rep, n) => {
         return {
             ...rep,
             id: n,
             name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
             language: rep.language_code,
-            nBooks: rep.bookCodes.length,
+            nBooks: rep.book_codes.length,
             type: rep.flavor,
             source: rep.path.startsWith("_local_") ?
                 doI18n("pages:content:local_org", i18nRef.current) :
@@ -170,7 +149,7 @@ function App() {
             dateUpdated: rep.generated_date,
         }
     });
-    
+
     return (
             <Box sx={{mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
                 <Grid2 container sx={{mx: 2}}>
