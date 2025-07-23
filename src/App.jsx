@@ -93,37 +93,44 @@ function App() {
         {
             field: 'name',
             headerName: <Typography>{doI18n("pages:content:row_name", i18nRef.current)}</Typography>,
+            minWidth: 110,
             flex: 3
         },
         {
             field: 'language',
             headerName: <Typography>{doI18n("pages:content:row_language", i18nRef.current)}</Typography>,
+            minWidth: 120,
             flex: 0.75
         },
         {
             field: 'nBooks',
             headerName: <Typography>{doI18n("pages:content:row_nbooks", i18nRef.current)}</Typography>,
             type: "number",
+            minWidth: 150,
             flex: 0.5
         },
         {
             field: 'type',
             headerName: <Typography>{doI18n("pages:content:row_type", i18nRef.current)}</Typography>,
+            minWidth: 80,
             flex: 0.75,
             valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
         },
         {
             field: 'source',
             headerName: <Typography>{doI18n("pages:content:row_source", i18nRef.current)}</Typography>,
+            minWidth: 110,
             flex: 1
         },
         {
             field: 'dateUpdated',
             headerName: <Typography>{doI18n("pages:content:row_date_updated", i18nRef.current)}</Typography>,
+            minWidth: 200,
             flex: 1
         },
         {
             field: 'actions',
+            minWidth: 100,
             headerName: <Typography>{doI18n("pages:content:row_actions", i18nRef.current)}</Typography>,
             flex: 0.5,
             renderCell: (params) => {
