@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext,useCallback} from "react"
 
-import {Grid2, Box, IconButton, Typography} from "@mui/material";
+import {Grid2, Box, IconButton} from "@mui/material";
 import {DataGrid} from '@mui/x-data-grid';
 import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
@@ -92,46 +92,46 @@ function App() {
     const columns = [
         {
             field: 'name',
-            headerName: <Typography>{doI18n("pages:content:row_name", i18nRef.current)}</Typography>,
+            headerName: doI18n("pages:content:row_name", i18nRef.current),
             minWidth: 110,
             flex: 3
         },
         {
             field: 'language',
-            headerName: <Typography>{doI18n("pages:content:row_language", i18nRef.current)}</Typography>,
+            headerName: doI18n("pages:content:row_language", i18nRef.current),
             minWidth: 120,
             flex: 0.75
         },
         {
             field: 'nBooks',
-            headerName: <Typography>{doI18n("pages:content:row_nbooks", i18nRef.current)}</Typography>,
+            headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
             type: "number",
             minWidth: 150,
             flex: 0.5
         },
         {
             field: 'type',
-            headerName: <Typography>{doI18n("pages:content:row_type", i18nRef.current)}</Typography>,
+            headerName: doI18n("pages:content:row_type", i18nRef.current),
             minWidth: 80,
             flex: 0.75,
             valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
         },
         {
             field: 'source',
-            headerName: <Typography>{doI18n("pages:content:row_source", i18nRef.current)}</Typography>,
+            headerName: doI18n("pages:content:row_source", i18nRef.current),
             minWidth: 110,
             flex: 1
         },
         {
             field: 'dateUpdated',
-            headerName: <Typography>{doI18n("pages:content:row_date_updated", i18nRef.current)}</Typography>,
+            headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
             minWidth: 200,
             flex: 1
         },
         {
             field: 'actions',
             minWidth: 100,
-            headerName: <Typography>{doI18n("pages:content:row_actions", i18nRef.current)}</Typography>,
+            headerName: doI18n("pages:content:row_actions", i18nRef.current),
             flex: 0.5,
             renderCell: (params) => {
                 return <>
