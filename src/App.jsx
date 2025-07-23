@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext,useCallback} from "react"
 
-import {Grid2, IconButton, Typography} from "@mui/material";
+import {Grid2, Box, IconButton, Typography} from "@mui/material";
 import {DataGrid} from '@mui/x-data-grid';
 import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
@@ -172,32 +172,35 @@ function App() {
     });
     
     return (
-            <Grid2 container sx={{height: '100%', width: '100%', maxHeight: maxWindowHeight, m: 0}}>
-                <Grid2 item size={12}>
-                    <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen} reposModCount={reposModCount}
-                        setReposModCount={setReposModCount}/>
-                </Grid2>
-                <Grid2 item size={12}>
-                    <DataGrid
-                        initialState={{
-                            columns: {
-                                columnVisibilityModel: {
-                                    nBooks: false,
-                                    source: false,
-                                    dateUpdated: false
-                                },
-                            },
-                            sorting: {
+            <Box sx={{mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
+                <Grid2 container sx={{mx: 2}}>
+                    <Grid2 container>
+                        <Grid2 item size={12} sx={{m: 0}}>
+                            <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen} reposModCount={reposModCount}
+                                setReposModCount={setReposModCount}/>
+                        </Grid2>
+                        <Grid2 item size={12}>
+                            <DataGrid
+                                initialState={{
+                                    columns: {
+                                        columnVisibilityModel: {
+                                            nBooks: false,
+                                            source: false,
+                                            dateUpdated: false
+                                        },
+                                    },
+                                    sorting: {
                                 sortModel: [{ field: 'name', sort: 'asc' }],
                               }
                         }}
-                        rows={rows}
-                        columns={columns}
-                        sx={{fontSize: "1rem"}}
-                    />
+                                rows={rows}
+                                columns={columns}
+                                sx={{fontSize: "1rem"}}
+                            />
+                        </Grid2>
+                    </Grid2>
                 </Grid2>
-               
-            </Grid2>
+            </Box>
     );
 }
 
