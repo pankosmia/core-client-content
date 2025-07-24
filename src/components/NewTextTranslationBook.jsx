@@ -152,7 +152,7 @@ export default function NewTextTranslationBook({repoInfo, open, setOpen, reposMo
                                             key={n}
                                             value={listItem}
                                             dense
-                                            disabled={repoInfo.bookCodes.includes(listItem)}
+                                            disabled={repoInfo.book_codes.includes(listItem)}
                                         >
                                             <ListMenuItem
                                                 listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`}

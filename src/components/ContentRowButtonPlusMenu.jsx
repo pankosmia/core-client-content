@@ -82,13 +82,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             </MenuItem>
         </Menu>
         <UsfmExport
-            bookNames={repoInfo.bookCodes}
+            bookNames={repoInfo.book_codes}
             repoSourcePath={repoInfo.path}
             open={usfmExportOpen}
             closeFn={() => setUsfmExportAnchorEl(null)}
         />
         <PdfGenerate
-            bookNames={repoInfo.bookCodes}
+            bookNames={repoInfo.book_codes}
             repoSourcePath={repoInfo.path}
             open={pdfGenerateOpen}
             closeFn={() => setPdfGenerateAnchorEl(null)}
