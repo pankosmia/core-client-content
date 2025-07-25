@@ -54,7 +54,6 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
             const resourceFormatresponse = await getJson(
                 "/app-resources/tsv/templates.json"
             );
-            console.log("recuperation des formats de ressources", resourceFormatresponse.json)
             setResourceFormatOption(Object.keys(resourceFormatresponse.json));
             setResourceFormatLabel(resourceFormatresponse.json)
         } catch (error) {
