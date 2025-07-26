@@ -12,7 +12,7 @@ function App() {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
-    const [repos, setRepos] = useState([]);
+    //const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
     const [projectSummaries, setProjectSummaries] = useState({});
@@ -22,7 +22,7 @@ function App() {
      * innerHeight is examined in the 2nd Box, so 105px less it's top margin of 16px = 89
      * bottom margin comes from this component, and SpaSpa's bottom margin of 16px is hidden
      */
-    const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - 89);
+    const [, setMaxWindowHeight] = useState(window.innerHeight - 89);
 
     const handleWindowResize = useCallback(() => {
         setMaxWindowHeight(window.innerHeight - 89);
