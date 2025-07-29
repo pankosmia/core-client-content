@@ -3,6 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
+import CopyContent from "./CopyContent";
 import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
@@ -19,6 +20,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
 
     const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
     const contentRowOpen = Boolean(contentRowAnchorEl);
+
+    const [copyContentAnchorEl, setCopyContentAnchorEl] = useState(null);
+    const copyContentOpen = Boolean(copyContentAnchorEl);
 
     const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
     const deleteContentOpen = Boolean(deleteContentAnchorEl);
@@ -74,6 +78,14 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             <Divider/>
             <MenuItem
                 onClick={(event) => {
+                    setCopyContentAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+            >
+                {doI18n("pages:content:copy_content", i18nRef.current)}
+            </MenuItem>
+            <MenuItem
+                onClick={(event) => {
                     setDeleteContentAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
@@ -97,6 +109,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             repoInfo={repoInfo}
             open={newBookOpen}
             setOpen={setNewBookAnchorEl}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <CopyContent
+            repoInfo={repoInfo}
+            open={copyContentOpen}
+            closeFn={() => setCopyContentAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />

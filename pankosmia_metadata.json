@@ -303,6 +303,31 @@
       "en":"Actions",
       "fr":"Actions",
       "es":"Acciones"
+    },
+    "copy_content":{
+      "en":"Make local copy",
+      "fr":"Faire une copie locale",
+      "es":"Hacer una copia local"
+    },
+    "about_to_copy_content":{
+      "en":"About to make a local copy",
+      "fr":"Sur le point de faire une copie locale",
+      "es":"A punto de hacer una copia local"
+    },
+    "do_copy_button":{
+      "en":"Copy",
+      "fr":"Copier",
+      "es":"Copiar"
+    },
+    "could_not_copy_repo":{
+      "en":"Could not make a local copy",
+      "fr":"Impossible de faire une copie locale",
+      "es":"No se pudo hacer la copia local"
+    },
+    "repo_copied":{
+      "en":"Content copied",
+      "fr":"Contenu copié",
+      "es":"Contenido copiado"
     }
   }
 }
