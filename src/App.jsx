@@ -1,6 +1,6 @@
 import {useState, useEffect, useContext,useCallback} from "react"
 
-import {Grid2, Box, IconButton} from "@mui/material";
+import {Grid2, Box, IconButton, ButtonGroup, Button} from "@mui/material";
 import {DataGrid} from '@mui/x-data-grid';
 import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
@@ -16,6 +16,7 @@ function App() {
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
     const [projectSummaries, setProjectSummaries] = useState({});
+    const [currentProjectFilter, setCurrentProjectFilter] = useState("");
 
     /**
      * header 48px + SpaSpa's top margin of 16px + FabPlusMenu 34px + shadow 7px = fixed position of 105px
@@ -36,7 +37,7 @@ function App() {
     }, [handleWindowResize]);
 
     const getProjectSummaries = async () => {
-        const summariesResponse = await getJson("/burrito/metadata/summaries", debugRef.current);
+        const summariesResponse = await getJson(`/burrito/metadata/summaries${currentProjectFilter}`, debugRef.current);
         if (summariesResponse.ok) {
             setProjectSummaries(summariesResponse.json);
         }
@@ -46,7 +47,7 @@ function App() {
         () => {
             getProjectSummaries().then();
         },
-        []
+        [currentProjectFilter]
     );
     
     const flavorTypes = {
@@ -65,6 +66,14 @@ function App() {
         "x-obsarticles": "peripheral",
         "x-obsimages": "peripheral",
     };
+
+    const contentFilters = {
+        "allActive": "",
+        "activeResources": "?org=git.door43.org/BurritoTruck",
+        "activeLocal": "?org=_local_/_local_",
+        "archived": "?org=_local_/_archived_",
+        "quarantined": "?org=_local_/_quarantine_"
+    }
 
     const columns = [
         {
@@ -158,11 +167,28 @@ function App() {
 
     return (
             <Box sx={{mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
+                
                 <Grid2 container sx={{mx: 2}}>
                     <Grid2 container>
                         <Grid2 item size={12} sx={{m: 0}}>
-                            <FabPlusMenu newIsOpen={newIsOpen} setNewIsOpen={setNewIsOpen} reposModCount={reposModCount}
-                                setReposModCount={setReposModCount}/>
+                            <FabPlusMenu 
+                                newIsOpen={newIsOpen} 
+                                setNewIsOpen={setNewIsOpen} 
+                                reposModCount={reposModCount}
+                                setReposModCount={setReposModCount}
+                            />
+                            <ButtonGroup>
+                                {
+                                    Object.entries(contentFilters).map(
+                                        f => <Button
+                                            variant={f[1] === currentProjectFilter ? "contained" : "outlined"}
+                                            onClick={() => setCurrentProjectFilter(f[1])}
+                                        >
+                                            {f[0]}
+                                        </Button>
+                                    )
+                                }
+                            </ButtonGroup>
                         </Grid2>
                         <Grid2 item size={12}>
                             <DataGrid

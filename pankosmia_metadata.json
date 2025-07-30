@@ -354,10 +354,25 @@
       "fr":"Le contenu a été mis en quarantaine",
       "es":"Contenido puesto en cuarentena"
     },
-    "delete_source":{
-      "en":"Delete source?",
-      "fr":"Supprimer la source?",
-      "es":"¿Borrar origen?"
+    "archive_content":{
+      "en":"Archive content",
+      "fr":"Contenu des archives",
+      "es":"Archivar contenido"
+    },
+    "about_to_archive_content":{
+      "en":"About to archive content",
+      "fr":"À propos de l'archivage du contenu",
+      "es":"A punto de archivar contenido"
+    },
+    "could_not_archive_repo":{
+      "en":"Could not archive content",
+      "fr":"Le contenu n'a pas pu être archivé",
+      "es":"No se pudo archivar el contenido"
+    },
+    "repo_archived":{
+      "en":"Content archived",
+      "fr":"Le contenu a été archivé",
+      "es":"Se archivó el contenido"
     }
   }
 }

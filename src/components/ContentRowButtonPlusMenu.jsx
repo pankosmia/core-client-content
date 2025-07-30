@@ -4,6 +4,7 @@ import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
+import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
@@ -25,6 +26,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
     const [copyContentAnchorEl, setCopyContentAnchorEl] = useState(null);
     const copyContentOpen = Boolean(copyContentAnchorEl);
 
+    const [archiveContentAnchorEl, setArchiveContentAnchorEl] = useState(null);
+    const archiveContentOpen = Boolean(archiveContentAnchorEl);
+
     const [quarantineContentAnchorEl, setQuarantineContentAnchorEl] = useState(null);
     const quarantineContentOpen = Boolean(quarantineContentAnchorEl);
 
@@ -33,8 +37,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
 
     const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
     const newBookOpen = Boolean(newBookAnchorEl);
-
-    console.log(repoInfo);
 
     return <>
         <IconButton
@@ -93,10 +95,19 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             </MenuItem>
             <MenuItem
                 onClick={(event) => {
+                    setArchiveContentAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+                disabled={repoInfo.path.split("/")[1] === "_archived_"}
+            >
+                {doI18n("pages:content:archive_content", i18nRef.current)}
+            </MenuItem>
+            <MenuItem
+                onClick={(event) => {
                     setQuarantineContentAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
-                disabled={repoInfo.path.split("/")[1] === "quarantine"}
+                disabled={repoInfo.path.split("/")[1] === "_quarantine_"}
             >
                 {doI18n("pages:content:quarantine_content", i18nRef.current)}
             </MenuItem>
@@ -132,6 +143,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             repoInfo={repoInfo}
             open={copyContentOpen}
             closeFn={() => setCopyContentAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <ArchiveContent
+            repoInfo={repoInfo}
+            open={archiveContentOpen}
+            closeFn={() => setArchiveContentAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
