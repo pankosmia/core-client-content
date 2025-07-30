@@ -6,6 +6,7 @@ import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
+import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
@@ -31,6 +32,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
 
     const [quarantineContentAnchorEl, setQuarantineContentAnchorEl] = useState(null);
     const quarantineContentOpen = Boolean(quarantineContentAnchorEl);
+
+    const [restoreContentAnchorEl, setRestoreContentAnchorEl] = useState(null);
+    const restoreContentOpen = Boolean(restoreContentAnchorEl);
 
     const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
     const deleteContentOpen = Boolean(deleteContentAnchorEl);
@@ -113,6 +117,15 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             </MenuItem>
             <MenuItem
                 onClick={(event) => {
+                    setRestoreContentAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+                disabled={["_local_", "BurritoTruck", "uW"].every(str => repoInfo.path.split("/")[1] === (str))}
+            >
+                {doI18n("pages:content:restore_content", i18nRef.current)}
+            </MenuItem>
+            <MenuItem
+                onClick={(event) => {
                     setDeleteContentAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
@@ -157,6 +170,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             repoInfo={repoInfo}
             open={quarantineContentOpen}
             closeFn={() => setQuarantineContentAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <RestoreContent
+            repoInfo={repoInfo}
+            open={restoreContentOpen}
+            closeFn={() => setRestoreContentAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
