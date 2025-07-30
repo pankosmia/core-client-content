@@ -1,8 +1,8 @@
-import {useState, useContext, useEffect} from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
     Button, Checkbox,
-    Dialog, FormControl, FormControlLabel, FormGroup,
+    Modal, FormControl, FormControlLabel, FormGroup,
     IconButton,
     Stack,
     TextField,
@@ -10,22 +10,23 @@ import {
     Typography,
     Select,
     MenuItem,
-    InputLabel, Grid2
+    InputLabel, Grid2,
+    Box
 } from "@mui/material";
-import {Close as CloseIcon} from '@mui/icons-material';
-import {enqueueSnackbar} from "notistack";
-import {i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson} from "pithekos-lib";
+import { Close as CloseIcon } from '@mui/icons-material';
+import { enqueueSnackbar } from "notistack";
+import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } from "pithekos-lib";
 import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 
-export default function NewBibleContent({open, closeModal, reposModCount, setReposModCount} ) {
+export default function NewBibleContent({ open, closeModal, reposModCount, setReposModCount }) {
 
     const handleClose = () => {
         closeModal();
     };
 
-    const {i18nRef} = useContext(i18nContext);
-    const {debugRef} = useContext(debugContext);
+    const { i18nRef } = useContext(i18nContext);
+    const { debugRef } = useContext(debugContext);
     const [contentName, setContentName] = useState("");
     const [contentAbbr, setContentAbbr] = useState("");
     const [contentType, setContentType] = useState("text_translation");
@@ -43,10 +44,10 @@ export default function NewBibleContent({open, closeModal, reposModCount, setRep
     const [protestantOnly, setProtestantOnly] = useState(true);
 
     useEffect(() =>
-            getAndSetJson({
-                url: "/content-utils/versifications",
-                setter: setVersificationCodes
-            }).then(),
+        getAndSetJson({
+            url: "/content-utils/versifications",
+            setter: setVersificationCodes
+        }).then(),
         []
     );
 
@@ -81,7 +82,6 @@ export default function NewBibleContent({open, closeModal, reposModCount, setRep
     );
 
     const handleCreate = async () => {
-
         const payload = {
             content_name: contentName,
             content_abbr: contentAbbr,
@@ -104,173 +104,206 @@ export default function NewBibleContent({open, closeModal, reposModCount, setRep
             setReposModCount(reposModCount + 1);
             enqueueSnackbar(
                 doI18n("pages:content:content_created", i18nRef.current),
-                {variant: "success"}
+                { variant: "success" }
             );
         } else {
             enqueueSnackbar(
                 `${doI18n("pages:content:content_creation_error", i18nRef.current)}: ${response.status}`,
-                {variant: "error"}
+                { variant: "error" }
             );
         }
         closeModal();
     };
 
     return (
-        <Dialog
-            fullScreen
+        <Modal
             open={open}
             onClose={handleClose}
         >
-            <AppBar sx={{position: 'relative'}}>
-                <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label={doI18n("pages:content:close", i18nRef.current)}
-                    >
-                        <CloseIcon/>
-                    </IconButton>
-                    <Typography sx={{ml: 2, flex: 1}} variant="h6" component="div">
-                        {doI18n("pages:content:new_content", i18nRef.current)}
-                    </Typography>
-                    <Button
-                        autoFocus
-                        color="inherit"
-                        disabled={
-                            !(
-                                contentName.trim().length > 0 &&
-                                contentAbbr.trim().length > 0 &&
-                                contentType.trim().length > 0 &&
-                                contentLanguageCode.trim().length > 0 &&
-                                versification.trim().length === 3 &&
-                                (
-                                    !showBookFields || (
-                                        bookCode.trim().length === 3 &&
-                                        bookTitle.trim().length > 0 &&
-                                        bookAbbr.trim().length > 0
+            <Box sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                bgcolor: 'background.paper',
+                boxShadow: 24,
+                borderRadius: 2,
+            }}
+            >
+                <AppBar sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+                    <Toolbar>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            onClick={handleClose}
+                            aria-label={doI18n("pages:content:close", i18nRef.current)}
+                        >
+                            <CloseIcon />
+                        </IconButton>
+                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                            {doI18n("pages:content:new_content", i18nRef.current)}
+                        </Typography>
+                        <Button
+                            autoFocus
+                            color="inherit"
+                            disabled={
+                                !(
+                                    contentName.trim().length > 0 &&
+                                    contentAbbr.trim().length > 0 &&
+                                    contentType.trim().length > 0 &&
+                                    contentLanguageCode.trim().length > 0 &&
+                                    versification.trim().length === 3 &&
+                                    (
+                                        !showBookFields || (
+                                            bookCode.trim().length === 3 &&
+                                            bookTitle.trim().length > 0 &&
+                                            bookAbbr.trim().length > 0
+                                        )
                                     )
                                 )
-                            )
-                        }
-                        onClick={handleCreate}
-                    >
-                        {doI18n("pages:content:create", i18nRef.current)}
-                    </Button>
-                </Toolbar>
-            </AppBar>
-            <Stack spacing={2} sx={{m: 2}}>
-                <TextField
-                    id="name"
-                    label={doI18n("pages:content:name", i18nRef.current)}
-                    value={contentName}
-                    onChange={(event) => {
-                        setContentName(event.target.value);
-                    }}
-                />
-                <TextField
-                    id="abbr"
-                    label={doI18n("pages:content:abbreviation", i18nRef.current)}
-                    value={contentAbbr}
-                    onChange={(event) => {
-                        setContentAbbr(event.target.value);
-                    }}
-                />
-                <TextField
-                    id="type"
-                    disabled={true}
-                    sx={{display: "none"}}
-                    label={doI18n("pages:content:type", i18nRef.current)}
-                    value={contentType}
-                    onChange={(event) => {
-                        setContentType(event.target.value);
-                    }}
-                />
-                <TextField
-                    id="languageCode"
-                    label={doI18n("pages:content:lang_code", i18nRef.current)}
-                    value={contentLanguageCode}
-                    onChange={(event) => {
-                        setContentLanguageCode(event.target.value);
-                    }}
-                />
-                <FormControl>
-                    <InputLabel id="booksVersification-label" htmlFor="booksVersification"
-                                sx={sx.inputLabel}>
-                        {doI18n("pages:content:versification_scheme", i18nRef.current)}
-                    </InputLabel>
-                    <Select
-                        variant="outlined"
-                        labelId="booksVersification-label"
-                        name="booksVersification"
-                        inputProps={{
-                            id: "bookVersification",
-                        }}
-                        value={versification}
-                        label={doI18n("pages:content:versification_scheme", i18nRef.current)}
+                            }
+                            onClick={handleCreate}
+                        >
+                            {doI18n("pages:content:create", i18nRef.current)}
+                        </Button>
+                    </Toolbar>
+                </AppBar>
+                <Stack spacing={2} sx={{ m: 2 }}>
+                    <TextField
+                        id="name"
+                        label={doI18n("pages:content:name", i18nRef.current)}
+                        value={contentName}
                         onChange={(event) => {
-                            setVersification(event.target.value);
+                            setContentName(event.target.value);
                         }}
-                        sx={sx.select}
-                    >
-                        {
-                            versificationCodes.map((listItem, n) => <MenuItem key={n} value={listItem}
-                                                                              dense>
+                    />
+                    <TextField
+                        id="abbr"
+                        label={doI18n("pages:content:abbreviation", i18nRef.current)}
+                        value={contentAbbr}
+                        onChange={(event) => {
+                            setContentAbbr(event.target.value);
+                        }}
+                    />
+                    <TextField
+                        id="type"
+                        disabled={true}
+                        sx={{ display: "none" }}
+                        label={doI18n("pages:content:type", i18nRef.current)}
+                        value={contentType}
+                        onChange={(event) => {
+                            setContentType(event.target.value);
+                        }}
+                    />
+                    <TextField
+                        id="languageCode"
+                        label={doI18n("pages:content:lang_code", i18nRef.current)}
+                        value={contentLanguageCode}
+                        onChange={(event) => {
+                            setContentLanguageCode(event.target.value);
+                        }}
+                    />
+                    <FormControl>
+                        <InputLabel id="booksVersification-label" htmlFor="booksVersification"
+                            sx={sx.inputLabel}>
+                            {doI18n("pages:content:versification_scheme", i18nRef.current)}
+                        </InputLabel>
+                        <Select
+                            variant="outlined"
+                            labelId="booksVersification-label"
+                            name="booksVersification"
+                            inputProps={{
+                                id: "bookVersification",
+                            }}
+                            value={versification}
+                            label={doI18n("pages:content:versification_scheme", i18nRef.current)}
+                            onChange={(event) => {
+                                setVersification(event.target.value);
+                            }}
+                            sx={sx.select}
+                        >
+                            {
+                                versificationCodes.map((listItem, n) => <MenuItem key={n} value={listItem}
+                                    dense>
                                     <ListMenuItem
                                         listItem={`${listItem.toUpperCase()} - ${doI18n(`scripture:versifications:${listItem}`, i18nRef.current)}`}
                                     />
                                 </MenuItem>
-                            )
-                        }
-                    </Select>
-                </FormControl>
-                <FormGroup>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={showBookFields}
-                                onChange={() => setShowBookFields(!showBookFields)}
-                            />
-                        }
-                        label={doI18n("pages:content:add_book_checkbox", i18nRef.current)}
-                    />
-                </FormGroup>
-                {
-                    showBookFields && <>
-                        <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
-                            <Grid2 item size={2}>
-                                <FormControl sx={{width: "100%"}}>
-                                    <InputLabel id="bookCode-label" htmlFor="bookCode" sx={sx.inputLabel}>
-                                        {doI18n("pages:content:book_code", i18nRef.current)}
-                                    </InputLabel>
-                                    <Select
-                                        variant="outlined"
-                                        labelId="bookCode-label"
-                                        name="bookCode"
-                                        inputProps={{
-                                            id: "bookCode",
-                                        }}
-                                        value={bookCode}
-                                        label={doI18n("pages:content:book_code", i18nRef.current)}
-                                        onChange={(event) => {
-                                            setBookCode(event.target.value);
-                                            setBookAbbr(
-                                                ["1", "2", "3"].includes(event.target.value[0]) ?
-                                                    event.target.value.slice(0, 2) + event.target.value[2].toLowerCase() :
-                                                    event.target.value[0] + event.target.value.slice(1).toLowerCase()
-                                            );
-                                            setBookTitle(doI18n(`scripture:books:${event.target.value}`, i18nRef.current))
-                                        }}
-                                        sx={sx.select}
-                                    >
-                                        {
-                                            (protestantOnly ? bookCodes.slice(0, 66) : bookCodes).map((listItem, n) => <MenuItem key={n} value={listItem} dense>
-                                                    <ListMenuItem listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`}/>
+                                )
+                            }
+                        </Select>
+                    </FormControl>
+                    <FormGroup>
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={showBookFields}
+                                    onChange={() => setShowBookFields(!showBookFields)}
+                                />
+                            }
+                            label={doI18n("pages:content:add_book_checkbox", i18nRef.current)}
+                        />
+                    </FormGroup>
+                    {
+                        showBookFields && <>
+                            <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
+                                <Grid2 item size={2}>
+                                    <FormControl sx={{ width: "100%" }}>
+                                        <InputLabel id="bookCode-label" htmlFor="bookCode" sx={sx.inputLabel}>
+                                            {doI18n("pages:content:book_code", i18nRef.current)}
+                                        </InputLabel>
+                                        <Select
+                                            variant="outlined"
+                                            labelId="bookCode-label"
+                                            name="bookCode"
+                                            inputProps={{
+                                                id: "bookCode",
+                                            }}
+                                            value={bookCode}
+                                            label={doI18n("pages:content:book_code", i18nRef.current)}
+                                            onChange={(event) => {
+                                                setBookCode(event.target.value);
+                                                setBookAbbr(
+                                                    ["1", "2", "3"].includes(event.target.value[0]) ?
+                                                        event.target.value.slice(0, 2) + event.target.value[2].toLowerCase() :
+                                                        event.target.value[0] + event.target.value.slice(1).toLowerCase()
+                                                );
+                                                setBookTitle(doI18n(`scripture:books:${event.target.value}`, i18nRef.current))
+                                            }}
+                                            sx={sx.select}
+                                        >
+                                            {
+                                                (protestantOnly ? bookCodes.slice(0, 66) : bookCodes).map((listItem, n) => <MenuItem key={n} value={listItem} dense>
+                                                    <ListMenuItem listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`} />
                                                 </MenuItem>
-                                            )
-                                        }
-                                    </Select>
-                                </FormControl>
+                                                )
+                                            }
+                                        </Select>
+                                    </FormControl>
+
+                                </Grid2>
+                                <Grid2 item size={2}>
+                                    <TextField
+                                        id="bookAbbr"
+                                        sx={{ width: "100%" }}
+                                        label={doI18n("pages:content:book_abbr", i18nRef.current)}
+                                        value={bookAbbr}
+                                        onChange={(event) => {
+                                            setBookAbbr(event.target.value);
+                                        }}
+                                    />
+                                </Grid2>
+                                <Grid2 item size={8}>
+                                    <TextField
+                                        id="bookTitle"
+                                        sx={{ width: "100%" }}
+                                        label={doI18n("pages:content:book_title", i18nRef.current)}
+                                        value={bookTitle}
+                                        onChange={(event) => {
+                                            setBookTitle(event.target.value);
+                                        }}
+                                    />
+                                </Grid2>
                                 <FormGroup>
                                     <FormControlLabel
                                         control={
@@ -282,44 +315,23 @@ export default function NewBibleContent({open, closeModal, reposModCount, setRep
                                         label={doI18n("pages:content:protestant_books_only", i18nRef.current)}
                                     />
                                 </FormGroup>
-                            </Grid2>
-                            <Grid2 item size={2}>
-                                <TextField
-                                    id="bookAbbr"
-                                    sx={{width: "100%"}}
-                                    label={doI18n("pages:content:book_abbr", i18nRef.current)}
-                                    value={bookAbbr}
-                                    onChange={(event) => {
-                                        setBookAbbr(event.target.value);
-                                    }}
-                                />
-                            </Grid2>
-                            <Grid2 item size={8}>
-                                <TextField
-                                    id="bookTitle"
-                                    sx={{width: "100%"}}
-                                    label={doI18n("pages:content:book_title", i18nRef.current)}
-                                    value={bookTitle}
-                                    onChange={(event) => {
-                                        setBookTitle(event.target.value);
-                                    }}
-                                />
-                            </Grid2>
-                        </Grid2>
-                        <FormGroup>
-                            <FormControlLabel
-                                control={
-                                    <Checkbox
-                                        checked={showVersification}
-                                        onChange={() => setShowVersification(!showVersification)}
+                                <FormGroup>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={showVersification}
+                                                onChange={() => setShowVersification(!showVersification)}
+                                            />
+                                        }
+                                        label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
                                     />
-                                }
-                                label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
-                            />
-                        </FormGroup>
-                    </>
-                }
-            </Stack>
-        </Dialog>
+                                </FormGroup>
+                            </Grid2>
+
+                        </>
+                    }
+                </Stack>
+            </Box>
+        </Modal>
     );
 }
