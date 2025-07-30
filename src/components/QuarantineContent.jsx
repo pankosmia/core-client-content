@@ -17,7 +17,7 @@ function QuarantineContent({repoInfo, open, closeFn, reposModCount, setReposModC
 
     const quarantineRepo = async repo_path => {
 
-        const quarantineUrl = `/git/copy/${repo_path}?target_path=_local_/quarantine/${repo_path.split("/")[2]}&delete_src`;
+        const quarantineUrl = `/git/copy/${repo_path}?target_path=_local_/_quarantine_/${repo_path.split("/")[2]}&delete_src`;
         const quarantineResponse = await postEmptyJson(quarantineUrl, debugRef.current);
         if (quarantineResponse.ok) {
             enqueueSnackbar(

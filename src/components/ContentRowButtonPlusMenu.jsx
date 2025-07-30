@@ -34,6 +34,8 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
     const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
     const newBookOpen = Boolean(newBookAnchorEl);
 
+    console.log(repoInfo);
+
     return <>
         <IconButton
             onClick={(event) => {
@@ -85,6 +87,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setCopyContentAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
+                disabled={repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_local_"}
             >
                 {doI18n("pages:content:copy_content", i18nRef.current)}
             </MenuItem>
@@ -93,6 +96,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
                     setQuarantineContentAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
+                disabled={repoInfo.path.split("/")[1] === "quarantine"}
             >
                 {doI18n("pages:content:quarantine_content", i18nRef.current)}
             </MenuItem>
