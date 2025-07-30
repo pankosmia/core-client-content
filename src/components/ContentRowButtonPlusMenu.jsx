@@ -4,6 +4,7 @@ import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
+import QuarantineContent from "./QuarantineContent";
 import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
@@ -23,6 +24,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
 
     const [copyContentAnchorEl, setCopyContentAnchorEl] = useState(null);
     const copyContentOpen = Boolean(copyContentAnchorEl);
+
+    const [quarantineContentAnchorEl, setQuarantineContentAnchorEl] = useState(null);
+    const quarantineContentOpen = Boolean(quarantineContentAnchorEl);
 
     const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
     const deleteContentOpen = Boolean(deleteContentAnchorEl);
@@ -86,6 +90,14 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             </MenuItem>
             <MenuItem
                 onClick={(event) => {
+                    setQuarantineContentAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                }}
+            >
+                {doI18n("pages:content:quarantine_content", i18nRef.current)}
+            </MenuItem>
+            <MenuItem
+                onClick={(event) => {
                     setDeleteContentAnchorEl(event.currentTarget);
                     setContentRowAnchorEl(null);
                 }}
@@ -116,6 +128,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             repoInfo={repoInfo}
             open={copyContentOpen}
             closeFn={() => setCopyContentAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <QuarantineContent
+            repoInfo={repoInfo}
+            open={quarantineContentOpen}
+            closeFn={() => setQuarantineContentAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />

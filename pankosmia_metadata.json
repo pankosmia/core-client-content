@@ -328,6 +328,36 @@
       "en":"Content copied",
       "fr":"Contenu copié",
       "es":"Contenido copiado"
+    },
+    "quarantine_content":{
+      "en":"Quarantine",
+      "fr":"Mettre en quarantaine",
+      "es":"Poner en cuarentena"
+    },
+    "about_to_quarantine_content":{
+      "en":"About to quarantine content",
+      "fr":"Sur la mise en quarantaine du contenu",
+      "es":"A punto de poner en cuarentena"
+    },
+    "accept":{
+      "en":"Accept",
+      "fr":"Accepter",
+      "es":"Aceptar"
+    },
+    "could_not_quarantine_repo":{
+      "en":"Could not quarantine content",
+      "fr":"N'a pas pu mettre en quarantaine le repo",
+      "es":"No se pudo poner en cuarentena"
+    },
+    "repo_quarantined":{
+      "en":"Content quarantined",
+      "fr":"Le contenu a été mis en quarantaine",
+      "es":"Contenido puesto en cuarentena"
+    },
+    "delete_source":{
+      "en":"Delete source?",
+      "fr":"Supprimer la source?",
+      "es":"¿Borrar origen?"
     }
   }
 }
