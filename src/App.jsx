@@ -71,7 +71,7 @@ function App() {
         "allActive": "",
         "activeResources": "?org=git.door43.org/BurritoTruck",
         "activeLocal": "?org=_local_/_local_",
-        "archived": "?org=_local_/_archived_",
+        "archived": "?org=_local_/_archive_",
         "quarantined": "?org=_local_/_quarantine_"
     }
 

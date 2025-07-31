@@ -17,7 +17,7 @@ function ArchiveContent({repoInfo, open, closeFn, reposModCount, setReposModCoun
 
     const archiveRepo = async repo_path => {
 
-        const archiveUrl = `/git/copy/${repo_path}?target_path=_local_/_archived_/${repo_path.split("/")[2]}&delete_src`;
+        const archiveUrl = `/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split("/")[2]}&delete_src`;
         const archiveResponse = await postEmptyJson(archiveUrl, debugRef.current);
         if (archiveResponse.ok) {
             enqueueSnackbar(

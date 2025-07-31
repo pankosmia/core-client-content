@@ -17,7 +17,7 @@ function RestoreContent({repoInfo, open, closeFn, reposModCount, setReposModCoun
 
     const restoreRepo = async repo_path => {
 
-        const restoreUrl = `/git/copy/${repo_path}?target_path=git.door43.org/BurritoTruck/${repo_path.split("/")[2]}&delete_src`;
+        const restoreUrl = `/git/copy/${repo_path}?target_path=_local_/_local_/${repo_path.split("/")[2]}&delete_src`;
         const restoreResponse = await postEmptyJson(restoreUrl, debugRef.current);
         if (restoreResponse.ok) {
             enqueueSnackbar(
