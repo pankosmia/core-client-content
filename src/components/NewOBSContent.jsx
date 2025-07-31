@@ -70,6 +70,9 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
         <Modal
             open={open}
             onClose={handleClose}
+            sx={{
+                backdropFilter: "blur(3px)",
+            }}
         >
             <Box sx={{
                 position: 'absolute',
@@ -79,7 +82,7 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
                 bgcolor: 'background.paper',
                 boxShadow: 24,
                 borderRadius: 2,
-                minWidth:"80vh"
+                minWidth: "80vh"
             }}
             >
                 <AppBar sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>

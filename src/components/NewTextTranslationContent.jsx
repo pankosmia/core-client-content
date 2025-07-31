@@ -119,6 +119,9 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
         <Modal
             open={open}
             onClose={handleClose}
+            sx={{
+                backdropFilter: "blur(3px)",
+            }}
         >
             <Box sx={{
                 position: 'absolute',

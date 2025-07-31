@@ -133,6 +133,9 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
         <Modal
             open={open}
             onClose={handleClose}
+            sx={{
+                backdropFilter: "blur(3px)",
+            }}
         >
             <Box sx={{
                 position: 'absolute',
