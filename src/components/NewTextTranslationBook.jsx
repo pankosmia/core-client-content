@@ -91,6 +91,9 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
         <Modal
             open={open}
             onClose={handleClose}
+             sx={{
+                backdropFilter: "blur(3px)",
+            }}
         >
             <Box sx={{
                 position: 'absolute',
@@ -100,6 +103,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                 bgcolor: 'background.paper',
                 boxShadow: 24,
                 borderRadius: 2,
+                minWidth:"80vh"
             }}
             >
                 <AppBar sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
