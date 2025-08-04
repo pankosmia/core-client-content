@@ -1,22 +1,46 @@
-import {useState, useEffect, useContext,useCallback} from "react"
+import {useState, useEffect, /* useContext, */ useCallback} from "react"
 
-import {Grid2, Box, IconButton, ButtonGroup, Button} from "@mui/material";
-import {DataGrid} from '@mui/x-data-grid';
-import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
+import {Grid2, Box, IconButton, /* ButtonGroup, */ Button, Dialog, DialogActions, DialogContent, DialogTitle, Menu, MenuItem} from "@mui/material";
+//import {DataGrid} from '@mui/x-data-grid';
+import {i18nContext, doI18n/* , postEmptyJson, getJson, debugContext */} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
-import ContentRowButtonPlusMenu from "./components/ContentRowButtonPlusMenu";
-import EditIcon from "@mui/icons-material/Edit";
-import EditOffIcon from "@mui/icons-material/EditOff";
+//import ContentRowButtonPlusMenu from "./components/ContentRowButtonPlusMenu";
+//import EditIcon from "@mui/icons-material/Edit";
+//import EditOffIcon from "@mui/icons-material/EditOff";
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
+import DataGridComponent from "./components/DataGridComponent";
 
 function App() {
 
-    const {debugRef} = useContext(debugContext);
-    const {i18nRef} = useContext(i18nContext);
+/*     const {debugRef} = useContext(debugContext);
+    const {i18nRef} = useContext(i18nContext); */
     //const [repos, setRepos] = useState([]);
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
-    const [projectSummaries, setProjectSummaries] = useState({});
-    const [currentProjectFilter, setCurrentProjectFilter] = useState("");
+    //const [projectSummaries, setProjectSummaries] = useState({});
+    //const [currentProjectFilter, setCurrentProjectFilter] = useState("");\
+
+    const [ contentUrl, setContentUrl ] = useState("");
+
+    const [experimentMenuAnchorEl, setExperimentMenuAnchorEl] = useState(null);
+    const experimentMenuOpen = Boolean(experimentMenuAnchorEl);
+
+    const [experimentDialogOpen, setExperimentDialogOpen] = useState(false);
+
+    const handleExperimentMenuClick = (event) => {
+        setExperimentMenuAnchorEl(event.currentTarget);
+      };
+    const handleExperimentMenuClose = () => {
+    setExperimentMenuAnchorEl(null);
+    };
+  
+    const handleExperimentDialogClickOpen = () => {
+      setExperimentDialogOpen(true);
+    };
+  
+    const handleExperimentDialogClose = () => {
+      setExperimentDialogOpen(false);
+    };
 
     /**
      * header 48px + SpaSpa's top margin of 16px + FabPlusMenu 34px + shadow 7px = fixed position of 105px
@@ -36,7 +60,9 @@ function App() {
         };
     }, [handleWindowResize]);
 
-    const getProjectSummaries = async () => {
+    
+
+/*     const getProjectSummaries = async () => {
         const summariesResponse = await getJson(`/burrito/metadata/summaries${currentProjectFilter}`, debugRef.current);
         if (summariesResponse.ok) {
             setProjectSummaries(summariesResponse.json);
@@ -48,9 +74,9 @@ function App() {
             getProjectSummaries().then();
         },
         [currentProjectFilter]
-    );
+    ); */
     
-    const flavorTypes = {
+/*     const flavorTypes = {
         texttranslation: "scripture",
         audiotranslation: "scripture",
         "x-bcvnotes": "parascriptural",
@@ -65,17 +91,17 @@ function App() {
         "x-obsnotes": "peripheral",
         "x-obsarticles": "peripheral",
         "x-obsimages": "peripheral",
-    };
+    }; */
 
-    const contentFilters = {
+    /* const contentFilters = {
         "allActive": "",
         "activeResources": "?org=git.door43.org/BurritoTruck",
         "activeLocal": "?org=_local_/_local_",
         "archived": "?org=_local_/_archive_",
         "quarantined": "?org=_local_/_quarantine_"
-    }
+    } */
 
-    const columns = [
+ /*    const columns = [
         {
             field: 'name',
             headerName: doI18n("pages:content:row_name", i18nRef.current),
@@ -146,9 +172,9 @@ function App() {
                 </>;
             }
         }
-    ]
+    ] */
 
-    const filteredProject = Object.entries(projectSummaries).map((obj) => {return {...obj[1], path: obj[0]}})
+/*     const filteredProject = Object.entries(projectSummaries).map((obj) => {return {...obj[1], path: obj[0]}})
 
     const rows = filteredProject.map((rep, n) => {
         return {
@@ -164,20 +190,66 @@ function App() {
             dateUpdated: rep.generated_date,
         }
     });
-
+ */
     return (
             <Box sx={{mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'scroll', width: '100%'}}>
-                
                 <Grid2 container sx={{mx: 2}}>
                     <Grid2 container>
                         <Grid2 item size={12} sx={{m: 0}}>
-                            <FabPlusMenu 
-                                newIsOpen={newIsOpen} 
-                                setNewIsOpen={setNewIsOpen} 
-                                reposModCount={reposModCount}
-                                setReposModCount={setReposModCount}
-                            />
-                            <ButtonGroup>
+                            <Grid2 container spacing={1.5} direction="row" sx={{ justifyContent: "flex-start", alignItems: "flex-start" }}>
+                                <Grid2 item>
+                                    <FabPlusMenu 
+                                        newIsOpen={newIsOpen} 
+                                        setNewIsOpen={setNewIsOpen} 
+                                        reposModCount={reposModCount}
+                                        setReposModCount={setReposModCount}
+                                    />
+                                </Grid2>
+                                <Grid2 item>
+                                    <Box sx={{ boxShadow: 3, borderRadius: 50 }}>
+                                        <IconButton
+                                            size="small"
+                                            color="primary"
+                                            onClick={handleExperimentMenuClick}
+                                        >
+                                            <HandymanOutlinedIcon/>
+                                        </IconButton>
+                                    </Box>
+                                    <Menu
+                                        id="basic-menu"
+                                        anchorEl={experimentMenuAnchorEl}
+                                        open={experimentMenuOpen}
+                                        onClose={handleExperimentMenuClose}
+                                        slotProps={{
+                                        list: {
+                                            'aria-labelledby': 'basic-button',
+                                        },
+                                        }}
+                                    >
+                                        <MenuItem onClick={() => {setContentUrl("?org=_local_/_archive_"); handleExperimentDialogClickOpen()}}>Archived content</MenuItem>
+                                        <MenuItem onClick={() => {setContentUrl("?org=_local_/_quarantine_"); handleExperimentDialogClickOpen()}}>Quarantined content</MenuItem>
+                                    </Menu>
+                                    <Dialog
+                                        fullWidth={true}
+                                        maxWidth={"lg"}
+                                        open={experimentDialogOpen}
+                                        onClose={handleExperimentDialogClose}
+                                    >
+                                        <DialogTitle>Experiment content</DialogTitle>
+                                        <DialogContent>
+                                            <DataGridComponent
+                                                isContentExperiment={true}
+                                                contentUrl={contentUrl}
+                                            />
+                                        </DialogContent>
+                                        <DialogActions>
+                                        <Button onClick={handleExperimentDialogClose}>Close</Button>
+                                        </DialogActions>
+                                    </Dialog>
+                                </Grid2>
+                            </Grid2>
+                            
+                            {/* <ButtonGroup>
                                 {
                                     Object.entries(contentFilters).map(
                                         f => <Button
@@ -188,10 +260,14 @@ function App() {
                                         </Button>
                                     )
                                 }
-                            </ButtonGroup>
+                            </ButtonGroup> */}
                         </Grid2>
                         <Grid2 item size={12}>
-                            <DataGrid
+                            <DataGridComponent
+                                isContentExperiment={false}
+                                contentUrl={""}
+                            />
+                            {/* <DataGrid
                                 initialState={{
                                     columns: {
                                         columnVisibilityModel: {
@@ -201,13 +277,13 @@ function App() {
                                         },
                                     },
                                     sorting: {
-                                sortModel: [{ field: 'name', sort: 'asc' }],
-                              }
-                        }}
+                                        sortModel: [{ field: 'name', sort: 'asc' }],
+                                    }
+                                }}
                                 rows={rows}
                                 columns={columns}
                                 sx={{fontSize: "1rem"}}
-                            />
+                            /> */}
                         </Grid2>
                     </Grid2>
                 </Grid2>

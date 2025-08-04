@@ -11,7 +11,7 @@ import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
 
-function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
+function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isContentExperiment}) {
 
     const {i18nRef} = useContext(i18nContext);
 
@@ -59,79 +59,95 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount}) {
             }}
             slotProps={{list: {'aria-labelledby': 'basic-button',}}}
         >
-            <MenuItem
-                onClick={(event) => {
-                    setUsfmExportAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-                disabled={repoInfo.flavor !== "textTranslation"}
-            >
-                {doI18n("pages:content:export_usfm", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={(event) => {
-                    setPdfGenerateAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-                disabled={repoInfo.flavor !== "textTranslation"}
-            >
-                {doI18n("pages:content:generate_pdf", i18nRef.current)}
-            </MenuItem>
-            <Divider/>
-            <MenuItem
-                onClick={(event) => {
-                    setNewBookAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-                disabled={!["textTranslation"].includes(repoInfo.flavor)}
-            >
-                {doI18n("pages:content:new_book", i18nRef.current)}
-            </MenuItem>
-            <Divider/>
-            <MenuItem
-                onClick={(event) => {
-                    setCopyContentAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-                disabled={repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_local_"}
-            >
-                {doI18n("pages:content:copy_content", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={(event) => {
-                    setArchiveContentAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-                disabled={repoInfo.path.split("/")[1] === "_archived_"}
-            >
-                {doI18n("pages:content:archive_content", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={(event) => {
-                    setQuarantineContentAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-                disabled={repoInfo.path.split("/")[1] === "_quarantine_"}
-            >
-                {doI18n("pages:content:quarantine_content", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={(event) => {
-                    setRestoreContentAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-                disabled={["_local_", "BurritoTruck", "uW"].every(str => repoInfo.path.split("/")[1] === (str))}
-            >
-                {doI18n("pages:content:restore_content", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={(event) => {
-                    setDeleteContentAnchorEl(event.currentTarget);
-                    setContentRowAnchorEl(null);
-                }}
-            >
-                {doI18n("pages:content:delete_content", i18nRef.current)}
-            </MenuItem>
+            {
+            isContentExperiment ? 
+                <>
+                    <MenuItem
+                        onClick={(event) => {
+                            setUsfmExportAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={repoInfo.flavor !== "textTranslation"}
+                    >
+                        {doI18n("pages:content:export_usfm", i18nRef.current)}
+                    </MenuItem>
+                    <MenuItem
+                        onClick={(event) => {
+                            setPdfGenerateAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={repoInfo.flavor !== "textTranslation"}
+                    >
+                        {doI18n("pages:content:generate_pdf", i18nRef.current)}
+                    </MenuItem>
+                    <Divider/>
+                    <MenuItem
+                        onClick={(event) => {
+                            setNewBookAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={!["textTranslation"].includes(repoInfo.flavor)}
+                    >
+                        {doI18n("pages:content:new_book", i18nRef.current)}
+                    </MenuItem>
+                    <Divider/>
+                    <MenuItem
+                        onClick={(event) => {
+                            setCopyContentAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_local_"}
+                    >
+                        {doI18n("pages:content:copy_content", i18nRef.current)}
+                    </MenuItem>
+                    <MenuItem
+                        onClick={(event) => {
+                            setArchiveContentAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={repoInfo.path.split("/")[1] === "_archived_"}
+                    >
+                        {doI18n("pages:content:archive_content", i18nRef.current)}
+                    </MenuItem>
+                    <MenuItem
+                        onClick={(event) => {
+                            setQuarantineContentAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={repoInfo.path.split("/")[1] === "_quarantine_"}
+                    >
+                        {doI18n("pages:content:quarantine_content", i18nRef.current)}
+                    </MenuItem>
+                    <MenuItem
+                        onClick={(event) => {
+                            setDeleteContentAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                    >
+                        {doI18n("pages:content:delete_content", i18nRef.current)}
+                    </MenuItem>
+                </>
+            :
+                <>
+                    <MenuItem
+                        onClick={(event) => {
+                            setRestoreContentAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={["_local_", "BurritoTruck", "uW"].every(str => repoInfo.path.split("/")[1] === (str))}
+                    >
+                        {doI18n("pages:content:restore_content", i18nRef.current)}
+                    </MenuItem>
+                    <MenuItem
+                        onClick={(event) => {
+                            setDeleteContentAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                    >
+                        {doI18n("pages:content:delete_content", i18nRef.current)}
+                    </MenuItem>
+                </>
+            }
         </Menu>
         <UsfmExport
             bookNames={repoInfo.book_codes}
