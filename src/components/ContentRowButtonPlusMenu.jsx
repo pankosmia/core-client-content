@@ -60,7 +60,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             slotProps={{list: {'aria-labelledby': 'basic-button',}}}
         >
             {
-            isContentExperiment ? 
+            !isContentExperiment ? 
                 <>
                     <MenuItem
                         onClick={(event) => {

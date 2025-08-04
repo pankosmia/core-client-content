@@ -373,6 +373,16 @@
       "en":"Content archived",
       "fr":"Le contenu a été archivé",
       "es":"Se archivó el contenido"
+    },
+    "experiment_content":{
+      "en":"Content for experiment",
+      "fr": "Contenu de l'expérience",
+      "es": "Contedido para experimentar"
+    },
+    "restore_content":{
+      "en":"Restore content",
+      "fr": "Restaurer le contenu",
+      "es": "Restaurar contenido"
     }
   }
 }

@@ -1,4 +1,4 @@
-import {useState, useEffect, useContext/* ,useCallback */} from "react"
+import {useState, useEffect, useContext} from "react"
 import {IconButton} from "@mui/material";
 import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import {DataGrid} from '@mui/x-data-grid';
@@ -8,28 +8,10 @@ import EditOffIcon from "@mui/icons-material/EditOff";
 
 function DataGridComponent({isContentExperiment, contentUrl}) {
 
-    // hago un estado que sea booleano que dependa de si  esta abierto archived o qurantine. y el boton del menu de archived y eso va a setear el url necesario. despues dependiendo del estado true or false se va a usar el url o no. Y ese mismo estado true or false va a decirdir que menus items se muestran en el content row noseque. etado true or false decide casi todo, y si es true se pone el link seteado al clickear el boton.
-
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
-    //const [repos, setRepos] = useState([]);
-    //const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
     const [projectSummaries, setProjectSummaries] = useState({});
-    //const [currentProjectFilter, setCurrentProjectFilter] = useState("");
-
-    /* const [, setMaxWindowHeight] = useState(window.innerHeight - 89);
-
-    const handleWindowResize = useCallback(() => {
-        setMaxWindowHeight(window.innerHeight - 89);
-    }, []); */
-
-/*     useEffect(() => {
-        window.addEventListener('resize', handleWindowResize);
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, [handleWindowResize]); */
 
     const getProjectSummaries = async () => {
         const summariesResponse = await getJson(`/burrito/metadata/summaries${isContentExperiment ? contentUrl : ""}`, debugRef.current);
@@ -61,14 +43,6 @@ function DataGridComponent({isContentExperiment, contentUrl}) {
         "x-obsarticles": "peripheral",
         "x-obsimages": "peripheral",
     };
-
-    /* const contentFilters = {
-        "allActive": "",
-        "activeResources": "?org=git.door43.org/BurritoTruck",
-        "activeLocal": "?org=_local_/_local_",
-        "archived": "?org=_local_/_archive_",
-        "quarantined": "?org=_local_/_quarantine_"
-    } */
 
     const columns = [
         {
