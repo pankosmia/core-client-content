@@ -329,9 +329,14 @@
       "fr":"Contenu copié",
       "es":"Contenido copiado"
     },
+    "quarantined_content":{
+      "en":"Quarantined content",
+      "fr":"Contenu en quarantaine",
+      "es":"Contenido en cuarentena"
+    },
     "quarantine_content":{
       "en":"Quarantine",
-      "fr":"Mettre en quarantaine",
+      "fr":"Quarantaine",
       "es":"Poner en cuarentena"
     },
     "about_to_quarantine_content":{
@@ -354,10 +359,15 @@
       "fr":"Le contenu a été mis en quarantaine",
       "es":"Contenido puesto en cuarentena"
     },
-    "archive_content":{
-      "en":"Archive content",
+    "archived_content":{
+      "en":"Archived content",
       "fr":"Contenu des archives",
       "es":"Archivar contenido"
+    },
+    "archive_content":{
+      "en":"Archive",
+      "fr":"Archives",
+      "es":"Archivar"
     },
     "about_to_archive_content":{
       "en":"About to archive content",
@@ -381,8 +391,23 @@
     },
     "restore_content":{
       "en":"Restore content",
-      "fr": "Restaurer le contenu",
-      "es": "Restaurar contenido"
+      "fr":"Restaurer le contenu",
+      "es":"Restaurar contenido"
+    },
+    "about_to_restore_content":{
+      "en":"About to restore content",
+      "fr":"À propos de la restauration du contenu",
+      "es":"A punto de restaurar el contenido"
+    },
+    "could_not_restore_repo":{
+      "en":"Could not restore content",
+      "fr":"Impossible de restaurer le contenu",
+      "es":"No se pudo restaurar el contenido"
+    },
+    "repo_restored":{
+      "en":"Content restored",
+      "fr":"Contenu restauré",
+      "es":"Se restauró el contenido"
     }
   }
 }

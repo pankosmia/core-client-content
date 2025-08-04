@@ -34,8 +34,6 @@ function RestoreContent({repoInfo, open, closeFn, reposModCount, setReposModCoun
         }
     }
 
-    console.log(repoInfo);
-
     return <Dialog
         open={open}
         onClose={closeFn}

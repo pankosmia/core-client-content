@@ -86,10 +86,10 @@ function App() {
                                         }}
                                     >
                                         <MenuItem onClick={() => {setContentUrl("?org=_local_/_archive_"); handleExperimentDialogClickOpen()}}>
-                                            {doI18n("pages:content:archive_content", i18nRef.current)}
+                                            {doI18n("pages:content:archived_content", i18nRef.current)}
                                         </MenuItem>
                                         <MenuItem onClick={() => {setContentUrl("?org=_local_/_quarantine_"); handleExperimentDialogClickOpen()}}>
-                                            {doI18n("pages:content:quarantine_content", i18nRef.current)}
+                                            {doI18n("pages:content:quarantined_content", i18nRef.current)}
                                         </MenuItem>
                                     </Menu>
                                     <Dialog
