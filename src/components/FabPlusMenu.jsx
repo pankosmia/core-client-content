@@ -71,7 +71,7 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                     onClick={handleImportClose}
                     disabled={true}
                 >
-                    {doI18n("pages:content:sideload_content", i18nRef.current)}
+                    {doI18n("pages:content:import_content", i18nRef.current)}
                 </MenuItem>
             </Menu>
             <Fab
