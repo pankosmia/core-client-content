@@ -72,12 +72,12 @@
       "es": "Nuevo contenido de recursos de Bcv"
     },
     "download_content": {
-      "en":"Download Content",
+      "en":"Download from Internet",
       "es":"Descargar Contenido",
       "fr": "Télécharger le contenu"
     },
-    "sideload_content": {
-      "en":"Sideload Content",
+    "import_content": {
+      "en":"Import from computer",
       "es":"Cargar Contenido",
       "fr": "Importer manuellement le Contenu"
     },
