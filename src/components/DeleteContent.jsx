@@ -25,7 +25,6 @@ function DeleteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                 doI18n("pages:content:repo_deleted", i18nRef.current),
                 {variant: "success"}
             );
-
             setReposModCount(reposModCount + 1)
         } else {
             enqueueSnackbar(

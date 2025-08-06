@@ -24,7 +24,6 @@ function RestoreContent({repoInfo, open, closeFn, reposModCount, setReposModCoun
                 doI18n("pages:content:repo_restored", i18nRef.current),
                 {variant: "success"}
             );
-
             setReposModCount(reposModCount + 1)
         } else {
             enqueueSnackbar(

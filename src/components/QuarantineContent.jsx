@@ -24,7 +24,6 @@ function QuarantineContent({repoInfo, open, closeFn, reposModCount, setReposModC
                 doI18n("pages:content:repo_quarantined", i18nRef.current),
                 {variant: "success"}
             );
-
             setReposModCount(reposModCount + 1)
         } else {
             enqueueSnackbar(

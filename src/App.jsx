@@ -116,6 +116,7 @@ function App() {
                             <DataGridComponent
                                 isContentExperiment={false}
                                 contentUrl={""}
+                                experimentDialogOpen={experimentDialogOpen}
                             />
                         </Grid2>
                     </Grid2>
