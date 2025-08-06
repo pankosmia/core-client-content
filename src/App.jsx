@@ -85,10 +85,10 @@ function App() {
                                         },
                                         }}
                                     >
-                                        <MenuItem onClick={() => {setContentUrl("?org=_local_/_archive_"); handleExperimentDialogClickOpen()}}>
+                                        <MenuItem onClick={() => {setContentUrl("?org=_local_/_archive_");handleExperimentMenuClose(); handleExperimentDialogClickOpen()}}>
                                             {doI18n("pages:content:archived_content", i18nRef.current)}
                                         </MenuItem>
-                                        <MenuItem onClick={() => {setContentUrl("?org=_local_/_quarantine_"); handleExperimentDialogClickOpen()}}>
+                                        <MenuItem onClick={() => {setContentUrl("?org=_local_/_quarantine_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen()}}>
                                             {doI18n("pages:content:quarantined_content", i18nRef.current)}
                                         </MenuItem>
                                     </Menu>
@@ -96,7 +96,7 @@ function App() {
                                         fullWidth={true}
                                         maxWidth={"lg"}
                                         open={experimentDialogOpen}
-                                        onClose={() => {handleExperimentDialogClose(); handleExperimentMenuClose()}}
+                                        onClose={handleExperimentDialogClose}
                                     >
                                         <DialogTitle>{doI18n("pages:content:experiment_content", i18nRef.current)}</DialogTitle>
                                         <DialogContent>
@@ -106,7 +106,7 @@ function App() {
                                             />
                                         </DialogContent>
                                         <DialogActions>
-                                            <Button onClick={() => {handleExperimentDialogClose(); handleExperimentMenuClose()}}>{doI18n("pages:content:close", i18nRef.current)}</Button>
+                                            <Button onClick={() => {handleExperimentDialogClose()}}>{doI18n("pages:content:close", i18nRef.current)}</Button>
                                         </DialogActions>
                                     </Dialog>
                                 </Grid2>
