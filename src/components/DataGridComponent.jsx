@@ -85,12 +85,13 @@ function DataGridComponent({isContentExperiment, contentUrl, experimentDialogOpe
         },
         {
             field: 'actions',
-            minWidth: 100,
+            minWidth: !isContentExperiment ? 100 : 75,
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
-            flex: 0.5,
+            flex: !isContentExperiment ? 0.5 : 0.3,
             renderCell: (params) => {
                 return <>
-                    {
+                    { !isContentExperiment &&
+                    <>{
                         params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
                             <IconButton
                                 onClick={
@@ -106,6 +107,7 @@ function DataGridComponent({isContentExperiment, contentUrl, experimentDialogOpe
                             <IconButton disabled={true}>
                                 <EditOffIcon/>
                             </IconButton>
+                    }</>
                     }
                     <ContentRowButtonPlusMenu
                         repoInfo={params.row}
