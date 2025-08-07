@@ -1,4 +1,3 @@
-
 import {useContext} from 'react';
 import {
     Button,
@@ -12,23 +11,24 @@ import {
 import {debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 
-function DeleteContent({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
+function ArchiveContent({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
 
-    const deleteRepo = async repo_path => {
+    const archiveRepo = async repo_path => {
 
-        const deleteUrl = `/git/delete/${repo_path}`;
-        const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
-        if (deleteResponse.ok) {
+        const archiveUrl = `/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split("/")[2]}&delete_src`;
+        const archiveResponse = await postEmptyJson(archiveUrl, debugRef.current);
+        if (archiveResponse.ok) {
             enqueueSnackbar(
-                doI18n("pages:content:repo_deleted", i18nRef.current),
+                doI18n("pages:content:repo_archived", i18nRef.current),
                 {variant: "success"}
             );
+
             setReposModCount(reposModCount + 1)
         } else {
             enqueueSnackbar(
-                doI18n("pages:content:could_not_delete_repo", i18nRef.current),
+                doI18n("pages:content:could_not_archive_repo", i18nRef.current),
                 {variant: "error"}
             );
         }
@@ -43,14 +43,14 @@ function DeleteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:delete_content", i18nRef.current)}</b></DialogTitle>
+        <DialogTitle><b>{doI18n("pages:content:archive_content", i18nRef.current)}</b></DialogTitle>
         <DialogContent>
             <DialogContentText>
                 <Typography variant="h6">
                     {repoInfo.name}
                 </Typography>
                 <Typography>
-                    {doI18n("pages:content:about_to_delete_content", i18nRef.current)}
+                    {doI18n("pages:content:about_to_archive_content", i18nRef.current)}
                 </Typography>
             </DialogContentText>
         </DialogContent>
@@ -61,12 +61,12 @@ function DeleteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             <Button
                 color="warning"
                 onClick={async () => {
-                    await deleteRepo(repoInfo.path);
+                    await archiveRepo(repoInfo.path);
                     closeFn();
                 }}
-            >{doI18n("pages:content:do_delete_button", i18nRef.current)}</Button>
+            >{doI18n("pages:content:accept", i18nRef.current)}</Button>
         </DialogActions>
     </Dialog>;
 }
 
-export default DeleteContent;
+export default ArchiveContent;
