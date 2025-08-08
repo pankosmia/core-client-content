@@ -303,6 +303,111 @@
       "en":"Actions",
       "fr":"Actions",
       "es":"Acciones"
+    },
+    "copy_content":{
+      "en":"Make local copy",
+      "fr":"Faire une copie locale",
+      "es":"Hacer una copia local"
+    },
+    "about_to_copy_content":{
+      "en":"About to make a local copy",
+      "fr":"Sur le point de faire une copie locale",
+      "es":"A punto de hacer una copia local"
+    },
+    "do_copy_button":{
+      "en":"Copy",
+      "fr":"Copier",
+      "es":"Copiar"
+    },
+    "could_not_copy_repo":{
+      "en":"Could not make a local copy",
+      "fr":"Impossible de faire une copie locale",
+      "es":"No se pudo hacer la copia local"
+    },
+    "repo_copied":{
+      "en":"Content copied",
+      "fr":"Contenu copié",
+      "es":"Contenido copiado"
+    },
+    "quarantined_content":{
+      "en":"Quarantined content",
+      "fr":"Contenu en quarantaine",
+      "es":"Contenido en cuarentena"
+    },
+    "quarantine_content":{
+      "en":"Quarantine",
+      "fr":"Quarantaine",
+      "es":"Poner en cuarentena"
+    },
+    "about_to_quarantine_content":{
+      "en":"About to quarantine content",
+      "fr":"Sur la mise en quarantaine du contenu",
+      "es":"A punto de poner en cuarentena"
+    },
+    "accept":{
+      "en":"Accept",
+      "fr":"Accepter",
+      "es":"Aceptar"
+    },
+    "could_not_quarantine_repo":{
+      "en":"Could not quarantine content",
+      "fr":"N'a pas pu mettre en quarantaine le repo",
+      "es":"No se pudo poner en cuarentena"
+    },
+    "repo_quarantined":{
+      "en":"Content quarantined",
+      "fr":"Le contenu a été mis en quarantaine",
+      "es":"Contenido puesto en cuarentena"
+    },
+    "archived_content":{
+      "en":"Archived content",
+      "fr":"Contenu des archives",
+      "es":"Archivar contenido"
+    },
+    "archive_content":{
+      "en":"Archive",
+      "fr":"Archives",
+      "es":"Archivar"
+    },
+    "about_to_archive_content":{
+      "en":"About to archive content",
+      "fr":"À propos de l'archivage du contenu",
+      "es":"A punto de archivar contenido"
+    },
+    "could_not_archive_repo":{
+      "en":"Could not archive content",
+      "fr":"Le contenu n'a pas pu être archivé",
+      "es":"No se pudo archivar el contenido"
+    },
+    "repo_archived":{
+      "en":"Content archived",
+      "fr":"Le contenu a été archivé",
+      "es":"Se archivó el contenido"
+    },
+    "experiment_content":{
+      "en":"Content for experiment",
+      "fr": "Contenu de l'expérience",
+      "es": "Contedido para experimentar"
+    },
+    "restore_content":{
+      "en":"Restore content",
+      "fr":"Restaurer le contenu",
+      "es":"Restaurar contenido"
+    },
+    "about_to_restore_content":{
+      "en":"About to restore content",
+      "fr":"À propos de la restauration du contenu",
+      "es":"A punto de restaurar el contenido"
+    },
+    "could_not_restore_repo":{
+      "en":"Could not restore content",
+      "fr":"Impossible de restaurer le contenu",
+      "es":"No se pudo restaurar el contenido"
+    },
+    "repo_restored":{
+      "en":"Content restored",
+      "fr":"Contenu restauré",
+      "es":"Se restauró el contenido"
     }
   }
 }
