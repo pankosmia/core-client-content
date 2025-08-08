@@ -133,7 +133,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                 borderRadius: 2,
             }}
             >
-                <AppBar sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+                <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -240,6 +240,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                         <FormControlLabel
                             control={
                                 <Checkbox
+                                color='secondary'
                                     checked={showBookFields}
                                     onChange={() => setShowBookFields(!showBookFields)}
                                 />
@@ -311,6 +312,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                                     <FormControlLabel
                                         control={
                                             <Checkbox
+                                                color='secondary'
                                                 checked={protestantOnly}
                                                 onChange={() => setProtestantOnly(!protestantOnly)}
                                             />
@@ -322,6 +324,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                                     <FormControlLabel
                                         control={
                                             <Checkbox
+                                                color='secondary'
                                                 checked={showVersification}
                                                 onChange={() => setShowVersification(!showVersification)}
                                             />

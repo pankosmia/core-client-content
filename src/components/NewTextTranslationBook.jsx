@@ -106,7 +106,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                 minWidth:"80vh"
             }}
             >
-                <AppBar sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+                <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -206,6 +206,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                         <FormControlLabel
                             control={
                                 <Checkbox
+                                color='secondary'
                                     checked={protestantOnly}
                                     onChange={() => setProtestantOnly(!protestantOnly)}
                                 />
@@ -217,6 +218,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                         <FormControlLabel
                             control={
                                 <Checkbox
+                                color='secondary'
                                     checked={addCV}
                                     onChange={() => setAddCV(!addCV)}
                                 />
