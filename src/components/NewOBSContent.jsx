@@ -85,7 +85,7 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
                 minWidth: "80vh"
             }}
             >
-                <AppBar sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+                <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                     <Toolbar>
                         <IconButton
                             edge="start"

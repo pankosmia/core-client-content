@@ -146,7 +146,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                 boxShadow: 24,
                 borderRadius: 2,
             }}>
-                <AppBar sx={{ position: 'relative',borderTopLeftRadius:4, borderTopRightRadius:4 }}>
+                <AppBar color='secondary' sx={{ position: 'relative',borderTopLeftRadius:4, borderTopRightRadius:4 }}>
                     <Toolbar>
                         <IconButton
                             edge="start"
@@ -284,6 +284,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                         <FormControlLabel
                             control={
                                 <Checkbox
+                                color='secondary'
                                     checked={showBookFields}
                                     onChange={() => setShowBookFields(!showBookFields)}
                                 />
@@ -355,6 +356,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                                     <FormControlLabel
                                         control={
                                             <Checkbox
+                                            color='secondary'
                                                 checked={protestantOnly}
                                                 onChange={() => setProtestantOnly(!protestantOnly)}
                                             />
