@@ -36,7 +36,6 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
     const [bookAbbr, setBookAbbr] = useState("Ti");
     const [postCount, setPostCount] = useState(0);
     const [versification, setVersification] = useState("eng");
-    //const [resourceFormat, setResourceFormat] = useState("tn");
     const [resourceFormatLabel, setResourceFormatLabel] = useState()
     const [resourceFormatOption, setResourceFormatOption] = useState([])
     const [versificationCodes, setVersificationCodes] = useState([]);
