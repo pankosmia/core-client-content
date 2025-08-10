@@ -14,7 +14,9 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
     const [importAnchorEl, setImportAnchorEl] = useState(null);
     const [createAnchorEl, setCreateAnchorEl] = useState(null);
     const [openedModal, setOpenedModal] = useState(null);
+    const [resourceFormat, setResourceFormat] = useState("tn");
 
+    const resourceFormatList = ["tn", "tq", "sq"];
 
     const handleImportClose = () => {
         setImportAnchorEl(null);
@@ -93,11 +95,17 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 open={!!createAnchorEl}
                 onClose={handleCreateClose}
             >
-                <MenuItem
-                    onClick={handleTextBibleClick}>{doI18n("pages:content:create_content", i18nRef.current)}
+                <MenuItem onClick={handleTextBibleClick}>
+                    {doI18n("pages:content:create_content", i18nRef.current)}
                 </MenuItem>
-                <MenuItem onClick={handleBcvResourceClick}>
-                    {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
+                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[0]) ;handleBcvResourceClick()}}>
+                    {doI18n("pages:content:create_content_tn", i18nRef.current)}
+                </MenuItem>
+                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[1]) ;handleBcvResourceClick()}}>
+                    {doI18n("pages:content:create_content_tq", i18nRef.current)}
+                </MenuItem>
+                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[2]) ;handleBcvResourceClick()}}>
+                    {doI18n("pages:content:create_content_sq", i18nRef.current)}
                 </MenuItem>
                 <MenuItem onClick={handleOBSResourceClick}>
                     {doI18n("pages:content:create_content_obs", i18nRef.current)}
@@ -115,6 +123,7 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
             closeModal={() => setOpenedModal(null)}
             reposModCount={reposModCount} 
             setReposModCount={setReposModCount}
+            resourceFormat={resourceFormat}
         />
         <NewOBSContent
             open={openedModal === 'obs-content'}

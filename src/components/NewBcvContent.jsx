@@ -20,7 +20,7 @@ import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } f
 import sx from "./Selection.styles";
 import ListMenuItem from "./ListMenuItem";
 
-export default function NewBcvContent({ open, closeModal, reposModCount, setReposModCount }) {
+export default function NewBcvContent({ open, closeModal, reposModCount, setReposModCount, resourceFormat }) {
     const handleClose = () => {
         closeModal();
     }
@@ -36,7 +36,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
     const [bookAbbr, setBookAbbr] = useState("Ti");
     const [postCount, setPostCount] = useState(0);
     const [versification, setVersification] = useState("eng");
-    const [resourceFormat, setResourceFormat] = useState("tn");
+    //const [resourceFormat, setResourceFormat] = useState("tn");
     const [resourceFormatLabel, setResourceFormatLabel] = useState()
     const [resourceFormatOption, setResourceFormatOption] = useState([])
     const [versificationCodes, setVersificationCodes] = useState([]);
@@ -89,8 +89,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
             setBookTitle("Titus");
             setBookAbbr("Ti");
             setShowBookFields(true);
-            setVersification("eng");
-            setResourceFormat("tn")
+            setVersification("eng")
         },
         [postCount]
     );
@@ -157,7 +156,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                             <CloseIcon />
                         </IconButton>
                         <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
+                            {doI18n(`pages:content:create_content_${resourceFormat}`, i18nRef.current)}
                         </Typography>
                         <Button
                             autoFocus
@@ -219,37 +218,6 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                             setContentLanguageCode(event.target.value);
                         }}
                     />
-                    <FormControl>
-                        <InputLabel id="resourceFormat-label" htmlFor="resourceFormat"
-                            sx={sx.inputLabel}>
-                            {doI18n("pages:content:resource_format", i18nRef.current)}
-                        </InputLabel>
-                        <Select
-                            variant="outlined"
-                            labelId="resourceFormat-label"
-                            name="resourceFormat"
-                            inputProps={{
-                                id: "resourceFormat",
-                            }}
-                            value={resourceFormat}
-                            label={doI18n("pages:content:resource_format", i18nRef.current)}
-                            onChange={(event) => {
-                                setResourceFormat(event.target.value);
-                            }}
-                            sx={sx.select}
-                        >
-                            {
-                                resourceFormatOption.map((listItem, n) => <MenuItem key={n} value={listItem}
-                                    dense>
-                                    <ListMenuItem
-                                        listItem={`${listItem} - ${resourceFormatLabel[listItem]?.label}`}
-                                    />
-                                </MenuItem>
-                                )
-                            }
-                        </Select>
-                    </FormControl>
-
                     <FormControl>
                         <InputLabel id="booksVersification-label" htmlFor="booksVersification"
                             sx={sx.inputLabel}>

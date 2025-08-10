@@ -125,6 +125,8 @@ function App() {
                                         </AppBar>
                                         <Stack>
                                             <DataGridComponent
+                                                reposModCount={reposModCount}
+                                                setReposModCount={setReposModCount}
                                                 isContentExperiment={true}
                                                 contentUrl={contentUrl}
                                             />
@@ -137,6 +139,8 @@ function App() {
                     </Grid2>
                     <Grid2 item size={12}>
                         <DataGridComponent
+                            reposModCount={reposModCount}
+                            setReposModCount={setReposModCount}
                             isContentExperiment={false}
                             contentUrl={""}
                             experimentDialogOpen={experimentDialogOpen}
