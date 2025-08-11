@@ -12,7 +12,8 @@ import {
     MenuItem,
     InputLabel, Grid2,
     Box,
-    Modal
+    Modal,
+    DialogActions
 } from "@mui/material";
 import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
@@ -97,42 +98,22 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
         >
             <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label={doI18n("pages:content:close", i18nRef.current)}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                    <Typography variant="h6" component="div" sx={{ color: "black" }}>
                         {doI18n("pages:content:new_book", i18nRef.current)}
                     </Typography>
-                    <Button
-                        autoFocus
-                        color="inherit"
-                        disabled={
-                            !(
-                                bookCode.trim().length === 3 &&
-                                bookTitle.trim().length > 0 &&
-                                bookAbbr.trim().length > 0
-                            )
-                        }
-                        onClick={handleCreate}
-                    >
-                        {doI18n("pages:content:create", i18nRef.current)}
-                    </Button>
                 </Toolbar>
             </AppBar>
+            <Typography variant='subtitile2' sx={{ ml: 1,p:1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
             <Stack spacing={2} sx={{ m: 2 }}>
                 <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
                     <Grid2 item size={4}>
                         <FormControl sx={{ width: "100%" }}>
-                            <InputLabel id="bookCode-label" htmlFor="bookCode" sx={sx.inputLabel}>
+                            <InputLabel id="bookCode-label" required htmlFor="bookCode" sx={sx.inputLabel}>
                                 {doI18n("pages:content:book_code", i18nRef.current)}
                             </InputLabel>
                             <Select
                                 variant="outlined"
+                                required
                                 labelId="bookCode-label"
                                 name="bookCode"
                                 inputProps={{
@@ -168,9 +149,10 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                         </FormControl>
 
                     </Grid2>
-                    <Grid2 item size={5}>
+                    <Grid2 item size={4}>
                         <TextField
                             id="bookAbbr"
+                            required
                             sx={{ width: "100%" }}
                             label={doI18n("pages:content:book_abbr", i18nRef.current)}
                             value={bookAbbr}
@@ -179,9 +161,10 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                             }}
                         />
                     </Grid2>
-                    <Grid2 item size={3}>
+                    <Grid2 item size={4}>
                         <TextField
                             id="bookTitle"
+                            required
                             sx={{ width: "100%" }}
                             label={doI18n("pages:content:book_title", i18nRef.current)}
                             value={bookTitle}
@@ -215,7 +198,29 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                         label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
                     />
                 </FormGroup>
+
             </Stack>
+            <DialogActions>
+                <Button
+                    onClick={handleClose}>
+                    {doI18n("pages:content:cancel", i18nRef.current)}
+                </Button>
+                <Button
+                    autoFocus
+                    variant='contained'
+                    color="primary"
+                    disabled={
+                        !(
+                            bookCode.trim().length === 3 &&
+                            bookTitle.trim().length > 0 &&
+                            bookAbbr.trim().length > 0
+                        )
+                    }
+                    onClick={handleCreate}
+                >
+                    {doI18n("pages:content:create", i18nRef.current)}
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 }

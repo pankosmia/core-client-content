@@ -408,6 +408,10 @@
       "en":"Content restored",
       "fr":"Contenu restauré",
       "es":"Se restauró el contenido"
+    },
+    "required_field":{
+      "en":"* Required fields",
+      "fr":"* Champ obligatoire"
     }
   }
 }

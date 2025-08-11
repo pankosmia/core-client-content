@@ -12,7 +12,9 @@ import {
     MenuItem,
     InputLabel, Grid2,
     Modal,
-    Box
+    Box,
+    DialogContent,
+    DialogActions
 } from "@mui/material";
 import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
@@ -139,23 +141,16 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
         >
             <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                 <Toolbar>
-                    <IconButton
-                        edge="start"
-                        color="inherit"
-                        onClick={handleClose}
-                        aria-label={doI18n("pages:content:close", i18nRef.current)}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                    <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                    <Typography variant="h6" component="div" sx={{ color: "black" }}>
                         {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
                     </Typography>
-
                 </Toolbar>
             </AppBar>
+            <Typography variant='subtitile2' sx={{ ml: 1,p:1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
             <Stack spacing={2} sx={{ m: 2 }}>
                 <TextField
                     id="name"
+                    required
                     label={doI18n("pages:content:name", i18nRef.current)}
                     value={contentName}
                     onChange={(event) => {
@@ -164,6 +159,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                 />
                 <TextField
                     id="abbr"
+                    required
                     label={doI18n("pages:content:abbreviation", i18nRef.current)}
                     value={contentAbbr}
                     onChange={(event) => {
@@ -172,6 +168,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                 />
                 <TextField
                     id="type"
+                    required
                     disabled={true}
                     sx={{ display: "none" }}
                     label={doI18n("pages:content:type", i18nRef.current)}
@@ -182,6 +179,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                 />
                 <TextField
                     id="languageCode"
+                    required
                     label={doI18n("pages:content:lang_code", i18nRef.current)}
                     value={contentLanguageCode}
                     onChange={(event) => {
@@ -189,12 +187,13 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                     }}
                 />
                 <FormControl>
-                    <InputLabel id="resourceFormat-label" htmlFor="resourceFormat"
+                    <InputLabel id="resourceFormat-label" required htmlFor="resourceFormat"
                         sx={sx.inputLabel}>
                         {doI18n("pages:content:resource_format", i18nRef.current)}
                     </InputLabel>
                     <Select
                         variant="outlined"
+                        required
                         labelId="resourceFormat-label"
                         name="resourceFormat"
                         inputProps={{
@@ -220,12 +219,13 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                 </FormControl>
 
                 <FormControl>
-                    <InputLabel id="booksVersification-label" htmlFor="booksVersification"
+                    <InputLabel id="booksVersification-label" required htmlFor="booksVersification"
                         sx={sx.inputLabel}>
                         {doI18n("pages:content:versification_scheme", i18nRef.current)}
                     </InputLabel>
                     <Select
                         variant="outlined"
+                        required
                         labelId="booksVersification-label"
                         name="booksVersification"
                         inputProps={{
@@ -264,13 +264,14 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                 {
                     showBookFields && <>
                         <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
-                            <Grid2 item size={5}>
+                            <Grid2 item size={4}>
                                 <FormControl sx={{ width: "100%" }}>
                                     <InputLabel id="bookCode-label" htmlFor="bookCode" sx={sx.inputLabel}>
                                         {doI18n("pages:content:book_code", i18nRef.current)}
                                     </InputLabel>
                                     <Select
                                         variant="outlined"
+                                        required
                                         labelId="bookCode-label"
                                         name="bookCode"
                                         inputProps={{
@@ -299,9 +300,10 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                                 </FormControl>
 
                             </Grid2>
-                            <Grid2 item size={3}>
+                            <Grid2 item size={4}>
                                 <TextField
                                     id="bookAbbr"
+                                    required
                                     sx={{ width: "100%" }}
                                     label={doI18n("pages:content:book_abbr", i18nRef.current)}
                                     value={bookAbbr}
@@ -313,6 +315,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                             <Grid2 item size={4}>
                                 <TextField
                                     id="bookTitle"
+                                    required
                                     sx={{ width: "100%" }}
                                     label={doI18n("pages:content:book_title", i18nRef.current)}
                                     value={bookTitle}
@@ -333,33 +336,42 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                                     label={doI18n("pages:content:protestant_books_only", i18nRef.current)}
                                 />
                             </FormGroup>
-                            <Button
-                                autoFocus
-                                color="inherit"
-                                disabled={
-                                    !(
-                                        contentName.trim().length > 0 &&
-                                        contentAbbr.trim().length > 0 &&
-                                        contentType.trim().length > 0 &&
-                                        contentLanguageCode.trim().length > 0 &&
-                                        versification.trim().length === 3 &&
-                                        (
-                                            !showBookFields || (
-                                                bookCode.trim().length === 3 &&
-                                                bookTitle.trim().length > 0 &&
-                                                bookAbbr.trim().length > 0
-                                            )
-                                        )
-                                    )
-                                }
-                                onClick={handleCreate}
-                            >
-                                {doI18n("pages:content:create", i18nRef.current)}
-                            </Button>
                         </Grid2>
+
                     </>
                 }
             </Stack>
+
+            <DialogActions>
+                <Button
+                    onClick={handleClose}>
+                    {doI18n("pages:content:cancel", i18nRef.current)}
+                </Button>
+                <Button
+                    autoFocus
+                    variant='contained'
+                    color="primary"
+                    disabled={
+                        !(
+                            contentName.trim().length > 0 &&
+                            contentAbbr.trim().length > 0 &&
+                            contentType.trim().length > 0 &&
+                            contentLanguageCode.trim().length > 0 &&
+                            versification.trim().length === 3 &&
+                            (
+                                !showBookFields || (
+                                    bookCode.trim().length === 3 &&
+                                    bookTitle.trim().length > 0 &&
+                                    bookAbbr.trim().length > 0
+                                )
+                            )
+                        )
+                    }
+                    onClick={handleCreate}
+                >
+                    {doI18n("pages:content:create", i18nRef.current)}
+                </Button>
+            </DialogActions>
         </Dialog>
     );
 }
