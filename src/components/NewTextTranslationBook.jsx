@@ -3,7 +3,6 @@ import {
     AppBar,
     Button, Checkbox,
     Dialog, FormControl, FormControlLabel, FormGroup,
-    IconButton,
     Stack,
     TextField,
     Toolbar,
@@ -11,11 +10,8 @@ import {
     Select,
     MenuItem,
     InputLabel, Grid2,
-    Box,
-    Modal,
     DialogActions
 } from "@mui/material";
-import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n, getJson } from "pithekos-lib";
 import sx from "./Selection.styles";
@@ -90,6 +86,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
 
     return (
         <Dialog
+         fullWidth={true}
             open={open}
             onClose={handleClose}
             sx={{

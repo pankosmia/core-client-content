@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback, useContext } from "react"
-import { Grid2, Box, IconButton, Button, Dialog, DialogActions, DialogContent, DialogTitle, Menu, MenuItem, Modal, AppBar, Toolbar, Typography, Stack } from "@mui/material";
+import { Grid2, Box, IconButton, Dialog, DialogActions, DialogContent, DialogTitle, Menu, MenuItem, AppBar, Toolbar, Typography, Stack, Button } from "@mui/material";
 import { i18nContext, doI18n } from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import DataGridComponent from "./components/DataGridComponent";
-import { Close as CloseIcon } from '@mui/icons-material';
 
 function App() {
 
@@ -94,45 +93,45 @@ function App() {
                                     </MenuItem>
                                 </Menu>
                                 <Dialog
+                                    fullWidth={true}
                                     maxWidth={"lg"}
                                     open={experimentDialogOpen}
                                     onClose={handleExperimentDialogClose}
                                 >
-
                                     <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                                         <Toolbar>
-                                            <IconButton
-                                                edge="start"
-                                                color="inherit"
-                                                onClick={() => { handleExperimentDialogClose() }}
-                                                aria-label={doI18n("pages:content:close", i18nRef.current)}
-                                            >
-                                                <CloseIcon />
-                                            </IconButton>
-                                            <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
+                                            <Typography variant="h6" component="div" sx={{color:"black"}}>
                                                 {doI18n("pages:content:experiment_content", i18nRef.current)}
                                             </Typography>
                                         </Toolbar>
                                     </AppBar>
-                                    <Stack>
+                                    <DialogContent>
                                         <DataGridComponent
                                             isContentExperiment={true}
                                             contentUrl={contentUrl}
                                         />
-                                    </Stack>
-                            </Dialog>
+                                    </DialogContent>
+                                    <DialogActions>
+                                        <Button
+                                            color="primary"
+                                            onClick={() => { handleExperimentDialogClose() }}
+                                        >
+                                            {doI18n("pages:content:close", i18nRef.current)}
+                                        </Button>
+                                    </DialogActions>
+                                </Dialog>
+                            </Grid2>
                         </Grid2>
                     </Grid2>
-                </Grid2>
-                <Grid2 item size={12}>
-                    <DataGridComponent
-                        isContentExperiment={false}
-                        contentUrl={""}
-                        experimentDialogOpen={experimentDialogOpen}
-                    />
+                    <Grid2 item size={12}>
+                        <DataGridComponent
+                            isContentExperiment={false}
+                            contentUrl={""}
+                            experimentDialogOpen={experimentDialogOpen}
+                        />
+                    </Grid2>
                 </Grid2>
             </Grid2>
-        </Grid2>
         </Box >
     );
 }

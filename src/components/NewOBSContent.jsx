@@ -6,7 +6,6 @@ import {
     DialogActions,
     DialogContent,
     Grid2,
-    Stack,
     TextField,
     Toolbar,
     Typography
@@ -66,6 +65,7 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
 
     return (
         <Dialog
+            fullWidth={true}
             open={open}
             onClose={handleClose}
             sx={{
@@ -79,7 +79,7 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Typography variant='subtitile2' sx={{ ml: 1, p:1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
+            <Typography variant='subtitile2' sx={{ ml: 1, p: 1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
             <DialogContent>
                 <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch" flexDirection={'column'}>
                     <TextField

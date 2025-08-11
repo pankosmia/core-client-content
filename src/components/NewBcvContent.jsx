@@ -3,7 +3,6 @@ import {
     AppBar,
     Button, Checkbox,
     Dialog, FormControl, FormControlLabel, FormGroup,
-    IconButton,
     Stack,
     TextField,
     Toolbar,
@@ -11,12 +10,8 @@ import {
     Select,
     MenuItem,
     InputLabel, Grid2,
-    Modal,
-    Box,
-    DialogContent,
     DialogActions
 } from "@mui/material";
-import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } from "pithekos-lib";
 import sx from "./Selection.styles";
@@ -133,6 +128,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
 
     return (
         <Dialog
+            fullWidth={true}
             open={open}
             onClose={handleClose}
             sx={{
@@ -146,7 +142,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Typography variant='subtitile2' sx={{ ml: 1,p:1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
+            <Typography variant='subtitile2' sx={{ ml: 1, p: 1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
             <Stack spacing={2} sx={{ m: 2 }}>
                 <TextField
                     id="name"

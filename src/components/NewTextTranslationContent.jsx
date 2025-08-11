@@ -2,8 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
     Button, Checkbox,
-    Modal, FormControl, FormControlLabel, FormGroup,
-    IconButton,
+    FormControl, FormControlLabel, FormGroup,
     Stack,
     TextField,
     Toolbar,
@@ -11,11 +10,9 @@ import {
     Select,
     MenuItem,
     InputLabel, Grid2,
-    Box,
     Dialog,
     DialogActions
 } from "@mui/material";
-import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } from "pithekos-lib";
 import sx from "./Selection.styles";
@@ -119,6 +116,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
 
     return (
         <Dialog
+            fullWidth={true}
             open={open}
             onClose={handleClose}
             sx={{
@@ -127,13 +125,13 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
         >
             <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{color:"black"}}>
+                    <Typography variant="h6" component="div" sx={{ color: "black" }}>
                         {doI18n("pages:content:new_content", i18nRef.current)}
                     </Typography>
 
                 </Toolbar>
             </AppBar>
-            <Typography variant='subtitile2' sx={{ ml: 1,p:1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
+            <Typography variant='subtitile2' sx={{ ml: 1, p: 1 }}>{doI18n("pages:content:required_field", i18nRef.current)}</Typography>
             <Stack spacing={2} sx={{ m: 2 }}>
                 <TextField
                     id="name"
