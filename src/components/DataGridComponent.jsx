@@ -143,7 +143,7 @@ function DataGridComponent({isContentExperiment, contentUrl, experimentDialogOpe
                     columns: {
                         columnVisibilityModel: {
                             nBooks: false,
-                            source: false,
+                            source: isContentExperiment ? false : true,
                             dateUpdated: false
                         },
                     },
