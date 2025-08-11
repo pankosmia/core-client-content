@@ -100,7 +100,7 @@ function App() {
                                 >
                                     <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                                         <Toolbar>
-                                            <Typography variant="h6" component="div" sx={{color:"black"}}>
+                                            <Typography variant="h6" component="div" >
                                                 {doI18n("pages:content:experiment_content", i18nRef.current)}
                                             </Typography>
                                         </Toolbar>

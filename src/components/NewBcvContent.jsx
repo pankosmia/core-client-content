@@ -137,7 +137,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
         >
             <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ color: "black" }}>
+                    <Typography variant="h6" component="div">
                         {doI18n("pages:content:create_content_bcvresources", i18nRef.current)}
                     </Typography>
                 </Toolbar>

@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react';
+import { useState, useContext } from 'react';
 import {
     Button,
     Dialog,
@@ -8,13 +8,15 @@ import {
     DialogTitle,
     Typography,
     TextField,
-    Stack
+    Stack,
+    AppBar,
+    Toolbar
 } from "@mui/material";
-import {debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
-import {enqueueSnackbar} from "notistack";
+import { debugContext, i18nContext, doI18n, postEmptyJson } from "pithekos-lib";
+import { enqueueSnackbar } from "notistack";
 
-function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
-    const {i18nRef} = useContext(i18nContext);
+function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+    const { i18nRef } = useContext(i18nContext);
     //const {debugRef} = useContext(debugContext);
     const [remoteOriginValue, setRemoteOriginValue] = useState('');
     const [remoteOriginIsValid, setRemoteOriginIsValid] = useState(true);
@@ -23,7 +25,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
     const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(true);
     const remoteUrlRegex = new RegExp("/^\S+@\S+:@\S+$/");
-    
+
     // BUENO LA UI PARECE ESTAR FUNCIONANDO FINO PERO EL REGEX COMO QUE NO SIRVE. Y NO SE COMO ES ESO DEL JSON.
 
     /* 
@@ -49,7 +51,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const handleRemoteOriginValidation = (e) => {
         setRemoteOriginIsValid(remoteOriginRegex.test(e.target.value));
         setRemoteOriginValue(e.target.value);
-      };
+    };
 
     const handleRemoteUrlValidation = (e) => {
         setRemoteUrlIsValid(remoteUrlRegex.test(e.target.value));
@@ -65,7 +67,13 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:remote_content", i18nRef.current)}</b></DialogTitle>
+        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+            <Toolbar>
+                <Typography variant="h6" component="div">
+                    {doI18n("pages:content:remote_content", i18nRef.current)}
+                </Typography>
+            </Toolbar>
+        </AppBar>
         <DialogContent>
             <DialogContentText>
                 <Typography variant="h6">
@@ -106,9 +114,9 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                     await copyRepo(repoInfo.path);
                     closeFn();
                 } */() => {
-                        (remoteOriginIsValid && remoteUrlIsValid) 
-                        ? console.log(remoteOriginValue, remoteUrlValue) 
-                        : console.error("Valores incorrectos");
+                        (remoteOriginIsValid && remoteUrlIsValid)
+                            ? console.log(remoteOriginValue, remoteUrlValue)
+                            : console.error("Valores incorrectos");
                         closeFn()
                     }
                 }

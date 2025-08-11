@@ -74,7 +74,7 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
         >
             <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ color: "black" }}>
+                    <Typography variant="h6" component="div">
                         {doI18n("pages:content:create_content_obs", i18nRef.current)}
                     </Typography>
                 </Toolbar>

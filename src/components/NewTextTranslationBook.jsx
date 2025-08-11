@@ -95,7 +95,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
         >
             <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                 <Toolbar>
-                    <Typography variant="h6" component="div" sx={{ color: "black" }}>
+                    <Typography variant="h6" component="div">
                         {doI18n("pages:content:new_book", i18nRef.current)}
                     </Typography>
                 </Toolbar>
