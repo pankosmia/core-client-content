@@ -412,6 +412,26 @@
     "required_field":{
       "en":"* Required fields",
       "fr":"* Champ obligatoire"
+    },
+    "remote_content":{
+      "en":"Remote Content",
+      "fr":"Contenu distant",
+      "es":"Contenido remoto"
+    },
+    "remote_origin":{
+      "en":"Remote source",
+      "fr":"Source distante",
+      "es":"Fuente remota"
+    },
+    "remote_repo_url":{
+      "en":"Repo url",
+      "fr":"Url du référentiel",
+      "es":"Url del repositorio"
+    },
+    "about_to_upload_content":{
+      "en":"About to upload content",
+      "fr":"Sur le point de télécharger du contenu",
+      "es":"A punto de subir el contenido"
     }
   }
 }

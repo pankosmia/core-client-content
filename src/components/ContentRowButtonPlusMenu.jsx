@@ -4,6 +4,7 @@ import {i18nContext, doI18n} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
+import RemoteContent from "./RemoteContent";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
@@ -26,6 +27,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     const [copyContentAnchorEl, setCopyContentAnchorEl] = useState(null);
     const copyContentOpen = Boolean(copyContentAnchorEl);
+
+    const [remoteContentAnchorEl, setRemoteContentAnchorEl] = useState(null);
+    const remoteContentOpen = Boolean(remoteContentAnchorEl);
 
     const [archiveContentAnchorEl, setArchiveContentAnchorEl] = useState(null);
     const archiveContentOpen = Boolean(archiveContentAnchorEl);
@@ -100,6 +104,16 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                     >
                         {doI18n("pages:content:copy_content", i18nRef.current)}
                     </MenuItem>
+                    {
+                        repoInfo.path.split("/")[0] === "_local_" && <MenuItem
+                            onClick={(event) => {
+                                setRemoteContentAnchorEl(event.currentTarget);
+                                setContentRowAnchorEl(null);
+                            }}
+                        >
+                            {doI18n("pages:content:remote_content", i18nRef.current)}
+                        </MenuItem>
+                    }
                     <MenuItem
                         onClick={(event) => {
                             setArchiveContentAnchorEl(event.currentTarget);
@@ -172,6 +186,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoInfo={repoInfo}
             open={copyContentOpen}
             closeFn={() => setCopyContentAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <RemoteContent
+            repoInfo={repoInfo}
+            open={remoteContentOpen}
+            closeFn={() => setRemoteContentAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
