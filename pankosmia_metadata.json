@@ -443,6 +443,11 @@
       "en":"Could not add the remote repository",
       "fr":"Impossible d'ajouter le référentiel distant",
       "es":"No se pudo agregar el repositorio remoto"
+    },
+    "update":{
+      "en":"Update",
+      "fr":"Mettre à jour",
+      "es":"Actualizar"
     }
   }
 }

@@ -24,16 +24,22 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(true);
     const remoteUrlRegex = new RegExp("^[A-Za-z0-9_:.@/-]+$");
 
+    const [valueIsRepeated, setValueIsRepeated] = useState(false);
+
     const addRemoteRepo = async repo_path => {
 
         const remoteListUrl = `/git/remotes/${repo_path}`;
         const remoteList = await getJson(remoteListUrl, debugRef.current);
+        const filteredList = remoteList.json.payload.remotes.filter((p) => p.name === "origin");
 
-        console.log(remoteList);
-        console.log(remoteList.json.payload.remotes.filter((p) => p.name === "origin").length > 0);
+        console.log(filteredList[0]);
+
+        if (filteredList[0].url === remoteUrlValue){
+            setValueIsRepeated(true);
+        }
 
         if (remoteList.json.is_good){
-            if (remoteList.json.payload.remotes.filter((p) => p.name === "origin").length > 0) {
+            if (filteredList.length > 0) {
                 const deleteUrl = `/git/remote/delete/${repo_path}?remote_name=origin`;
                 const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
                 if (deleteResponse.ok) {
@@ -117,13 +123,13 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             </Button>
             <Button
                 color="warning"
-                disabled={!remoteNameIsValid || !remoteUrlIsValid}
+                disabled={!remoteNameIsValid || !remoteUrlIsValid || valueIsRepeated}
                 onClick={async () => {
                             await addRemoteRepo(repoInfo.path);
                             closeFn()
                         }}
             >
-                {doI18n("pages:content:accept", i18nRef.current)}
+                {doI18n("pages:content:update", i18nRef.current)}
             </Button>
         </DialogActions>
     </Dialog>;
