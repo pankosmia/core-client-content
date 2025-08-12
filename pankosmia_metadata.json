@@ -414,10 +414,10 @@
       "fr":"Contenu distant",
       "es":"Contenido remoto"
     },
-    "remote_origin":{
-      "en":"Remote source",
-      "fr":"Source distante",
-      "es":"Fuente remota"
+    "remote_name":{
+      "en":"Remote name",
+      "fr":"Nom distant",
+      "es":"Nombre remoto"
     },
     "remote_repo_url":{
       "en":"Repo url",
