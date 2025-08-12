@@ -426,7 +426,7 @@
     },
     "required_field":{
       "en":"* Required fields",
-      "fr": "champs obligatoires"
+      "fr":"* champs obligatoires"
     }
   }
 }
