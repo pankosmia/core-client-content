@@ -2,8 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
     Button, Checkbox,
-    Modal, FormControl, FormControlLabel, FormGroup,
-    IconButton,
+    FormControl, FormControlLabel, FormGroup,
     Stack,
     TextField,
     Toolbar,
@@ -11,11 +10,9 @@ import {
     Select,
     MenuItem,
     InputLabel, Grid2,
-    Box,
     DialogActions,
     Dialog
 } from "@mui/material";
-import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } from "pithekos-lib";
 import sx from "./Selection.styles";

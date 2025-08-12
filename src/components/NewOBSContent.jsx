@@ -1,19 +1,15 @@
 import { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
-    Box,
     Button,
     Dialog,
     DialogActions,
     Grid2,
-    IconButton,
-    Modal,
     Stack,
     TextField,
     Toolbar,
     Typography
 } from "@mui/material";
-import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n } from "pithekos-lib";
 

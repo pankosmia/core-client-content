@@ -1,10 +1,9 @@
 import { useState, useEffect, useCallback, useContext } from "react"
-import { Grid2, Box, IconButton, Button, Dialog, DialogActions, DialogContent, DialogTitle, Menu, MenuItem, Modal, AppBar, Toolbar, Typography, Stack } from "@mui/material";
+import { Grid2, Box, IconButton, Button, Dialog, DialogActions, DialogContent, Menu, MenuItem, AppBar, Toolbar, Typography } from "@mui/material";
 import { i18nContext, doI18n } from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import DataGridComponent from "./components/DataGridComponent";
-import { Close as CloseIcon } from '@mui/icons-material';
 
 function App() {
 
