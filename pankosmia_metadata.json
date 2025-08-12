@@ -428,6 +428,21 @@
       "en":"About to upload content",
       "fr":"Sur le point de télécharger du contenu",
       "es":"A punto de subir el contenido"
+    },
+    "remote_repo_added":{
+      "en":"Added the remote repository",
+      "fr":"Ajout du référentiel distant",
+      "es":"Se agregó el repositorio remoto"
+    },
+    "could_not_fetch_list":{
+      "en":"Could not fetch the repo's remote list",
+      "fr":"Impossible de récupérer la liste des dépôts distants",
+      "es":"No se pudo obtener la lista remota del repositorio"
+    },
+    "could_not_add_remote_repo":{
+      "en":"Could not add the remote repository",
+      "fr":"Impossible d'ajouter le référentiel distant",
+      "es":"No se pudo agregar el repositorio remoto"
     }
   }
 }
