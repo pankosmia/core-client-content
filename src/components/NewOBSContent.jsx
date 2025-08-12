@@ -1,18 +1,15 @@
 import { useState, useContext, useEffect } from 'react';
 import {
     AppBar,
-    Box,
     Button,
     Dialog,
+    DialogActions,
     Grid2,
-    IconButton,
-    Modal,
     Stack,
     TextField,
     Toolbar,
     Typography
 } from "@mui/material";
-import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n } from "pithekos-lib";
 
@@ -67,94 +64,90 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
     };
 
     return (
-        <Modal
+        <Dialog
+            fullWidth={true}
             open={open}
             onClose={handleClose}
             sx={{
                 backdropFilter: "blur(3px)",
             }}
         >
-            <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                bgcolor: 'background.paper',
-                boxShadow: 24,
-                borderRadius: 2,
-                minWidth: "80vh"
-            }}
-            >
-                <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={handleClose}
-                            aria-label={doI18n("pages:content:close", i18nRef.current)}
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            {doI18n("pages:content:create_content_obs", i18nRef.current)}
-                        </Typography>
-                        <Button
-                            autoFocus
-                            color="inherit"
-                            disabled={
-                                !(
-                                    contentName.trim().length > 0 &&
-                                    contentAbbr.trim().length > 0 &&
-                                    contentType.trim().length > 0 &&
-                                    contentLanguageCode.trim().length > 0
-                                )
-                            }
-                            onClick={handleCreate}
-                        >
-                            {doI18n("pages:content:create", i18nRef.current)}
-                        </Button>
-                    </Toolbar>
-                </AppBar>
-                <Stack spacing={2} sx={{ m: 2 }}>
-                    <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch" flexDirection={'column'}>
-                        <TextField
-                            id="name"
-                            label={doI18n("pages:content:name", i18nRef.current)}
-                            value={contentName}
-                            onChange={(event) => {
-                                setContentName(event.target.value);
-                            }}
-                        />
-                        <TextField
-                            id="abbr"
-                            label={doI18n("pages:content:abbreviation", i18nRef.current)}
-                            value={contentAbbr}
-                            onChange={(event) => {
-                                setContentAbbr(event.target.value);
-                            }}
-                        />
-                        <TextField
-                            id="type"
-                            disabled={true}
-                            sx={{ display: "none" }}
-                            label={doI18n("pages:content:type", i18nRef.current)}
-                            value={contentType}
-                            onChange={(event) => {
-                                setContentType(event.target.value);
-                            }}
-                        />
+            <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+                <Toolbar>
+                    <Typography variant="h6" component="div">
+                        {doI18n("pages:content:create_content_obs", i18nRef.current)}
+                    </Typography>
 
-                        <TextField
-                            id="languageCode"
-                            label={doI18n("pages:content:lang_code", i18nRef.current)}
-                            value={contentLanguageCode}
-                            onChange={(event) => {
-                                setContentLanguageCode(event.target.value);
-                            }}
-                        />
-                    </Grid2>
-                </Stack>
-            </Box>
-        </Modal >
+                </Toolbar>
+            </AppBar>
+            <Typography variant='subtitle2' sx={{ ml: 1, p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
+            <Stack spacing={2} sx={{ m: 2 }}>
+                <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch" flexDirection={'column'}>
+                    <TextField
+                        id="name"
+                        required
+                        label={doI18n("pages:content:name", i18nRef.current)}
+                        value={contentName}
+                        onChange={(event) => {
+                            setContentName(event.target.value);
+                        }}
+                    />
+                    <TextField
+                        id="abbr"
+                        required
+                        label={doI18n("pages:content:abbreviation", i18nRef.current)}
+                        value={contentAbbr}
+                        onChange={(event) => {
+                            setContentAbbr(event.target.value);
+                        }}
+                    />
+                    <TextField
+                        id="type"
+                        required
+                        disabled={true}
+                        sx={{ display: "none" }}
+                        label={doI18n("pages:content:type", i18nRef.current)}
+                        value={contentType}
+                        onChange={(event) => {
+                            setContentType(event.target.value);
+                        }}
+                    />
+
+                    <TextField
+                        id="languageCode"
+                        required
+                        label={doI18n("pages:content:lang_code", i18nRef.current)}
+                        value={contentLanguageCode}
+                        onChange={(event) => {
+                            setContentLanguageCode(event.target.value);
+                        }}
+                    />
+                </Grid2>
+            </Stack>
+            <DialogActions>
+                <Button
+                    onClick={handleClose}
+                    color='primary'
+                >
+                    {doI18n("pages:content:close", i18nRef.current)}
+                </Button>
+                <Button
+                    autoFocus
+                    variant='contained'
+                    color="primary"
+                    disabled={
+                        !(
+                            contentName.trim().length > 0 &&
+                            contentAbbr.trim().length > 0 &&
+                            contentType.trim().length > 0 &&
+                            contentLanguageCode.trim().length > 0
+                        )
+                    }
+                    onClick={handleCreate}
+                >
+                    {doI18n("pages:content:create", i18nRef.current)}
+                </Button>
+            </DialogActions>
+        </Dialog >
     );
 }

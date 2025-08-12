@@ -3,7 +3,6 @@ import {
     AppBar,
     Button, Checkbox,
     Dialog, FormControl, FormControlLabel, FormGroup,
-    IconButton,
     Stack,
     TextField,
     Toolbar,
@@ -11,10 +10,8 @@ import {
     Select,
     MenuItem,
     InputLabel, Grid2,
-    Box,
-    Modal
+    DialogActions
 } from "@mui/material";
-import { Close as CloseIcon } from '@mui/icons-material';
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n, getJson } from "pithekos-lib";
 import sx from "./Selection.styles";
@@ -88,146 +85,139 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
     };
 
     return (
-        <Modal
+        <Dialog
+            fullWidth={true}
             open={open}
             onClose={handleClose}
-             sx={{
+            sx={{
                 backdropFilter: "blur(3px)",
             }}
         >
-            <Box sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                bgcolor: 'background.paper',
-                boxShadow: 24,
-                borderRadius: 2,
-                minWidth:"80vh"
-            }}
-            >
-                <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
-                    <Toolbar>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            onClick={handleClose}
-                            aria-label={doI18n("pages:content:close", i18nRef.current)}
-                        >
-                            <CloseIcon />
-                        </IconButton>
-                        <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
-                            {doI18n("pages:content:new_book", i18nRef.current)}
-                        </Typography>
-                        <Button
-                            autoFocus
-                            color="inherit"
-                            disabled={
-                                !(
-                                    bookCode.trim().length === 3 &&
-                                    bookTitle.trim().length > 0 &&
-                                    bookAbbr.trim().length > 0
-                                )
-                            }
-                            onClick={handleCreate}
-                        >
-                            {doI18n("pages:content:create", i18nRef.current)}
-                        </Button>
-                    </Toolbar>
-                </AppBar>
-                <Stack spacing={2} sx={{ m: 2 }}>
-                    <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
-                        <Grid2 item size={4}>
-                            <FormControl sx={{ width: "100%" }}>
-                                <InputLabel id="bookCode-label" htmlFor="bookCode" sx={sx.inputLabel}>
-                                    {doI18n("pages:content:book_code", i18nRef.current)}
-                                </InputLabel>
-                                <Select
-                                    variant="outlined"
-                                    labelId="bookCode-label"
-                                    name="bookCode"
-                                    inputProps={{
-                                        id: "bookCode",
-                                    }}
-                                    value={bookCode}
-                                    label={doI18n("pages:content:book_code", i18nRef.current)}
-                                    onChange={(event) => {
-                                        setBookCode(event.target.value);
-                                        setBookAbbr(
-                                            ["1", "2", "3"].includes(event.target.value[0]) ?
-                                                event.target.value.slice(0, 2) + event.target.value[2].toLowerCase() :
-                                                event.target.value[0] + event.target.value.slice(1).toLowerCase()
-                                        );
-                                        setBookTitle(doI18n(`scripture:books:${event.target.value}`, i18nRef.current))
-                                    }}
-                                    sx={sx.select}
-                                >
-                                    {
-                                        (protestantOnly ? bookCodes.slice(0, 66) : bookCodes).map((listItem, n) => <MenuItem
-                                            key={n}
-                                            value={listItem}
-                                            dense
-                                            disabled={repoInfo.book_codes.includes(listItem)}
-                                        >
-                                            <ListMenuItem
-                                                listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`}
-                                            />
-                                        </MenuItem>
-                                        )
-                                    }
-                                </Select>
-                            </FormControl>
+            <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+                <Toolbar>
+                    <Typography variant="h6" component="div">
+                        {doI18n("pages:content:new_book", i18nRef.current)}
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Typography variant='subtitle2' sx={{ ml: 1, p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
+            <Stack spacing={2} sx={{ m: 2 }}>
+                <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
+                    <Grid2 item size={4}>
+                        <FormControl sx={{ width: "100%" }}>
+                            <InputLabel id="bookCode-label" required htmlFor="bookCode" sx={sx.inputLabel}>
+                                {doI18n("pages:content:book_code", i18nRef.current)}
+                            </InputLabel>
+                            <Select
+                                variant="outlined"
+                                required
+                                labelId="bookCode-label"
+                                name="bookCode"
+                                inputProps={{
+                                    id: "bookCode",
+                                }}
+                                value={bookCode}
+                                label={doI18n("pages:content:book_code", i18nRef.current)}
+                                onChange={(event) => {
+                                    setBookCode(event.target.value);
+                                    setBookAbbr(
+                                        ["1", "2", "3"].includes(event.target.value[0]) ?
+                                            event.target.value.slice(0, 2) + event.target.value[2].toLowerCase() :
+                                            event.target.value[0] + event.target.value.slice(1).toLowerCase()
+                                    );
+                                    setBookTitle(doI18n(`scripture:books:${event.target.value}`, i18nRef.current))
+                                }}
+                                sx={sx.select}
+                            >
+                                {
+                                    (protestantOnly ? bookCodes.slice(0, 66) : bookCodes).map((listItem, n) => <MenuItem
+                                        key={n}
+                                        value={listItem}
+                                        dense
+                                        disabled={repoInfo.book_codes.includes(listItem)}
+                                    >
+                                        <ListMenuItem
+                                            listItem={`${listItem} - ${doI18n(`scripture:books:${listItem}`, i18nRef.current)}`}
+                                        />
+                                    </MenuItem>
+                                    )
+                                }
+                            </Select>
+                        </FormControl>
 
-                        </Grid2>
-                        <Grid2 item size={5}>
-                            <TextField
-                                id="bookAbbr"
-                                sx={{ width: "100%" }}
-                                label={doI18n("pages:content:book_abbr", i18nRef.current)}
-                                value={bookAbbr}
-                                onChange={(event) => {
-                                    setBookAbbr(event.target.value);
-                                }}
-                            />
-                        </Grid2>
-                        <Grid2 item size={3}>
-                            <TextField
-                                id="bookTitle"
-                                sx={{ width: "100%" }}
-                                label={doI18n("pages:content:book_title", i18nRef.current)}
-                                value={bookTitle}
-                                onChange={(event) => {
-                                    setBookTitle(event.target.value);
-                                }}
-                            />
-                        </Grid2>
                     </Grid2>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                color='secondary'
-                                    checked={protestantOnly}
-                                    onChange={() => setProtestantOnly(!protestantOnly)}
-                                />
-                            }
-                            label={doI18n("pages:content:protestant_books_only", i18nRef.current)}
+                    <Grid2 item size={4}>
+                        <TextField
+                            id="bookAbbr"
+                            required
+                            sx={{ width: "100%" }}
+                            label={doI18n("pages:content:book_abbr", i18nRef.current)}
+                            value={bookAbbr}
+                            onChange={(event) => {
+                                setBookAbbr(event.target.value);
+                            }}
                         />
-                    </FormGroup>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                color='secondary'
-                                    checked={addCV}
-                                    onChange={() => setAddCV(!addCV)}
-                                />
-                            }
-                            label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
+                    </Grid2>
+                    <Grid2 item size={4}>
+                        <TextField
+                            id="bookTitle"
+                            required
+                            sx={{ width: "100%" }}
+                            label={doI18n("pages:content:book_title", i18nRef.current)}
+                            value={bookTitle}
+                            onChange={(event) => {
+                                setBookTitle(event.target.value);
+                            }}
                         />
-                    </FormGroup>
-                </Stack>
-            </Box>
-        </Modal>
+                    </Grid2>
+                </Grid2>
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                color='secondary'
+                                checked={protestantOnly}
+                                onChange={() => setProtestantOnly(!protestantOnly)}
+                            />
+                        }
+                        label={doI18n("pages:content:protestant_books_only", i18nRef.current)}
+                    />
+                </FormGroup>
+                <FormGroup>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                color='secondary'
+                                checked={addCV}
+                                onChange={() => setAddCV(!addCV)}
+                            />
+                        }
+                        label={doI18n("pages:content:add_versification_checkbox", i18nRef.current)}
+                    />
+                </FormGroup>
+            </Stack>
+            <DialogActions>
+                <Button
+                    onClick={handleClose}
+                    color='primary'
+                >
+                    {doI18n("pages:content:close", i18nRef.current)}
+                </Button>
+                <Button
+                    autoFocus
+                    color="inherit"
+                    disabled={
+                        !(
+                            bookCode.trim().length === 3 &&
+                            bookTitle.trim().length > 0 &&
+                            bookAbbr.trim().length > 0
+                        )
+                    }
+                    onClick={handleCreate}
+                >
+                    {doI18n("pages:content:create", i18nRef.current)}
+                </Button>
+            </DialogActions>
+        </Dialog>
     );
 }
