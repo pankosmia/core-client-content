@@ -52,6 +52,12 @@ function DataGridComponent({isContentExperiment, contentUrl, experimentDialogOpe
             flex: 3
         },
         {
+            field: 'source',
+            headerName: doI18n("pages:content:row_source", i18nRef.current),
+            minWidth: 110,
+            flex: 1
+        },
+        {
             field: 'language',
             headerName: doI18n("pages:content:row_language", i18nRef.current),
             minWidth: 120,
@@ -70,12 +76,6 @@ function DataGridComponent({isContentExperiment, contentUrl, experimentDialogOpe
             minWidth: 80,
             flex: 0.75,
             valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
-        },
-        {
-            field: 'source',
-            headerName: doI18n("pages:content:row_source", i18nRef.current),
-            minWidth: 110,
-            flex: 1
         },
         {
             field: 'dateUpdated',
