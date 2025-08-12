@@ -1,19 +1,20 @@
-import {useContext} from 'react';
+import { useContext } from 'react';
 import {
+    AppBar,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
-    DialogTitle,
+    Toolbar,
     Typography
 } from "@mui/material";
-import {debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
-import {enqueueSnackbar} from "notistack";
+import { debugContext, i18nContext, doI18n, postEmptyJson } from "pithekos-lib";
+import { enqueueSnackbar } from "notistack";
 
-function ArchiveContent({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
-    const {i18nRef} = useContext(i18nContext);
-    const {debugRef} = useContext(debugContext);
+function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+    const { i18nRef } = useContext(i18nContext);
+    const { debugRef } = useContext(debugContext);
 
     const archiveRepo = async repo_path => {
 
@@ -22,14 +23,14 @@ function ArchiveContent({repoInfo, open, closeFn, reposModCount, setReposModCoun
         if (archiveResponse.ok) {
             enqueueSnackbar(
                 doI18n("pages:content:repo_archived", i18nRef.current),
-                {variant: "success"}
+                { variant: "success" }
             );
 
             setReposModCount(reposModCount + 1)
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_archive_repo", i18nRef.current),
-                {variant: "error"}
+                { variant: "error" }
             );
         }
     }
@@ -43,7 +44,14 @@ function ArchiveContent({repoInfo, open, closeFn, reposModCount, setReposModCoun
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:archive_content", i18nRef.current)}</b></DialogTitle>
+        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+            <Toolbar>
+                <Typography variant="h6" component="div">
+                    {doI18n("pages:content:archive_content", i18nRef.current)}
+                </Typography>
+
+            </Toolbar>
+        </AppBar>
         <DialogContent>
             <DialogContentText>
                 <Typography variant="h6">

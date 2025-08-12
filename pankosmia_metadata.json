@@ -408,6 +408,25 @@
       "en":"Content restored",
       "fr":"Contenu restauré",
       "es":"Se restauró el contenido"
+    },
+    "create_content_tn":{
+      "en":"Translation Notes",
+      "fr":"Notes de traduction",
+      "es":"Notas de traducción"
+    },
+    "create_content_tq":{
+      "en":"Translation Questions",
+      "fr":"Questions de traduction",
+      "es":"Preguntas de traducción"
+    },
+    "create_content_sq":{
+      "en":"Study Questions",
+      "fr":"Questions d'étude",
+      "es":"Preguntas de estudio"
+    },
+    "required_field":{
+      "en":"* Required fields",
+      "fr":"* champs obligatoires"
     }
   }
 }

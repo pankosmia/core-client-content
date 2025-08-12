@@ -6,11 +6,10 @@ import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 
-function DataGridComponent({isContentExperiment, contentUrl, experimentDialogOpen}) {
+function DataGridComponent({reposModCount, setReposModCount, isContentExperiment, contentUrl, experimentDialogOpen}) {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
-    const [reposModCount, setReposModCount] = useState(0);
     const [projectSummaries, setProjectSummaries] = useState({});
 
     const getProjectSummaries = async () => {
