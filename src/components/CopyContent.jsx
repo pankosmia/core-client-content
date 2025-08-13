@@ -1,11 +1,13 @@
 import {useContext} from 'react';
 import {
+    AppBar,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
+    Toolbar,
     Typography
 } from "@mui/material";
 import {debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
@@ -42,7 +44,13 @@ function CopyContent({repoInfo, open, closeFn, reposModCount, setReposModCount})
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:copy_content", i18nRef.current)}</b></DialogTitle>
+        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+            <Toolbar>
+                <Typography variant="h6" component="div">
+                   {doI18n("pages:content:copy_content", i18nRef.current)}
+                </Typography>
+            </Toolbar>
+        </AppBar>
         <DialogContent>
             <DialogContentText>
                 <Typography variant="h6">

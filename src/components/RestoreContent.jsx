@@ -56,6 +56,7 @@ function RestoreContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
                 <Typography variant="h6">
                     {repoInfo.name}
                 </Typography>
+
                 <Typography>
                     {doI18n("pages:content:about_to_restore_content", i18nRef.current)}
                 </Typography>
