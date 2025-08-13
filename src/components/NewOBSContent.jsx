@@ -8,7 +8,9 @@ import {
     Stack,
     TextField,
     Toolbar,
-    Typography
+    Typography,
+    useMediaQuery,
+    useTheme
 } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n } from "pithekos-lib";
@@ -23,8 +25,11 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
     const [contentAbbr, setContentAbbr] = useState("");
     const [contentType, setContentType] = useState("textStories");
     const [contentLanguageCode, setContentLanguageCode] = useState("und");
-
     const [postCount, setPostCount] = useState(0);
+
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
+
 
     useEffect(
         () => {
@@ -65,7 +70,7 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
 
     return (
         <Dialog
-            fullWidth={true}
+            fullScreen={fullScreen}
             open={open}
             onClose={handleClose}
             sx={{
