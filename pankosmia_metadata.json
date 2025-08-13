@@ -411,17 +411,17 @@
     },
     "remote_content":{
       "en":"Remote Content",
-      "fr":"Contenu distant",
+      "fr":"Serveur distant",
       "es":"Contenido remoto"
     },
     "remote_name":{
       "en":"Remote name",
-      "fr":"Nom distant",
+      "fr":"Nom ",
       "es":"Nombre remoto"
     },
     "remote_repo_url":{
       "en":"Repo url",
-      "fr":"Url du référentiel",
+      "fr":"Url du dépot distant",
       "es":"Url del repositorio"
     },
     "about_to_upload_content":{

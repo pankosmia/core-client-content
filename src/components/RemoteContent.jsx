@@ -17,7 +17,7 @@ import {enqueueSnackbar} from "notistack";
 function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
-    const [remoteNameValue, setRemoteNameValue] = useState('');
+    const [remoteNameValue, setRemoteNameValue] = useState('origin');
     //const [remoteNameIsValid, setRemoteNameIsValid] = useState(true);
     const remoteNameRegex = new RegExp("^[A-Za-z0-9_-]+$");
 
