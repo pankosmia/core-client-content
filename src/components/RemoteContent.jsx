@@ -22,7 +22,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
 
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
     const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(true);
-    const remoteUrlRegex = new RegExp("^[A-Za-z0-9_:.@/-]+$");
+    const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/);
 
     const [valueIsRepeated, setValueIsRepeated] = useState(false);
 
