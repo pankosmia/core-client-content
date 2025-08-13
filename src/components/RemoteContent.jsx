@@ -1,4 +1,4 @@
-import {useState, useContext} from 'react';
+import {useState, useContext, useEffect} from 'react';
 import {
     Button,
     Dialog,
@@ -18,36 +18,54 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const [remoteNameValue, setRemoteNameValue] = useState('');
-    const [remoteNameIsValid, setRemoteNameIsValid] = useState(true);
+    //const [remoteNameIsValid, setRemoteNameIsValid] = useState(true);
     const remoteNameRegex = new RegExp("^[A-Za-z0-9_-]+$");
 
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
-    const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(true);
+    //const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(true);
     const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/);
 
-    const [valueIsRepeated, setValueIsRepeated] = useState(false);
+    //const [valueIsRepeated, setValueIsRepeated] = useState(false);
+
+    const [remotes, setRemotes] = useState(null);
+
+    useEffect(() => {
+        const doFetch = async () => { 
+            const remoteListUrl = `/git/remotes/${repoInfo.path}`;
+            const remoteList = await getJson(remoteListUrl, debugRef.current);
+            if (remoteList.ok) {
+                setRemotes(remoteList.json.payload.remotes);
+            } else {
+                enqueueSnackbar(
+                    doI18n("pages:content:could_not_list_remotes", i18nRef.current),
+                    {variant: "error"}
+                )
+            }
+        }
+        doFetch().then()
+    },
+    [])
 
     const addRemoteRepo = async repo_path => {
 
-        const remoteListUrl = `/git/remotes/${repo_path}`;
+ /*        const remoteListUrl = `/git/remotes/${repo_path}`;
         const remoteList = await getJson(remoteListUrl, debugRef.current);
-        const filteredList = remoteList.json.payload.remotes.filter((p) => p.name === "origin");
+        originRecord = remoteList.json.payload.remotes.filter((p) => p.name === "origin")[0];
+ */
+        //console.log(originRecord);
 
-        console.log(filteredList[0]);
-
-        if (filteredList[0].url === remoteUrlValue){
+        /* if (originRecord.url === remoteUrlValue){
             setValueIsRepeated(true);
-        }
+        } */
 
-        if (remoteList.json.is_good){
-            if (filteredList.length > 0) {
-                const deleteUrl = `/git/remote/delete/${repo_path}?remote_name=origin`;
-                const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
-                if (deleteResponse.ok) {
-                    console.log("se borró correctamente")
-                } else {
-                    console.error("no se pudo borrar")
-                }
+        if (remotes.filter((p) => p.name === "origin")[0]) {
+            const deleteUrl = `/git/remote/delete/${repo_path}?remote_name=origin`;
+            const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
+            if (!deleteResponse.ok) {
+                enqueueSnackbar(
+                    doI18n("pages:content:could_not_delete_remote", i18nRef.current),
+                    {variant: "error"}
+                )
             }
         }
 
@@ -59,7 +77,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                 {variant: "success"}
             );
             setReposModCount(reposModCount + 1);
-            console.log(addResponse.json)
+            //console.log(addResponse.json)
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_add_remote_repo", i18nRef.current),
@@ -69,12 +87,12 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     }
 
     const handleRemoteNameValidation = (e) => {
-        setRemoteNameIsValid(remoteNameRegex.test(e.target.value));
+        //setRemoteNameIsValid(remoteNameRegex.test(e.target.value));
         setRemoteNameValue(e.target.value);
-      };
+    };
 
     const handleRemoteUrlValidation = (e) => {
-        setRemoteUrlIsValid(remoteUrlRegex.test(e.target.value));
+        //setRemoteUrlIsValid(remoteUrlRegex.test(e.target.value));
         setRemoteUrlValue(e.target.value);
     };
 
@@ -109,7 +127,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                         value={remoteNameValue}
                         variant="outlined"
                         onChange={(e) => handleRemoteNameValidation(e)}
-                        error={!remoteNameIsValid}
+                        error={!remoteNameRegex.test(remoteNameValue)}
                         required={true}
                     />
                     <TextField
@@ -118,7 +136,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                         value={remoteUrlValue}
                         variant="outlined"
                         onChange={(e) => handleRemoteUrlValidation(e)}
-                        error={!remoteUrlIsValid}
+                        error={!remoteUrlRegex.test(remoteUrlValue)}
                         required={true}
                     />
                 </Stack>
@@ -133,7 +151,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             </Button>
             <Button
                 color="warning"
-                disabled={!remoteNameIsValid || !remoteUrlIsValid || valueIsRepeated}
+                disabled={remotes === null || !remoteNameRegex.test(remoteNameValue) || !remoteUrlRegex.test(remoteUrlValue) || (remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue)}
                 onClick={async () => {
                             await addRemoteRepo(repoInfo.path);
                             closeFn()

@@ -440,9 +440,9 @@
       "es":"No se pudo obtener la lista remota del repositorio"
     },
     "could_not_add_remote_repo":{
-      "en":"Could not add the remote repository",
+      "en":"Could not add the remote to repository",
       "fr":"Impossible d'ajouter le référentiel distant",
-      "es":"No se pudo agregar el repositorio remoto"
+      "es":"No se pudo agregar el remoto al repositorio"
     },
     "update":{
       "en":"Update",
@@ -467,6 +467,14 @@
     "required_field":{
       "en":"* Required fields",
       "fr":"* champs obligatoires"
+    },
+    "could_not_delete_remote":{
+      "en":"Could not delete remote",
+      "es":"No se pudo borrar el remoto"
+    },
+    "could_not_list_remotes":{
+      "en":"Could not list remotes",
+      "es":"No se pudo encontrar la lista de remotos"
     }
   }
 }
