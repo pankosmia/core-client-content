@@ -409,6 +409,46 @@
       "fr":"Contenu restauré",
       "es":"Se restauró el contenido"
     },
+    "remote_content":{
+      "en":"Remote Content",
+      "fr":"Serveur distant",
+      "es":"Contenido remoto"
+    },
+    "remote_name":{
+      "en":"Remote name",
+      "fr":"Nom ",
+      "es":"Nombre remoto"
+    },
+    "remote_repo_url":{
+      "en":"Repo url",
+      "fr":"Url du dépot distant",
+      "es":"Url del repositorio"
+    },
+    "about_to_upload_content":{
+      "en":"About to upload content",
+      "fr":"Sur le point de télécharger du contenu",
+      "es":"A punto de subir el contenido"
+    },
+    "remote_repo_added":{
+      "en":"Added the remote repository",
+      "fr":"Ajout du référentiel distant",
+      "es":"Se agregó el repositorio remoto"
+    },
+    "could_not_fetch_list":{
+      "en":"Could not fetch the repo's remote list",
+      "fr":"Impossible de récupérer la liste des dépôts distants",
+      "es":"No se pudo obtener la lista remota del repositorio"
+    },
+    "could_not_add_remote_repo":{
+      "en":"Could not add the remote to repository",
+      "fr":"Impossible d'ajouter le référentiel distant",
+      "es":"No se pudo agregar el remoto al repositorio"
+    },
+    "update":{
+      "en":"Update",
+      "fr":"Mettre à jour",
+      "es":"Actualizar"
+    },
     "create_content_tn":{
       "en":"Translation Notes",
       "fr":"Notes de traduction",
@@ -427,6 +467,14 @@
     "required_field":{
       "en":"* Required fields",
       "fr":"* champs obligatoires"
+    },
+    "could_not_delete_remote":{
+      "en":"Could not delete remote",
+      "es":"No se pudo borrar el remoto"
+    },
+    "could_not_list_remotes":{
+      "en":"Could not list remotes",
+      "es":"No se pudo encontrar la lista de remotos"
     }
   }
 }
