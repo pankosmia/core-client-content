@@ -475,6 +475,14 @@
     "could_not_list_remotes":{
       "en":"Could not list remotes",
       "es":"No se pudo encontrar la lista de remotos"
+    },
+    "sideloaded_content":{
+      "en":"Sideloaded content",
+      "es":"Contenido subido"
+    },
+    "content_updates":{
+      "en":"Content updates",
+      "es":"Actualizaciones del contenido"
     }
   }
 }

@@ -113,6 +113,7 @@ function DataGridComponent({reposModCount, setReposModCount, isContentExperiment
                         reposModCount={reposModCount}
                         setReposModCount={setReposModCount}
                         isContentExperiment={isContentExperiment}
+                        contentUrl={contentUrl}
                     />
                 </>;
             }

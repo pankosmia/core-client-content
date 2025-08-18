@@ -12,7 +12,7 @@ import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
 
-function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isContentExperiment}) {
+function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isContentExperiment, contentUrl}) {
 
     const {i18nRef} = useContext(i18nContext);
 
@@ -143,15 +143,17 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                 </>
             :
                 <>
-                    <MenuItem
-                        onClick={(event) => {
-                            setRestoreContentAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
-                        }}
-                        disabled={["_local_", "BurritoTruck", "uW"].every(str => repoInfo.path.split("/")[1] === (str))}
-                    >
-                        {doI18n("pages:content:restore_content", i18nRef.current)}
-                    </MenuItem>
+                    { !["sideloaded", "updates"].some(str => contentUrl.includes(str)) &&
+                        <MenuItem
+                            onClick={(event) => {
+                                setRestoreContentAnchorEl(event.currentTarget);
+                                setContentRowAnchorEl(null);
+                            }}
+                            disabled={["_local_", "BurritoTruck", "uW"].every(str => repoInfo.path.split("/")[1] === (str))}
+                        >
+                            {doI18n("pages:content:restore_content", i18nRef.current)}
+                        </MenuItem>
+                    }
                     <MenuItem
                         onClick={(event) => {
                             setDeleteContentAnchorEl(event.currentTarget);
