@@ -475,6 +475,14 @@
     "could_not_list_remotes":{
       "en":"Could not list remotes",
       "es":"No se pudo encontrar la lista de remotos"
+    },
+    "commits":{
+      "en":"Commits",
+      "es":"Cambios"
+    },
+    "row_path":{
+      "en":"Path",
+      "es":"Dirección"
     }
   }
 }
