@@ -25,10 +25,6 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
         const repoStatusUrl = `/git/status/${repo_path}`;
         const repoStatusResponse = await getJson(repoStatusUrl, debugRef.current);
         if (repoStatusResponse.ok) {
-            enqueueSnackbar(
-                doI18n("pages:content:commits_fetched", i18nRef.current),
-                { variant: "success" }
-            );
             setCommitsArray(repoStatusResponse.json)
         } else {
             enqueueSnackbar(
@@ -36,11 +32,15 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
                 { variant: "error" }
             );
         }
-    }
+    };
 
     useEffect(() => {
-        repoStatus(repoInfo.path).then()
-    },[])
+        if (open === true) {
+            repoStatus(repoInfo.path).then()
+        }
+    },[open]);
+
+    console.log(open);
 
     const addAndCommitRepo = async (repo_path, commitMessage) => {
 
@@ -61,7 +61,7 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
             }
         }
         postCommit().then()
-    }
+    };
 
     const handleCommitMessage = (e) => {
         setCommitMessage(e.target.value);

@@ -34,12 +34,14 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
                 { variant: "error" }
             );
         }
-    }
+    };
 
     useEffect(() => {
-        repoCommits(repoInfo.path).then()
+        if (open === true) {
+            repoCommits(repoInfo.path).then()
+        }
     },
-    [open])
+    [open]);
 
     const columns = [
         {
@@ -54,7 +56,7 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
             minWidth: 110,
             flex: 3
         }
-    ]
+    ];
 
     const rows = commits.map((c, n) => {
         return {
