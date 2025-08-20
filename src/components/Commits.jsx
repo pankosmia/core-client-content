@@ -13,7 +13,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import { debugContext, i18nContext, doI18n, getJson } from "pithekos-lib";
 import { enqueueSnackbar } from "notistack";
 
-function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+function Commits({ repoInfo, open, closeFn }) {
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
     const [commits, setCommits] = useState([]);

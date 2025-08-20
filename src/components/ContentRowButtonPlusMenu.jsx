@@ -244,8 +244,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoInfo={repoInfo}
             open={commitsOpen}
             closeFn={() => setCommitsAnchorEl(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
         />
         <AddAndCommit
             repoInfo={repoInfo}

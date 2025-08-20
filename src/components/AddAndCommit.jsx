@@ -40,8 +40,6 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
         }
     },[open]);
 
-    console.log(open);
-
     const addAndCommitRepo = async (repo_path, commitMessage) => {
 
         const postCommit = async () => {
@@ -53,6 +51,7 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
                     doI18n("pages:content:commit_complete", i18nRef.current),
                     { variant: "success" }
                 );
+                setReposModCount(reposModCount + 1)
             } else {
                 enqueueSnackbar(
                     doI18n("pages:content:could_not_commit", i18nRef.current),
