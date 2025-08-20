@@ -5,7 +5,6 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogContentText,
     Toolbar,
     Typography
 } from "@mui/material";
@@ -27,9 +26,7 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
                 doI18n("pages:content:commits_fetched", i18nRef.current),
                 { variant: "success" }
             );
-            setReposModCount(reposModCount + 1);
             setCommits(commitsResponse.json);
-            console.log(commitsResponse.json)
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_fetch_commits", i18nRef.current),
@@ -103,10 +100,7 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
             </Button>
             <Button
                 color="warning"
-                onClick={/* async () => {
-                    await repoCommits(repoInfo.path);
-                    closeFn();
-                } */closeFn}
+                onClick={closeFn}
             >{doI18n("pages:content:accept", i18nRef.current)}</Button>
         </DialogActions>
     </Dialog>;
