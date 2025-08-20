@@ -18,37 +18,49 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
     const [commitMessage, setCommitMessage] = useState('');
+    const [commitsArray, setCommitsArray] = useState([]);
 
-    const addAndCommitRepo = async (repo_path, commitMessage) => {
+    const repoStatus = async repo_path => {
 
         const repoStatusUrl = `/git/status/${repo_path}`;
         const repoStatusResponse = await getJson(repoStatusUrl, debugRef.current);
         if (repoStatusResponse.ok) {
-            if (repoStatusResponse.json.length > 0) {
-                const postCommit = async () => {
-                    const addAndCommitUrl = `/git/add-and-commit/${repo_path}`;
-                    const commitJson = {"commit_message": commitMessage};
-                    const addAndCommitResponse = await postJson(addAndCommitUrl, commitJson, debugRef.current);
-                    if (addAndCommitResponse.ok) {
-                        enqueueSnackbar(
-                            doI18n("pages:content:commit_complete", i18nRef.current),
-                            { variant: "success" }
-                        );
-                    } else {
-                        enqueueSnackbar(
-                            doI18n("pages:content:could_not_commit", i18nRef.current),
-                            { variant: "error" }
-                        );
-                    }
-                }
-                postCommit().then()
-            }
+            enqueueSnackbar(
+                doI18n("pages:content:commits_fetched", i18nRef.current),
+                { variant: "success" }
+            );
+            setCommitsArray(repoStatusResponse.json)
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_fetch_commits", i18nRef.current),
                 { variant: "error" }
             );
         }
+    }
+
+    useEffect(() => {
+        repoStatus(repoInfo.path).then()
+    },[])
+
+    const addAndCommitRepo = async (repo_path, commitMessage) => {
+
+        const postCommit = async () => {
+            const addAndCommitUrl = `/git/add-and-commit/${repo_path}`;
+            const commitJson = JSON.stringify({"commit_message": commitMessage});
+            const addAndCommitResponse = await postJson(addAndCommitUrl, commitJson, debugRef.current);
+            if (addAndCommitResponse.ok) {
+                enqueueSnackbar(
+                    doI18n("pages:content:commit_complete", i18nRef.current),
+                    { variant: "success" }
+                );
+            } else {
+                enqueueSnackbar(
+                    doI18n("pages:content:could_not_commit", i18nRef.current),
+                    { variant: "error" }
+                );
+            }
+        }
+        postCommit().then()
     }
 
     const handleCommitMessage = (e) => {
@@ -99,7 +111,7 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
             </Button>
             <Button
                 color="warning"
-                disabled={commitMessage === ''}
+                disabled={commitsArray.length === 0 || commitMessage === ''}
                 onClick={() => { addAndCommitRepo(repoInfo.path, commitMessage).then() ;closeFn() }}
             >{doI18n("pages:content:accept", i18nRef.current)}</Button>
         </DialogActions>

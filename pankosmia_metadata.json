@@ -483,6 +483,10 @@
     "row_path":{
       "en":"Path",
       "es":"Dirección"
+    },
+    "status":{
+      "en":"Status",
+      "es":"Estado"
     }
   }
 }

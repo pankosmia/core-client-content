@@ -5,6 +5,7 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
+    DialogContentText,
     Toolbar,
     Typography
 } from "@mui/material";
@@ -42,8 +43,8 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
 
     const columns = [
         {
-            field: 'change_type',
-            headerName: doI18n("pages:content:row_type", i18nRef.current),
+            field: 'status',
+            headerName: doI18n("pages:content:status", i18nRef.current),
             minWidth: 110,
             flex: 3
         },
@@ -59,7 +60,7 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
         return {
             ...c,
             id: n,
-            change_type: c.change_type,
+            status: c.change_type,
             path: c.path
         }
     });
@@ -83,16 +84,28 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
             </Toolbar>
         </AppBar>
         <DialogContent>
-            <DataGrid
-                initialState={{
-                    sorting: {
-                        sortModel: [{ field: 'path', sort: 'asc' }],
-                    }
-                }}
-                rows={rows}
-                columns={columns}
-                sx={{fontSize: "1rem"}}
-            />
+            <DialogContentText>
+                <Typography variant="h6">
+                    {repoInfo.name}
+                </Typography>
+            </DialogContentText>
+            {commits.length > 0 
+                ?
+                <DataGrid
+                    initialState={{
+                        sorting: {
+                            sortModel: [{ field: 'path', sort: 'asc' }],
+                        }
+                    }}
+                    rows={rows}
+                    columns={columns}
+                    sx={{fontSize: "1rem"}}
+                />
+                :
+                <Typography variant="h6">
+                    {doI18n("pages:content:no_changes", i18nRef.current)}
+                </Typography>
+            }
         </DialogContent>
         <DialogActions>
             <Button onClick={closeFn}>
