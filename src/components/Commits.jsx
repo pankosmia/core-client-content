@@ -13,7 +13,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import { debugContext, i18nContext, doI18n, getJson } from "pithekos-lib";
 import { enqueueSnackbar } from "notistack";
 
-function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+function Commits({ repoInfo, open, closeFn }) {
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
     const [commits, setCommits] = useState([]);
@@ -27,26 +27,26 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
                 doI18n("pages:content:commits_fetched", i18nRef.current),
                 { variant: "success" }
             );
-            setReposModCount(reposModCount + 1);
             setCommits(commitsResponse.json);
-            console.log(commitsResponse.json)
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_fetch_commits", i18nRef.current),
                 { variant: "error" }
             );
         }
-    }
+    };
 
     useEffect(() => {
-        repoCommits(repoInfo.path).then()
+        if (open === true) {
+            repoCommits(repoInfo.path).then()
+        }
     },
-    [open])
+    [open]);
 
     const columns = [
         {
-            field: 'change_type',
-            headerName: doI18n("pages:content:row_type", i18nRef.current),
+            field: 'status',
+            headerName: doI18n("pages:content:status", i18nRef.current),
             minWidth: 110,
             flex: 3
         },
@@ -56,13 +56,13 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
             minWidth: 110,
             flex: 3
         }
-    ]
+    ];
 
     const rows = commits.map((c, n) => {
         return {
             ...c,
             id: n,
-            change_type: c.change_type,
+            status: c.change_type,
             path: c.path
         }
     });
@@ -86,16 +86,28 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
             </Toolbar>
         </AppBar>
         <DialogContent>
-            <DataGrid
-                initialState={{
-                    sorting: {
-                        sortModel: [{ field: 'path', sort: 'asc' }],
-                    }
-                }}
-                rows={rows}
-                columns={columns}
-                sx={{fontSize: "1rem"}}
-            />
+            <DialogContentText>
+                <Typography variant="h6">
+                    {repoInfo.name}
+                </Typography>
+            </DialogContentText>
+            {commits.length > 0 
+                ?
+                <DataGrid
+                    initialState={{
+                        sorting: {
+                            sortModel: [{ field: 'path', sort: 'asc' }],
+                        }
+                    }}
+                    rows={rows}
+                    columns={columns}
+                    sx={{fontSize: "1rem"}}
+                />
+                :
+                <Typography variant="h6">
+                    {doI18n("pages:content:no_changes", i18nRef.current)}
+                </Typography>
+            }
         </DialogContent>
         <DialogActions>
             <Button onClick={closeFn}>
@@ -103,10 +115,7 @@ function Commits({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
             </Button>
             <Button
                 color="warning"
-                onClick={/* async () => {
-                    await repoCommits(repoInfo.path);
-                    closeFn();
-                } */closeFn}
+                onClick={closeFn}
             >{doI18n("pages:content:accept", i18nRef.current)}</Button>
         </DialogActions>
     </Dialog>;
