@@ -12,7 +12,7 @@ import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext} from "react";
 
-function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isContentExperiment, contentUrl}) {
+function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isContentExperiment}) {
 
     const {i18nRef} = useContext(i18nContext);
 
@@ -105,7 +105,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                         {doI18n("pages:content:copy_content", i18nRef.current)}
                     </MenuItem>
                     {
-                        repoInfo.path.split("/")[0] === "_local_" && <MenuItem
+                        (repoInfo.path.split("/")[0] === "_local_" && repoInfo.path.split("/")[1] !== "_updates_") && <MenuItem
                             onClick={(event) => {
                                 setRemoteContentAnchorEl(event.currentTarget);
                                 setContentRowAnchorEl(null);
@@ -143,7 +143,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                 </>
             :
                 <>
-                    { !["sideloaded", "updates"].some(str => contentUrl.includes(str)) &&
+                    { !repoInfo.path.includes("_updates_") &&
                         <MenuItem
                             onClick={(event) => {
                                 setRestoreContentAnchorEl(event.currentTarget);

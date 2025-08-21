@@ -91,9 +91,6 @@ function App() {
                                     <MenuItem onClick={() => { setContentUrl("?org=_local_/_quarantine_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
                                         {doI18n("pages:content:quarantined_content", i18nRef.current)}
                                     </MenuItem>
-                                    <MenuItem onClick={() => { setContentUrl("?org=_local_/_sideloaded_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
-                                        {doI18n("pages:content:sideloaded_content", i18nRef.current)}
-                                    </MenuItem>
                                     <MenuItem onClick={() => { setContentUrl("?org=_local_/_updates_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
                                         {doI18n("pages:content:content_updates", i18nRef.current)}
                                     </MenuItem>

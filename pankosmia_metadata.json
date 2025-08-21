@@ -483,6 +483,16 @@
     "content_updates":{
       "en":"Content updates",
       "es":"Actualizaciones del contenido"
+    },
+    "local_resource": {
+      "en": "Local resource",
+      "fr": "Ressource locale",
+      "es": "Recurso local"
+    },
+    "local_project": {
+      "en": "Local project",
+      "fr": "Projet local",
+      "es": "Proyecto local"
     }
   }
 }
