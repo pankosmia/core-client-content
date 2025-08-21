@@ -25,7 +25,6 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
                 doI18n("pages:content:repo_archived", i18nRef.current),
                 { variant: "success" }
             );
-
             setReposModCount(reposModCount + 1)
         } else {
             enqueueSnackbar(
