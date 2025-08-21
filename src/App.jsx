@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useContext } from "react"
-import { Grid2, Box, IconButton, Button, Dialog, DialogActions, DialogContent, Menu, MenuItem, AppBar, Toolbar, Typography } from "@mui/material";
+import { Grid2, Box, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, Menu, MenuItem, AppBar, Toolbar, Typography } from "@mui/material";
 import { i18nContext, doI18n } from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
@@ -91,6 +91,9 @@ function App() {
                                     <MenuItem onClick={() => { setContentUrl("?org=_local_/_quarantine_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
                                         {doI18n("pages:content:quarantined_content", i18nRef.current)}
                                     </MenuItem>
+                                    <MenuItem onClick={() => { setContentUrl("?org=_local_/_updates_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
+                                        {doI18n("pages:content:content_updates", i18nRef.current)}
+                                    </MenuItem>
                                 </Menu>
                                 <Dialog
                                     fullWidth={true}
@@ -106,6 +109,13 @@ function App() {
                                         </Toolbar>
                                     </AppBar>
                                     <DialogContent>
+                                    <DialogContentText>
+                                        <Typography variant="h6">
+                                            {contentUrl.includes("archive") && doI18n("pages:content:archived_content", i18nRef.current)}
+                                            {contentUrl.includes("quarantine") && doI18n("pages:content:quarantined_content", i18nRef.current)}
+                                            {contentUrl.includes("updates") && doI18n("pages:content:content_updates", i18nRef.current)}
+                                        </Typography>
+                                    </DialogContentText>
                                         <DataGridComponent
                                             reposModCount={reposModCount}
                                             setReposModCount={setReposModCount}

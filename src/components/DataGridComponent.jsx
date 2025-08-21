@@ -130,7 +130,7 @@ function DataGridComponent({reposModCount, setReposModCount, isContentExperiment
             nBooks: rep.book_codes.length,
             type: rep.flavor,
             source: rep.path.startsWith("_local_") ?
-                doI18n("pages:content:local_org", i18nRef.current) :
+                (rep.path.startsWith("_local_/_sideloaded_") ? doI18n("pages:content:local_resource", i18nRef.current) : doI18n("pages:content:local_project", i18nRef.current)) :
                 `${rep.path.split("/")[1]} (${rep.path.split("/")[0]})`,
             dateUpdated: rep.generated_date,
         }
