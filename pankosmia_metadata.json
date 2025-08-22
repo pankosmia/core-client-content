@@ -519,6 +519,14 @@
     "could_not_commit":{
       "en":"Failed to commit",
       "es":"No se pudo hacer el commit"
+    },
+    "could_not_fetch_internet_status":{
+      "en":"Could not fetch internet status",
+      "es":"No se pudo obtener el estado del internet"
+    },
+    "push_to_dcs":{
+      "en":"Push",
+      "es":"Push"
     }
   }
 }
