@@ -475,6 +475,50 @@
     "could_not_list_remotes":{
       "en":"Could not list remotes",
       "es":"No se pudo encontrar la lista de remotos"
+    },
+    "commits":{
+      "en":"Commits",
+      "es":"Cambios"
+    },
+    "row_path":{
+      "en":"Path",
+      "es":"Dirección"
+    },
+    "status":{
+      "en":"Status",
+      "es":"Estado"
+    },
+    "no_changes":{
+      "en":"No changes made",
+      "es":"No se hicieron cambios"
+    },
+    "add_and_commit":{
+      "en":"Add and commit",
+      "es":"Hacer commit"
+    },
+    "commit_message":{
+      "en":"Commit message",
+      "es":"Mensaje del commit"
+    },
+    "about_to_commit_content":{
+      "en":"About to commit content",
+      "es":"A punto de hacer commit del contenido"
+    },
+    "commits_fetched":{
+      "en":"Commits successfully fetched",
+      "es":"Se han obtenido correctamente los commits"
+    },
+    "could_not_fetch_commits":{
+      "en":"Failed to fetch commits",
+      "es":"No se pudo obtener los commits"
+    },
+    "commit_complete":{
+      "en":"Commit complete",
+      "es":"Se completó el commit"
+    },
+    "could_not_commit":{
+      "en":"Failed to commit",
+      "es":"No se pudo hacer el commit"
     }
   }
 }

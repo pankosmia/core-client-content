@@ -7,6 +7,8 @@ import CopyContent from "./CopyContent";
 import RemoteContent from "./RemoteContent";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
+import Commits from "./Commits";
+import AddAndCommit from "./AddAndCommit";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
@@ -36,6 +38,12 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     const [quarantineContentAnchorEl, setQuarantineContentAnchorEl] = useState(null);
     const quarantineContentOpen = Boolean(quarantineContentAnchorEl);
+
+    const [commitsAnchorEl, setCommitsAnchorEl] = useState(null);
+    const commitsOpen = Boolean(commitsAnchorEl);
+
+    const [addAndCommitAnchorEl, setAddAndCommitAnchorEl] = useState(null);
+    const addAndCommitOpen = Boolean(addAndCommitAnchorEl);
 
     const [restoreContentAnchorEl, setRestoreContentAnchorEl] = useState(null);
     const restoreContentOpen = Boolean(restoreContentAnchorEl);
@@ -132,6 +140,28 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                     >
                         {doI18n("pages:content:quarantine_content", i18nRef.current)}
                     </MenuItem>
+                    {
+                        repoInfo.path.includes("_local_/_local_") 
+                        &&
+                        <>
+                            <MenuItem
+                                onClick={(event) => {
+                                    setCommitsAnchorEl(event.currentTarget);
+                                    setContentRowAnchorEl(null);
+                                }}
+                            >
+                                {doI18n("pages:content:commits", i18nRef.current)}
+                            </MenuItem>
+                            <MenuItem
+                                onClick={(event) => {
+                                    setAddAndCommitAnchorEl(event.currentTarget);
+                                    setContentRowAnchorEl(null);
+                                }}
+                            >
+                                {doI18n("pages:content:add_and_commit", i18nRef.current)}
+                            </MenuItem>
+                        </>
+                    }
                     <MenuItem
                         onClick={(event) => {
                             setDeleteContentAnchorEl(event.currentTarget);
@@ -207,6 +237,18 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoInfo={repoInfo}
             open={quarantineContentOpen}
             closeFn={() => setQuarantineContentAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <Commits
+            repoInfo={repoInfo}
+            open={commitsOpen}
+            closeFn={() => setCommitsAnchorEl(null)}
+        />
+        <AddAndCommit
+            repoInfo={repoInfo}
+            open={addAndCommitOpen}
+            closeFn={() => setAddAndCommitAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
