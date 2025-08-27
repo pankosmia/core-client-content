@@ -10,7 +10,9 @@ import {
     Select,
     MenuItem,
     InputLabel, Grid2,
-    DialogActions
+    DialogActions,
+    useTheme,
+    useMediaQuery
 } from "@mui/material";
 
 import { enqueueSnackbar } from "notistack";
@@ -39,6 +41,9 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
     const [versificationCodes, setVersificationCodes] = useState([]);
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
+
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     useEffect(() =>
         getAndSetJson({
@@ -127,6 +132,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
 
     return (
         <Dialog
+            fullScreen={fullScreen}
             fullWidth={true}
             open={open}
             onClose={handleClose}
@@ -142,8 +148,8 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
 
                 </Toolbar>
             </AppBar>
-            <Typography variant='subtitle2' sx={{ ml: 1, p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
-            <Stack spacing={2} sx={{ m: 2 }}>
+            <Typography variant='subtitle2' sx={{p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
+            <Stack spacing={1} sx={{ m: 1 }}>
                 <TextField
                     id="name"
                     required

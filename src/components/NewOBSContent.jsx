@@ -85,8 +85,8 @@ export default function NewOBSContent({ open, closeModal, reposModCount, setRepo
 
                 </Toolbar>
             </AppBar>
-            <Typography variant='subtitle2' sx={{ ml: 1, p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
-            <Stack spacing={2} sx={{ m: 2 }}>
+            <Typography variant='subtitle2' sx={{ p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
+            <Stack spacing={1} sx={{ m: 1 }}>
                 <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch" flexDirection={'column'}>
                     <TextField
                         id="name"

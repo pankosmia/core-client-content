@@ -11,7 +11,9 @@ import {
     MenuItem,
     InputLabel, Grid2,
     DialogActions,
-    Dialog
+    Dialog,
+    useMediaQuery,
+    useTheme
 } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n, getAndSetJson, getJson } from "pithekos-lib";
@@ -41,6 +43,9 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
     const [versificationCodes, setVersificationCodes] = useState([]);
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
+
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     useEffect(() =>
         getAndSetJson({
@@ -116,6 +121,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
 
     return (
         <Dialog
+            fullScreen={fullScreen}
             fullWidth={true}
             open={open}
             onClose={handleClose}
@@ -123,7 +129,6 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                 backdropFilter: "blur(3px)",
             }}
         >
-
             <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                 <Toolbar>
                     <Typography variant="h6" component="div">
@@ -132,8 +137,8 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
 
                 </Toolbar>
             </AppBar>
-            <Typography variant='subtitle2' sx={{ ml: 1, p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
-            <Stack spacing={2} sx={{ m: 2 }}>
+            <Typography variant='subtitle2' sx={{ p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
+            <Stack spacing={1} sx={{ m: 1 }}>
                 <TextField
                     id="name"
                     required
@@ -172,7 +177,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                         setContentLanguageCode(event.target.value);
                     }}
                 />
-                <FormControl>
+                <FormControl fullScreen={fullScreen}>
                     <InputLabel id="booksVersification-label" required htmlFor="booksVersification"
                         sx={sx.inputLabel}>
                         {doI18n("pages:content:versification_scheme", i18nRef.current)}

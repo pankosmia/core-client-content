@@ -10,7 +10,9 @@ import {
     Select,
     MenuItem,
     InputLabel, Grid2,
-    DialogActions
+    DialogActions,
+    useTheme,
+    useMediaQuery
 } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, debugContext, postJson, doI18n, getJson } from "pithekos-lib";
@@ -23,6 +25,9 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
     const [bookCode, setBookCode] = useState("");
     const [bookTitle, setBookTitle] = useState("");
     const [bookAbbr, setBookAbbr] = useState("");
+
+    const theme = useTheme();
+    const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
 
     useEffect(
         () => {
@@ -86,6 +91,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
 
     return (
         <Dialog
+            fullScreen={fullScreen}
             fullWidth={true}
             open={open}
             onClose={handleClose}
@@ -100,8 +106,8 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                     </Typography>
                 </Toolbar>
             </AppBar>
-            <Typography variant='subtitle2' sx={{ ml: 1, p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
-            <Stack spacing={2} sx={{ m: 2 }}>
+            <Typography variant='subtitle2' sx={{ p: 1 }}> {doI18n(`pages:content:required_field`, i18nRef.current)}</Typography>
+            <Stack spacing={1} sx={{ m: 1 }}>
                 <Grid2 container spacing={2} justifyItems="flex-end" alignItems="stretch">
                     <Grid2 item size={4}>
                         <FormControl sx={{ width: "100%" }}>
