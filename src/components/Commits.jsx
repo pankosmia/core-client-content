@@ -23,10 +23,6 @@ function Commits({ repoInfo, open, closeFn }) {
         const commitsUrl = `/git/status/${repo_path}`;
         const commitsResponse = await getJson(commitsUrl, debugRef.current);
         if (commitsResponse.ok) {
-            enqueueSnackbar(
-                doI18n("pages:content:commits_fetched", i18nRef.current),
-                { variant: "success" }
-            );
             setCommits(commitsResponse.json);
         } else {
             enqueueSnackbar(
