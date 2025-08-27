@@ -113,7 +113,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                         {doI18n("pages:content:copy_content", i18nRef.current)}
                     </MenuItem>
                     {
-                        repoInfo.path.split("/")[0] === "_local_" && <MenuItem
+                        (repoInfo.path.split("/")[0] === "_local_" && repoInfo.path.split("/")[1] !== "_updates_") && <MenuItem
                             onClick={(event) => {
                                 setRemoteContentAnchorEl(event.currentTarget);
                                 setContentRowAnchorEl(null);
@@ -173,15 +173,17 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                 </>
             :
                 <>
-                    <MenuItem
-                        onClick={(event) => {
-                            setRestoreContentAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
-                        }}
-                        disabled={["_local_", "BurritoTruck", "uW"].every(str => repoInfo.path.split("/")[1] === (str))}
-                    >
-                        {doI18n("pages:content:restore_content", i18nRef.current)}
-                    </MenuItem>
+                    { !repoInfo.path.includes("_updates_") &&
+                        <MenuItem
+                            onClick={(event) => {
+                                setRestoreContentAnchorEl(event.currentTarget);
+                                setContentRowAnchorEl(null);
+                            }}
+                            disabled={["_local_", "BurritoTruck", "uW"].every(str => repoInfo.path.split("/")[1] === (str))}
+                        >
+                            {doI18n("pages:content:restore_content", i18nRef.current)}
+                        </MenuItem>
+                    }
                     <MenuItem
                         onClick={(event) => {
                             setDeleteContentAnchorEl(event.currentTarget);
