@@ -55,7 +55,7 @@ function Commits({ repoInfo, open, closeFn }) {
     },
     [open]);
 
-    const columns = [
+    const statusColumns = [
         {
             field: 'status',
             headerName: doI18n("pages:content:status", i18nRef.current),
@@ -70,19 +70,46 @@ function Commits({ repoInfo, open, closeFn }) {
         }
     ];
 
-    const rowInfo = [...commits, ...status];
-
-    const rows = commits.map((c, n) => {
+    const statusRows = status.map((s, n) => {
         return {
-            ...c,
+            ...s,
             id: n,
-            status: c.change_type,
-            path: c.path
+            status: s.change_type,
+            path: s.path
         }
     });
 
-    console.log(status);
-    console.log(commits);
+    const commitsColumns = [
+        {
+            field: 'author',
+            headerName: doI18n("pages:content:row_author", i18nRef.current),
+            minWidth: 110,
+            flex: 3
+        },
+        {
+            field: 'date',
+            headerName: doI18n("pages:content:row_date", i18nRef.current),
+            minWidth: 110,
+            flex: 3
+        },
+        {
+            field: 'message',
+            headerName: doI18n("pages:content:row_message", i18nRef.current),
+            minWidth: 110,
+            flex: 3
+        }
+    ];
+
+    const commitsRows = commits.map((c, n) => {
+        return {
+            ...c,
+            id: n,
+            commitId: c.id,
+            author: c.author,
+            date: c.date,
+            message: c.message
+        }
+    });
 
     return <Dialog
         open={open}
@@ -108,7 +135,7 @@ function Commits({ repoInfo, open, closeFn }) {
                     {repoInfo.name}
                 </Typography>
             </DialogContentText>
-            {commits.length > 0 
+            {status.length > 0 
                 ?
                 <DataGrid
                     initialState={{
@@ -116,13 +143,35 @@ function Commits({ repoInfo, open, closeFn }) {
                             sortModel: [{ field: 'path', sort: 'asc' }],
                         }
                     }}
-                    rows={rows}
-                    columns={columns}
+                    rows={statusRows}
+                    columns={statusColumns}
                     sx={{fontSize: "1rem"}}
                 />
                 :
                 <Typography variant="h6">
                     {doI18n("pages:content:no_changes", i18nRef.current)}
+                </Typography>
+            }
+            {commits.length > 0 
+                ?
+                <>
+                    <DialogContentText>
+                        <Typography variant="h6">Commits made</Typography>
+                    </DialogContentText>
+                    <DataGrid
+                        initialState={{
+                            sorting: {
+                                sortModel: [{ field: 'date', sort: 'asc' }],
+                            }
+                        }}
+                        rows={commitsRows}
+                        columns={commitsColumns}
+                        sx={{fontSize: "1rem"}}
+                    />
+                </>
+                :
+                <Typography variant="h6">
+                    {doI18n("pages:content:no_commits", i18nRef.current)}
                 </Typography>
             }
         </DialogContent>
