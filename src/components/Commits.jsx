@@ -16,11 +16,26 @@ import { enqueueSnackbar } from "notistack";
 function Commits({ repoInfo, open, closeFn }) {
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
+    const [status, setStatus] = useState([]);
     const [commits, setCommits] = useState([]);
+
+    const repoStatus = async repo_path => {
+
+        const statusUrl = `/git/status/${repo_path}`;
+        const statusResponse = await getJson(statusUrl, debugRef.current);
+        if (statusResponse.ok) {
+            setStatus(statusResponse.json);
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_fetch_status", i18nRef.current),
+                { variant: "error" }
+            );
+        }
+    };
 
     const repoCommits = async repo_path => {
 
-        const commitsUrl = `/git/status/${repo_path}`;
+        const commitsUrl = `/git/log/${repo_path}`;
         const commitsResponse = await getJson(commitsUrl, debugRef.current);
         if (commitsResponse.ok) {
             setCommits(commitsResponse.json);
@@ -34,7 +49,8 @@ function Commits({ repoInfo, open, closeFn }) {
 
     useEffect(() => {
         if (open === true) {
-            repoCommits(repoInfo.path).then()
+            repoStatus(repoInfo.path).then();
+            repoCommits(repoInfo.path).then();
         }
     },
     [open]);
@@ -54,6 +70,8 @@ function Commits({ repoInfo, open, closeFn }) {
         }
     ];
 
+    const rowInfo = [...commits, ...status];
+
     const rows = commits.map((c, n) => {
         return {
             ...c,
@@ -62,6 +80,9 @@ function Commits({ repoInfo, open, closeFn }) {
             path: c.path
         }
     });
+
+    console.log(status);
+    console.log(commits);
 
     return <Dialog
         open={open}
