@@ -537,6 +537,26 @@
     "could_not_commit":{
       "en":"Failed to commit",
       "es":"No se pudo hacer el commit"
+    },
+    "could_not_fetch_status":{
+      "en":"Failed to fetch repo status",
+      "es":"No se pudo obtener el estado del repositorio"
+    },
+    "no_commits":{
+      "en":"No commits made",
+      "es":"No se hicieron commits"
+    },
+    "row_author":{
+      "en":"Author",
+      "es":"Autor"
+    },
+    "row_date":{
+      "en":"Date",
+      "es":"Fecha"
+    },
+    "row_message":{
+      "en":"Message",
+      "es":"Mensaje"
     }
   }
 }
