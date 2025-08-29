@@ -557,6 +557,22 @@
     "row_message":{
       "en":"Message",
       "es":"Mensaje"
+    },
+    "branches":{
+      "en":"Branches",
+      "es":"Ramas"
+    },
+    "could_not_fetch_brances":{
+      "en":"Could not fetch repo's branches",
+      "es":"No se pudo obtener las ramas del repositorio"
+    },
+    "branch_switched":{
+      "en":"Branch switched",
+      "es":"Cambió de rama"
+    },
+    "could_not_switch_branch":{
+      "en":"Could not switch branch",
+      "es":"No se pudo cambiar la rama"
     }
   }
 }
