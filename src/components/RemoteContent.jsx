@@ -22,8 +22,8 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
     const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/);
     const [remotes, setRemotes] = useState(null);
-    const [selectedBranchIndex, setSelectedBranchIndex] = useState(0);
     const [branchList, setBranchList] = useState([]);
+    const [selectedBranchIndex, setSelectedBranchIndex] = useState();
 
     useEffect(() => {
         const doFetch = async () => { 
@@ -96,7 +96,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
         
         if (branchResponse.ok) {
             setReposModCount(reposModCount + 1);
-            if (branchResponse.json.is_ok){
+            if (branchResponse.json.is_good){
                 enqueueSnackbar(
                     doI18n(`pages:content:branch_switched`, i18nRef.current),
                     { variant: "success" }
@@ -116,9 +116,18 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     };
 
     useEffect(() => {
-        repoBranches(repoInfo.path).then();
+        if (open === true) {
+            repoBranches(repoInfo.path).then();
+        }
     },
-    [reposModCount]);
+    [open]);
+
+    useEffect(() => {
+        if (branchList.length > 0) {
+            setSelectedBranchIndex(branchList.findIndex((b) => b.is_head === true));
+        }
+    },
+    [branchList]);
 
     const handleRemoteUrlValidation = (e) => {
         setRemoteUrlValue(e.target.value);
@@ -127,8 +136,6 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const handleListItemClick = (event, index) => {
         setSelectedBranchIndex(index);
       };
-
-      console.log(branchList);
 
     return <Dialog
         fullWidth={true}
@@ -171,15 +178,15 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                     <List component="nav" aria-label="dcs-branch-list">
                         {branchList.filter((branch) => !branch.name.includes("/")).map((branch, n) => {
                             return <ListItemButton
-                                selected={/* selectedBranchIndex === n */branch.is_head === true}
-                                /* disabled={} */
+                                selected={selectedBranchIndex === n}
+                                disabled={selectedBranchIndex === n}
                                 onClick={(event) => {
-                                    if (branch.is_head === false) { checkoutBranch(repoInfo.path, branch.name).then() };
-                                    handleListItemClick(event, n);  
+                                    checkoutBranch(repoInfo.path, branch.name).then();
+                                    handleListItemClick(event, n);
                                 }}
                             >
                                 <ListItemIcon>
-                                    {/* selectedBranchIndex === n */branch.is_head === true && <DoneIcon />}
+                                    {selectedBranchIndex === n && <DoneIcon />}
                                 </ListItemIcon>
                                 <ListItemText primary={branch.name} />
                             </ListItemButton>
