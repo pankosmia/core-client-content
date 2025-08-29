@@ -119,11 +119,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     },
     [contentRowOpen]);
 
-    console.log(internet);
-    console.log(status);
-    console.log(remotes);
-    console.log(remoteUrl);
-
     return <>
         <IconButton
             onClick={(event) => {
@@ -235,7 +230,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                                     setPushAnchorEl(event.currentTarget);
                                     setContentRowAnchorEl(null);
                                 }}
-                                disabled={internet === false || status.length > 0 || remotes.length === 0 || !remoteUrl.startsWith("git")}
+                                disabled={internet === false || status.length > 0 || remotes.length === 0 || !remoteUrl.startsWith("https://")}
                             >
                                 {doI18n("pages:content:push_to_dcs", i18nRef.current)}
                             </MenuItem>

@@ -102,11 +102,12 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button onClick={closeFn}>
+            <Button color="warning" onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
-                color="warning"
+                variant='contained'
+                color="primary"
                 disabled={commitsArray.length === 0 || commitMessage === ''}
                 onClick={() => { addAndCommitRepo(repoInfo.path, commitMessage).then() ;closeFn() }}
             >{doI18n("pages:content:accept", i18nRef.current)}</Button>
