@@ -1,6 +1,6 @@
 import {IconButton, Menu, MenuItem, Divider} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {i18nContext, doI18n} from "pithekos-lib";
+import {i18nContext, doI18n, getJson, debugContext} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
@@ -9,14 +9,17 @@ import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import Commits from "./Commits";
 import AddAndCommit from "./AddAndCommit";
+import PushToDcs from "./PushToDcs";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
 import NewTextTranslationBook from "./NewTextTranslationBook";
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
+import { enqueueSnackbar } from "notistack";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isContentExperiment}) {
 
     const {i18nRef} = useContext(i18nContext);
+    const {debugRef} = useContext(debugContext);
 
     const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
     const usfmExportOpen = Boolean(usfmExportAnchorEl);
@@ -45,6 +48,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const [addAndCommitAnchorEl, setAddAndCommitAnchorEl] = useState(null);
     const addAndCommitOpen = Boolean(addAndCommitAnchorEl);
 
+    const [pushAnchorEl, setPushAnchorEl] = useState(null);
+    const pushOpen = Boolean(pushAnchorEl);
+
     const [restoreContentAnchorEl, setRestoreContentAnchorEl] = useState(null);
     const restoreContentOpen = Boolean(restoreContentAnchorEl);
 
@@ -53,6 +59,65 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
     const newBookOpen = Boolean(newBookAnchorEl);
+
+    const [internet, setInternet] = useState(false);
+    const [status, setStatus] = useState([]);
+    const [remotes, setRemotes] = useState([]);
+    const [remoteUrl, setRemoteUrl] = useState('');
+
+    const internetStatus = async () => {
+
+        const internetUrl = "/net/status";
+        const internetResponse = await getJson(internetUrl, debugRef.current);
+        if (internetResponse.ok) {
+            setInternet(internetResponse.json.is_enabled)
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_fetch_internet_status", i18nRef.current),
+                { variant: "error" }
+            );
+        }
+    };
+
+    const repoStatus = async repo_path => {
+
+        const statusUrl = `/git/status/${repo_path}`;
+        const statusResponse = await getJson(statusUrl, debugRef.current);
+        if (statusResponse.ok) {
+            setStatus(statusResponse.json);
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_fetch_commits", i18nRef.current),
+                { variant: "error" }
+            );
+        }
+    };
+
+    const repoRemotes = async repo_path => { 
+        const remoteListUrl = `/git/remotes/${repo_path}`;
+        const remoteList = await getJson(remoteListUrl, debugRef.current);
+        if (remoteList.ok) {
+            setRemotes(remoteList.json.payload.remotes);
+            const originRecord = remoteList.json.payload.remotes.filter((p) => p.name === "origin")[0];
+            if (originRecord) {
+                setRemoteUrl(originRecord.url)
+            }
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_list_remotes", i18nRef.current),
+                {variant: "error"}
+            )
+        }
+    };
+
+    useEffect(() => {
+        if (contentRowOpen === true) {
+            internetStatus().then();
+            repoStatus(repoInfo.path).then();
+            repoRemotes(repoInfo.path).then();
+        }
+    },
+    [contentRowOpen]);
 
     return <>
         <IconButton
@@ -160,6 +225,15 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                             >
                                 {doI18n("pages:content:add_and_commit", i18nRef.current)}
                             </MenuItem>
+                            <MenuItem
+                                onClick={(event) => {
+                                    setPushAnchorEl(event.currentTarget);
+                                    setContentRowAnchorEl(null);
+                                }}
+                                disabled={internet === false || status.length > 0 || remotes.length === 0 || !remoteUrl.startsWith("https://")}
+                            >
+                                {doI18n("pages:content:push_to_dcs", i18nRef.current)}
+                            </MenuItem>
                         </>
                     }
                     <MenuItem
@@ -251,6 +325,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoInfo={repoInfo}
             open={addAndCommitOpen}
             closeFn={() => setAddAndCommitAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <PushToDcs
+            repoInfo={repoInfo}
+            open={pushOpen}
+            closeFn={() => setPushAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />

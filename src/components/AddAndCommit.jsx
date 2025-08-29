@@ -42,24 +42,21 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
 
     const addAndCommitRepo = async (repo_path, commitMessage) => {
 
-        const postCommit = async () => {
-            const addAndCommitUrl = `/git/add-and-commit/${repo_path}`;
-            const commitJson = JSON.stringify({"commit_message": commitMessage});
-            const addAndCommitResponse = await postJson(addAndCommitUrl, commitJson, debugRef.current);
-            if (addAndCommitResponse.ok) {
-                enqueueSnackbar(
-                    doI18n("pages:content:commit_complete", i18nRef.current),
-                    { variant: "success" }
-                );
-                setReposModCount(reposModCount + 1)
-            } else {
-                enqueueSnackbar(
-                    doI18n("pages:content:could_not_commit", i18nRef.current),
-                    { variant: "error" }
-                );
-            }
+        const addAndCommitUrl = `/git/add-and-commit/${repo_path}`;
+        const commitJson = JSON.stringify({"commit_message": commitMessage});
+        const addAndCommitResponse = await postJson(addAndCommitUrl, commitJson, debugRef.current);
+        if (addAndCommitResponse.ok) {
+            enqueueSnackbar(
+                doI18n("pages:content:commit_complete", i18nRef.current),
+                { variant: "success" }
+            );
+            setReposModCount(reposModCount + 1)
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_commit", i18nRef.current),
+                { variant: "error" }
+            );
         }
-        postCommit().then()
     };
 
     const handleCommitMessage = (e) => {
@@ -105,11 +102,12 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button onClick={closeFn}>
+            <Button color="warning" onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
-                color="warning"
+                variant='contained'
+                color="primary"
                 disabled={commitsArray.length === 0 || commitMessage === ''}
                 onClick={() => { addAndCommitRepo(repoInfo.path, commitMessage).then() ;closeFn() }}
             >{doI18n("pages:content:accept", i18nRef.current)}</Button>

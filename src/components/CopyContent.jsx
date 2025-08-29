@@ -54,11 +54,12 @@ function CopyContent({repoInfo, open, closeFn, reposModCount, setReposModCount})
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button onClick={closeFn}>
+            <Button color="warning" onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
-                color="warning"
+                variant='contained'
+                color="primary"
                 onClick={async () => {
                     await copyRepo(repoInfo.path);
                     closeFn();
