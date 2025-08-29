@@ -18,7 +18,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
-    const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/);
+    /* const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/); */
     const [remotes, setRemotes] = useState(null);
 
     useEffect(() => {
@@ -107,7 +107,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                         value={remoteUrlValue}
                         variant="outlined"
                         onChange={(e) => handleRemoteUrlValidation(e)}
-                        error={!remoteUrlRegex.test(remoteUrlValue)}
+                        error={!remoteUrlValue.startsWith("https://")}
                         required={true}
                     />
                 </Stack>
@@ -124,7 +124,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                 autoFocus
                 variant='contained'
                 color="primary"
-                disabled={remotes === null || !remoteUrlRegex.test(remoteUrlValue) || (remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue)}
+                disabled={remotes === null || !remoteUrlValue.startsWith("https://") || (remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue)}
                 onClick={async () => {
                             await addRemoteRepo(repoInfo.path);
                             closeFn()
