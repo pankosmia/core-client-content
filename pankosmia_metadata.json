@@ -476,6 +476,24 @@
       "en":"Could not list remotes",
       "es":"No se pudo encontrar la lista de remotos"
     },
+    "sideloaded_content":{
+      "en":"Sideloaded content",
+      "es":"Contenido subido"
+    },
+    "content_updates":{
+      "en":"Content updates",
+      "es":"Actualizaciones del contenido"
+    },
+    "local_resource": {
+      "en": "Local resource",
+      "fr": "Ressource locale",
+      "es": "Recurso local"
+    },
+    "local_project": {
+      "en": "Local project",
+      "fr": "Projet local",
+      "es": "Proyecto local"
+    },
     "commits":{
       "en":"Commits",
       "es":"Cambios"
@@ -535,6 +553,26 @@
     "dcs-password":{
       "en":"Password",
       "es":"Contraseña"
+    },
+    "could_not_fetch_status":{
+      "en":"Failed to fetch repo status",
+      "es":"No se pudo obtener el estado del repositorio"
+    },
+    "no_commits":{
+      "en":"No commits made",
+      "es":"No se hicieron commits"
+    },
+    "row_author":{
+      "en":"Author",
+      "es":"Autor"
+    },
+    "row_date":{
+      "en":"Date",
+      "es":"Fecha"
+    },
+    "row_message":{
+      "en":"Message",
+      "es":"Mensaje"
     }
   }
 }

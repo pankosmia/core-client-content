@@ -16,17 +16,28 @@ import { enqueueSnackbar } from "notistack";
 function Commits({ repoInfo, open, closeFn }) {
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
+    const [status, setStatus] = useState([]);
     const [commits, setCommits] = useState([]);
+
+    const repoStatus = async repo_path => {
+
+        const statusUrl = `/git/status/${repo_path}`;
+        const statusResponse = await getJson(statusUrl, debugRef.current);
+        if (statusResponse.ok) {
+            setStatus(statusResponse.json);
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_fetch_status", i18nRef.current),
+                { variant: "error" }
+            );
+        }
+    };
 
     const repoCommits = async repo_path => {
 
-        const commitsUrl = `/git/status/${repo_path}`;
+        const commitsUrl = `/git/log/${repo_path}`;
         const commitsResponse = await getJson(commitsUrl, debugRef.current);
         if (commitsResponse.ok) {
-            enqueueSnackbar(
-                doI18n("pages:content:commits_fetched", i18nRef.current),
-                { variant: "success" }
-            );
             setCommits(commitsResponse.json);
         } else {
             enqueueSnackbar(
@@ -38,12 +49,13 @@ function Commits({ repoInfo, open, closeFn }) {
 
     useEffect(() => {
         if (open === true) {
-            repoCommits(repoInfo.path).then()
+            repoStatus(repoInfo.path).then();
+            repoCommits(repoInfo.path).then();
         }
     },
     [open]);
 
-    const columns = [
+    const statusColumns = [
         {
             field: 'status',
             headerName: doI18n("pages:content:status", i18nRef.current),
@@ -58,12 +70,44 @@ function Commits({ repoInfo, open, closeFn }) {
         }
     ];
 
-    const rows = commits.map((c, n) => {
+    const statusRows = status.map((s, n) => {
+        return {
+            ...s,
+            id: n,
+            status: s.change_type,
+            path: s.path
+        }
+    });
+
+    const commitsColumns = [
+        {
+            field: 'author',
+            headerName: doI18n("pages:content:row_author", i18nRef.current),
+            minWidth: 110,
+            flex: 3
+        },
+        {
+            field: 'date',
+            headerName: doI18n("pages:content:row_date", i18nRef.current),
+            minWidth: 110,
+            flex: 3
+        },
+        {
+            field: 'message',
+            headerName: doI18n("pages:content:row_message", i18nRef.current),
+            minWidth: 110,
+            flex: 3
+        }
+    ];
+
+    const commitsRows = commits.map((c, n) => {
         return {
             ...c,
             id: n,
-            status: c.change_type,
-            path: c.path
+            commitId: c.id,
+            author: c.author,
+            date: c.date,
+            message: c.message
         }
     });
 
@@ -91,7 +135,7 @@ function Commits({ repoInfo, open, closeFn }) {
                     {repoInfo.name}
                 </Typography>
             </DialogContentText>
-            {commits.length > 0 
+            {status.length > 0 
                 ?
                 <DataGrid
                     initialState={{
@@ -99,13 +143,35 @@ function Commits({ repoInfo, open, closeFn }) {
                             sortModel: [{ field: 'path', sort: 'asc' }],
                         }
                     }}
-                    rows={rows}
-                    columns={columns}
+                    rows={statusRows}
+                    columns={statusColumns}
                     sx={{fontSize: "1rem"}}
                 />
                 :
                 <Typography variant="h6">
                     {doI18n("pages:content:no_changes", i18nRef.current)}
+                </Typography>
+            }
+            {commits.length > 0 
+                ?
+                <>
+                    <DialogContentText>
+                        <Typography variant="h6">Commits made</Typography>
+                    </DialogContentText>
+                    <DataGrid
+                        initialState={{
+                            sorting: {
+                                sortModel: [{ field: 'date', sort: 'asc' }],
+                            }
+                        }}
+                        rows={commitsRows}
+                        columns={commitsColumns}
+                        sx={{fontSize: "1rem"}}
+                    />
+                </>
+                :
+                <Typography variant="h6">
+                    {doI18n("pages:content:no_commits", i18nRef.current)}
                 </Typography>
             }
         </DialogContent>
