@@ -573,6 +573,14 @@
     "row_message":{
       "en":"Message",
       "es":"Mensaje"
+    },
+    "push_complete":{
+      "en":"Push complete",
+      "es":"Se completó el push"
+    },
+    "could_not_push":{
+      "en":"Failed to push",
+      "es":"No se pudo hacer el push"
     }
   }
 }

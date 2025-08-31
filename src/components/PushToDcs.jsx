@@ -32,13 +32,13 @@ function PushToDcs({ repoInfo, open, closeFn, reposModCount, setReposModCount })
             const pushResponse = await postJson(pushUrl, pushJson, debugRef.current);
             if (pushResponse.ok) {
                 enqueueSnackbar(
-                    doI18n("pages:content:commit_complete", i18nRef.current),
+                    doI18n("pages:content:push_complete", i18nRef.current),
                     { variant: "success" }
                 );
                 setReposModCount(reposModCount + 1)
             } else {
                 enqueueSnackbar(
-                    doI18n("pages:content:could_not_commit", i18nRef.current),
+                    doI18n("pages:content:could_not_push", i18nRef.current),
                     { variant: "error" }
                 );
             }
