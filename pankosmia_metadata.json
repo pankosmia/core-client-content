@@ -538,6 +538,22 @@
       "en":"Failed to commit",
       "es":"No se pudo hacer el commit"
     },
+    "could_not_fetch_internet_status":{
+      "en":"Could not fetch internet status",
+      "es":"No se pudo obtener el estado del internet"
+    },
+    "push_to_dcs":{
+      "en":"Push",
+      "es":"Push"
+    },
+    "dcs-username":{
+      "en":"Username",
+      "es":"Nombre de usuario"
+    },
+    "dcs-password":{
+      "en":"Password",
+      "es":"Contraseña"
+    },
     "could_not_fetch_status":{
       "en":"Failed to fetch repo status",
       "es":"No se pudo obtener el estado del repositorio"
@@ -557,6 +573,14 @@
     "row_message":{
       "en":"Message",
       "es":"Mensaje"
+    },
+    "push_complete":{
+      "en":"Push complete",
+      "es":"Se completó el push"
+    },
+    "could_not_push":{
+      "en":"Failed to push",
+      "es":"No se pudo hacer el push"
     },
     "branches":{
       "en":"Branches",
