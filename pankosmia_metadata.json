@@ -597,6 +597,18 @@
     "could_not_switch_branch":{
       "en":"Could not switch branch",
       "es":"No se pudo cambiar la rama"
+    },
+    "version_manager":{
+      "en":"Version manager",
+      "es":"Administrador de versiones"
+    },
+    "changes_tab":{
+      "en":"CHANGES",
+      "es":"CAMBIOS"
+    },
+    "settings_tab":{
+      "en":"SETTINGS",
+      "es":"CONFIGURACIÓN"
     }
   }
 }
