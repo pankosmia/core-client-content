@@ -41,10 +41,12 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                     {variant: "error"}
                 )
             }
+        };
+        if (open === true){
+            doFetch().then()
         }
-        doFetch().then()
     },
-    [reposModCount])
+    [reposModCount, open])
 
     const addRemoteRepo = async repo_path => {
 

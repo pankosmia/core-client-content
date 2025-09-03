@@ -6,14 +6,14 @@ import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 
-function DataGridComponent({reposModCount, setReposModCount, isContentExperiment, contentUrl, experimentDialogOpen}) {
+function DataGridComponent({reposModCount, setReposModCount, isNormal, contentUrl, experimentDialogOpen}) {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
     const [projectSummaries, setProjectSummaries] = useState({});
 
     const getProjectSummaries = async () => {
-        const summariesResponse = await getJson(`/burrito/metadata/summaries${isContentExperiment ? contentUrl : ""}`, debugRef.current);
+        const summariesResponse = await getJson(`/burrito/metadata/summaries${!isNormal ? contentUrl : ""}`, debugRef.current);
         if (summariesResponse.ok) {
             setProjectSummaries(summariesResponse.json);
         }
@@ -84,12 +84,12 @@ function DataGridComponent({reposModCount, setReposModCount, isContentExperiment
         },
         {
             field: 'actions',
-            minWidth: !isContentExperiment ? 100 : 75,
+            minWidth: isNormal ? 100 : 75,
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
-            flex: !isContentExperiment ? 0.5 : 0.3,
+            flex: isNormal ? 0.5 : 0.3,
             renderCell: (params) => {
                 return <>
-                    { !isContentExperiment &&
+                    { isNormal &&
                     <>{
                         params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
                             <IconButton
@@ -112,7 +112,7 @@ function DataGridComponent({reposModCount, setReposModCount, isContentExperiment
                         repoInfo={params.row}
                         reposModCount={reposModCount}
                         setReposModCount={setReposModCount}
-                        isContentExperiment={isContentExperiment}
+                        isNormal={isNormal}
                     />
                 </>;
             }
@@ -142,7 +142,7 @@ function DataGridComponent({reposModCount, setReposModCount, isContentExperiment
                     columns: {
                         columnVisibilityModel: {
                             nBooks: false,
-                            source: isContentExperiment ? false : true,
+                            source: isNormal ? true : false,
                             dateUpdated: false
                         },
                     },

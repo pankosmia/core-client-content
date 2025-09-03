@@ -1,6 +1,6 @@
 import {IconButton, Menu, MenuItem, Divider} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {i18nContext, doI18n, getJson, debugContext} from "pithekos-lib";
+import {i18nContext, doI18n, getJson, debugContext, netContext} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
@@ -17,10 +17,11 @@ import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext, useEffect} from "react";
 import { enqueueSnackbar } from "notistack";
 
-function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isContentExperiment}) {
+function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isNormal}) {
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
+    const {enabledRef} = useContext(netContext);
 
     const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
     const usfmExportOpen = Boolean(usfmExportAnchorEl);
@@ -64,24 +65,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
     const newBookOpen = Boolean(newBookAnchorEl);
 
-    const [internet, setInternet] = useState(false);
     const [status, setStatus] = useState([]);
     const [remotes, setRemotes] = useState([]);
     const [remoteUrl, setRemoteUrl] = useState('');
-
-    const internetStatus = async () => {
-
-        const internetUrl = "/net/status";
-        const internetResponse = await getJson(internetUrl, debugRef.current);
-        if (internetResponse.ok) {
-            setInternet(internetResponse.json.is_enabled)
-        } else {
-            enqueueSnackbar(
-                doI18n("pages:content:could_not_fetch_internet_status", i18nRef.current),
-                { variant: "error" }
-            );
-        }
-    };
 
     const repoStatus = async repo_path => {
 
@@ -116,7 +102,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     useEffect(() => {
         if (contentRowOpen === true) {
-            internetStatus().then();
             repoStatus(repoInfo.path).then();
             repoRemotes(repoInfo.path).then();
         }
@@ -141,7 +126,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             slotProps={{list: {'aria-labelledby': 'basic-button',}}}
         >
             {
-            !isContentExperiment ? 
+            isNormal ? 
                 <>
                     <MenuItem
                         onClick={(event) => {
@@ -243,7 +228,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                                     setPushAnchorEl(event.currentTarget);
                                     setContentRowAnchorEl(null);
                                 }}
-                                disabled={internet === false || status.length > 0 || remotes.length === 0 || !remoteUrl.startsWith("https://")}
+                                disabled={!enabledRef.current || status.length > 0 || remotes.length === 0 || !remoteUrl.startsWith("https://")}
                             >
                                 {doI18n("pages:content:push_to_dcs", i18nRef.current)}
                             </MenuItem>

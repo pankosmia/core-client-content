@@ -119,7 +119,7 @@ function App() {
                                         <DataGridComponent
                                             reposModCount={reposModCount}
                                             setReposModCount={setReposModCount}
-                                            isContentExperiment={true}
+                                            isNormal={false}
                                             contentUrl={contentUrl}
                                         />
                                     </DialogContent>
@@ -139,7 +139,7 @@ function App() {
                         <DataGridComponent
                             reposModCount={reposModCount}
                             setReposModCount={setReposModCount}
-                            isContentExperiment={false}
+                            isNormal={true}
                             contentUrl={""}
                             experimentDialogOpen={experimentDialogOpen}
                         />
