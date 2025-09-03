@@ -420,9 +420,9 @@
       "es":"Nombre remoto"
     },
     "remote_repo_url":{
-      "en":"Repo url",
-      "fr":"Url du dépot distant",
-      "es":"Url del repositorio"
+      "en":"Remote repository URL",
+      "fr":"URL du dépot distant",
+      "es":"URL del repositorio remoto"
     },
     "about_to_upload_content":{
       "en":"About to upload content",
@@ -583,8 +583,8 @@
       "es":"No se pudo hacer el push"
     },
     "branches":{
-      "en":"Branches",
-      "es":"Ramas"
+      "en":"Current branch",
+      "es":"Rama actual"
     },
     "could_not_fetch_brances":{
       "en":"Could not fetch repo's branches",
@@ -606,9 +606,13 @@
       "en":"CHANGES",
       "es":"CAMBIOS"
     },
-    "settings_tab":{
-      "en":"SETTINGS",
-      "es":"CONFIGURACIÓN"
+    "new_branch":{
+      "en":"Branch name",
+      "es":"Nombre de la rama"
+    },
+    "add_branch":{
+      "en":"ADD BRANCH",
+      "es":"CREAR RAMA"
     }
   }
 }
