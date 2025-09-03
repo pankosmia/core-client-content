@@ -606,6 +606,10 @@
       "en":"CHANGES",
       "es":"CAMBIOS"
     },
+    "settings_tab":{
+      "en":"SETTINGS",
+      "es":"CONFIGURACIÓN"
+    },
     "new_branch":{
       "en":"Branch name",
       "es":"Nombre de la rama"
