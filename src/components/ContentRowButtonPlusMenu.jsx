@@ -12,6 +12,7 @@ import AddAndCommit from "./AddAndCommit";
 import PushToDcs from "./PushToDcs";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
+import VersionManager from "./VersionManager";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext, useEffect} from "react";
 import { enqueueSnackbar } from "notistack";
@@ -56,6 +57,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
     const deleteContentOpen = Boolean(deleteContentAnchorEl);
+
+    const [versionManagerAnchorEl, setVersionManagerAnchorEl] = useState(null);
+    const versionManagerOpen = Boolean(versionManagerAnchorEl);
 
     const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
     const newBookOpen = Boolean(newBookAnchorEl);
@@ -158,6 +162,15 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                         {doI18n("pages:content:generate_pdf", i18nRef.current)}
                     </MenuItem>
                     <Divider/>
+                    <MenuItem
+                        onClick={(event) => {
+                            setVersionManagerAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={!repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_updates_"}
+                    >
+                        {doI18n("pages:content:version_manager", i18nRef.current)}
+                    </MenuItem>
                     <MenuItem
                         onClick={(event) => {
                             setNewBookAnchorEl(event.currentTarget);
@@ -280,6 +293,11 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoSourcePath={repoInfo.path}
             open={pdfGenerateOpen}
             closeFn={() => setPdfGenerateAnchorEl(null)}
+        />
+        <VersionManager
+            repoInfo={repoInfo}
+            open={versionManagerOpen}
+            setOpen={setVersionManagerAnchorEl}
         />
         <NewTextTranslationBook
             repoInfo={repoInfo}
