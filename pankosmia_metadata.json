@@ -544,7 +544,12 @@
     },
     "push_to_dcs":{
       "en":"Push",
+      "fr": "Pousser",
       "es":"Push"
+    },
+    "pull_from_downloaded":{
+      "en":"Pull from downloaded",
+      "fr":"Tirer depuis la version téléchargée"
     },
     "dcs-username":{
       "en":"Username",
