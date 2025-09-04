@@ -420,9 +420,9 @@
       "es":"Nombre remoto"
     },
     "remote_repo_url":{
-      "en":"Remote repository URL",
-      "fr":"URL du dépot distant",
-      "es":"URL del repositorio remoto"
+      "en":"Remote server repository URL",
+      "fr":"URL du dépot du serveur distant",
+      "es":"URL del repositorio del servidor remoto"
     },
     "about_to_upload_content":{
       "en":"About to upload content",
@@ -598,6 +598,10 @@
       "en":"Could not switch branch",
       "es":"No se pudo cambiar la rama"
     },
+    "could_not_make_branch":{
+      "en":"Could not make branch",
+      "es":"No se pudo crear la rama"
+    },
     "version_manager":{
       "en":"Version manager",
       "es":"Administrador de versiones"
@@ -617,6 +621,14 @@
     "add_branch":{
       "en":"ADD BRANCH",
       "es":"CREAR RAMA"
+    },
+    "remote_url_requirement":{
+      "en":"URL should start with https://",
+      "es":"La URL debe empezar por https://"
+    },
+    "do_update":{
+      "en":"UPDATE",
+      "es":"ACTUALIZAR"
     }
   }
 }

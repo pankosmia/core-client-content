@@ -21,6 +21,7 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
+    const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(null);
     const [newBranchValue, setNewBranchValue] = useState('');
     const [newBranchIsValid, setIsNewBranchValid] = useState(false);
     const [addBranchAnchorEl, setAddBranchAnchorEl] = useState(null);
@@ -128,7 +129,7 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
             repoBranches(repoInfo.path).then();
         } else {
             enqueueSnackbar(
-                createBranchResponse.json.reason,
+                doI18n("pages:content:could_not_make_branch", i18nRef.current),
                 { variant: "error" }
             );
         }
@@ -148,8 +149,13 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
     },
     [branchList]);
 
-    const handleRemoteUrlValidation = (e) => {
-        setRemoteUrlValue(e.target.value);
+    const handleRemoteUrlValidation = async () => {
+        if (!remoteUrlValue.startsWith("https://")){
+            setRemoteUrlIsValid(false);
+        } else {
+            setRemoteUrlIsValid(true);
+            await addRemoteRepo(repoInfo.path)
+        }
     };
 
     const handleNewBranchValidation = (e) => {
@@ -170,18 +176,21 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
                         label={doI18n("pages:content:remote_repo_url", i18nRef.current)}
                         value={remoteUrlValue}
                         variant="outlined"
-                        onChange={(e) => handleRemoteUrlValidation(e)}
-                        error={!remoteUrlValue.startsWith("https://")}
-                        required={true}
+                        onChange={(e) => setRemoteUrlValue(e.target.value)}
+                        helperText={doI18n("pages:content:remote_url_requirement", i18nRef.current)}
+                        error={remoteUrlIsValid === false}
                     />
-                    <IconButton 
-                        onClick={async () => {
-                            await addRemoteRepo(repoInfo.path)
-                        }}
-                        disabled={!remoteUrlValue.startsWith("https://") || (remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue)}
-                    >
-                        <DoneIcon />
-                    </IconButton>
+                    <Box sx={{pb:3, pl:1, pt: 1.5}}>
+                        <Button 
+                            onClick={handleRemoteUrlValidation}
+                            variant='outlined'
+                            color='secondary'
+                            size='small'
+                            disabled={(remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue) || remoteUrlValue === ''}
+                        >
+                            {doI18n("pages:content:do_update", i18nRef.current)}
+                        </Button>
+                    </Box>
                 </Box>
                 <Typography variant="body1" fontWeight="bold">
                     {doI18n("pages:content:branches", i18nRef.current)}
@@ -204,17 +213,17 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
                         </ListItemButton>
                     })}
                 </List>
-                <Button variant="contained" onClick={(event) => setAddBranchAnchorEl(event.currentTarget)}>
+                <Button variant="outlined" color='secondary' sx={{ width: 'fit-content' }} onClick={(event) => setAddBranchAnchorEl(event.currentTarget)}>
                     {doI18n("pages:content:add_branch", i18nRef.current)}
                 </Button>
                 <Popover 
                     anchorOrigin={{
                         vertical: 'bottom',
-                        horizontal: 'center',
+                        horizontal: 'left',
                     }}
                     transformOrigin={{
                         vertical: 'top',
-                        horizontal: 'center',
+                        horizontal: 'left',
                     }}
                     open={addBranchOpen}
                     anchorEl={addBranchAnchorEl}
@@ -229,9 +238,9 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
                             variant="filled"
                             sx={{
                                 input: {
-                                backgroundColor: 'white'
-                                },
-                            }}
+                                    backgroundColor: 'white'
+                                }
+                              }}
                             onChange={(e) => handleNewBranchValidation(e)}
                             error={!newBranchIsValid}
                             required={true}
