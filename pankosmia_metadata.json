@@ -615,8 +615,8 @@
       "es":"CONFIGURACIÓN"
     },
     "new_branch":{
-      "en":"Branch name",
-      "es":"Nombre de la rama"
+      "en":"Branch name *",
+      "es":"Nombre de la rama *"
     },
     "add_branch":{
       "en":"ADD BRANCH",
