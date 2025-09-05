@@ -41,10 +41,12 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                     {variant: "error"}
                 )
             }
+        };
+        if (open){
+            doFetch().then()
         }
-        doFetch().then()
     },
-    [reposModCount])
+    [reposModCount, open])
 
     const addRemoteRepo = async repo_path => {
 
@@ -116,7 +118,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     };
 
     useEffect(() => {
-        if (open === true) {
+        if (open) {
             repoBranches(repoInfo.path).then();
         }
     },
