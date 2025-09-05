@@ -6,14 +6,14 @@ import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 
-function DataGridComponent({reposModCount, setReposModCount, isNormal, contentUrl, experimentDialogOpen}) {
+function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFilter, experimentDialogOpen}) {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
     const [projectSummaries, setProjectSummaries] = useState({});
 
     const getProjectSummaries = async () => {
-        const summariesResponse = await getJson(`/burrito/metadata/summaries${!isNormal ? contentUrl : ""}`, debugRef.current);
+        const summariesResponse = await getJson(`/burrito/metadata/summaries${!isNormal ? contentFilter : ""}`, debugRef.current);
         if (summariesResponse.ok) {
             setProjectSummaries(summariesResponse.json);
         }
@@ -142,7 +142,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentUr
                     columns: {
                         columnVisibilityModel: {
                             nBooks: false,
-                            source: isNormal ? true : false,
+                            source: isNormal,
                             dateUpdated: false
                         },
                     },

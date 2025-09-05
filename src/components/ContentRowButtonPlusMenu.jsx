@@ -105,7 +105,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     };
 
     useEffect(() => {
-        if (contentRowOpen === true) {
+        if (contentRowOpen) {
             repoStatus(repoInfo.path).then();
             repoRemotes(repoInfo.path).then();
         }
