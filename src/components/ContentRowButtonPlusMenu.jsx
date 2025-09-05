@@ -241,7 +241,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                                     setPullAnchorEl(event.currentTarget);
                                     setContentRowAnchorEl(null);
                                 }}
-                                disabled={!enabledRef.current || status.length > 0}
+                                disabled={status.length > 0}
                             >
                                 {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
                             </MenuItem>

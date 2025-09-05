@@ -31,6 +31,16 @@ function CopyContent({repoInfo, open, closeFn, reposModCount, setReposModCount})
                 );
                 return;
             }
+            const updatesRelativePath = `../../../_local_/_updates_/${repo_path.split("/")[2]}`;
+            const addUrl2 = `/git/remote/add/${copyRepoPath}?remote_name=updates&remote_url=${updatesRelativePath}`;
+            const addResponse2 = await postEmptyJson(addUrl2, debugRef.current);
+            if (!addResponse2.ok) {
+                enqueueSnackbar(
+                    doI18n("pages:content:could_not_add_remote_repo", i18nRef.current) + "2",
+                    {variant: "error"}
+                );
+                return;
+            }
             // Done!
             enqueueSnackbar(
                 doI18n("pages:content:repo_copied", i18nRef.current),

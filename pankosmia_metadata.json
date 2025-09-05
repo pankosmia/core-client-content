@@ -614,6 +614,30 @@
     "settings_tab":{
       "en":"SETTINGS",
       "es":"CONFIGURACIÓN"
+    },
+    "could_not_copy_repo_to_updates": {
+      "en": "Could not copy repo to updates",
+      "fr": "Impossible de copier le dépôt au dossier mises à jours"
+    },
+    "could_not_find_downloaded_remote": {
+      "en": "Could not find downloaded remote for updates repo",
+      "fr": "Impossible de trouver le remote downloaded pour le dépôt de mises à jour"
+    },
+    "could_not_pull_to_update": {
+      "en": "Could not pull to update",
+      "fr": "Impossible de tirer vers le dépôt de mises à jour"
+    },
+    "could_not_delete_update": {
+      "en": "Could not delete update",
+      "fr": "Impossible d'effacer le dépôt de miser à jour"
+    },
+    "could_not_add_update_remote_to_local": {
+      "en": "Could not add update remote to editable repo",
+      "fr": "Impossible d'ajouter le remote update au dépôt éditable"
+    },
+    "could_not_remove_update_remote_from_local": {
+      "en": "Could not remove update remote from local repo",
+      "fr": "Impossible d'enlever le remote update du dossier local"
     }
   }
 }
