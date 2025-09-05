@@ -10,7 +10,7 @@ function App() {
     const { i18nRef } = useContext(i18nContext);
     const [newIsOpen, setNewIsOpen] = useState(false);
     const [reposModCount, setReposModCount] = useState(0);
-    const [contentUrl, setContentUrl] = useState("");
+    const [contentFilter, setContentFilter] = useState("");
 
     const [experimentMenuAnchorEl, setExperimentMenuAnchorEl] = useState(null);
     const experimentMenuOpen = Boolean(experimentMenuAnchorEl);
@@ -85,13 +85,13 @@ function App() {
                                         },
                                     }}
                                 >
-                                    <MenuItem onClick={() => { setContentUrl("?org=_local_/_archive_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
+                                    <MenuItem onClick={() => { setContentFilter("?org=_local_/_archive_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
                                         {doI18n("pages:content:archived_content", i18nRef.current)}
                                     </MenuItem>
-                                    <MenuItem onClick={() => { setContentUrl("?org=_local_/_quarantine_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
+                                    <MenuItem onClick={() => { setContentFilter("?org=_local_/_quarantine_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
                                         {doI18n("pages:content:quarantined_content", i18nRef.current)}
                                     </MenuItem>
-                                    <MenuItem onClick={() => { setContentUrl("?org=_local_/_updates_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
+                                    <MenuItem onClick={() => { setContentFilter("?org=_local_/_updates_"); handleExperimentMenuClose(); handleExperimentDialogClickOpen() }}>
                                         {doI18n("pages:content:content_updates", i18nRef.current)}
                                     </MenuItem>
                                 </Menu>
@@ -111,16 +111,16 @@ function App() {
                                     <DialogContent>
                                     <DialogContentText>
                                         <Typography variant="h6">
-                                            {contentUrl.includes("archive") && doI18n("pages:content:archived_content", i18nRef.current)}
-                                            {contentUrl.includes("quarantine") && doI18n("pages:content:quarantined_content", i18nRef.current)}
-                                            {contentUrl.includes("updates") && doI18n("pages:content:content_updates", i18nRef.current)}
+                                            {contentFilter.includes("archive") && doI18n("pages:content:archived_content", i18nRef.current)}
+                                            {contentFilter.includes("quarantine") && doI18n("pages:content:quarantined_content", i18nRef.current)}
+                                            {contentFilter.includes("updates") && doI18n("pages:content:content_updates", i18nRef.current)}
                                         </Typography>
                                     </DialogContentText>
                                         <DataGridComponent
                                             reposModCount={reposModCount}
                                             setReposModCount={setReposModCount}
-                                            isContentExperiment={true}
-                                            contentUrl={contentUrl}
+                                            isNormal={false}
+                                            contentFilter={contentFilter}
                                         />
                                     </DialogContent>
                                     <DialogActions>
@@ -139,8 +139,8 @@ function App() {
                         <DataGridComponent
                             reposModCount={reposModCount}
                             setReposModCount={setReposModCount}
-                            isContentExperiment={false}
-                            contentUrl={""}
+                            isNormal={true}
+                            contentFilter={""}
                             experimentDialogOpen={experimentDialogOpen}
                         />
                     </Grid2>

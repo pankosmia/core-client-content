@@ -42,12 +42,14 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
 
-    useEffect(() =>
-        getAndSetJson({
-            url: "/content-utils/versifications",
-            setter: setVersificationCodes
-        }).then(),
-        []
+    useEffect(() =>{
+        if (open){
+            getAndSetJson({
+                url: "/content-utils/versifications",
+                setter: setVersificationCodes
+            }).then()
+        }},
+        [open]
     );
 
     useEffect(
@@ -58,10 +60,10 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                     setBookCodes(Object.keys(versificationResponse.json.maxVerses));
                 }
             };
-            if (bookCodes.length === 0) {
+            if (bookCodes.length === 0 && open) {
                 doFetch().then();
             }
-        }
+        },[open]
     );
 
     useEffect(

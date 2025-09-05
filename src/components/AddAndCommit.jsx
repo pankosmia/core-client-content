@@ -35,7 +35,7 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
     };
 
     useEffect(() => {
-        if (open === true) {
+        if (open) {
             repoStatus(repoInfo.path).then()
         }
     },[open]);
