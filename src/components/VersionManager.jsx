@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import PropTypes from 'prop-types';
 import { debugContext, i18nContext, doI18n} from "pithekos-lib";
+import ChangesTab from './ChangesTab';
 import SettingsTab from './SettingsTab';
 
 function CustomTabPanel(props) {
@@ -43,6 +44,7 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
     const [tabValue, setTabValue] = useState(0);
+    const [changesTabIsOpen, setChangesTabIsOpen] = useState(tabValue === 0 ? true : false);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -50,6 +52,11 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
 
     const handleTabsChange = (event, newValue) => {
         setTabValue(newValue);
+        if (newValue === 0){
+            setChangesTabIsOpen(true)
+        } else {
+            setChangesTabIsOpen(false)
+        }
       };
 
     return <Box>
@@ -57,8 +64,9 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
             anchor="right" 
             open={open} 
             onClose={toggleDrawer(false)}
+            sx={{height:"100%"}}
         >
-            <Box sx={{ p:1, m:1, width: {xs: 250, md: 400, xl: 500} }}>
+            <Box sx={{ p:1, m:1, width: changesTabIsOpen ? 'fit-content' : {xs: 250, md: 400, xl: 500} }}>
                 <Typography variant="h6" component="div" fontWeight="bold">{doI18n("pages:content:version_manager", i18nRef.current)}</Typography>
                 <Typography variant="subtitle1" component="div" fontWeight="bold">{repoInfo.name}</Typography>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -74,7 +82,12 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
                     </Tabs>
                 </Box>
                 <CustomTabPanel value={tabValue} index={0}>
-                    Item One
+                    <ChangesTab
+                        repoInfo={repoInfo}
+                        open={tabValue === 0}
+                        reposModCount={reposModCount}
+                        setReposModCount={setReposModCount}
+                    />
                 </CustomTabPanel>
                 <CustomTabPanel value={tabValue} index={1}>
                     <SettingsTab
