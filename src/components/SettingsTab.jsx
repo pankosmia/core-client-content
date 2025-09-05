@@ -13,7 +13,7 @@ import {
     Popover
 } from "@mui/material";
 import DoneIcon from '@mui/icons-material/Done';
-import AddBoxIcon from '@mui/icons-material/AddBox';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {debugContext, i18nContext, doI18n, postEmptyJson, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 
@@ -23,7 +23,7 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
     const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(null);
     const [newBranchValue, setNewBranchValue] = useState('');
-    const [newBranchIsValid, setIsNewBranchValid] = useState(false);
+    const [newBranchIsValid, setIsNewBranchValid] = useState(newBranchValue === '' ? true : false);
     const [addBranchAnchorEl, setAddBranchAnchorEl] = useState(null);
     const addBranchOpen = Boolean(addBranchAnchorEl);
     /* const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/); */
@@ -127,6 +127,7 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
         const createBranchResponse = await postEmptyJson(createBranchUrl, debugRef.current);
         if (createBranchResponse.ok) {
             repoBranches(repoInfo.path).then();
+            setNewBranchValue('');
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_make_branch", i18nRef.current),
@@ -158,14 +159,21 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
         }
     };
 
-    const handleNewBranchValidation = (e) => {
-        setIsNewBranchValid(/^[a-zA-Z]+$/.test(e.target.value));
-        setNewBranchValue(e.target.value)
+    const handleNewBranchValidation = async () => {
+        if (!/^[a-zA-Z]+$/.test(newBranchValue) || branchList.some((branch) => branch.name === newBranchValue)){
+            setIsNewBranchValid(false);
+        } else {
+            setIsNewBranchValid(true);
+            await createBranch(repoInfo.path, newBranchValue);
+            setAddBranchAnchorEl(null);
+        }
     };
 
     const handleListItemClick = (event, index) => {
         setSelectedBranchIndex(index);
       };
+
+    console.log(branchList);
 
     return <Box> 
             <Stack spacing={2} sx={{ m: 2 }}>
@@ -176,7 +184,7 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
                         label={doI18n("pages:content:remote_repo_url", i18nRef.current)}
                         value={remoteUrlValue}
                         variant="outlined"
-                        onChange={(e) => setRemoteUrlValue(e.target.value)}
+                        onChange={(e) => {setRemoteUrlValue(e.target.value); setRemoteUrlIsValid(true)}}
                         helperText={doI18n("pages:content:remote_url_requirement", i18nRef.current)}
                         error={remoteUrlIsValid === false}
                     />
@@ -241,21 +249,16 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
                                     backgroundColor: 'white'
                                 }
                               }}
-                            onChange={(e) => handleNewBranchValidation(e)}
+                            onChange={(e) => {setNewBranchValue(e.target.value); setIsNewBranchValid(true)}}
                             error={!newBranchIsValid}
-                            required={true}
                         />
                         <IconButton 
-                            onClick={async () => {
-                                await createBranch(repoInfo.path, newBranchValue);
-                                setAddBranchAnchorEl(null)
-                            }}
+                            onClick={handleNewBranchValidation}
                             color="primary"
-                            sx={{"&.Mui-disabled": { backgroundColor: "white", color: "red", opacity: 0.8 }}}
-                            disabled={!newBranchIsValid || newBranchValue === ''}
+                            disabled={newBranchValue === ''}
                             disableRipple
                         >
-                            <AddBoxIcon />
+                            <AddCircleOutlineIcon />
                         </IconButton>
                     </Box>
                 </Popover>
