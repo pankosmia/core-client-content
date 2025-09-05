@@ -48,7 +48,7 @@ function Commits({ repoInfo, open, closeFn }) {
     };
 
     useEffect(() => {
-        if (open === true) {
+        if (open) {
             repoStatus(repoInfo.path).then();
             repoCommits(repoInfo.path).then();
         }

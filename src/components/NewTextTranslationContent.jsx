@@ -43,7 +43,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
     const [protestantOnly, setProtestantOnly] = useState(true);
 
     useEffect(() =>{
-        if (open === true){
+        if (open){
             getAndSetJson({
                 url: "/content-utils/versifications",
                 setter: setVersificationCodes
@@ -60,7 +60,7 @@ export default function NewBibleContent({ open, closeModal, reposModCount, setRe
                     setBookCodes(Object.keys(versificationResponse.json.maxVerses));
                 }
             };
-            if (bookCodes.length === 0 && open === true) {
+            if (bookCodes.length === 0 && open) {
                 doFetch().then();
             }
         },[open]
