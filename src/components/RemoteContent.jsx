@@ -42,7 +42,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
                 )
             }
         };
-        if (open === true){
+        if (open){
             doFetch().then()
         }
     },
@@ -118,7 +118,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     };
 
     useEffect(() => {
-        if (open === true) {
+        if (open) {
             repoBranches(repoInfo.path).then();
         }
     },

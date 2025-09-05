@@ -36,7 +36,7 @@ export default function NewTextTranslationBook({ repoInfo, open, setOpen, reposM
                 setBookTitle("");
                 setBookAbbr("");
             };
-            if (open === true){
+            if (open){
                 doFetch().then()
             };
         },
