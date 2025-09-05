@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import PropTypes from 'prop-types';
 import { debugContext, i18nContext, doI18n} from "pithekos-lib";
+import SettingsTab from './SettingsTab';
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -38,7 +39,7 @@ function a11yProps(index) {
     };
 }
   
-function VersionManager({ repoInfo, open, setOpen}) {
+function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCount}) {
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
     const [tabValue, setTabValue] = useState(0);
@@ -58,8 +59,8 @@ function VersionManager({ repoInfo, open, setOpen}) {
             onClose={toggleDrawer(false)}
         >
             <Box sx={{ p:1, m:1, width: {xs: 250, md: 400, xl: 500} }}>
-                <Typography variant="h6" component="div">{doI18n("pages:content:version_manager", i18nRef.current)}</Typography>
-                <Typography variant="subtitle1" component="div">{repoInfo.name}</Typography>
+                <Typography variant="h6" component="div" fontWeight="bold">{doI18n("pages:content:version_manager", i18nRef.current)}</Typography>
+                <Typography variant="subtitle1" component="div" fontWeight="bold">{repoInfo.name}</Typography>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <Tabs 
                         value={tabValue} 
@@ -76,7 +77,12 @@ function VersionManager({ repoInfo, open, setOpen}) {
                     Item One
                 </CustomTabPanel>
                 <CustomTabPanel value={tabValue} index={1}>
-                    Item Two
+                    <SettingsTab
+                        repoInfo={repoInfo}
+                        open={tabValue === 1}
+                        reposModCount={reposModCount}
+                        setReposModCount={setReposModCount}
+                    />
                 </CustomTabPanel>
             </Box>
         </Drawer>

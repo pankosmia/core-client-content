@@ -298,6 +298,8 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoInfo={repoInfo}
             open={versionManagerOpen}
             setOpen={setVersionManagerAnchorEl}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
         />
         <NewTextTranslationBook
             repoInfo={repoInfo}
