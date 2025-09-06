@@ -7,11 +7,9 @@ import {
     DialogContent,
     DialogContentText,
     Toolbar,
-    Typography,
-    Stack,
-    TextField
+    Typography
 } from "@mui/material";
-import {debugContext, i18nContext, doI18n, postJson, postEmptyJson, getJson} from "pithekos-lib";
+import {debugContext, i18nContext, doI18n, postEmptyJson, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 
 function PullFromDownloaded({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
@@ -19,7 +17,6 @@ function PullFromDownloaded({repoInfo, open, closeFn, reposModCount, setReposMod
     const {debugRef} = useContext(debugContext);
 
     const deleteUpdate = async repoPath => {
-        return;
         const deleteUpdateUrl = `/git/delete/${repoPath}`;
         const deleteUpdateResponse = await postEmptyJson(deleteUpdateUrl, debugRef.current);
         if (!deleteUpdateResponse) {
@@ -84,8 +81,14 @@ function PullFromDownloaded({repoInfo, open, closeFn, reposModCount, setReposMod
                             closeFn();
                             return;
                         }
-                        const relativeDownloadRepoPath = downloadRemote.url;
-                        const downloadRepoPath = relativeDownloadRepoPath.replace("../../../", "").replace("..\\..\\..\\", "");
+                        const downloadRepoUri = downloadRemote.url;
+                        const downloadRepoPath = downloadRepoUri
+                            .replace("file://", "")
+                            .split("/")
+                            .reverse()
+                            .slice(0,3)
+                            .reverse()
+                            .join("/");
 
                         // Copy downloaded to updated
                         const updateRepoPath = `_local_/_updates_/${repoInfo.path.split("/")[2]}`;
@@ -101,8 +104,7 @@ function PullFromDownloaded({repoInfo, open, closeFn, reposModCount, setReposMod
                         }
 
                         // Set editable remote for updated repo which is copy of downloaded
-                        const relativeEditableRepoPath = `file:///home/mark/pankosmia_repos/${repoInfo.path}`;
-                        const addEditableUrl = `/git/remote/add/${updateRepoPath}?remote_name=editable&remote_url=${relativeEditableRepoPath}`;
+                        const addEditableUrl = `/git/remote/add/${updateRepoPath}?remote_name=editable&remote_url=${repoInfo.path}`;
                         const addEditableResponse = await postEmptyJson(addEditableUrl, debugRef.current);
                         if (!addEditableResponse.ok) {
                             enqueueSnackbar(
@@ -147,8 +149,15 @@ function PullFromDownloaded({repoInfo, open, closeFn, reposModCount, setReposMod
                                 {variant: "error"}
                             );
                         }
+
                         // Delete updated regardless
                         await deleteUpdate(updateRepoPath);
+
+                        // The end!
+                        enqueueSnackbar(
+                            doI18n("pages:content:pulled", i18nRef.current),
+                            { variant: "success" }
+                        );
                         closeFn();
                     }
                 }

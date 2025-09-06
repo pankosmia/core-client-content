@@ -638,6 +638,10 @@
     "could_not_remove_update_remote_from_local": {
       "en": "Could not remove update remote from local repo",
       "fr": "Impossible d'enlever le remote update du dossier local"
+    },
+    "pulled": {
+      "en": "Updates pulled from downloaded repo",
+      "fr": "Mises à jour récupérées du dépôt téléchargé"
     }
   }
 }

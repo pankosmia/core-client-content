@@ -21,8 +21,7 @@ function CopyContent({repoInfo, open, closeFn, reposModCount, setReposModCount})
         const copyResponse = await postEmptyJson(copyUrl, debugRef.current);
         if (copyResponse.ok) {
             // Set up remote for copy (pulls from downloaded) - assume there's no 'downloaded' remote
-            const copyRelativePath = `../../../${repo_path}`;
-            const addUrl = `/git/remote/add/${copyRepoPath}?remote_name=downloaded&remote_url=${copyRelativePath}`;
+            const addUrl = `/git/remote/add/${copyRepoPath}?remote_name=downloaded&remote_url=${repo_path}`;
             const addResponse = await postEmptyJson(addUrl, debugRef.current);
             if (!addResponse.ok) {
                 enqueueSnackbar(
@@ -31,8 +30,8 @@ function CopyContent({repoInfo, open, closeFn, reposModCount, setReposModCount})
                 );
                 return;
             }
-            const updatesRelativePath = `../../../_local_/_updates_/${repo_path.split("/")[2]}`;
-            const addUrl2 = `/git/remote/add/${copyRepoPath}?remote_name=updates&remote_url=${updatesRelativePath}`;
+            const updatesPath = `_local_/_updates_/${repo_path.split("/")[2]}`;
+            const addUrl2 = `/git/remote/add/${copyRepoPath}?remote_name=updates&remote_url=${updatesPath}`;
             const addResponse2 = await postEmptyJson(addUrl2, debugRef.current);
             if (!addResponse2.ok) {
                 enqueueSnackbar(
