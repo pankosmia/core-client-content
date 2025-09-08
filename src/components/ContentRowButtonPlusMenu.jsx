@@ -16,6 +16,7 @@ import VersionManager from "./VersionManager";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext, useEffect} from "react";
 import { enqueueSnackbar } from "notistack";
+import PullFromDownloaded from "./PullFromDownloaded";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isNormal}) {
 
@@ -52,6 +53,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     const [pushAnchorEl, setPushAnchorEl] = useState(null);
     const pushOpen = Boolean(pushAnchorEl);
+
+    const [pullAnchorEl, setPullAnchorEl] = useState(null);
+    const pullOpen = Boolean(pullAnchorEl);
 
     const [restoreContentAnchorEl, setRestoreContentAnchorEl] = useState(null);
     const restoreContentOpen = Boolean(restoreContentAnchorEl);
@@ -232,6 +236,15 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                             >
                                 {doI18n("pages:content:push_to_dcs", i18nRef.current)}
                             </MenuItem>
+                            <MenuItem
+                                onClick={(event) => {
+                                    setPullAnchorEl(event.currentTarget);
+                                    setContentRowAnchorEl(null);
+                                }}
+                                disabled={status.length > 0}
+                            >
+                                {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
+                            </MenuItem>
                         </>
                     }
                     <MenuItem
@@ -328,6 +341,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoInfo={repoInfo}
             open={addAndCommitOpen}
             closeFn={() => setAddAndCommitAnchorEl(null)}
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+        />
+        <PullFromDownloaded
+            repoInfo={repoInfo}
+            open={pullOpen}
+            closeFn={() => setPullAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />

@@ -7,7 +7,7 @@ import {
     Typography
 } from "@mui/material";
 import PropTypes from 'prop-types';
-import { debugContext, i18nContext, doI18n} from "pithekos-lib";
+import {i18nContext, doI18n} from "pithekos-lib";
 
 function CustomTabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -40,7 +40,6 @@ function a11yProps(index) {
   
 function VersionManager({ repoInfo, open, setOpen}) {
     const { i18nRef } = useContext(i18nContext);
-    const { debugRef } = useContext(debugContext);
     const [tabValue, setTabValue] = useState(0);
 
     const toggleDrawer = (newOpen) => () => {
