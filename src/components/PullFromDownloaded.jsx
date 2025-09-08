@@ -118,7 +118,7 @@ function PullFromDownloaded({repoInfo, open, closeFn, reposModCount, setReposMod
                         // Attempt pull from editable to updated
                         // If fail, delete updated and croak
                         const pull1Url = `/git/pull-repo/editable/${updateRepoPath}`;
-                        const pull1Response = await getJson(pull1Url, debugRef.current);
+                        const pull1Response = await postEmptyJson(pull1Url, debugRef.current);
                         if (!pull1Response.ok) {
                             enqueueSnackbar(
                                 doI18n("pages:content:could_not_pull_to_update", i18nRef.current),
@@ -142,7 +142,7 @@ function PullFromDownloaded({repoInfo, open, closeFn, reposModCount, setReposMod
 
                         // Pull from updated to local
                         const pull2Url = `/git/pull-repo/updates/${repoInfo.path}`;
-                        const pull2Response = await getJson(pull2Url, debugRef.current);
+                        const pull2Response = await postEmptyJson(pull2Url, debugRef.current);
                         if (!pull2Response.ok) {
                             enqueueSnackbar(
                                 doI18n("pages:content:could_not_pull_to_local", i18nRef.current),
