@@ -16,10 +16,31 @@ function CopyContent({repoInfo, open, closeFn, reposModCount, setReposModCount})
     const {debugRef} = useContext(debugContext);
 
     const copyRepo = async repo_path => {
-
-        const copyUrl = `/git/copy/${repo_path}?target_path=_local_/_local_/${repo_path.split("/")[2]}`;
+        const copyRepoPath = `_local_/_local_/${repo_path.split("/")[2]}`;
+        const copyUrl = `/git/copy/${repo_path}?target_path=${copyRepoPath}`;
         const copyResponse = await postEmptyJson(copyUrl, debugRef.current);
         if (copyResponse.ok) {
+            // Set up remote for copy (pulls from downloaded) - assume there's no 'downloaded' remote
+            const addUrl = `/git/remote/add/${copyRepoPath}?remote_name=downloaded&remote_url=${repo_path}`;
+            const addResponse = await postEmptyJson(addUrl, debugRef.current);
+            if (!addResponse.ok) {
+                enqueueSnackbar(
+                    doI18n("pages:content:could_not_add_remote_repo", i18nRef.current),
+                    {variant: "error"}
+                );
+                return;
+            }
+            const updatesPath = `_local_/_updates_/${repo_path.split("/")[2]}`;
+            const addUrl2 = `/git/remote/add/${copyRepoPath}?remote_name=updates&remote_url=${updatesPath}`;
+            const addResponse2 = await postEmptyJson(addUrl2, debugRef.current);
+            if (!addResponse2.ok) {
+                enqueueSnackbar(
+                    doI18n("pages:content:could_not_add_remote_repo", i18nRef.current) + "2",
+                    {variant: "error"}
+                );
+                return;
+            }
+            // Done!
             enqueueSnackbar(
                 doI18n("pages:content:repo_copied", i18nRef.current),
                 {variant: "success"}

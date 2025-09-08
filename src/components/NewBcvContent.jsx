@@ -40,12 +40,14 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
 
-    useEffect(() =>
-        getAndSetJson({
-            url: "/content-utils/versifications",
-            setter: setVersificationCodes
-        }).then(),
-        []
+    useEffect(() =>{
+        if (open === true){
+            getAndSetJson({
+                url: "/content-utils/versifications",
+                setter: setVersificationCodes
+            }).then()
+        }},
+        [open]
     );
 
     const fetchFormat = async () => {
@@ -59,9 +61,12 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
             console.error("Erreur lors de la récupération des ressources", error);
         }
     }
+
     useEffect(() => {
-        fetchFormat();
-    }, []);
+        if (open === true){
+            fetchFormat()
+        }
+    }, [open]);
 
     useEffect(
         () => {
@@ -71,10 +76,11 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
                     setBookCodes(Object.keys(versificationResponse.json.maxVerses));
                 }
             };
-            if (bookCodes.length === 0) {
+            if (bookCodes.length === 0 && open === true) {
                 doFetch().then();
             }
-        }
+        },
+        [open]
     );
 
     useEffect(
