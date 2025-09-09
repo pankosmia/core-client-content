@@ -420,9 +420,9 @@
       "es":"Nombre remoto"
     },
     "remote_repo_url":{
-      "en":"Repo url",
-      "fr":"Url du dépot distant",
-      "es":"Url del repositorio"
+      "en":"Remote server repository URL",
+      "fr":"URL du dépot du serveur distant",
+      "es":"URL del repositorio del servidor remoto"
     },
     "about_to_upload_content":{
       "en":"About to upload content",
@@ -588,8 +588,8 @@
       "es":"No se pudo hacer el push"
     },
     "branches":{
-      "en":"Branches",
-      "es":"Ramas"
+      "en":"Current branch",
+      "es":"Rama actual"
     },
     "could_not_fetch_brances":{
       "en":"Could not fetch repo's branches",
@@ -603,6 +603,10 @@
       "en":"Could not switch branch",
       "es":"No se pudo cambiar la rama"
     },
+    "could_not_make_branch":{
+      "en":"Could not make branch",
+      "es":"No se pudo crear la rama"
+    },
     "version_manager":{
       "en":"Version manager",
       "es":"Administrador de versiones"
@@ -614,6 +618,22 @@
     "settings_tab":{
       "en":"SETTINGS",
       "es":"CONFIGURACIÓN"
+    },
+    "new_branch":{
+      "en":"Branch name *",
+      "es":"Nombre de la rama *"
+    },
+    "add_branch":{
+      "en":"ADD BRANCH",
+      "es":"CREAR RAMA"
+    },
+    "remote_url_requirement":{
+      "en":"URL should start with https://",
+      "es":"La URL debe empezar por https://"
+    },
+    "do_update":{
+      "en":"UPDATE",
+      "es":"ACTUALIZAR"
     },
     "could_not_copy_repo_to_updates": {
       "en": "Could not copy repo to updates",
