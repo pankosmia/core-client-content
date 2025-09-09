@@ -634,6 +634,7 @@
     "do_update":{
       "en":"UPDATE",
       "es":"ACTUALIZAR"
+    },
     "could_not_copy_repo_to_updates": {
       "en": "Could not copy repo to updates",
       "fr": "Impossible de copier le dépôt au dossier mises à jours"
