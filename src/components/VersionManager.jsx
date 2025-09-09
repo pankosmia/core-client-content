@@ -64,7 +64,6 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
             anchor="right" 
             open={open} 
             onClose={toggleDrawer(false)}
-            sx={{height:"100%"}}
         >
             <Box sx={{ p:1, m:1, width: changesTabIsOpen ? 'fit-content' : {xs: 250, md: 400, xl: 500} }}>
                 <Typography variant="h6" component="div" fontWeight="bold">{doI18n("pages:content:version_manager", i18nRef.current)}</Typography>

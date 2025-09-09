@@ -4,10 +4,12 @@ import {
     Button,
     Typography,
     TextField,
-    Divider,
-    Box
+    Box,
+    Stack,
+    Paper,
+    Divider
 } from "@mui/material";
-
+import { styled } from '@mui/material/styles';
 import {debugContext, i18nContext, doI18n, postEmptyJson, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import {DataGrid} from '@mui/x-data-grid';
@@ -111,20 +113,79 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount}) {
         }
     });
 
+    const Item = styled(Paper)(({ theme }) => ({
+        height:'40vh',
+        backgroundColor: '#fff',
+        ...theme.typography.body2,
+        padding: theme.spacing(1),
+        textAlign: 'center',
+        color: (theme.vars ?? theme).palette.text.secondary,
+        ...theme.applyStyles('dark', {
+          backgroundColor: '#1A2027',
+        }),
+      }));
 
-    return <Box sx={{height: "100%", backgroundColor:"blue", border: 2, borderColor: "red"}}> 
-            <Grid2 
+    return <Box sx={{minHeight: "85vh", backgroundColor:"blue", border: 2, borderColor: "red"}}> 
+            <Stack
+                divider={<Divider orientation="horizontal" flexItem />}
+                spacing={2}
+                sx={{
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                }}
+            >
+                <Item>
+                    {status.length > 0 
+                        ?
+                        <DataGrid
+                            initialState={{
+                                sorting: {
+                                    sortModel: [{ field: 'path', sort: 'asc' }],
+                                }
+                            }}
+                            rows={statusRows}
+                            columns={statusColumns}
+                            sx={{fontSize: "1rem"}}
+                        />
+                        :
+                        <Typography variant="h6">
+                            {doI18n("pages:content:no_changes", i18nRef.current)}
+                        </Typography>
+                    }
+                </Item>
+                <Item>
+                    {commits.length > 0 
+                        ?
+                        <DataGrid
+                            initialState={{
+                                sorting: {
+                                    sortModel: [{ field: 'date', sort: 'desc' }],
+                                }
+                            }}
+                            rows={commitsRows}
+                            columns={commitsColumns}
+                            sx={{fontSize: "1rem"}}
+                        />
+                        :
+                        <Typography variant="h6">
+                            {doI18n("pages:content:no_commits", i18nRef.current)}
+                        </Typography>
+                    }
+                </Item>
+            </Stack>
+            {/* <Grid2 
                 container 
                 direction="column"
+                spacing={0}
                 sx={{
                     height: "100%",
                     width: "100%",
-                    backgroudColor: "red",
+                    backgroundColor: "red",
                     justifyContent: "space-between",
-                    alignItems: "stretch",
+                    alignItems: "flex-start",
                 }}
             >
-                <Grid2 item sx={{height: "50%"}}>
+                <Grid2 item size={6}>
                     <Grid2 
                         container
                         direction="column"
@@ -158,7 +219,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount}) {
                 <Grid2 item sx={{my: "16px"}}>
                     <Divider  />
                 </Grid2>
-                <Grid2 item sx={{height: "50%",}}>
+                <Grid2 item size={6}>
                     <Grid2 
                         container
                         direction="column"
@@ -189,7 +250,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount}) {
                         </Grid2>
                     </Grid2>
                 </Grid2>
-            </Grid2>
+            </Grid2> */}
         </Box>;
 }
 
