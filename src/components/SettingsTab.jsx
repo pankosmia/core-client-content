@@ -238,28 +238,30 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
                     onClose={() => setAddBranchAnchorEl(null)}
                 >
                     <Box sx={{display: 'flex', flexDirection: 'row', justifyContent:"flex-end"}}>
-                        <TextField
-                            id="new-branch"
-                            fullWidth
-                            label={doI18n("pages:content:new_branch", i18nRef.current)}
-                            value={newBranchValue}
-                            variant="filled"
-                            sx={{
-                                input: {
-                                    backgroundColor: 'white'
-                                }
-                              }}
-                            onChange={(e) => {setNewBranchValue(e.target.value); setIsNewBranchValid(true)}}
-                            error={!newBranchIsValid}
-                        />
-                        <IconButton 
-                            onClick={handleNewBranchValidation}
-                            color="primary"
-                            disabled={newBranchValue === ''}
-                            disableRipple
-                        >
-                            <AddCircleOutlineIcon />
-                        </IconButton>
+                        <Box>
+                            <TextField
+                                id="new-branch"
+                                fullWidth
+                                label={doI18n("pages:content:new_branch", i18nRef.current)}
+                                value={newBranchValue}
+                                variant="filled"
+                                sx={{
+                                    input: {
+                                        backgroundColor: 'white'
+                                    }
+                                }}
+                                onChange={(e) => {setNewBranchValue(e.target.value); setIsNewBranchValid(true)}}
+                                error={!newBranchIsValid}
+                            />
+                        </Box>
+                        <Box sx={{display:'flex', flexDirection:'column', 'justifyContent': 'center', alignItems: 'center'}}>
+                            <IconButton 
+                                onClick={handleNewBranchValidation}
+                                disabled={newBranchValue === ''}
+                            >
+                                <AddCircleOutlineIcon />
+                            </IconButton>
+                        </Box>
                     </Box>
                 </Popover>
             </Stack>

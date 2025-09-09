@@ -42,7 +42,6 @@ function a11yProps(index) {
   
 function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCount}) {
     const { i18nRef } = useContext(i18nContext);
-    const { debugRef } = useContext(debugContext);
     const [tabValue, setTabValue] = useState(0);
     const [changesTabIsOpen, setChangesTabIsOpen] = useState(tabValue === 0 ? true : false);
 
