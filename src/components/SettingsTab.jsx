@@ -171,9 +171,7 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
 
     const handleListItemClick = (event, index) => {
         setSelectedBranchIndex(index);
-      };
-
-    console.log(branchList);
+    };
 
     return <Box> 
             <Stack spacing={2} sx={{ m: 2 }}>

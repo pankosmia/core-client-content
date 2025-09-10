@@ -43,7 +43,7 @@ function a11yProps(index) {
 function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCount}) {
     const { i18nRef } = useContext(i18nContext);
     const [tabValue, setTabValue] = useState(0);
-    const [changesTabIsOpen, setChangesTabIsOpen] = useState(tabValue === 0 ? true : false);
+    /* const [changesTabIsOpen, setChangesTabIsOpen] = useState(tabValue === 0 ? true : false); */
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -51,11 +51,11 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
 
     const handleTabsChange = (event, newValue) => {
         setTabValue(newValue);
-        if (newValue === 0){
-            setChangesTabIsOpen(true)
+       /*  if (newValue === 0){
+            setChangesTabIsOpen(newValue === 0)
         } else {
             setChangesTabIsOpen(false)
-        }
+        } */
       };
 
     return <Box>
@@ -64,7 +64,7 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
             open={open} 
             onClose={toggleDrawer(false)}
         >
-            <Box sx={{ p:1, m:1, width: changesTabIsOpen ? 'fit-content' : {xs: 250, md: 400, xl: 500} }}>
+            <Box sx={{ p:1, m:1, width: tabValue === 0 ? 'fit-content' : {xs: 250, md: 400, xl: 500} }}>
                 <Typography variant="h6" component="div" fontWeight="bold">{doI18n("pages:content:version_manager", i18nRef.current)}</Typography>
                 <Typography variant="subtitle1" component="div" fontWeight="bold">{repoInfo.name}</Typography>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -85,6 +85,7 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
                         open={tabValue === 0}
                         reposModCount={reposModCount}
                         setReposModCount={setReposModCount}
+                        setTabValue={setTabValue}
                     />
                 </CustomTabPanel>
                 <CustomTabPanel value={tabValue} index={1}>

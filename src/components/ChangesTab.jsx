@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext, useEffect, useRef} from 'react';
 import {
     Grid2,
     Button,
@@ -7,19 +7,47 @@ import {
     Box,
     Stack,
     Paper,
-    Divider
+    Divider,
+    Tooltip,
+    Dialog, DialogContent, DialogContentText, DialogActions, AppBar, Toolbar,
+    Link
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
-import {debugContext, i18nContext, doI18n, postEmptyJson, getJson} from "pithekos-lib";
+import {debugContext, i18nContext, netContext, doI18n, postJson, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import {DataGrid} from '@mui/x-data-grid';
+import PushToDcs from './PushToDcs';
 
-function ChangesTab({repoInfo, open, reposModCount, setReposModCount}) {
+const Item = styled(Paper)(({ theme }) => ({
+    minHeight:'40vh',
+    /* minWidth:'30vw', */
+    backgroundColor: '#fff',
+    ...theme.typography.body2,
+    padding: theme.spacing(1),
+    textAlign: 'center',
+    color: (theme.vars ?? theme).palette.text.secondary,
+    ...theme.applyStyles('dark', {
+      backgroundColor: '#1A2027',
+    }),
+  }));
+
+function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValue}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
+    const {enabledRef} = useContext(netContext);
 
     const [status, setStatus] = useState([]);
     const [commits, setCommits] = useState([]);
+    const [remotes, setRemotes] = useState([]);
+    const [remoteUrlValue, setRemoteUrlValue] = useState('');
+    const [commitMessageValue, setCommitMessageValue] = useState('');
+    /* const commitMessageRef = useRef(''); */
+
+    const [pushAnchorEl, setPushAnchorEl] = useState(null);
+    const pushOpen = Boolean(pushAnchorEl);
+    
+    const [updateAnywaysAnchorEl, setUpdateAnywaysAnchorEl] = useState(null);
+    const updateAnywaysOpen = Boolean(updateAnywaysAnchorEl);
 
     const repoStatus = async repo_path => {
 
@@ -49,13 +77,55 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount}) {
         }
     };
 
+    const repoRemotes = async (repo_path) => { 
+        const remoteListUrl = `/git/remotes/${repo_path}`;
+        const remoteList = await getJson(remoteListUrl, debugRef.current);
+        if (remoteList.ok) {
+            setRemotes(remoteList.json.payload.remotes);
+            const originRecord = remoteList.json.payload.remotes.filter((p) => p.name === "origin")[0];
+            if (originRecord) {
+                setRemoteUrlValue(originRecord.url)
+            }
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_list_remotes", i18nRef.current),
+                {variant: "error"}
+            )
+        }
+    };
+
     useEffect(() => {
-        if (open === true) {
-            repoStatus(repoInfo.path).then();
-            repoCommits(repoInfo.path).then();
+        const doFetch = async () => {
+            await repoStatus(repoInfo.path);
+            await repoCommits(repoInfo.path);
+            await repoRemotes(repoInfo.path)
+        }
+        if (open) {
+            doFetch().then()
         }
     },
     [open]);
+
+    const addAndCommitRepo = async (repo_path, commitMessage) => {
+
+        const addAndCommitUrl = `/git/add-and-commit/${repo_path}`;
+        const commitJson = JSON.stringify({"commit_message": commitMessage});
+        const addAndCommitResponse = await postJson(addAndCommitUrl, commitJson, debugRef.current);
+        if (addAndCommitResponse.ok) {
+            enqueueSnackbar(
+                doI18n("pages:content:commit_complete", i18nRef.current),
+                { variant: "success" }
+            );
+            setReposModCount(reposModCount + 1);
+            await repoStatus(repoInfo.path);
+            await repoCommits(repoInfo.path)
+        } else {
+            enqueueSnackbar(
+                doI18n("pages:content:could_not_commit", i18nRef.current),
+                { variant: "error" }
+            );
+        }
+    };
 
     const statusColumns = [
         {
@@ -113,19 +183,14 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount}) {
         }
     });
 
-    const Item = styled(Paper)(({ theme }) => ({
-        height:'40vh',
-        backgroundColor: '#fff',
-        ...theme.typography.body2,
-        padding: theme.spacing(1),
-        textAlign: 'center',
-        color: (theme.vars ?? theme).palette.text.secondary,
-        ...theme.applyStyles('dark', {
-          backgroundColor: '#1A2027',
-        }),
-      }));
+   
 
-    return <Box sx={{minHeight: "85vh", backgroundColor:"blue", border: 2, borderColor: "red"}}> 
+    const handleCommitMessage = (e) => {
+        
+        /* commitMessageRef.current.value = e.target.value */
+    };
+
+    return <Box sx={{minHeight: "85vh"}}> 
             <Stack
                 divider={<Divider orientation="horizontal" flexItem />}
                 spacing={2}
@@ -135,44 +200,146 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount}) {
                 }}
             >
                 <Item>
-                    {status.length > 0 
-                        ?
-                        <DataGrid
-                            initialState={{
-                                sorting: {
-                                    sortModel: [{ field: 'path', sort: 'asc' }],
-                                }
-                            }}
-                            rows={statusRows}
-                            columns={statusColumns}
-                            sx={{fontSize: "1rem"}}
+                    <Stack spacing={2} sx={{ minHeight:"100%", /* width:"100%", */ justifyContent: "flex-end", alignItems: "flex-start" }}>
+                        {status.length > 0 
+                            ?
+                            <DataGrid
+                                initialState={{
+                                    sorting: {
+                                        sortModel: [{ field: 'path', sort: 'asc' }],
+                                    }
+                                }}
+                                rows={statusRows}
+                                columns={statusColumns}
+                                sx={{fontSize: "1rem"}}
+                            />
+                            :
+                            <Typography variant="h6">
+                                {doI18n("pages:content:no_changes", i18nRef.current)}
+                            </Typography>
+                        }
+                        <TextField
+                            id="hhjhjkhjkhjkhjk"
+                            fullWidth
+                            label={doI18n("pages:content:commit_message", i18nRef.current)}
+                           /*  ref={commitMessageRef} */
+                            value={commitMessageValue}
+                            variant="outlined"
+                            onChange={(e) => setCommitMessageValue(e.target.value)}
+                            required={true}
+                            helperText={doI18n("pages:content:commit_helper_text", i18nRef.current)}
                         />
-                        :
-                        <Typography variant="h6">
-                            {doI18n("pages:content:no_changes", i18nRef.current)}
-                        </Typography>
-                    }
+                        <Button
+                            fullWidth
+                            color="secondary"
+                            disabled={status.length === 0 || commitMessageValue === ''}
+                            onClick={() => { addAndCommitRepo(repoInfo.path, commitMessageValue).then() }}
+                        >
+                            {doI18n("pages:content:accept", i18nRef.current)}
+                        </Button>
+                    </Stack>
                 </Item>
                 <Item>
-                    {commits.length > 0 
-                        ?
-                        <DataGrid
-                            initialState={{
-                                sorting: {
-                                    sortModel: [{ field: 'date', sort: 'desc' }],
-                                }
-                            }}
-                            rows={commitsRows}
-                            columns={commitsColumns}
-                            sx={{fontSize: "1rem"}}
-                        />
-                        :
-                        <Typography variant="h6">
-                            {doI18n("pages:content:no_commits", i18nRef.current)}
-                        </Typography>
-                    }
+                    <Stack spacing={2} sx={{ minHeight:"100%"/* , width:"100%" */, justifyContent: "flex-end", alignItems: "flex-start" }}>
+                        <Box sx={{height:"70%"}}>
+                            {commits.length > 0 
+                                ?
+                                <DataGrid
+                                    initialState={{
+                                        sorting: {
+                                            sortModel: [{ field: 'date', sort: 'desc' }],
+                                        }
+                                    }}
+                                    rows={commitsRows}
+                                    columns={commitsColumns}
+                                    sx={{fontSize: "1rem"}}
+                                />
+                                :
+                                <Typography variant="h6">
+                                    {doI18n("pages:content:no_commits", i18nRef.current)}
+                                </Typography>
+                            }
+                        </Box>
+                        {
+                            remotes.length === 0 && 
+                            <Link 
+                                component="button"
+                                variant="body2"
+                                onClick={() => {
+                                    setTabValue(1);
+                                }} 
+                                underline="always"
+                            >
+                                Add remote url
+                            </Link> 
+                        }
+                        <Tooltip title={doI18n("pages:content:app_should_be_connected", i18nRef.current)}>
+                            <Button
+                                onClick={(event) => {
+                                    if (status.length > 0){
+                                        setUpdateAnywaysAnchorEl(event.currentTarget)
+                                    } else {
+                                        setPushAnchorEl(event.currentTarget)
+                                    }
+                                    
+                                }}
+                                fullWidth
+                                color='secondary'
+                                disabled={!enabledRef.current || remotes.length === 0 || !remoteUrlValue.startsWith("https://")}
+                            >
+                                {doI18n("pages:content:push_to_dcs", i18nRef.current)}
+                            </Button>
+                        </Tooltip>
+                    </Stack>
                 </Item>
             </Stack>
+            <PushToDcs
+                repoInfo={repoInfo}
+                open={pushOpen}
+                closeFn={() => setPushAnchorEl(null)}
+                reposModCount={reposModCount}
+                setReposModCount={setReposModCount}
+                status={status}
+            />
+            <Dialog
+                open={updateAnywaysOpen}
+                onClose={() => setUpdateAnywaysAnchorEl(null)}
+                maxWidth={"lg"}
+                slotProps={{
+                    paper: {
+                        component: 'form',
+                    },
+                }}
+            >
+                <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+                    <Toolbar>
+                        <Typography variant="h6" component="div">
+                            Update without latest changes?
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
+                <DialogContent>
+                    <DialogContentText>
+                        <Typography variant="body1">
+                            You have uncommitted changes etc.
+                        </Typography>
+                    </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                    <Button color="warning" onClick={() => setUpdateAnywaysAnchorEl(null)}>
+                        {doI18n("pages:content:cancel", i18nRef.current)}
+                    </Button>
+                    <Button
+                        variant='contained'
+                        color="primary"
+
+                        onClick={(event) => {
+                            setPushAnchorEl(event.currentTarget);
+
+                        }}
+                    >{doI18n("pages:content:accept", i18nRef.current)}</Button>
+                </DialogActions>
+            </Dialog>
             {/* <Grid2 
                 container 
                 direction="column"

@@ -662,6 +662,14 @@
     "pulled": {
       "en": "Updates pulled from downloaded repo",
       "fr": "Mises à jour récupérées du dépôt téléchargé"
+    },
+    "commit_helper_text": {
+      "en": "Commits create history for your project. Use meaningful names. We suggest one commit a day to document progress.",
+      "es": "Las commits crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas un commit al día para documentar el progreso."
+    },
+    "app_should_be_connected": {
+      "en": "Liminal should be connected to Internet.",
+      "es": "Liminal debe estar conectada a Internet."
     }
   }
 }
