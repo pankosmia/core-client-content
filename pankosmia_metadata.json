@@ -128,6 +128,11 @@
       "en": "EXPORT",
       "es": "EXPORTAR"
     },
+    "export_zipped_label": {
+      "en": "EXPORT ZIPPED",
+      "es": "EXPORTAR COMPRIMIDO",
+      "id": "EKSPOR ZIP"
+    },
     "cancel": {
       "en": "CANCEL",
       "es": "CANCELAR"
@@ -159,6 +164,10 @@
     "to_download_folder": {
       "en": "to Download folder",
       "es": "a la carpeta de Descargas"
+    },
+    "contents": {
+      "en": "Contents",
+      "id": "Isi"
     },
     "could_not_fetch": {
       "en": "Could not fetch",

@@ -14,6 +14,7 @@ import {
 import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import {saveAs} from 'file-saver';
+import { useExportUsfmZip } from 'zip-project';
 
 function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
 
@@ -40,6 +41,37 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
         );
         return true;
     }
+
+    let newZip = [];
+    const usfmExportZip = async () =>{
+      for (const bookCode of fileExport.current) {
+        await usfmExportZipContents(bookCode);
+      }
+      const zippedFiles = newZip.map(item => item.filename).join(', ');
+      handleExportZip();
+      enqueueSnackbar(
+          `${doI18n("pages:content:saved", i18nRef.current)} ${doI18n("pages:content:to_download_folder", i18nRef.current)}. ${doI18n("pages:content:contents", i18nRef.current)}: ${zippedFiles}`,
+          {variant: "success"}
+      );
+    }
+
+    const usfmExportZipContents = async bookCode => {
+        const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
+        const bookUsfmResponse = await getText(bookUrl, debugRef.current);
+        if (!bookUsfmResponse.ok) {
+            enqueueSnackbar(
+                `${doI18n("pages:content:could_not_fetch", i18nRef.current)} ${bookCode}`,
+                {variant: "error"}
+            );
+            return false;
+        }
+        const usfmFile = {filename: `${bookCode}.usfm`, usfmText: `${bookUsfmResponse.text}`};
+        newZip.push(usfmFile);
+        return true;
+    }
+    
+    const { handleExportZip } = useExportUsfmZip(newZip);
+
 
     const handleBooksChange = (event) => {
         const value = event.target.value;
@@ -120,6 +152,19 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                     closeFn();
                 }}
             >{doI18n("pages:content:export_label", i18nRef.current)}</Button>
+            <Button
+                onClick={() => {
+                    if (!fileExport.current || fileExport.current.length === 0) {
+                        enqueueSnackbar(
+                            doI18n("pages:content:no_books_selected", i18nRef.current),
+                            {variant: "warning"}
+                        );
+                    } else {
+                        usfmExportZip(fileExport.current);
+                    }
+                    closeFn();
+                }}
+            >{doI18n("pages:content:export_zipped_label", i18nRef.current)}</Button>
         </DialogActions>
     </Dialog>;
 }
