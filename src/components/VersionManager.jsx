@@ -43,7 +43,7 @@ function a11yProps(index) {
 function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCount}) {
     const { i18nRef } = useContext(i18nContext);
     const [tabValue, setTabValue] = useState(0);
-    /* const [changesTabIsOpen, setChangesTabIsOpen] = useState(tabValue === 0 ? true : false); */
+    const [remoteUrlExists, setRemoteUrlExists] = useState(true);
 
     const toggleDrawer = (newOpen) => () => {
         setOpen(newOpen);
@@ -51,11 +51,6 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
 
     const handleTabsChange = (event, newValue) => {
         setTabValue(newValue);
-       /*  if (newValue === 0){
-            setChangesTabIsOpen(newValue === 0)
-        } else {
-            setChangesTabIsOpen(false)
-        } */
       };
 
     return <Box>
@@ -86,6 +81,7 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
                         reposModCount={reposModCount}
                         setReposModCount={setReposModCount}
                         setTabValue={setTabValue}
+                        setRemoteUrlExists={setRemoteUrlExists}
                     />
                 </CustomTabPanel>
                 <CustomTabPanel value={tabValue} index={1}>
@@ -94,6 +90,8 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
                         open={tabValue === 1}
                         reposModCount={reposModCount}
                         setReposModCount={setReposModCount}
+                        remoteUrlExists={remoteUrlExists}
+                        setRemoteUrlExists={setRemoteUrlExists}
                     />
                 </CustomTabPanel>
             </Box>

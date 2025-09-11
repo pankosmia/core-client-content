@@ -20,8 +20,7 @@ import PushToDcs from './PushToDcs';
 
 const Item = styled(Paper)(({ theme }) => ({
     minHeight:'40vh',
-    /* minWidth:'30vw', */
-    backgroundColor: '#fff',
+    width:'30vw',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -31,7 +30,7 @@ const Item = styled(Paper)(({ theme }) => ({
     }),
   }));
 
-function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValue}) {
+function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValue, setRemoteUrlExists}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const {enabledRef} = useContext(netContext);
@@ -41,7 +40,6 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
     const [remotes, setRemotes] = useState([]);
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
     const [commitMessageValue, setCommitMessageValue] = useState('');
-    /* const commitMessageRef = useRef(''); */
 
     const [pushAnchorEl, setPushAnchorEl] = useState(null);
     const pushOpen = Boolean(pushAnchorEl);
@@ -183,65 +181,62 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         }
     });
 
-   
-
-    const handleCommitMessage = (e) => {
-        
-        /* commitMessageRef.current.value = e.target.value */
-    };
-
     return <Box sx={{minHeight: "85vh"}}> 
             <Stack
                 divider={<Divider orientation="horizontal" flexItem />}
                 spacing={2}
                 sx={{
+                    height:"100%",
                     justifyContent: "space-between",
                     alignItems: "flex-start",
                 }}
             >
                 <Item>
-                    <Stack spacing={2} sx={{ minHeight:"100%", /* width:"100%", */ justifyContent: "flex-end", alignItems: "flex-start" }}>
-                        {status.length > 0 
-                            ?
-                            <DataGrid
-                                initialState={{
-                                    sorting: {
-                                        sortModel: [{ field: 'path', sort: 'asc' }],
-                                    }
-                                }}
-                                rows={statusRows}
-                                columns={statusColumns}
-                                sx={{fontSize: "1rem"}}
+                    <Stack direction="column" spacing={2} sx={{ height:"40vh", alignItems:"flex-start", justifyContent:"flex-end" }}>
+                        <Box sx={{height:'80%', width:'100%', flexGrow: 1}}>
+                            {status.length > 0 
+                                ?
+                                <DataGrid
+                                    initialState={{
+                                        sorting: {
+                                            sortModel: [{ field: 'path', sort: 'asc' }],
+                                        }
+                                    }}
+                                    rows={statusRows}
+                                    columns={statusColumns}
+                                    sx={{fontSize: "1rem"}}
+                                />
+                                :
+                                <Typography variant="h6">
+                                    {doI18n("pages:content:no_changes", i18nRef.current)}
+                                </Typography>
+                            }
+                        </Box>
+                        <Box>
+                            <TextField
+                                id="commit-message-input"
+                                fullWidth
+                                label={doI18n("pages:content:commit_message", i18nRef.current)}
+                                value={commitMessageValue}
+                                variant="outlined"
+                                onChange={(e) => setCommitMessageValue(e.target.value)}
+                                required={true}
+                                helperText={doI18n("pages:content:commit_helper_text", i18nRef.current)}
                             />
-                            :
-                            <Typography variant="h6">
-                                {doI18n("pages:content:no_changes", i18nRef.current)}
-                            </Typography>
-                        }
-                        <TextField
-                            id="hhjhjkhjkhjkhjk"
-                            fullWidth
-                            label={doI18n("pages:content:commit_message", i18nRef.current)}
-                           /*  ref={commitMessageRef} */
-                            value={commitMessageValue}
-                            variant="outlined"
-                            onChange={(e) => setCommitMessageValue(e.target.value)}
-                            required={true}
-                            helperText={doI18n("pages:content:commit_helper_text", i18nRef.current)}
-                        />
-                        <Button
-                            fullWidth
-                            color="secondary"
-                            disabled={status.length === 0 || commitMessageValue === ''}
-                            onClick={() => { addAndCommitRepo(repoInfo.path, commitMessageValue).then() }}
-                        >
-                            {doI18n("pages:content:accept", i18nRef.current)}
-                        </Button>
+                            <Button
+                                fullWidth
+                                color="secondary"
+                                disabled={status.length === 0 || commitMessageValue === ''}
+                                onClick={() => { addAndCommitRepo(repoInfo.path, commitMessageValue).then() }}
+                            >
+                                {doI18n("pages:content:accept", i18nRef.current)}
+                            </Button>
+                        </Box>
                     </Stack>
                 </Item>
                 <Item>
-                    <Stack spacing={2} sx={{ minHeight:"100%"/* , width:"100%" */, justifyContent: "flex-end", alignItems: "flex-start" }}>
-                        <Box sx={{height:"70%"}}>
+                    <Stack direction="column" spacing={2} sx={{ height:"40vh", justifyContent: "flex-end", alignItems: "flex-start" }}>
+                        <Box sx={{height:'90%', width:'100%', flexGrow: 1}}>
                             {commits.length > 0 
                                 ?
                                 <DataGrid
@@ -252,7 +247,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                     }}
                                     rows={commitsRows}
                                     columns={commitsColumns}
-                                    sx={{fontSize: "1rem"}}
+                                    sx={{fontSize: "1rem", size:'38vh'}}
                                 />
                                 :
                                 <Typography variant="h6">
@@ -267,29 +262,33 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                 variant="body2"
                                 onClick={() => {
                                     setTabValue(1);
+                                    setRemoteUrlExists(false)
                                 }} 
                                 underline="always"
                             >
-                                Add remote url
+                                {doI18n("pages:content:add_remote_repo_to_update", i18nRef.current)}
                             </Link> 
                         }
-                        <Tooltip title={doI18n("pages:content:app_should_be_connected", i18nRef.current)}>
-                            <Button
-                                onClick={(event) => {
-                                    if (status.length > 0){
-                                        setUpdateAnywaysAnchorEl(event.currentTarget)
-                                    } else {
-                                        setPushAnchorEl(event.currentTarget)
-                                    }
-                                    
-                                }}
-                                fullWidth
-                                color='secondary'
-                                disabled={!enabledRef.current || remotes.length === 0 || !remoteUrlValue.startsWith("https://")}
-                            >
-                                {doI18n("pages:content:push_to_dcs", i18nRef.current)}
-                            </Button>
-                        </Tooltip>
+                        <Box sx={{width:'100%', flexGrow: 1}}>
+                            <Tooltip title={!enabledRef.current ? doI18n("pages:content:app_should_be_connected", i18nRef.current) : doI18n("pages:content:update_remote", i18nRef.current)}>
+                                <span sx={{ display: 'inline-block' }}>
+                                    <Button
+                                        fullWidth
+                                        color='secondary'
+                                        disabled={!enabledRef.current || remotes.length === 0 || !remoteUrlValue.startsWith("https://")}
+                                        onClick={(event) => {
+                                            if (status.length > 0){
+                                                setUpdateAnywaysAnchorEl(event.currentTarget)
+                                            } else {
+                                                setPushAnchorEl(event.currentTarget)
+                                            }
+                                        }}
+                                    >
+                                        {doI18n("pages:content:update_remote", i18nRef.current)}
+                                    </Button>
+                                </span>
+                            </Tooltip>
+                        </Box>
                     </Stack>
                 </Item>
             </Stack>
@@ -314,14 +313,14 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                 <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                     <Toolbar>
                         <Typography variant="h6" component="div">
-                            Update without latest changes?
+                            {doI18n("pages:content:update_without_latest_changes", i18nRef.current)}
                         </Typography>
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
                     <DialogContentText>
                         <Typography variant="body1">
-                            You have uncommitted changes etc.
+                            {doI18n("pages:content:uncommitted_changes", i18nRef.current)}
                         </Typography>
                     </DialogContentText>
                 </DialogContent>
@@ -332,92 +331,10 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                     <Button
                         variant='contained'
                         color="primary"
-
-                        onClick={(event) => {
-                            setPushAnchorEl(event.currentTarget);
-
-                        }}
-                    >{doI18n("pages:content:accept", i18nRef.current)}</Button>
+                        onClick={(event) => setPushAnchorEl(event.currentTarget) }
+                    >{doI18n("pages:content:update_anyways", i18nRef.current)}</Button>
                 </DialogActions>
             </Dialog>
-            {/* <Grid2 
-                container 
-                direction="column"
-                spacing={0}
-                sx={{
-                    height: "100%",
-                    width: "100%",
-                    backgroundColor: "red",
-                    justifyContent: "space-between",
-                    alignItems: "flex-start",
-                }}
-            >
-                <Grid2 item size={6}>
-                    <Grid2 
-                        container
-                        direction="column"
-                        sx={{
-                            
-                            justifyContent: "space-around",
-                            alignItems: "flex-start",
-                        }}
-                    >
-                        <Grid2 item sx={{backgroundColor:"green"}}>
-                            {status.length > 0 
-                                ?
-                                <DataGrid
-                                    initialState={{
-                                        sorting: {
-                                            sortModel: [{ field: 'path', sort: 'asc' }],
-                                        }
-                                    }}
-                                    rows={statusRows}
-                                    columns={statusColumns}
-                                    sx={{fontSize: "1rem"}}
-                                />
-                                :
-                                <Typography variant="h6">
-                                    {doI18n("pages:content:no_changes", i18nRef.current)}
-                                </Typography>
-                            }
-                        </Grid2>
-                    </Grid2>
-                </Grid2>
-                <Grid2 item sx={{my: "16px"}}>
-                    <Divider  />
-                </Grid2>
-                <Grid2 item size={6}>
-                    <Grid2 
-                        container
-                        direction="column"
-                        sx={{
-                            
-                            justifyContent: "space-around",
-                            alignItems: "flex-start",
-                        }}
-                    >
-                        <Grid2 item sx={{backgroundColor:"orange"}}>
-                            {commits.length > 0 
-                                ?
-                                <DataGrid
-                                    initialState={{
-                                        sorting: {
-                                            sortModel: [{ field: 'date', sort: 'desc' }],
-                                        }
-                                    }}
-                                    rows={commitsRows}
-                                    columns={commitsColumns}
-                                    sx={{fontSize: "1rem"}}
-                                />
-                                :
-                                <Typography variant="h6">
-                                    {doI18n("pages:content:no_commits", i18nRef.current)}
-                                </Typography>
-                            }
-                        </Grid2>
-                    </Grid2>
-                </Grid2>
-            </Grid2> */}
         </Box>;
 }
 
