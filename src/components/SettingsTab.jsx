@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react';
+import {useState, useContext, useEffect, useRef} from 'react';
 import {
     Button,
     Typography,
@@ -17,11 +17,12 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import {debugContext, i18nContext, doI18n, postEmptyJson, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 
-function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
+function SettingsTab({repoInfo, open, reposModCount, setReposModCount, remoteUrlExists, setRemoteUrlExists}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
     const [remoteUrlIsValid, setRemoteUrlIsValid] = useState(null);
+    const remoteUrlRef = useRef(null);
     const [newBranchValue, setNewBranchValue] = useState('');
     const [newBranchIsValid, setIsNewBranchValid] = useState(newBranchValue === '' ? true : false);
     const [addBranchAnchorEl, setAddBranchAnchorEl] = useState(null);
@@ -150,6 +151,14 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
     },
     [branchList]);
 
+    useEffect(() => {
+        if (!remoteUrlExists){
+            remoteUrlRef.current?.focus();
+            setRemoteUrlExists(true)
+        }
+    },
+    [remoteUrlExists])
+
     const handleRemoteUrlValidation = async () => {
         if (!remoteUrlValue.startsWith("https://")){
             setRemoteUrlIsValid(false);
@@ -171,16 +180,15 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount}) {
 
     const handleListItemClick = (event, index) => {
         setSelectedBranchIndex(index);
-      };
-
-    console.log(branchList);
+    };
 
     return <Box> 
-            <Stack spacing={2} sx={{ m: 2 }}>
+            <Stack spacing={2}>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent:"flex-end"}}>
                     <TextField
                         id="repo-url"
                         fullWidth
+                        inputRef={remoteUrlRef}
                         label={doI18n("pages:content:remote_repo_url", i18nRef.current)}
                         value={remoteUrlValue}
                         variant="outlined"

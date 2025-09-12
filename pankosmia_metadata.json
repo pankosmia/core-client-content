@@ -551,10 +551,9 @@
       "en":"Could not fetch internet status",
       "es":"No se pudo obtener el estado del internet"
     },
-    "push_to_dcs":{
-      "en":"Push",
-      "fr": "Pousser",
-      "es":"Push"
+    "update_remote":{
+      "en":"Update remote",
+      "es":"Actualizar remoto"
     },
     "pull_from_downloaded":{
       "en":"Pull from downloaded",
@@ -671,6 +670,30 @@
     "pulled": {
       "en": "Updates pulled from downloaded repo",
       "fr": "Mises à jour récupérées du dépôt téléchargé"
+    },
+    "commit_helper_text": {
+      "en": "Commits create history for your project. Use meaningful names. We suggest one commit a day to document progress.",
+      "es": "Las commits crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas un commit al día para documentar el progreso."
+    },
+    "app_should_be_connected": {
+      "en": "Liminal should be connected to Internet.",
+      "es": "Liminal debe estar conectada a Internet."
+    },
+    "add_remote_repo_to_update": {
+      "en":"Add remote repository URL to update",
+      "es":"Agregar URL del repositorio remoto para actualizar"
+    },
+    "update_without_latest_changes": {
+      "en":"Update without latest changes?",
+      "es":"¿Acualizar sin los últimos cambios?"
+    },
+    "uncommitted_changes": {
+      "en":"You have uncommitted changes that won't be sent to the remote server.",
+      "es":"Tienes cambios sin hacer commit que no serán enviados al servidor remoto."
+    },
+    "update_anyways": {
+      "en":"Update anyways",
+      "es":"Actualizar de todas formas"
     }
   }
 }
