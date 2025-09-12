@@ -183,7 +183,7 @@ function SettingsTab({repoInfo, open, reposModCount, setReposModCount, remoteUrl
     };
 
     return <Box> 
-            <Stack spacing={2} sx={{ m: 2 }}>
+            <Stack spacing={2}>
                 <Box sx={{display: 'flex', flexDirection: 'row', justifyContent:"flex-end"}}>
                     <TextField
                         id="repo-url"

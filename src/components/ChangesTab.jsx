@@ -20,7 +20,8 @@ import PushToDcs from './PushToDcs';
 
 const Item = styled(Paper)(({ theme }) => ({
     minHeight:'40vh',
-    width:'30vw',
+    /* width:'35vw', */
+    width:'100%',
     ...theme.typography.body2,
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -115,6 +116,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                 { variant: "success" }
             );
             setReposModCount(reposModCount + 1);
+            setCommitMessageValue('');
             await repoStatus(repoInfo.path);
             await repoCommits(repoInfo.path)
         } else {
@@ -129,13 +131,13 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         {
             field: 'status',
             headerName: doI18n("pages:content:status", i18nRef.current),
-            minWidth: 200,
+            /* minWidth: 200, */
             flex: 3
         },
         {
             field: 'path',
             headerName: doI18n("pages:content:row_path", i18nRef.current),
-            minWidth: 200,
+           /*  minWidth: 200, */
             flex: 3
         }
     ];
@@ -153,20 +155,20 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         {
             field: 'author',
             headerName: doI18n("pages:content:row_author", i18nRef.current),
-            minWidth: 200,
-            flex: 3
+            /* minWidth: 200, */
+            /* flex: 5 */
         },
         {
             field: 'date',
             headerName: doI18n("pages:content:row_date", i18nRef.current),
-            minWidth: 200,
-            flex: 3
+            /* minWidth: 200, */
+            /* flex: 5 */
         },
         {
             field: 'message',
             headerName: doI18n("pages:content:row_message", i18nRef.current),
-            minWidth: 200,
-            flex: 3
+           /*  minWidth: 200, */
+            /* flex: 5 */
         }
     ];
 
@@ -193,7 +195,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
             >
                 <Item>
                     <Stack direction="column" spacing={2} sx={{ height:"40vh", alignItems:"flex-start", justifyContent:"flex-end" }}>
-                        <Box sx={{height:'80%', width:'100%', flexGrow: 1}}>
+                        <Box sx={{height:'65%', width:'100%', flexGrow: 1}}>
                             {status.length > 0 
                                 ?
                                 <DataGrid
@@ -221,6 +223,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                 variant="outlined"
                                 onChange={(e) => setCommitMessageValue(e.target.value)}
                                 required={true}
+                                disabled={status.length === 0}
                                 helperText={doI18n("pages:content:commit_helper_text", i18nRef.current)}
                             />
                             <Button
@@ -235,7 +238,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                     </Stack>
                 </Item>
                 <Item>
-                    <Stack direction="column" spacing={2} sx={{ height:"40vh", justifyContent: "flex-end", alignItems: "flex-start" }}>
+                    <Stack direction="column" spacing={2} sx={{ height:"40vh", alignItems:"flex-start", justifyContent:"flex-end" }}>
                         <Box sx={{height:'90%', width:'100%', flexGrow: 1}}>
                             {commits.length > 0 
                                 ?

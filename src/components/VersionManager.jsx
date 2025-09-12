@@ -59,7 +59,7 @@ function VersionManager({ repoInfo, open, setOpen, reposModCount, setReposModCou
             open={open} 
             onClose={toggleDrawer(false)}
         >
-            <Box sx={{ p:1, m:1, width: tabValue === 0 ? 'fit-content' : {xs: 250, md: 400, xl: 500} }}>
+            <Box sx={{ p:1, m:1, width: '45vh' }}>
                 <Typography variant="h6" component="div" fontWeight="bold">{doI18n("pages:content:version_manager", i18nRef.current)}</Typography>
                 <Typography variant="subtitle1" component="div" fontWeight="bold">{repoInfo.name}</Typography>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
