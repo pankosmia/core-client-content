@@ -91,14 +91,18 @@
       "en":"Loading....",
       "id": "Sedang memuat...."
     },
+    "successful_upload": {
+      "en": "File successfully uploaded.",
+      "id": "File telah berhasil diunggah."
+    },
     "import_error": {
       "en": "An error occurred:",
       "fr": "Une erreur est survenue :",
       "id": "Kesalahan terjadi:"
     },
     "invalid_file_type": {
-      "en": "Invalid file upload",
-      "id": "Unggahan file tidak sah"
+      "en": "Invalid file upload:",
+      "id": "Unggahan file tidak sah:"
     },
     "add_book_checkbox": {
       "en":"Add a Bible book",

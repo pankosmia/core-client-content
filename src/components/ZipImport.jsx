@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import {
     Button,
     Dialog,
@@ -8,14 +8,22 @@ import {
     DialogTitle
 } from "@mui/material";
 import {i18nContext, doI18n} from "pithekos-lib";
+import {enqueueSnackbar} from "notistack";
 import { useZipUsfmFileInput } from 'zip-project';
 
 function ZipImport({open,closeFn}) {
 
     const {i18nRef} = useContext(i18nContext);
-    const [usfmArray, setUsfmArray] = useState([])
+    const [newImport, setNewImport] = useState(true);
+    const [usfmArray, setUsfmArray] = useState([]);
+
+    //This is temporary
+    const newClick = () => {
+      setNewImport(true);
+    }
+
     const handleZipLoad = (usfmData, file) => {
-      setUsfmArray([...usfmData])
+      setUsfmArray([...usfmData]);
     }
 
     const {
@@ -24,34 +32,51 @@ function ZipImport({open,closeFn}) {
       invalidFileType,
       uploadError,
       onChange,
-      onSubmit,
+      onSubmit
     } = useZipUsfmFileInput(handleZipLoad)
 
-    if (isLoading) {
-      return <div>{doI18n("pages:content:loading", i18nRef.current)}</div>
-    }
+    useEffect(() => {
+      if (isLoading) {
+        enqueueSnackbar(
+            doI18n("pages:content:loading", i18nRef.current),
+            {variant: "warning"}
+        );
+      }
+    }, [isLoading]);
 
-    if (uploadError) {
-      return (
-        <div>
-          <h1>{doI18n("pages:content:import_error", i18nRef.current)}</h1>
-          <p>{uploadError.message}</p>
-        </div>
-      )
-    }
+    // uploadError (from the RCL) may not not necessarily be reset after a successful upload (not yet experienced)
+    useEffect(() => {
+      if (newImport && uploadError) {
+        enqueueSnackbar(
+            `${doI18n("pages:content:import_error", i18nRef.current)} ${uploadError.message}`,
+            {variant: "error"}
+        );
+        setNewImport(false);
+      }
+    }, [newImport, uploadError]);
 
-    if (invalidFileType) {
-      return (
-        <div>
-          <p>{`{doI18n("pages:content:invalid_file_type", i18nRef.current)} ${invalidFileType}`}</p>
-        </div>
-      )
-    }
 
-    if (status === 'UPLOAD_SUCCESS') {
-      console.log(usfmArray);
-    }
+    // invalidFileType (from the RCL) is not reset after a successful upload
+    useEffect(() => {
+      if (newImport && invalidFileType) {
+        enqueueSnackbar(
+            `${doI18n("pages:content:invalid_file_type", i18nRef.current)} ${invalidFileType}`,
+            {variant: "error"}
+        );
+        setNewImport(false);
+      }
+    }, [invalidFileType, newImport]);
 
+    useEffect(() => {
+      if (status === 'UPLOAD_SUCCESS') {
+        console.log(usfmArray);
+        enqueueSnackbar(
+            doI18n("pages:content:successful_upload", i18nRef.current),
+            {variant: "success"}
+        );
+      }
+    }, [usfmArray]);
+  
     return <Dialog
         open={open}
         onClose={closeFn}
@@ -64,7 +89,11 @@ function ZipImport({open,closeFn}) {
         <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:import_content", i18nRef.current)}</b></DialogTitle>
         <DialogContent sx={{ mt: 1 }}>
             <DialogContentText>
-              <input type='file' accept='.zip' onChange={onChange} />
+              <input
+                type='file'
+                accept='.zip'
+                onChange={onChange}
+              />
             </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -75,6 +104,7 @@ function ZipImport({open,closeFn}) {
                 variant="contained"
                 color="primary"
                 onClick={() => {
+                    newClick();
                     onSubmit();
                     closeFn();
                 }}
