@@ -1,7 +1,8 @@
-import {IconButton, Menu, MenuItem, Divider} from "@mui/material";
+import {IconButton, Menu, MenuItem, Divider, ListItemText, Typography} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {i18nContext, doI18n, getJson, debugContext, netContext} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
+import ZipExport from "./ZipExport";
 import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
 import RemoteContent from "./RemoteContent";
@@ -16,6 +17,7 @@ import VersionManager from "./VersionManager";
 import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext, useEffect} from "react";
 import { enqueueSnackbar } from "notistack";
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import PullFromDownloaded from "./PullFromDownloaded";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isNormal}) {
@@ -26,6 +28,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
     const usfmExportOpen = Boolean(usfmExportAnchorEl);
+
+    const [zipExportAnchorEl, setZipExportAnchorEl] = useState(null);
+    const zipExportOpen = Boolean(zipExportAnchorEl);
 
     const [pdfGenerateAnchorEl, setPdfGenerateAnchorEl] = useState(null);
     const pdfGenerateOpen = Boolean(pdfGenerateAnchorEl);
@@ -69,9 +74,15 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
     const newBookOpen = Boolean(newBookAnchorEl);
 
+    const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
+
     const [status, setStatus] = useState([]);
     const [remotes, setRemotes] = useState([]);
     const [remoteUrl, setRemoteUrl] = useState('');
+
+    const handleSubMenuClick = (event) => {
+      setSubMenuAnchorEl(event.currentTarget);
+    };
 
     const repoStatus = async repo_path => {
 
@@ -133,22 +144,16 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             isNormal ? 
                 <>
                     <MenuItem
-                        onClick={(event) => {
-                            setUsfmExportAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
-                        }}
                         disabled={repoInfo.flavor !== "textTranslation"}
+                        onClick={handleSubMenuClick}
                     >
-                        {doI18n("pages:content:export_usfm", i18nRef.current)}
-                    </MenuItem>
-                    <MenuItem
-                        onClick={(event) => {
-                            setPdfGenerateAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
-                        }}
-                        disabled={repoInfo.flavor !== "textTranslation"}
-                    >
-                        {doI18n("pages:content:generate_pdf", i18nRef.current)}
+                        <ListItemText>
+                          {doI18n("pages:content:export", i18nRef.current)}
+                        </ListItemText>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          <ArrowRightIcon />
+                        </Typography>
+                        
                     </MenuItem>
                     <Divider/>
                     <MenuItem
@@ -280,11 +285,60 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                 </>
             }
         </Menu>
+        <Menu
+            id="basic-sub-menu"
+            anchorEl={subMenuAnchorEl}
+            open={Boolean(subMenuAnchorEl)}
+            onClose={() => {
+                setContentRowAnchorEl(null);
+                setSubMenuAnchorEl(null);
+            }}
+            anchorOrigin={{ vertical: 'top', horizontal: 'left'}}
+            transformOrigin={{ vertical: 'top', horizontal: 'right'}}
+            slotProps={{list: {'aria-labelledby': 'basic-button',}}}
+        >
+          <MenuItem
+              onClick={(event) => {
+                  setUsfmExportAnchorEl(event.currentTarget);
+                  setContentRowAnchorEl(null);
+                  setSubMenuAnchorEl(null);
+              }}
+              disabled={repoInfo.flavor !== "textTranslation"}
+          >
+              {doI18n("pages:content:export_usfm", i18nRef.current)}
+          </MenuItem>
+          <MenuItem
+              onClick={(event) => {
+                  setZipExportAnchorEl(event.currentTarget);
+                  setContentRowAnchorEl(null);
+                  setSubMenuAnchorEl(null);
+              }}
+              disabled={repoInfo.flavor !== "textTranslation"}
+          >
+              {doI18n("pages:content:export_zip", i18nRef.current)}
+          </MenuItem>
+          <MenuItem
+              onClick={(event) => {
+                  setPdfGenerateAnchorEl(event.currentTarget);
+                  setContentRowAnchorEl(null);
+                  setSubMenuAnchorEl(null);
+              }}
+              disabled={repoInfo.flavor !== "textTranslation"}
+          >
+              {doI18n("pages:content:export_pdf", i18nRef.current)}
+          </MenuItem>                        
+        </Menu>
         <UsfmExport
             bookNames={repoInfo.book_codes}
             repoSourcePath={repoInfo.path}
             open={usfmExportOpen}
             closeFn={() => setUsfmExportAnchorEl(null)}
+        />
+        <ZipExport
+            bookNames={repoInfo.book_codes}
+            repoSourcePath={repoInfo.path}
+            open={zipExportOpen}
+            closeFn={() => setZipExportAnchorEl(null)}
         />
         <PdfGenerate
             bookNames={repoInfo.book_codes}

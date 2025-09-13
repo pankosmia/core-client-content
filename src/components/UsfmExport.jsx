@@ -1,5 +1,6 @@
 import {useRef, useContext, useState} from 'react';
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
@@ -57,8 +58,8 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
-        <DialogContent>
+        <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
+        <DialogContent sx={{ mt: 1 }}>
             <Select
                 variant="standard"
                 multiple
@@ -71,9 +72,13 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                         return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
                     }
                     fileExport.current = selected;
-                    return selected
-                    .map(s=>doI18n(`scripture:books:${s}`, i18nRef.current))
-                    .join(', ');
+                        return (
+                            <Box sx={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
+                              {selected
+                                  .map(s=>doI18n(`scripture:books:${s}`, i18nRef.current))
+                                  .join(', ')}
+                            </Box>
+                        );
                 }}
                 MenuProps={{
                     PaperProps: {
@@ -104,10 +109,15 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button onClick={closeFn}>
+            <Button
+                variant="text"
+                color="primary"
+                onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
+                variant="contained"
+                color="primary"
                 onClick={() => {
                     if (!fileExport.current || fileExport.current.length === 0) {
                         enqueueSnackbar(
@@ -119,7 +129,9 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                     }
                     closeFn();
                 }}
-            >{doI18n("pages:content:export_label", i18nRef.current)}</Button>
+            >
+                {doI18n("pages:content:export_label", i18nRef.current)}
+            </Button>
         </DialogActions>
     </Dialog>;
 }
