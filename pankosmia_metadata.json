@@ -120,22 +120,33 @@
       "en": "book(s)",
       "fr": "livre(s)"
     },
+    "export": {
+      "en": "Export",
+      "es": "Exportar",
+      "id": "Ekspor"
+    },
     "export_usfm": {
-      "en": "Export USFM",
-      "es": "Exportar USFM"
+      "en": "Export as USFM",
+      "es": "Exportar como USFM",
+      "id": "Ekpor sebagai USFM"
     },
     "export_label": {
       "en": "EXPORT",
       "es": "EXPORTAR"
     },
-    "export_zipped_label": {
-      "en": "EXPORT ZIPPED",
-      "es": "EXPORTAR COMPRIMIDO",
-      "id": "EKSPOR ZIP"
+    "export_zip": {
+      "en": "Export as ZIP",
+      "es": "Exportar como ZIP",
+      "id": "Ekspor sebagai ZIP"
     },
     "cancel": {
       "en": "CANCEL",
       "es": "CANCELAR"
+    },
+    "export_all": {
+      "en": "Export all books",
+      "es": "Exportar todos los libros",
+      "id": "Ekspor semua buku"
     },
     "pick_one_book_export": {
       "en": "Choose a book to export",
@@ -152,6 +163,11 @@
     "export_as_usfm": {
       "en": "Export Content as USFM",
       "es": "Exportar Contenido como USFM"
+    },
+    "export_as_zip": {
+      "en": "Export Content as ZIP",
+      "es": "Exportar Contenido como ZIP",
+      "id": "Ekspor Konten sebagai ZIP"
     },
     "save_book_file": {
       "en": "Save book file",
@@ -189,8 +205,10 @@
       "en": "Export as Word document",
       "fr": "Exporter comme document Word"
     },
-    "generate_pdf": {
-      "en": "Generate a PDF"
+    "export_pdf": {
+      "en": "Export as PDF",
+      "es": "Exportar como PDF",
+      "id": "Ekspor sebagai PDF"
     },
     "generate_as_pdf": {
       "en": "Generate a PDF"
