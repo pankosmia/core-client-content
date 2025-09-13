@@ -6,12 +6,17 @@ import NewBcvContent from "./NewBcvContent";
 import NewOBSContent from "./NewOBSContent";
 import {useState, useContext} from "react";
 import {i18nContext, netContext, doI18n} from "pithekos-lib";
+import ZipImport from "./ZipImport";
 
 function FabPlusMenu({reposModCount, setReposModCount}) {
 
     const {i18nRef} = useContext(i18nContext);
     const {enabledRef} = useContext(netContext);
+    
     const [importAnchorEl, setImportAnchorEl] = useState(null);
+    const [zipImportAnchorEl, setZipImportAnchorEl] = useState(null);
+    const zipImportOpen = Boolean(zipImportAnchorEl);
+    
     const [createAnchorEl, setCreateAnchorEl] = useState(null);
     const [openedModal, setOpenedModal] = useState(null);
     const [resourceFormat, setResourceFormat] = useState("tn");
@@ -70,8 +75,10 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                     {doI18n("pages:content:download_content", i18nRef.current)}
                 </MenuItem>
                 <MenuItem
-                    onClick={handleImportClose}
-                    disabled={true}
+                    onClick={(event) => {
+                            setZipImportAnchorEl(event.currentTarget);
+                            handleImportClose();
+                        }}
                 >
                     {doI18n("pages:content:import_content", i18nRef.current)}
                 </MenuItem>
@@ -131,7 +138,10 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
-
+        <ZipImport
+            open={zipImportOpen}
+            closeFn={() => setZipImportAnchorEl(null)}
+        />
     </>;
 }
 

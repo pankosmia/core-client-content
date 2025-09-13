@@ -81,6 +81,13 @@
       "es":"Cargar Contenido",
       "fr": "Importer manuellement le Contenu"
     },
+    "import": {
+      "en":"IMPORT",
+      "fr": "IMPORTER",
+      "es": "IMPORTAR",
+      "id": "IMPOR"
+    },
+
     "add_book_checkbox": {
       "en":"Add a Bible book",
       "fr":"Ajouter un livre biblique",
