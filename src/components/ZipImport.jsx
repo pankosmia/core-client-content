@@ -28,13 +28,13 @@ function ZipImport({open,closeFn}) {
     } = useZipUsfmFileInput(handleZipLoad)
 
     if (isLoading) {
-      return <div>Loading....</div>
+      return <div>{doI18n("pages:content:loading", i18nRef.current)}</div>
     }
 
     if (uploadError) {
       return (
         <div>
-          <h1>An Error occurred:</h1>
+          <h1>{doI18n("pages:content:import_error", i18nRef.current)}</h1>
           <p>{uploadError.message}</p>
         </div>
       )
@@ -43,7 +43,7 @@ function ZipImport({open,closeFn}) {
     if (invalidFileType) {
       return (
         <div>
-          <p>{`Invalid file upload: ${invalidFileType}`}</p>
+          <p>{`{doI18n("pages:content:invalid_file_type", i18nRef.current)} ${invalidFileType}`}</p>
         </div>
       )
     }

@@ -87,7 +87,19 @@
       "es": "IMPORTAR",
       "id": "IMPOR"
     },
-
+    "loading": {
+      "en":"Loading....",
+      "id": "Sedang memuat...."
+    },
+    "import_error": {
+      "en": "An error occurred:",
+      "fr": "Une erreur est survenue :",
+      "id": "Kesalahan terjadi:"
+    },
+    "invalid_file_type": {
+      "en": "Invalid file upload",
+      "id": "Unggahan file tidak sah"
+    },
     "add_book_checkbox": {
       "en":"Add a Bible book",
       "fr":"Ajouter un livre biblique",
