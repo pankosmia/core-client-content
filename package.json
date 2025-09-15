@@ -33,7 +33,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "node --max_old_space_size=4096 ./node_modules/vite/bin/vite.js build",
+    "build:cra": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/build.js",
     "build:vite": "vite build",
     "dev": "vite"
   },
