@@ -241,8 +241,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:generate_as_pdf", i18nRef.current)}</b></DialogTitle>
-        <DialogContent>
+        <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:generate_as_pdf", i18nRef.current)}</b></DialogTitle>
+        <DialogContent sx={{ mt: 1 }}>
             <Select
                 variant="standard"
                 displayEmpty
@@ -418,10 +418,16 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             }
         </DialogContent>
         <DialogActions>
-            <Button onClick={closeFn}>
+            <Button
+                variant="text"
+                color="primary"
+                onClick={closeFn}
+            >
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
+                variant="contained"
+                color="primary"
                 onClick={() => {
                     if (!fileExport.current) {
                         enqueueSnackbar(
