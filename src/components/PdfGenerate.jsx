@@ -243,9 +243,15 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     >
         <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:generate_as_pdf", i18nRef.current)}</b></DialogTitle>
         <DialogContent sx={{ mt: 1 }}>
+            <DialogContentText>
+                <Typography>
+                    {doI18n("pages:content:pick_one_book_export", i18nRef.current)}
+                </Typography>
+            </DialogContentText>
             <Select
                 variant="standard"
                 displayEmpty
+                defaultOpen={true}
                 value={selectedBooks}
                 onChange={handleBooksChange}
                 input={<OutlinedInput/>}
@@ -278,14 +284,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                     </MenuItem>
                 ))}
             </Select>
-            {!selectedBooks 
-            ?
-                <DialogContentText>
-                    <Typography>
-                        {doI18n("pages:content:pick_one_book_export", i18nRef.current)}
-                    </Typography>
-                </DialogContentText>
-            :
+            {selectedBooks &&
                 <DialogContentText>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
                         <ListItem disablePadding >
@@ -428,6 +427,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             <Button
                 variant="contained"
                 color="primary"
+                disabled={!selectedBooks}
                 onClick={() => {
                     if (!fileExport.current) {
                         enqueueSnackbar(
