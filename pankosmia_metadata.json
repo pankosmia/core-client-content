@@ -227,7 +227,7 @@
     },
     "about_to_delete_content": {
       "en": "About to delete this content. This operation cannot be undone. Click \"cancel\" unless you are sure you want to delete this content permanently.",
-      "fra": "Vous êtes sur le point de supprimer ce contenu. Cette opération est permanent. Cliquez sur \"Annuler\", sauf si vous voulez vraiment effacer ce contenu de façon irréversible."
+      "fr": "Vous êtes sur le point de supprimer ce contenu. Cette opération est permanent. Cliquez sur \"Annuler\", sauf si vous voulez vraiment effacer ce contenu de façon irréversible."
     },
     "do_delete_button": {
       "en": "Delete",
