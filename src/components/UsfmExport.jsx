@@ -60,10 +60,16 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
     >
         <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
         <DialogContent sx={{ mt: 1 }}>
+            <DialogContentText>
+                <Typography>
+                    {doI18n("pages:content:pick_one_or_more_books_export", i18nRef.current)}
+                </Typography>
+            </DialogContentText>
             <Select
                 variant="standard"
                 multiple
                 displayEmpty
+                defaultOpen={true}
                 value={selectedBooks}
                 onChange={handleBooksChange}
                 input={<OutlinedInput/>}
@@ -102,11 +108,6 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                     </MenuItem>
                 ))}
             </Select>
-            <DialogContentText>
-                <Typography>
-                    {doI18n("pages:content:pick_one_or_more_books_export", i18nRef.current)}
-                </Typography>
-            </DialogContentText>
         </DialogContent>
         <DialogActions>
             <Button
@@ -118,6 +119,7 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             <Button
                 variant="contained"
                 color="primary"
+                disabled={!fileExport.current || fileExport.current.length === 0}
                 onClick={() => {
                     if (!fileExport.current || fileExport.current.length === 0) {
                         enqueueSnackbar(
