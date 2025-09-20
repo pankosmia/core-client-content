@@ -6,6 +6,7 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
+    FormControl,
     Select,
     Menu,
     MenuItem,
@@ -232,12 +233,24 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         return content;
       }
 
+      // Use the number of books in select to calculate minimum dialog height
+      const calculateDialogHeight = (numBooks) => {
+        const itemHeight = 48; // Approximate height of each MenuItem
+        const maxDropdownHeight = 224; // Maximum height of the dropdown as set in its MenuProps
+        const dropdownHeight = Math.min(numBooks * itemHeight, maxDropdownHeight);
+        return dropdownHeight + 211; // Space for title, actions, and padding
+      };
+
     return <Dialog
         open={open}
         onClose={closeFn}
         slotProps={{
             paper: {
                 component: 'form',
+                style: {
+                  minWidth: '250px',
+                  minHeight: calculateDialogHeight(bookNames.length),
+                },
             },
         }}
     >
@@ -248,42 +261,45 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                     {doI18n("pages:content:pick_one_book_export", i18nRef.current)}
                 </Typography>
             </DialogContentText>
-            <Select
-                variant="standard"
-                displayEmpty
-                defaultOpen={true}
-                value={selectedBooks}
-                onChange={handleBooksChange}
-                input={<OutlinedInput/>}
-                renderValue={selected => {
-                    if (!selected) {
-                        return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
-                    }
-                    fileExport.current = selected;
-                    return doI18n(`scripture:books:${selected}`, i18nRef.current);
-                }}
-                MenuProps={{
-                    PaperProps: {
-                        style: {
-                            maxHeight: 224,
-                            width: 250,
-                        },
-                    }
-                }}
-                inputProps={{'aria-label': 'Without label'}}
-            >
-                <MenuItem disabled value="">
-                    <em>{doI18n("pages:content:books", i18nRef.current)}</em>
-                </MenuItem>
-                {bookNames.map((bookName) => (
-                    <MenuItem
-                        key={bookName}
-                        value={bookName}
-                    >
-                        {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
-                    </MenuItem>
-                ))}
-            </Select>
+            <FormControl fullWidth>
+              <Select
+                  variant="standard"
+                  displayEmpty
+                  defaultOpen={true}
+                  value={selectedBooks}
+                  onChange={handleBooksChange}
+                  input={<OutlinedInput/>}
+                  style={{
+                      position: 'relative',
+                      zIndex: 1 
+                    }}
+                  renderValue={selected => {
+                      if (!selected) {
+                          return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
+                      }
+                      fileExport.current = selected;
+                      return doI18n(`scripture:books:${selected}`, i18nRef.current);
+                  }}
+                  MenuProps={{
+                      PaperProps: {
+                          style: {
+                              maxHeight: 224,
+                              width: 250,
+                          },
+                      }
+                  }}
+                  inputProps={{'aria-label': 'Without label'}}
+              >
+                  {bookNames.map((bookName) => (
+                      <MenuItem
+                          key={bookName}
+                          value={bookName}
+                      >
+                          {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
+                      </MenuItem>
+                  ))}
+              </Select>
+            </FormControl>
             {selectedBooks &&
                 <DialogContentText>
                     <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
@@ -420,7 +436,10 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             <Button
                 variant="text"
                 color="primary"
-                onClick={closeFn}
+                onClick={() => {
+                  closeFn()
+                  setSelectedBooks(null);
+                }}
             >
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
