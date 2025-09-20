@@ -1,4 +1,4 @@
-import {useRef, useContext, useState} from 'react';
+import {useContext, useState} from 'react';
 import {
     Box,
     Button,
@@ -7,20 +7,21 @@ import {
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Select,
-    MenuItem,
-    OutlinedInput,
-    Typography
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+    useTheme,
 } from "@mui/material";
 import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import {saveAs} from 'file-saver';
+import Color from 'color';
 
 function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
-    const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState([]);
 
     const usfmExportOneBook = async bookCode => {
@@ -42,11 +43,15 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
         return true;
     }
 
-    const handleBooksChange = (event) => {
-        const value = event.target.value;
-        setSelectedBooks(
-            typeof value === 'string' ? value.split(',') : value,
-        );
+    // Lighten secondary.main color
+    const theme = useTheme();
+    const lightenedColor = Color(theme.palette.secondary.main).lighten(0.8).hex();
+    const lightenedColorHover = Color(theme.palette.secondary.main).lighten(0.999).hex();
+
+    const handleToggle = (item) => {
+      setSelectedBooks((prev) =>
+        prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+      );
     };
 
     return <Dialog
@@ -59,75 +64,55 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
         }}
     >
         <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
-        <DialogContent sx={{ mt: 1 }}>
+        <DialogContent sx={{ mt: 1 }} style={{ overflow: "hidden"}}>
+          <Box sx={{ maxHeight: '269px' }}>
             <DialogContentText>
                 <Typography>
                     {doI18n("pages:content:pick_one_or_more_books_export", i18nRef.current)}
                 </Typography>
             </DialogContentText>
-            <Select
-                variant="standard"
-                multiple
-                displayEmpty
-                defaultOpen={true}
-                value={selectedBooks}
-                onChange={handleBooksChange}
-                input={<OutlinedInput/>}
-                renderValue={(selected) => {
-                    if (selected.length === 0) {
-                        return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
-                    }
-                    fileExport.current = selected;
-                        return (
-                            <Box sx={{ whiteSpace: 'normal', wordWrap: 'break-word' }}>
-                              {selected
-                                  .map(s=>doI18n(`scripture:books:${s}`, i18nRef.current))
-                                  .join(', ')}
-                            </Box>
-                        );
-                }}
-                MenuProps={{
-                    PaperProps: {
-                        style: {
-                            maxHeight: 224,
-                            width: 250,
-                        },
-                    }
-                }}
-                inputProps={{'aria-label': 'Without label'}}
+            <List
+                dense
+                style={{ maxHeight: 300, overflowY: 'auto' }}
             >
-                <MenuItem disabled value="">
-                    <em>{doI18n("pages:content:books", i18nRef.current)}</em>
-                </MenuItem>
-                {bookNames.map((bookName) => (
-                    <MenuItem
+              {bookNames.map((bookName) => (
+                    <ListItem
                         key={bookName}
-                        value={bookName}
+                        button
+                        onClick={() => handleToggle(bookName)}
+                        sx={{
+                          backgroundColor: selectedBooks.includes(bookName) ? lightenedColor : 'transparent',
+                          '&:hover': {
+                            backgroundColor: selectedBooks.includes(bookName) ? lightenedColorHover : 'action.hover',
+                          },
+                        }}
                     >
-                        {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
-                    </MenuItem>
+                        <ListItemText primary={doI18n(`scripture:books:${bookName}`, i18nRef.current)} />
+                    </ListItem>
                 ))}
-            </Select>
+            </List>
+          </Box>
         </DialogContent>
         <DialogActions>
             <Button
                 variant="text"
                 color="primary"
-                onClick={closeFn}>
+                onClick={closeFn}
+            >
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
                 variant="contained"
                 color="primary"
-                disabled={!fileExport.current || fileExport.current.length === 0}
+                disabled={selectedBooks.length === 0}
                 onClick={() => {
-                    if (!fileExport.current || fileExport.current.length === 0) {
+                    if (!selectedBooks || selectedBooks.length === 0) {
                         enqueueSnackbar(
                             doI18n("pages:content:no_books_selected", i18nRef.current),
                             {variant: "warning"}
                         );
                     } else {
-                        fileExport.current.forEach(usfmExportOneBook);
+                        selectedBooks.forEach(usfmExportOneBook);
                     }
                     closeFn();
                 }}
