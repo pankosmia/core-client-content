@@ -97,7 +97,10 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             <Button
                 variant="text"
                 color="primary"
-                onClick={closeFn}
+                onClick={() => {
+                  closeFn()
+                  setSelectedBooks([]);
+                }}
             >
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
