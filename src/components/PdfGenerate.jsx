@@ -1,4 +1,4 @@
-import {useRef, useContext, useState} from 'react';
+import {useRef, useContext, useState, useEffect} from 'react';
 import {
     Button,
     Dialog,
@@ -26,7 +26,7 @@ import Looks3OutlinedIcon from '@mui/icons-material/Looks3Outlined';
 import ViewHeadlineOutlinedIcon from '@mui/icons-material/ViewHeadlineOutlined';
 import {Proskomma} from 'proskomma-core';
 import {SofriaRenderFromProskomma, render} from "proskomma-json-tools";
-import {getText, debugContext, i18nContext, doI18n, typographyContext} from "pithekos-lib";
+import {getText, debugContext, i18nContext, doI18n, typographyContext, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import { useAssumeGraphite } from "font-detect-rhl";
 import {getCVTexts, getBookName} from "../helpers/cv";
@@ -39,6 +39,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(null);
+    const [bookCodes, setBookCodes] = useState([]);
     const [showByVerse, setShowByVerse] = useState(false);
 
     const [showTitles, setShowTitles] = useState(true);
@@ -203,6 +204,21 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         setSelectedBooks(event.target.value);
     };
     
+    useEffect(
+        () => {
+            const doFetch = async () => {
+                const versificationResponse = await getJson("/content-utils/versification/eng", debugRef.current);
+                if (versificationResponse.ok) {
+                    setBookCodes(Object.keys(versificationResponse.json.maxVerses));
+                }
+            };
+            if (bookCodes.length === 0) {
+                doFetch().then();
+            }
+        },
+        []
+    );
+
     const [anchorEl, setAnchorEl] = useState(null);
     const openAnchor = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -290,12 +306,12 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                   }}
                   inputProps={{'aria-label': 'Without label'}}
               >
-                  {bookNames.map((bookName) => (
+                  {bookCodes.filter(item => bookNames.includes(item)).map((bookName) => (
                       <MenuItem
                           key={bookName}
                           value={bookName}
                       >
-                          {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
+                          {`${bookName} - ` + doI18n(`scripture:books:${bookName}`, i18nRef.current)}
                       </MenuItem>
                   ))}
               </Select>

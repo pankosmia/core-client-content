@@ -1,4 +1,4 @@
-import {useRef, useContext, useState} from 'react';
+import {useRef, useContext, useState, useEffect} from 'react';
 import {
     Box,
     Button,
@@ -15,7 +15,7 @@ import {
     RadioGroup,
     Select
 } from "@mui/material";
-import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
+import {getText, debugContext, i18nContext, doI18n, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import { useExportUsfmZip } from 'zip-project';
 
@@ -25,6 +25,7 @@ function ZipExport({bookNames, repoSourcePath, open, closeFn}) {
     const {debugRef} = useContext(debugContext);
     const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState(bookNames);
+    const [bookCodes, setBookCodes] = useState([]);
     const [zipSet, setZipSet] = useState('all');
     
     let newZip = [];
@@ -75,6 +76,21 @@ function ZipExport({bookNames, repoSourcePath, open, closeFn}) {
       }
     };
 
+    useEffect(
+        () => {
+            const doFetch = async () => {
+                const versificationResponse = await getJson("/content-utils/versification/eng", debugRef.current);
+                if (versificationResponse.ok) {
+                    setBookCodes(Object.keys(versificationResponse.json.maxVerses));
+                }
+            };
+            if (bookCodes.length === 0) {
+                doFetch().then();
+            }
+        },
+        []
+    );
+
     return <Dialog
         open={open}
         onClose={closeFn}
@@ -122,12 +138,12 @@ function ZipExport({bookNames, repoSourcePath, open, closeFn}) {
                     <MenuItem disabled value="">
                         <em>{doI18n("pages:content:books", i18nRef.current)}</em>
                     </MenuItem>
-                    {bookNames.map((bookName) => (
+                    {bookCodes.filter(item => bookNames.includes(item)).map((bookName) => (
                         <MenuItem
                             key={bookName}
                             value={bookName}
                         >
-                            {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
+                            {`${bookName} - ` + doI18n(`scripture:books:${bookName}`, i18nRef.current)}
                         </MenuItem>
                     ))}
                 </Select>
