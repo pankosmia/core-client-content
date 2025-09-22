@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import {
     Box,
     Button,
@@ -13,7 +13,7 @@ import {
     Typography,
     useTheme,
 } from "@mui/material";
-import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
+import {getText, debugContext, i18nContext, doI18n, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import {saveAs} from 'file-saver';
 import Color from 'color';
@@ -23,6 +23,7 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const [selectedBooks, setSelectedBooks] = useState([]);
+    const [bookCodes, setBookCodes] = useState([]);
 
     const usfmExportOneBook = async bookCode => {
         const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
@@ -54,6 +55,21 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
       );
     };
 
+    useEffect(
+        () => {
+            const doFetch = async () => {
+                const versificationResponse = await getJson("/content-utils/versification/eng", debugRef.current);
+                if (versificationResponse.ok) {
+                    setBookCodes(Object.keys(versificationResponse.json.maxVerses));
+                }
+            };
+            if (bookCodes.length === 0) {
+                doFetch().then();
+            }
+        },
+        []
+    );
+    
     return <Dialog
         open={open}
         onClose={closeFn}
@@ -70,12 +86,19 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                 <Typography>
                     {doI18n("pages:content:pick_one_or_more_books_export", i18nRef.current)}
                 </Typography>
+                {selectedBooks.length > 0 &&
+                      <Typography sx={{ ml: 2 }}>
+                        <em>
+                          {`${selectedBooks.length}/${bookNames.length} ${doI18n("pages:content:books_selected", i18nRef.current)}`}
+                        </em>
+                      </Typography>
+                }
             </DialogContentText>
             <List
                 dense
                 style={{ maxHeight: 300, overflowY: 'auto' }}
             >
-              {bookNames.map((bookName) => (
+              {bookCodes.filter(item => bookNames.includes(item)).map((bookName) => (
                     <ListItem
                         key={bookName}
                         button
@@ -87,7 +110,7 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
                           },
                         }}
                     >
-                        <ListItemText primary={doI18n(`scripture:books:${bookName}`, i18nRef.current)} />
+                        <ListItemText primary={`${bookName} - ` + doI18n(`scripture:books:${bookName}`, i18nRef.current)} />
                     </ListItem>
                 ))}
             </List>
