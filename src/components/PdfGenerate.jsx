@@ -230,8 +230,7 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
     function columnIcon( selectedColumns ) {
         let content;
-        console.log('column update');
-      
+
         switch (selectedColumns) {
           case 1:
             content = <LooksOneOutlinedIcon color='primary' />;
@@ -331,119 +330,110 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                             >
                             </Switch>
                         </ListItem>
-                    {!showByVerse 
-                        ?
-                            <>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowTitles(!showTitles)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_title", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowHeadings(!showHeadings)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showHeadings} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_headings", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowIntroductions(!showIntroductions)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showIntroductions} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_introductions", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowFootnotes(!showFootnotes)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showFootnotes} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_footnotes", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowXrefs(!showXrefs)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showXrefs} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_xrefs", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowParaStyles(!showParaStyles)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showParaStyles} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_para_styles", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowCharacterMarkup(!showCharacterMarkup)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showCharacterMarkup} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_character_markup", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowChapterLabels(!showChapterLabels)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showChapterLabels} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_chapter_labels", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowVersesLabels(!showVersesLabels)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showVersesLabels} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_verses_labels", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton onClick={() => setShowFirstVerseLabel(!showFirstVerseLabel)} dense>
-                                        <ListItemIcon>
-                                            <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
-                                        </ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:show_first_verse_label", i18nRef.current)} />
-                                    </ListItemButton>
-                                </ListItem>
-                                <ListItem disablePadding >
-                                    <ListItemButton
-                                        id="basic-button"
-                                        aria-controls={openAnchor ? 'basic-menu' : undefined}
-                                        aria-haspopup="true"
-                                        aria-expanded={openAnchor ? 'true' : undefined}
-                                        onClick={handleClick}
-                                        dense
-                                    >
-                                        <ListItemIcon>{columnIcon(selectedColumns)}</ListItemIcon>
-                                        <ListItemText primary={doI18n("pages:content:number_of_columns", i18nRef.current)} />
-                                    </ListItemButton>
-                                    <Menu
-                                        id="basic-menu"
-                                        anchorEl={anchorEl}
-                                        open={openAnchor}
-                                        onClose={handleClose}
-                                    >
-                                        <MenuItem onClick={() => {setSelectedColumns(1); handleClose()}}>1</MenuItem>
-                                        <MenuItem onClick={() => {setSelectedColumns(2); handleClose()}}>2</MenuItem>
-                                        <MenuItem onClick={() => {setSelectedColumns(3); handleClose()}}>3</MenuItem>
-                                    </Menu>
-                                </ListItem>
-                            </>
-                        :
-                            <>
-                                <ListItem disablePadding >
-                                </ListItem>
-                            </>
-                    }
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowTitles(!showTitles)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showTitles} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_title", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowHeadings(!showHeadings)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showHeadings} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_headings", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowIntroductions(!showIntroductions)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showIntroductions} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_introductions", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowFootnotes(!showFootnotes)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showFootnotes} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_footnotes", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowXrefs(!showXrefs)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showXrefs} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_xrefs", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowParaStyles(!showParaStyles)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showParaStyles} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_para_styles", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowCharacterMarkup(!showCharacterMarkup)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showCharacterMarkup} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_character_markup", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowChapterLabels(!showChapterLabels)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showChapterLabels} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_chapter_labels", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowVersesLabels(!showVersesLabels)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showVersesLabels} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_verses_labels", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton onClick={() => setShowFirstVerseLabel(!showFirstVerseLabel)} disabled={showByVerse} dense>
+                                <ListItemIcon>
+                                    <Checkbox edge="start" checked={showFirstVerseLabel} tabIndex={-1} disableRipple />
+                                </ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:show_first_verse_label", i18nRef.current)} />
+                            </ListItemButton>
+                        </ListItem>
+                        <ListItem disablePadding >
+                            <ListItemButton
+                                id="basic-button"
+                                aria-controls={openAnchor ? 'basic-menu' : undefined}
+                                aria-haspopup="true"
+                                aria-expanded={openAnchor ? 'true' : undefined}
+                                onClick={handleClick}
+                                disabled={showByVerse}
+                                dense
+                            >
+                                <ListItemIcon>{columnIcon(selectedColumns)}</ListItemIcon>
+                                <ListItemText primary={doI18n("pages:content:number_of_columns", i18nRef.current)} />
+                            </ListItemButton>
+                            <Menu
+                                id="basic-menu"
+                                anchorEl={anchorEl}
+                                open={openAnchor}
+                                onClose={handleClose}
+                            >
+                                <MenuItem onClick={() => {setSelectedColumns(1); handleClose()}}>1</MenuItem>
+                                <MenuItem onClick={() => {setSelectedColumns(2); handleClose()}}>2</MenuItem>
+                                <MenuItem onClick={() => {setSelectedColumns(3); handleClose()}}>3</MenuItem>
+                            </Menu>
+                        </ListItem>
                     </List>
                 </DialogContentText>
             }
