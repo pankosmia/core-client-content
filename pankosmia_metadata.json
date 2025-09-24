@@ -109,6 +109,10 @@
       "es": "Código del libro",
       "id": "Kode Buku"
     },
+    "books_selected": {
+      "en": "book(s) selected",
+      "id": "buku-buku yang ditunjukkan"
+    },
     "book_title": {
       "en": "Book Title",
       "fr": "Titre du livre",
