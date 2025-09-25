@@ -575,7 +575,7 @@
       "en": "Update",
       "fr": "Mettre à jour",
       "es": "Actualizar",
-      "id": "Perbarui"
+      "id": "Membarui"
     },
     "create_content_tn": {
       "en": "Translation Notes",
@@ -694,11 +694,13 @@
     },
     "update_remote": {
       "en": "Update remote",
-      "es": "Actualizar remoto"
+      "es": "Actualizar remoto",
+      "id": "Perbarui remote"
     },
     "pull_from_downloaded": {
       "en": "Pull from downloaded",
-      "fr": "Tirer depuis la version téléchargée"
+      "fr": "Tirer depuis la version téléchargée",
+      "id": "Tarik dari versi yang diunduh"
     },
     "dcs-username": {
       "en": "Username",
@@ -767,7 +769,8 @@
     },
     "could_not_make_branch": {
       "en": "Could not make branch",
-      "es": "No se pudo crear la rama"
+      "es": "No se pudo crear la rama",
+      "id": "Tidak dapat membuat cabang"
     },
     "version_manager": {
       "en": "Version manager",
@@ -786,71 +789,88 @@
     },
     "new_branch": {
       "en": "Branch name *",
-      "es": "Nombre de la rama *"
+      "es": "Nombre de la rama *",
+      "id": "Nama cabang *"
     },
     "add_branch": {
       "en": "ADD BRANCH",
-      "es": "CREAR RAMA"
+      "es": "CREAR RAMA",
+      "id": "Tambah cabang"
     },
     "remote_url_requirement": {
       "en": "URL should start with https://",
-      "es": "La URL debe empezar por https://"
+      "es": "La URL debe empezar por https://",
+      "id": "URL perlu dimulai dengan https://"
     },
     "do_update": {
       "en": "UPDATE",
-      "es": "ACTUALIZAR"
+      "es": "ACTUALIZAR",
+      "id": "MEMBARUI"
     },
     "could_not_copy_repo_to_updates": {
       "en": "Could not copy repo to updates",
-      "fr": "Impossible de copier le dépôt au dossier mises à jours"
+      "fr": "Impossible de copier le dépôt au dossier mises à jours",
+      "id": "Tidak dapat menyalin repo ke pembaruan"
     },
     "could_not_find_downloaded_remote": {
       "en": "Could not find downloaded remote for updates repo",
-      "fr": "Impossible de trouver le remote downloaded pour le dépôt de mises à jour"
+      "fr": "Impossible de trouver le remote downloaded pour le dépôt de mises à jour",
+      "id": "Tidak dapat menemukan remote yang diunduh untuk repo pembaruan"
     },
     "could_not_pull_to_update": {
       "en": "Could not pull to update",
-      "fr": "Impossible de tirer vers le dépôt de mises à jour"
+      "fr": "Impossible de tirer vers le dépôt de mises à jour",
+      "id": "Tidak dapat menarik untuk membarui"
     },
     "could_not_delete_update": {
       "en": "Could not delete update",
-      "fr": "Impossible d'effacer le dépôt de miser à jour"
+      "fr": "Impossible d'effacer le dépôt de miser à jour",
+      "id": "Tidak dapat menghapus pembaruan"
     },
     "could_not_add_update_remote_to_local": {
       "en": "Could not add update remote to editable repo",
-      "fr": "Impossible d'ajouter le remote update au dépôt éditable"
+      "fr": "Impossible d'ajouter le remote update au dépôt éditable",
+      "id": "Tidak dapat menambahkan pembaruan remote ke repo yang dapat diedit"
     },
     "could_not_remove_update_remote_from_local": {
       "en": "Could not remove update remote from local repo",
-      "fr": "Impossible d'enlever le remote update du dossier local"
+      "fr": "Impossible d'enlever le remote update du dossier local",
+      "id": "Tidak dapat menghapus pembaruan remote dari repo lokal"
     },
     "pulled": {
       "en": "Updates pulled from downloaded repo",
-      "fr": "Mises à jour récupérées du dépôt téléchargé"
+      "fr": "Mises à jour récupérées du dépôt téléchargé",
+      "id": "Pembaruan diambil dari repo yang diunduh"
     },
     "commit_helper_text": {
       "en": "Commits create history for your project. Use meaningful names. We suggest one commit a day to document progress.",
-      "es": "Las commits crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas un commit al día para documentar el progreso."
+      "es": "Las commits crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas un commit al día para documentar el progreso.",
+      "id": "Komit-komit menciptakan sejarah proyek. Gunakan nama yang bermakna. Kami menyarankan satu komitmen per hari untuk mendokumentasikan kemajuan."
     },
     "app_should_be_connected": {
-      "en": "Liminal should be connected to Internet.",
-      "es": "Liminal debe estar conectada a Internet."
+      "en": "This app should be connected to Internet.",
+      "es": "Esta aplicación debe estar conectada a Internet.",
+      "id": "Aplikasi ini perlu terhubung ke Internet."
     },
     "add_remote_repo_to_update": {
       "en": "Add remote repository URL to update",
-      "es": "Agregar URL del repositorio remoto para actualizar"
+      "es": "Agregar URL del repositorio remoto para actualizar",
+      "id": "Tambahkan URL repositori remote untuk membarui"
     },
     "update_without_latest_changes": {
       "en": "Update without latest changes?",
-      "es": "¿Acualizar sin los últimos cambios?"
+      "es": "¿Acualizar sin los últimos cambios?",
+      "id": "Perbarui tanpa perubahan terbaru?"
     },
     "uncommitted_changes": {
       "en": "You have uncommitted changes that won't be sent to the remote server.",
-      "es": "Tienes cambios sin hacer commit que no serán enviados al servidor remoto."
+      "es": "Tienes cambios sin hacer commit que no serán enviados al servidor remoto.",
+      "id": "Ada perubahan yang belum dikomit yang tidak akan dikirim ke server remote."
     },
     "update_anyways": {
-      "en": "Update anyways",
-      "es": "Actualizar de todas formas"
+      "en": "Update anyway",
+      "es": "Actualizar de todas formas",
+      "id": "Lanjutkan dan membarui"
     },
     "generate_pdf": {
       "en": "Generate a PDF",
