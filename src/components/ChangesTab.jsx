@@ -273,7 +273,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                             </Link> 
                         }
                         <Box sx={{width:'100%', flexGrow: 1}}>
-                            <Tooltip title={!enabledRef.current ? doI18n("pages:content:app_should_be_connected", i18nRef.current) : doI18n("pages:content:update_remote", i18nRef.current)}>
+                            <Tooltip title={!enabledRef.current ? doI18n("pages:content:operation_requires_internet", i18nRef.current) : doI18n("pages:content:update_remote", i18nRef.current)}>
                                 <span sx={{ display: 'inline-block' }}>
                                     <Button
                                         fullWidth
