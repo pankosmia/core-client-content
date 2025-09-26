@@ -848,10 +848,10 @@
       "id": "Komit-komit menciptakan sejarah proyek. Gunakan nama yang bermakna. Kami menyarankan satu komitmen per hari untuk mendokumentasikan kemajuan."
     },
     "operation_requires_internet": {
-      "en": "An Internet connection is required to continue (currently offline).",
-      "es": "Se requiere una conexión a Internet para continuar (actualmente está desconectado).",
-      "id": "Koneksi internet diperlukan untuk melanjutkan (saat ini terputus).",
-      "fr": "Il faut une connexion à l’Internet pour poursuivre (l’application est en mode hors ligne)."
+      "en": "An Internet connection is required to continue (currently offline)",
+      "es": "Se requiere una conexión a Internet para continuar (actualmente está desconectado)",
+      "id": "Koneksi internet diperlukan untuk melanjutkan (saat ini terputus)",
+      "fr": "Il faut une connexion à l’Internet pour poursuivre (l’application est en mode hors ligne)"
     },
     "add_remote_repo_to_update": {
       "en": "Add remote repository URL to update",
