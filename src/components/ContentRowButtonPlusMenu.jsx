@@ -1,16 +1,12 @@
 import {IconButton, Menu, MenuItem, Divider, ListItemText, Typography} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {i18nContext, doI18n, getJson, debugContext, netContext} from "pithekos-lib";
+import {i18nContext, doI18n, getJson, debugContext} from "pithekos-lib";
 import UsfmExport from "./UsfmExport";
 import ZipExport from "./ZipExport";
 import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
-import RemoteContent from "./RemoteContent";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
-import Commits from "./Commits";
-import AddAndCommit from "./AddAndCommit";
-import PushToDcs from "./PushToDcs";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
 import VersionManager from "./VersionManager";
@@ -24,7 +20,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
-    const {enabledRef} = useContext(netContext);
 
     const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
     const usfmExportOpen = Boolean(usfmExportAnchorEl);
@@ -41,23 +36,11 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const [copyContentAnchorEl, setCopyContentAnchorEl] = useState(null);
     const copyContentOpen = Boolean(copyContentAnchorEl);
 
-    const [remoteContentAnchorEl, setRemoteContentAnchorEl] = useState(null);
-    const remoteContentOpen = Boolean(remoteContentAnchorEl);
-
     const [archiveContentAnchorEl, setArchiveContentAnchorEl] = useState(null);
     const archiveContentOpen = Boolean(archiveContentAnchorEl);
 
     const [quarantineContentAnchorEl, setQuarantineContentAnchorEl] = useState(null);
     const quarantineContentOpen = Boolean(quarantineContentAnchorEl);
-
-    const [commitsAnchorEl, setCommitsAnchorEl] = useState(null);
-    const commitsOpen = Boolean(commitsAnchorEl);
-
-    const [addAndCommitAnchorEl, setAddAndCommitAnchorEl] = useState(null);
-    const addAndCommitOpen = Boolean(addAndCommitAnchorEl);
-
-    const [pushAnchorEl, setPushAnchorEl] = useState(null);
-    const pushOpen = Boolean(pushAnchorEl);
 
     const [pullAnchorEl, setPullAnchorEl] = useState(null);
     const pullOpen = Boolean(pullAnchorEl);
@@ -77,8 +60,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
     const [status, setStatus] = useState([]);
-    const [remotes, setRemotes] = useState([]);
-    const [remoteUrl, setRemoteUrl] = useState('');
 
     const handleSubMenuClick = (event) => {
       setSubMenuAnchorEl(event.currentTarget);
@@ -98,27 +79,9 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
         }
     };
 
-    const repoRemotes = async repo_path => { 
-        const remoteListUrl = `/git/remotes/${repo_path}`;
-        const remoteList = await getJson(remoteListUrl, debugRef.current);
-        if (remoteList.ok) {
-            setRemotes(remoteList.json.payload.remotes);
-            const originRecord = remoteList.json.payload.remotes.filter((p) => p.name === "origin")[0];
-            if (originRecord) {
-                setRemoteUrl(originRecord.url)
-            }
-        } else {
-            enqueueSnackbar(
-                doI18n("pages:content:could_not_list_remotes", i18nRef.current),
-                {variant: "error"}
-            )
-        }
-    };
-
     useEffect(() => {
         if (contentRowOpen) {
-            repoStatus(repoInfo.path).then();
-            repoRemotes(repoInfo.path).then();
+            repoStatus(repoInfo.path).then()
         }
     },
     [contentRowOpen]);
@@ -184,16 +147,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                     >
                         {doI18n("pages:content:copy_content", i18nRef.current)}
                     </MenuItem>
-                    {
-                        (repoInfo.path.split("/")[0] === "_local_" && repoInfo.path.split("/")[1] !== "_updates_") && <MenuItem
-                            onClick={(event) => {
-                                setRemoteContentAnchorEl(event.currentTarget);
-                                setContentRowAnchorEl(null);
-                            }}
-                        >
-                            {doI18n("pages:content:remote_content", i18nRef.current)}
-                        </MenuItem>
-                    }
                     <MenuItem
                         onClick={(event) => {
                             setArchiveContentAnchorEl(event.currentTarget);
@@ -215,42 +168,15 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                     {
                         repoInfo.path.includes("_local_/_local_") 
                         &&
-                        <>
-                            <MenuItem
-                                onClick={(event) => {
-                                    setCommitsAnchorEl(event.currentTarget);
-                                    setContentRowAnchorEl(null);
-                                }}
-                            >
-                                {doI18n("pages:content:commits", i18nRef.current)}
-                            </MenuItem>
-                            <MenuItem
-                                onClick={(event) => {
-                                    setAddAndCommitAnchorEl(event.currentTarget);
-                                    setContentRowAnchorEl(null);
-                                }}
-                            >
-                                {doI18n("pages:content:add_and_commit", i18nRef.current)}
-                            </MenuItem>
-                            <MenuItem
-                                onClick={(event) => {
-                                    setPushAnchorEl(event.currentTarget);
-                                    setContentRowAnchorEl(null);
-                                }}
-                                disabled={!enabledRef.current || status.length > 0 || remotes.length === 0 || !remoteUrl.startsWith("https://")}
-                            >
-                                {doI18n("pages:content:push_to_dcs", i18nRef.current)}
-                            </MenuItem>
-                            <MenuItem
-                                onClick={(event) => {
-                                    setPullAnchorEl(event.currentTarget);
-                                    setContentRowAnchorEl(null);
-                                }}
-                                disabled={status.length > 0}
-                            >
-                                {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
-                            </MenuItem>
-                        </>
+                        <MenuItem
+                            onClick={(event) => {
+                                setPullAnchorEl(event.currentTarget);
+                                setContentRowAnchorEl(null);
+                            }}
+                            disabled={status.length > 0}
+                        >
+                            {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
+                        </MenuItem>
                     }
                     <MenuItem
                         onClick={(event) => {
@@ -367,13 +293,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
-        <RemoteContent
-            repoInfo={repoInfo}
-            open={remoteContentOpen}
-            closeFn={() => setRemoteContentAnchorEl(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
         <ArchiveContent
             repoInfo={repoInfo}
             open={archiveContentOpen}
@@ -388,29 +307,10 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
-        <Commits
-            repoInfo={repoInfo}
-            open={commitsOpen}
-            closeFn={() => setCommitsAnchorEl(null)}
-        />
-        <AddAndCommit
-            repoInfo={repoInfo}
-            open={addAndCommitOpen}
-            closeFn={() => setAddAndCommitAnchorEl(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
         <PullFromDownloaded
             repoInfo={repoInfo}
             open={pullOpen}
             closeFn={() => setPullAnchorEl(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
-        <PushToDcs
-            repoInfo={repoInfo}
-            open={pushOpen}
-            closeFn={() => setPushAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
