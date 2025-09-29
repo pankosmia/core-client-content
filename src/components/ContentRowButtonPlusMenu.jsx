@@ -107,28 +107,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             isNormal ? 
                 <>
                     <MenuItem
-                        disabled={repoInfo.flavor !== "textTranslation"}
-                        onClick={handleSubMenuClick}
-                    >
-                        <ListItemText>
-                          {doI18n("pages:content:export", i18nRef.current)}
-                        </ListItemText>
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                          <ArrowRightIcon />
-                        </Typography>
-                        
-                    </MenuItem>
-                    <Divider/>
-                    <MenuItem
-                        onClick={(event) => {
-                            setVersionManagerAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
-                        }}
-                        disabled={!repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_updates_"}
-                    >
-                        {doI18n("pages:content:version_manager", i18nRef.current)}
-                    </MenuItem>
-                    <MenuItem
                         onClick={(event) => {
                             setNewBookAnchorEl(event.currentTarget);
                             setContentRowAnchorEl(null);
@@ -165,6 +143,19 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                     >
                         {doI18n("pages:content:quarantine_content", i18nRef.current)}
                     </MenuItem>
+                    <Divider/>
+                    <MenuItem
+                        disabled={repoInfo.flavor !== "textTranslation"}
+                        onClick={handleSubMenuClick}
+                    >
+                        <ListItemText>
+                          {doI18n("pages:content:export", i18nRef.current)}
+                        </ListItemText>
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                          <ArrowRightIcon />
+                        </Typography>
+                    </MenuItem>
+                    <Divider/>
                     {
                         repoInfo.path.includes("_local_/_local_") 
                         &&
@@ -178,6 +169,16 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                             {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
                         </MenuItem>
                     }
+                    <MenuItem
+                        onClick={(event) => {
+                            setVersionManagerAnchorEl(event.currentTarget);
+                            setContentRowAnchorEl(null);
+                        }}
+                        disabled={!repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_updates_"}
+                    >
+                        {doI18n("pages:content:version_manager", i18nRef.current)}
+                    </MenuItem>
+                    <Divider/>
                     <MenuItem
                         onClick={(event) => {
                             setDeleteContentAnchorEl(event.currentTarget);
