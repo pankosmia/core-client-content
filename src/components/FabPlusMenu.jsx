@@ -81,7 +81,7 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 color="primary"
                 size="small"
                 aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
-                onClick={event => setCreateAnchorEl(event.currentTarget)}
+               onClick={() => window.location.href = '/clients/modal-create-content?name=content'}
                 sx={{ml: 2}}
             >
                 <CreateNewFolderIcon  sx={{mr: 1}}/>
