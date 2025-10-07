@@ -693,7 +693,8 @@
       "id": "Tidak dapat ambil status internet"
     },
     "update_remote": {
-      "en": "Update remote",
+      "en": "Update server",
+      "fr": "Mettre à jour le serveur",
       "es": "Actualizar remoto",
       "id": "Perbarui remote"
     },
@@ -854,9 +855,8 @@
       "fr": "Il faut une connexion à l’Internet pour poursuivre (l’application est en mode hors ligne)"
     },
     "add_remote_repo_to_update": {
-      "en": "Add remote repository URL to update",
-      "es": "Agregar URL del repositorio remoto para actualizar",
-      "id": "Tambahkan URL repositori remote untuk membarui"
+      "en": "Configure server settings",
+      "fr": "Configurer les paramêtres du serveur"
     },
     "update_without_latest_changes": {
       "en": "Update without latest changes?",
