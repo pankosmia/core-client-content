@@ -159,26 +159,28 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                     {
                         repoInfo.path.includes("_local_/_local_") 
                         &&
-                        <MenuItem
-                            onClick={(event) => {
-                                setPullAnchorEl(event.currentTarget);
-                                setContentRowAnchorEl(null);
-                            }}
-                            disabled={status.length > 0}
-                        >
-                            {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
-                        </MenuItem>
+                        <>
+                            {/* <MenuItem
+                                onClick={(event) => {
+                                    setPullAnchorEl(event.currentTarget);
+                                    setContentRowAnchorEl(null);
+                                }}
+                                disabled={status.length > 0}
+                            >
+                                {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
+                            </MenuItem> */}
+                            <MenuItem
+                                onClick={(event) => {
+                                    setVersionManagerAnchorEl(event.currentTarget);
+                                    setContentRowAnchorEl(null);
+                                }}
+                                disabled={!repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_updates_"}
+                            >
+                                {doI18n("pages:content:version_manager", i18nRef.current)}
+                            </MenuItem>
+                            <Divider/>
+                        </>
                     }
-                    <MenuItem
-                        onClick={(event) => {
-                            setVersionManagerAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
-                        }}
-                        disabled={!repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_updates_"}
-                    >
-                        {doI18n("pages:content:version_manager", i18nRef.current)}
-                    </MenuItem>
-                    <Divider/>
                     <MenuItem
                         onClick={(event) => {
                             setDeleteContentAnchorEl(event.currentTarget);
