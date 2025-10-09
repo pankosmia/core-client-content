@@ -17,9 +17,11 @@ import {debugContext, i18nContext, netContext, doI18n, postJson, getJson} from "
 import {enqueueSnackbar} from "notistack";
 import {DataGrid} from '@mui/x-data-grid';
 import PushToDcs from './PushToDcs';
+import PullFromDownloaded from "./PullFromDownloaded";
 
 const Item = styled(Paper)(({ theme }) => ({
-    minHeight:'40vh',
+    minHeight:'38vh',
+    maxHeight:'38vh',
     /* width:'35vw', */
     width:'100%',
     ...theme.typography.body2,
@@ -44,6 +46,8 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
 
     const [pushAnchorEl, setPushAnchorEl] = useState(null);
     const pushOpen = Boolean(pushAnchorEl);
+    const [pullAnchorEl, setPullAnchorEl] = useState(null);
+    const pullOpen = Boolean(pullAnchorEl);
     
     const [updateAnywaysAnchorEl, setUpdateAnywaysAnchorEl] = useState(null);
     const updateAnywaysOpen = Boolean(updateAnywaysAnchorEl);
@@ -183,7 +187,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         }
     });
 
-    return <Box sx={{minHeight: "85vh"}}> 
+    return <Box sx={{height: "80vh"}}>
             <Stack
                 divider={<Divider orientation="horizontal" flexItem />}
                 spacing={2}
@@ -194,8 +198,8 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                 }}
             >
                 <Item>
-                    <Stack direction="column" spacing={2} sx={{ height:"40vh", alignItems:"flex-start", justifyContent:"flex-end" }}>
-                        <Box sx={{height:'65%', width:'100%', flexGrow: 1}}>
+                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"flex-end" }}>
+                        <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
                             {status.length > 0 
                                 ?
                                 <DataGrid
@@ -206,15 +210,13 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                     }}
                                     rows={statusRows}
                                     columns={statusColumns}
-                                    sx={{fontSize: "1rem"}}
+                                    sx={{fontSize: "1rem", height:'63%'}}
                                 />
                                 :
                                 <Typography variant="h6">
                                     {doI18n("pages:content:no_changes", i18nRef.current)}
                                 </Typography>
                             }
-                        </Box>
-                        <Box>
                             <TextField
                                 id="commit-message-input"
                                 fullWidth
@@ -225,6 +227,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                 required={true}
                                 disabled={status.length === 0}
                                 helperText={doI18n("pages:content:commit_helper_text", i18nRef.current)}
+                                sx={{mt:1}}
                             />
                             <Button
                                 fullWidth
@@ -238,8 +241,8 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                     </Stack>
                 </Item>
                 <Item>
-                    <Stack direction="column" spacing={2} sx={{ height:"40vh", alignItems:"flex-start", justifyContent:"flex-end" }}>
-                        <Box sx={{height:'90%', width:'100%', flexGrow: 1}}>
+                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"flex-end" }}>
+                        <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
                             {commits.length > 0 
                                 ?
                                 <DataGrid
@@ -250,29 +253,27 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                     }}
                                     rows={commitsRows}
                                     columns={commitsColumns}
-                                    sx={{fontSize: "1rem", size:'38vh'}}
+                                    sx={{fontSize: "1rem", height:'80%'}}
                                 />
                                 :
                                 <Typography variant="h6">
                                     {doI18n("pages:content:no_commits", i18nRef.current)}
                                 </Typography>
                             }
-                        </Box>
-                        {
-                            remotes.length === 0 && 
-                            <Link 
-                                component="button"
-                                variant="body2"
-                                onClick={() => {
-                                    setTabValue(1);
-                                    setRemoteUrlExists(false)
-                                }} 
-                                underline="always"
-                            >
-                                {doI18n("pages:content:add_remote_repo_to_update", i18nRef.current)}
-                            </Link> 
-                        }
-                        <Box sx={{width:'100%', flexGrow: 1}}>
+                            {
+                                remotes.length === 0 && 
+                                <Link 
+                                    component="button"
+                                    variant="body2"
+                                    onClick={() => {
+                                        setTabValue(1);
+                                        setRemoteUrlExists(false)
+                                    }} 
+                                    underline="always"
+                                >
+                                    {doI18n("pages:content:add_remote_repo_to_update", i18nRef.current)}
+                                </Link> 
+                            }
                             <Tooltip title={!enabledRef.current ? doI18n("pages:content:operation_requires_internet", i18nRef.current) : doI18n("pages:content:update_remote", i18nRef.current)}>
                                 <span sx={{ display: 'inline-block' }}>
                                     <Button
@@ -286,11 +287,22 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                                 setPushAnchorEl(event.currentTarget)
                                             }
                                         }}
+                                        sx={{mt:1}}
                                     >
                                         {doI18n("pages:content:update_remote", i18nRef.current)}
                                     </Button>
                                 </span>
                             </Tooltip>
+                            <Button
+                                fullWidth
+                                color='secondary'
+                                onClick={(event) => {
+                                    setPullAnchorEl(event.currentTarget)
+                                }}
+                                disabled={status.length > 0}
+                            >
+                                {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
+                            </Button>
                         </Box>
                     </Stack>
                 </Item>
@@ -302,6 +314,13 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                 reposModCount={reposModCount}
                 setReposModCount={setReposModCount}
                 status={status}
+            />
+            <PullFromDownloaded
+                repoInfo={repoInfo}
+                open={pullOpen}
+                closeFn={() => setPullAnchorEl(null)}
+                reposModCount={reposModCount}
+                setReposModCount={setReposModCount}
             />
             <Dialog
                 open={updateAnywaysOpen}
