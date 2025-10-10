@@ -95,7 +95,7 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 open={!!createAnchorEl}
                 onClose={handleCreateClose}
             >
-                <MenuItem onClick={handleTextBibleClick}>
+                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_text_translation#/textTranslation"}>
                     {doI18n("pages:content:create_content", i18nRef.current)}
                 </MenuItem>
                 <MenuItem onClick={() => {setResourceFormat(resourceFormatList[0]) ;handleBcvResourceClick()}}>
