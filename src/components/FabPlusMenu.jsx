@@ -107,7 +107,7 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 <MenuItem onClick={() => {setResourceFormat(resourceFormatList[2]) ;handleBcvResourceClick()}}>
                     {doI18n("pages:content:create_content_sq", i18nRef.current)}
                 </MenuItem>
-                <MenuItem onClick={handleOBSResourceClick}>
+                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_obs#/obsContent"}>
                     {doI18n("pages:content:create_content_obs", i18nRef.current)}
                 </MenuItem>
             </Menu>

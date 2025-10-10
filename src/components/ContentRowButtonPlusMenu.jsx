@@ -106,15 +106,23 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             {
             isNormal ? 
                 <>
-                    <MenuItem
-                        onClick={(event) => {
-                            setNewBookAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
-                        }}
+                    {/* <MenuItem
+                        onClick={() => window.location.href = "/clients/core-contenthandler_text_translation#/newBook"}
                         disabled={!["textTranslation"].includes(repoInfo.flavor)}
                     >
                         {doI18n("pages:content:new_book", i18nRef.current)}
-                    </MenuItem>
+                    </MenuItem>  */}
+                    <MenuItem
+                        onClick={() => {
+                            const form = document.createElement('form');
+                            form.method = 'POST'; 
+                            form.action = "/clients/core-contenthandler_text_translation#/newBook";
+                            document.body.appendChild(form);
+                            form.submit();
+                        }}
+                        >
+                         {doI18n("pages:content:new_book", i18nRef.current)}
+                        </MenuItem>
                     <Divider/>
                     <MenuItem
                         onClick={(event) => {
