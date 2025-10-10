@@ -1,26 +1,29 @@
-import {useRef, useContext, useState} from 'react';
+import {useContext, useState, useEffect} from 'react';
 import {
+    Box,
     Button,
     Dialog,
     DialogActions,
     DialogContent,
     DialogContentText,
     DialogTitle,
-    Select,
-    MenuItem,
-    OutlinedInput,
-    Typography
+    List,
+    ListItem,
+    ListItemText,
+    Typography,
+    useTheme,
 } from "@mui/material";
-import {getText, debugContext, i18nContext, doI18n} from "pithekos-lib";
+import {getText, debugContext, i18nContext, doI18n, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
 import {saveAs} from 'file-saver';
+import Color from 'color';
 
 function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
-    const fileExport = useRef();
     const [selectedBooks, setSelectedBooks] = useState([]);
+    const [bookCodes, setBookCodes] = useState([]);
 
     const usfmExportOneBook = async bookCode => {
         const bookUrl = `/burrito/ingredient/raw/${repoSourcePath}?ipath=${bookCode}.usfm`;
@@ -41,13 +44,32 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
         return true;
     }
 
-    const handleBooksChange = (event) => {
-        const value = event.target.value;
-        setSelectedBooks(
-            typeof value === 'string' ? value.split(',') : value,
-        );
+    // Lighten secondary.main color
+    const theme = useTheme();
+    const lightenedColor = Color(theme.palette.secondary.main).lighten(0.8).hex();
+    const lightenedColorHover = Color(theme.palette.secondary.main).lighten(0.999).hex();
+
+    const handleToggle = (item) => {
+      setSelectedBooks((prev) =>
+        prev.includes(item) ? prev.filter((i) => i !== item) : [...prev, item]
+      );
     };
 
+    useEffect(
+        () => {
+            const doFetch = async () => {
+                const versificationResponse = await getJson("/content-utils/versification/eng", debugRef.current);
+                if (versificationResponse.ok) {
+                    setBookCodes(Object.keys(versificationResponse.json.maxVerses));
+                }
+            };
+            if (bookCodes.length === 0) {
+                doFetch().then();
+            }
+        },
+        []
+    );
+    
     return <Dialog
         open={open}
         onClose={closeFn}
@@ -57,69 +79,72 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             },
         }}
     >
-        <DialogTitle><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
-        <DialogContent>
-            <Select
-                variant="standard"
-                multiple
-                displayEmpty
-                value={selectedBooks}
-                onChange={handleBooksChange}
-                input={<OutlinedInput/>}
-                renderValue={(selected) => {
-                    if (selected.length === 0) {
-                        return <em>{doI18n("pages:content:books", i18nRef.current)}</em>;
-                    }
-                    fileExport.current = selected;
-                    return selected
-                    .map(s=>doI18n(`scripture:books:${s}`, i18nRef.current))
-                    .join(', ');
-                }}
-                MenuProps={{
-                    PaperProps: {
-                        style: {
-                            maxHeight: 224,
-                            width: 250,
-                        },
-                    }
-                }}
-                inputProps={{'aria-label': 'Without label'}}
-            >
-                <MenuItem disabled value="">
-                    <em>{doI18n("pages:content:books", i18nRef.current)}</em>
-                </MenuItem>
-                {bookNames.map((bookName) => (
-                    <MenuItem
-                        key={bookName}
-                        value={bookName}
-                    >
-                        {doI18n(`scripture:books:${bookName}`, i18nRef.current)}
-                    </MenuItem>
-                ))}
-            </Select>
+        <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
+        <DialogContent sx={{ mt: 1 }} style={{ overflow: "hidden"}}>
+          <Box sx={{ maxHeight: '269px' }}>
             <DialogContentText>
                 <Typography>
                     {doI18n("pages:content:pick_one_or_more_books_export", i18nRef.current)}
                 </Typography>
+                {selectedBooks.length > 0 &&
+                      <Typography sx={{ ml: 2 }}>
+                        <em>
+                          {`${selectedBooks.length}/${bookNames.length} ${doI18n("pages:content:books_selected", i18nRef.current)}`}
+                        </em>
+                      </Typography>
+                }
             </DialogContentText>
+            <List
+                dense
+                style={{ maxHeight: 300, overflowY: 'auto' }}
+            >
+              {bookCodes.filter(item => bookNames.includes(item)).map((bookName) => (
+                    <ListItem
+                        key={bookName}
+                        button
+                        onClick={() => handleToggle(bookName)}
+                        sx={{
+                          backgroundColor: selectedBooks.includes(bookName) ? lightenedColor : 'transparent',
+                          '&:hover': {
+                            backgroundColor: selectedBooks.includes(bookName) ? lightenedColorHover : 'action.hover',
+                          },
+                        }}
+                    >
+                        <ListItemText primary={`${bookName} - ` + doI18n(`scripture:books:${bookName}`, i18nRef.current)} />
+                    </ListItem>
+                ))}
+            </List>
+          </Box>
         </DialogContent>
         <DialogActions>
-            <Button onClick={closeFn}>
+            <Button
+                variant="text"
+                color="primary"
+                onClick={() => {
+                  closeFn()
+                  setSelectedBooks([]);
+                }}
+            >
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
+                variant="contained"
+                color="primary"
+                disabled={selectedBooks.length === 0}
                 onClick={() => {
-                    if (!fileExport.current || fileExport.current.length === 0) {
+                    if (!selectedBooks || selectedBooks.length === 0) {
                         enqueueSnackbar(
                             doI18n("pages:content:no_books_selected", i18nRef.current),
                             {variant: "warning"}
                         );
                     } else {
-                        fileExport.current.forEach(usfmExportOneBook);
+                        selectedBooks.forEach(usfmExportOneBook);
                     }
                     closeFn();
                 }}
-            >{doI18n("pages:content:export_label", i18nRef.current)}</Button>
+            >
+                {doI18n("pages:content:export_label", i18nRef.current)}
+            </Button>
         </DialogActions>
     </Dialog>;
 }

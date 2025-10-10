@@ -8,78 +8,94 @@
     "title": {
       "en": "My Content",
       "fr": "Mon Contenu",
-      "es": "Mi Contenido"
+      "es": "Mi Contenido",
+      "id": "Konten Saya"
     },
     "summary": {
       "en": "View and manage my content, including content I am creating with others and resources I am using.",
       "fr": "Voir et gérer mon contenu, y compris des documents que je crée avec d'autres et ceux qui servent d'aide à la traduction.",
-      "es": "Ver y administrar mi contenido, incluyendo contenido que estoy creando con otros y recursos que estoy usando."
+      "es": "Ver y administrar mi contenido, incluyendo contenido que estoy creando con otros y recursos que estoy usando.",
+      "id": "Menampilkan dan mengelola konten saya, termasuk yg dibuat bersama orang lain dan sumber daya yg digunakan."
     },
     "close": {
-      "en":"close",
-      "es":"cerrar",
-      "fr": "fermer"
+      "en": "close",
+      "es": "cerrar",
+      "fr": "fermer",
+      "id": "tutup"
     },
     "new_content": {
-      "en":"New Content",
-      "es":"Nuevo Contenido",
-      "fr": "Nouveau Contenu"
+      "en": "New Content",
+      "es": "Nuevo Contenido",
+      "fr": "Nouveau Contenu",
+      "id": "Konten Baru"
     },
     "create": {
-      "en":"Create",
-      "es":"Crear",
-      "fr" : "Créer"
+      "en": "Create",
+      "es": "Crear",
+      "fr": "Créer",
+      "id": "Buat"
     },
     "name": {
-      "en":"Name",
-      "es":"Nombre",
-      "fr": "Nom"
+      "en": "Name",
+      "es": "Nombre",
+      "fr": "Nom",
+      "id": "Nama"
     },
     "abbreviation": {
-      "en":"Abbreviation",
-      "es":"Abreviación",
-      "fr": "Abréviation"
+      "en": "Abbreviation",
+      "es": "Abreviación",
+      "fr": "Abréviation",
+      "id": "Singkatan"
     },
     "type": {
-      "en":"Type",
-      "es":"Tipo",
-      "fr": "Type"
+      "en": "Type",
+      "es": "Tipo",
+      "fr": "Type",
+      "id": "Jenis"
     },
     "lang_code": {
-      "en":"Language Code ('und' for undetermined)",
-      "es":"Código del Idioma (si no está determinado, use 'und')",
-      "fr": "Code Langue (si non déterminé, utiliser 'und')"
+      "en": "Language Code ('und' for undetermined)",
+      "es": "Código del Idioma (si no está determinado, use 'und')",
+      "fr": "Code Langue (si non déterminé, utiliser 'und')",
+      "id": "Kode Bahasa ('und' buat yg tak dpt ditentukan)"
     },
     "fab_create": {
-      "en":"create",
-      "fr": "créer"
+      "en": "create",
+      "fr": "créer",
+      "id": "buat"
     },
     "fab_import": {
-      "en":"import",
-      "fr": "importer"
+      "en": "import",
+      "fr": "importer",
+      "id": "impor"
     },
     "create_content": {
-      "en":"Text Translation",
-      "fr":"Traduction (texte)"
+      "en": "Text Translation",
+      "fr": "Traduction (texte)",
+      "id": "Terjemahan Secara Tertulis"
     },
-    "create_content_obs":{
-      "en":"OBS Resource",
-      "fr":"Ressource OBS"
+    "create_content_obs": {
+      "en": "OBS Resource",
+      "fr": "Ressource OBS",
+      "id": "Sumber Daya CAT"
     },
-    "create_content_bcvresources":{
-      "en":"Book-Chapter-Verse Resource",
-      "fr":"Ressource livre-chapitre-verset (BCV)",
-      "es": "Nuevo contenido de recursos de Bcv"
+    "create_content_bcvresources": {
+      "en": "Book-Chapter-Verse Resource",
+      "fr": "Ressource livre-chapitre-verset (BCV)",
+      "es": "Nuevo contenido de recursos de Bcv",
+      "id": "Sumber Daya Buku-Fasal-Ayat"
     },
     "download_content": {
-      "en":"Download from Internet",
-      "es":"Descargar Contenido",
-      "fr": "Télécharger le contenu"
+      "en": "Download from Internet",
+      "es": "Descargar Contenido",
+      "fr": "Télécharger le contenu",
+      "id": "Unduh dari Internet"
     },
     "import_content": {
-      "en":"Import from computer",
-      "es":"Cargar Contenido",
-      "fr": "Importer manuellement le Contenu"
+      "en": "Import from computer",
+      "es": "Cargar Contenido",
+      "fr": "Importer manuellement le Contenu",
+      "id": "Impor dari komputer"
     },
     "import": {
       "en":"IMPORT",
@@ -105,609 +121,789 @@
       "id": "Unggahan file tidak sah:"
     },
     "add_book_checkbox": {
-      "en":"Add a Bible book",
-      "fr":"Ajouter un livre biblique",
-      "es": "Agregar un libro bíblico"
+      "en": "Add a Bible book",
+      "fr": "Ajouter un livre biblique",
+      "es": "Agregar un libro bíblico",
+      "id": "Tambah Buku Kitab Suci"
     },
     "book_code": {
-      "en":"Book Code",
-      "fr":"Code du livre",
-      "es": "Código del libro"
+      "en": "Book Code",
+      "fr": "Code du livre",
+      "es": "Código del libro",
+      "id": "Kode Buku"
+    },
+    "books_selected": {
+      "en": "book(s) selected",
+      "id": "buku-buku yang ditunjukkan"
     },
     "book_title": {
-      "en":"Book Title",
-      "fr":"Titre du livre",
-      "es": "Título del libro"
+      "en": "Book Title",
+      "fr": "Titre du livre",
+      "es": "Título del libro",
+      "id": "Judul Utama Buku"
     },
     "book_abbr": {
-      "en":"Book Abbreviation",
-      "fr":"Abbréviation du livre"
+      "en": "Book Abbreviation",
+      "fr": "Abbréviation du livre",
+      "id": "Singkatan Buku"
     },
     "content_created": {
-      "en":"Content created!",
-      "fr":"Contenu créé"
+      "en": "Content created!",
+      "fr": "Contenu créé",
+      "id": "Konten telah dibuat"
     },
     "content_creation_error": {
-      "en":"An error occurred while attempting to create Content",
-      "fr":"Une erreur est survenue pendant la création du contenu"
+      "en": "An error occurred while attempting to create Content",
+      "fr": "Une erreur est survenue pendant la création du contenu",
+      "id": "Kesalahan terjadi sambil coba buat konten"
     },
     "add_versification_checkbox": {
       "en": "Add empty chapters and verses",
-      "fr": "Ajouter des chapitres et des versets vides"
+      "fr": "Ajouter des chapitres et des versets vides",
+      "id": "Tambah fasal dan ayat kosong"
     },
     "versification_scheme": {
       "en": "Versification scheme",
-      "fr": "Schéma de versification"
+      "fr": "Schéma de versification",
+      "id": "Skema ayat"
     },
     "book_or_books": {
       "en": "book(s)",
-      "fr": "livre(s)"
+      "fr": "livre(s)",
+      "id": "buku atau buku-buku"
+    },
+    "export": {
+      "en": "Export",
+      "es": "Exportar",
+      "id": "Ekspor"
     },
     "export_usfm": {
-      "en": "Export USFM",
-      "es": "Exportar USFM"
+      "en": "Export as USFM",
+      "es": "Exportar como USFM",
+      "id": "Ekspor USFM"
     },
     "export_label": {
       "en": "EXPORT",
-      "es": "EXPORTAR"
+      "es": "EXPORTAR",
+      "id": "EKSPOR"
+    },
+    "export_zip": {
+      "en": "Export as ZIP",
+      "es": "Exportar como ZIP",
+      "id": "Ekspor sebagai ZIP"
     },
     "cancel": {
       "en": "CANCEL",
-      "es": "CANCELAR"
+      "es": "CANCELAR",
+      "id": "BATAL"
+    },
+    "export_all": {
+      "en": "Export all books",
+      "es": "Exportar todos los libros",
+      "id": "Ekspor semua buku"
     },
     "pick_one_book_export": {
       "en": "Choose a book to export",
-      "es": "Elige uno libro para exportar"
+      "es": "Elige uno libro para exportar",
+      "id": "Pilih buku buat diekspor"
     },
     "pick_one_or_more_books_export": {
       "en": "Choose one or more books to export",
-      "es": "Elige uno o más libros para exportar"
+      "es": "Elige uno o más libros para exportar",
+      "id": "Pilih satuh lebih buku buat diekspor"
     },
     "books": {
       "en": "Books",
-      "es": "Libros"
+      "es": "Libros",
+      "id": "Buku"
     },
     "export_as_usfm": {
       "en": "Export Content as USFM",
-      "es": "Exportar Contenido como USFM"
+      "es": "Exportar Contenido como USFM",
+      "id": "Ekspor konten sebagai USFM"
+    },
+    "export_as_zip": {
+      "en": "Export Content as ZIP",
+      "es": "Exportar Contenido como ZIP",
+      "id": "Ekspor Konten sebagai ZIP"
     },
     "save_book_file": {
       "en": "Save book file",
-      "es": "Guardar el archivo del libro"
+      "es": "Guardar el archivo del libro",
+      "id": "Simpan berkas data buku"
     },
     "saved": {
       "en": "Saved",
-      "es": "Se guardó"
+      "es": "Se guardó",
+      "id": "Telah disimpankan"
     },
     "to_download_folder": {
       "en": "to Download folder",
-      "es": "a la carpeta de Descargas"
+      "es": "a la carpeta de Descargas",
+      "id": "folder buat Unduh"
+    },
+    "contents": {
+      "en": "Contents",
+      "id": "Isi"
     },
     "could_not_fetch": {
       "en": "Could not fetch",
-      "es": "No se pudo obtener"
+      "es": "No se pudo obtener",
+      "id": "Tidak dapat ambil"
     },
     "local_org": {
       "en": "This computer",
-      "fr": "Cet ordinateur"
+      "fr": "Cet ordinateur",
+      "id": "Komputer ini"
     },
     "no_books_selected": {
       "en": "No books were selected so nothing was exported",
-      "fr": "Aucun livre n'a été selectionné pour exportation"
+      "fr": "Aucun livre n'a été selectionné pour exportation",
+      "id": "Buku tidak ditentukan jadi tidak ada ekspor"
     },
     "protestant_books_only": {
       "en": "List protestant books only",
-      "fr": "Proposer uniquement les livres protestants"
+      "fr": "Proposer uniquement les livres protestants",
+      "id": "Cantum hanya buku Protestan"
     },
     "export_docx": {
       "en": "Export as Word document",
-      "fr": "Exporter comme document Word"
+      "fr": "Exporter comme document Word",
+      "id": "Ekspor konten sebagai dokumen Word"
     },
-    "generate_pdf": {
-      "en": "Generate a PDF"
+    "export_pdf": {
+      "en": "Export as PDF",
+      "es": "Exportar como PDF",
+      "id": "Ekspor sebagai PDF"
     },
     "generate_as_pdf": {
-      "en": "Generate a PDF"
+      "en": "Generate a PDF",
+      "id": "Hasilkan PDF"
     },
     "delete_content": {
       "en": "Delete this content",
-      "fr": "Supprimer ce contenu"
+      "fr": "Supprimer ce contenu",
+      "id": "Hapus konten ini"
     },
     "repo_deleted": {
       "en": "Content deleted",
-      "fr": "Contenu effacé"
+      "fr": "Contenu effacé",
+      "id": "Konten telah dihapuskan"
     },
     "could_not_delete_repo": {
       "en": "Could not delete content",
-      "fr": "Impossible de supprimer le contenu"
+      "fr": "Impossible de supprimer le contenu",
+      "id": "Tidak dapat hapus konten"
     },
     "about_to_delete_content": {
       "en": "About to delete this content. This operation cannot be undone. Click \"cancel\" unless you are sure you want to delete this content permanently.",
-      "fra": "Vous êtes sur le point de supprimer ce contenu. Cette opération est permanent. Cliquez sur \"Annuler\", sauf si vous voulez vraiment effacer ce contenu de façon irréversible."
+      "fr": "Vous êtes sur le point de supprimer ce contenu. Cette opération est permanent. Cliquez sur \"Annuler\", sauf si vous voulez vraiment effacer ce contenu de façon irréversible.",
+      "id": "Akan menghapus konten ini. Operasi ini tidak dapat dibalikkan. Klik \"batal\" kecuali yakin ingin menghapus konten ini secara permanen."
     },
     "do_delete_button": {
       "en": "Delete",
-      "fr": "Supprimer"
+      "fr": "Supprimer",
+      "id": "Hapus"
     },
     "book_created": {
       "en": "Book created",
-      "fr": "Livre crée"
+      "fr": "Livre crée",
+      "id": "Buku telah dibuat"
     },
     "book_creation_error": {
       "en": "An error occurred: the book has not been created",
-      "fr": "Une erreur est survenue : le livre n'a pas été créé"
+      "fr": "Une erreur est survenue : le livre n'a pas été créé",
+      "id": "Kesalahan terjadi: Buku tidak jadi terbuat"
     },
     "new_book": {
-      "en":"New Book",
-      "fr":"Nouveau livre"
+      "en": "New Book",
+      "fr": "Nouveau livre",
+      "id": "Buku Baru"
     },
     "show_by_verse": {
       "en": "Show by verse",
-      "es": "Mostrar por versículos"
+      "es": "Mostrar por versículos",
+      "id": "Tampil per ayat"
     },
     "show_title": {
       "en": "Show title",
-      "es": "Mostrar el título"
+      "es": "Mostrar el título",
+      "id": "Tampil judul utama"
     },
     "show_headings": {
       "en": "Show headings",
-      "es": "Mostrar encabezados"
+      "es": "Mostrar encabezados",
+      "id": "Tampil judul-judul"
     },
     "show_introductions": {
       "en": "Show introductions",
-      "es": "Mostrar introducciones"
+      "es": "Mostrar introducciones",
+      "id": "Tampil pengantar-pengantar"
     },
     "show_footnotes": {
       "en": "Show footnotes",
-      "es": "Mostrar notas a pie de página"
+      "es": "Mostrar notas a pie de página",
+      "id": "Tampil catatan kaki"
     },
     "show_xrefs": {
       "en": "Show cross references",
-      "es": "Mostrar referencias cruzadas"
+      "es": "Mostrar referencias cruzadas",
+      "id": "Tampil referensi silang"
     },
     "show_para_styles": {
       "en": "Show paragraph styles",
-      "es": "Mostrar estilos de párrafo"
+      "es": "Mostrar estilos de párrafo",
+      "id": "Tampil gaya paragraf"
     },
     "show_character_markup": {
       "en": "Show character markup",
-      "es": "Mostrar el marcado de caracteres"
+      "es": "Mostrar el marcado de caracteres",
+      "id": "Tampil markup karakter"
     },
     "show_chapter_labels": {
       "en": "Show chapter labels",
-      "es": "Mostrar los nombres de los capítulos"
+      "es": "Mostrar los nombres de los capítulos",
+      "id": "Tampil label fasal"
     },
     "show_verses_labels": {
       "en": "Show verses labels",
-      "es": "Mostrar los nomnbres de los versículos"
+      "es": "Mostrar los nomnbres de los versículos",
+      "id": "Tampil label ayat"
     },
     "show_first_verse_label": {
       "en": "Show first verse label",
-      "es": "Mostrar el nombre del primer versículo"
+      "es": "Mostrar el nombre del primer versículo",
+      "id": "Tampil label ayat"
     },
     "number_of_columns": {
       "en": "Select the number of columns",
-      "es": "Seleccione el número de columnas"
+      "es": "Seleccione el número de columnas",
+      "id": "Pilih jumlah kolum-kolum"
     },
-    "resource_format":{
-      "fr":"Choix du format de la ressource"
+    "resource_format": {
+      "fr": "Choix du format de la ressource",
+      "id": "Choose resource format"
     },
-    "row_name":{
-      "en":"Name",
-      "fr":"Nom",
-      "es":"Nombre"
+    "row_name": {
+      "en": "Name",
+      "fr": "Nom",
+      "es": "Nombre",
+      "id": "Nama"
     },
-    "row_language":{
-      "en":"Language",
-      "fr":"Langue",
-      "es":"Idioma"
+    "row_language": {
+      "en": "Language",
+      "fr": "Langue",
+      "es": "Idioma",
+      "id": "Bahasa"
     },
-    "row_nbooks":{
-      "en":"Number of books",
-      "fr":"Nombre de livres",
-      "es":"Número de libros"
+    "row_nbooks": {
+      "en": "Number of books",
+      "fr": "Nombre de livres",
+      "es": "Número de libros",
+      "id": "Jumlah buku-buku"
     },
-    "row_type":{
-      "en":"Type",
-      "fr":"Type",
-      "es":"Tipo"
+    "row_type": {
+      "en": "Type",
+      "fr": "Type",
+      "es": "Tipo",
+      "id": "Jenis"
     },
-    "row_source":{
-      "en":"Source",
-      "fr":"Source",
-      "es":"Fuente"
+    "row_source": {
+      "en": "Source",
+      "fr": "Source",
+      "es": "Fuente",
+      "id": "Sumber"
     },
-    "row_date_updated":{
-      "en":"Date of update",
-      "fr":"Date de mise à jour",
-      "es":"Fecha de actualización"
+    "row_date_updated": {
+      "en": "Date of update",
+      "fr": "Date de mise à jour",
+      "es": "Fecha de actualización",
+      "id": "Tanggal pembaruan"
     },
-    "row_actions":{
-      "en":"Actions",
-      "fr":"Actions",
-      "es":"Acciones"
+    "row_actions": {
+      "en": "Actions",
+      "fr": "Actions",
+      "es": "Acciones",
+      "id": "Tindakan"
     },
-    "copy_content":{
-      "en":"Make local copy",
-      "fr":"Faire une copie locale",
-      "es":"Hacer una copia local"
+    "copy_content": {
+      "en": "Make local copy",
+      "fr": "Faire une copie locale",
+      "es": "Hacer una copia local",
+      "id": "Buat duplikat local"
     },
-    "about_to_copy_content":{
-      "en":"About to make a local copy",
-      "fr":"Sur le point de faire une copie locale",
-      "es":"A punto de hacer una copia local"
+    "about_to_copy_content": {
+      "en": "About to make a local copy",
+      "fr": "Sur le point de faire une copie locale",
+      "es": "A punto de hacer una copia local",
+      "id": "Duplikat local akan dibuat"
     },
-    "do_copy_button":{
-      "en":"Copy",
-      "fr":"Copier",
-      "es":"Copiar"
+    "do_copy_button": {
+      "en": "Copy",
+      "fr": "Copier",
+      "es": "Copiar",
+      "id": "Duplikasi"
     },
-    "could_not_copy_repo":{
-      "en":"Could not make a local copy",
-      "fr":"Impossible de faire une copie locale",
-      "es":"No se pudo hacer la copia local"
+    "could_not_copy_repo": {
+      "en": "Could not make a local copy",
+      "fr": "Impossible de faire une copie locale",
+      "es": "No se pudo hacer la copia local",
+      "id": "Tidak dapat buat duplikat local"
     },
-    "repo_copied":{
-      "en":"Content copied",
-      "fr":"Contenu copié",
-      "es":"Contenido copiado"
+    "repo_copied": {
+      "en": "Content copied",
+      "fr": "Contenu copié",
+      "es": "Contenido copiado",
+      "id": "Konten telah diduplikasikan"
     },
-    "quarantined_content":{
-      "en":"Quarantined content",
-      "fr":"Contenu en quarantaine",
-      "es":"Contenido en cuarentena"
+    "quarantined_content": {
+      "en": "Quarantined content",
+      "fr": "Contenu en quarantaine",
+      "es": "Contenido en cuarentena",
+      "id": "Konten yang dikarantina"
     },
-    "quarantine_content":{
-      "en":"Quarantine",
-      "fr":"Quarantaine",
-      "es":"Poner en cuarentena"
+    "quarantine_content": {
+      "en": "Quarantine",
+      "fr": "Quarantaine",
+      "es": "Poner en cuarentena",
+      "id": "Karintina"
     },
-    "about_to_quarantine_content":{
-      "en":"About to quarantine content",
-      "fr":"Sur la mise en quarantaine du contenu",
-      "es":"A punto de poner en cuarentena"
+    "about_to_quarantine_content": {
+      "en": "About to quarantine content",
+      "fr": "Sur la mise en quarantaine du contenu",
+      "es": "A punto de poner en cuarentena",
+      "id": "Konten akan dikarantina"
     },
-    "accept":{
-      "en":"Accept",
-      "fr":"Accepter",
-      "es":"Aceptar"
+    "accept": {
+      "en": "Accept",
+      "fr": "Accepter",
+      "es": "Aceptar",
+      "id": "Terima"
     },
-    "could_not_quarantine_repo":{
-      "en":"Could not quarantine content",
-      "fr":"N'a pas pu mettre en quarantaine le repo",
-      "es":"No se pudo poner en cuarentena"
+    "could_not_quarantine_repo": {
+      "en": "Could not quarantine content",
+      "fr": "N'a pas pu mettre en quarantaine le repo",
+      "es": "No se pudo poner en cuarentena",
+      "id": "Remote tidak dapat dikarantina"
     },
-    "repo_quarantined":{
-      "en":"Content quarantined",
-      "fr":"Le contenu a été mis en quarantaine",
-      "es":"Contenido puesto en cuarentena"
+    "repo_quarantined": {
+      "en": "Content quarantined",
+      "fr": "Le contenu a été mis en quarantaine",
+      "es": "Contenido puesto en cuarentena",
+      "id": "Konten telah dikarantinakan"
     },
-    "archived_content":{
-      "en":"Archived content",
-      "fr":"Contenu des archives",
-      "es":"Archivar contenido"
+    "archived_content": {
+      "en": "Archived content",
+      "fr": "Contenu des archives",
+      "es": "Archivar contenido",
+      "id": "Konten yang diarsipkan"
     },
-    "archive_content":{
-      "en":"Archive",
-      "fr":"Archives",
-      "es":"Archivar"
+    "archive_content": {
+      "en": "Archive",
+      "fr": "Archives",
+      "es": "Archivar",
+      "id": "Arsip"
     },
-    "about_to_archive_content":{
-      "en":"About to archive content",
-      "fr":"À propos de l'archivage du contenu",
-      "es":"A punto de archivar contenido"
+    "about_to_archive_content": {
+      "en": "About to archive content",
+      "fr": "À propos de l'archivage du contenu",
+      "es": "A punto de archivar contenido",
+      "id": "Konten akan diarsipkan"
     },
-    "could_not_archive_repo":{
-      "en":"Could not archive content",
-      "fr":"Le contenu n'a pas pu être archivé",
-      "es":"No se pudo archivar el contenido"
+    "could_not_archive_repo": {
+      "en": "Could not archive content",
+      "fr": "Le contenu n'a pas pu être archivé",
+      "es": "No se pudo archivar el contenido",
+      "id": "Tidak dapat arsip konten"
     },
-    "repo_archived":{
-      "en":"Content archived",
-      "fr":"Le contenu a été archivé",
-      "es":"Se archivó el contenido"
+    "repo_archived": {
+      "en": "Content archived",
+      "fr": "Le contenu a été archivé",
+      "es": "Se archivó el contenido",
+      "id": "Konten telah diarsipkan"
     },
-    "experiment_content":{
-      "en":"Content for experiment",
+    "experiment_content": {
+      "en": "Content for experiment",
       "fr": "Contenu de l'expérience",
-      "es": "Contedido para experimentar"
+      "es": "Contedido para experimentar",
+      "id": "Konten buat Percobaan"
     },
-    "restore_content":{
-      "en":"Restore content",
-      "fr":"Restaurer le contenu",
-      "es":"Restaurar contenido"
+    "restore_content": {
+      "en": "Restore content",
+      "fr": "Restaurer le contenu",
+      "es": "Restaurar contenido",
+      "id": "Pulihkan konten"
     },
-    "about_to_restore_content":{
-      "en":"About to restore content",
-      "fr":"À propos de la restauration du contenu",
-      "es":"A punto de restaurar el contenido"
+    "about_to_restore_content": {
+      "en": "About to restore content",
+      "fr": "À propos de la restauration du contenu",
+      "es": "A punto de restaurar el contenido",
+      "id": "Konten akan dipulihkan"
     },
-    "could_not_restore_repo":{
-      "en":"Could not restore content",
-      "fr":"Impossible de restaurer le contenu",
-      "es":"No se pudo restaurar el contenido"
+    "could_not_restore_repo": {
+      "en": "Could not restore content",
+      "fr": "Impossible de restaurer le contenu",
+      "es": "No se pudo restaurar el contenido",
+      "id": "konten tidak dapat dipulihkan"
     },
-    "repo_restored":{
-      "en":"Content restored",
-      "fr":"Contenu restauré",
-      "es":"Se restauró el contenido"
+    "repo_restored": {
+      "en": "Content restored",
+      "fr": "Contenu restauré",
+      "es": "Se restauró el contenido",
+      "id": "Konten telah dipulihkan"
     },
-    "remote_content":{
-      "en":"Remote Content",
-      "fr":"Serveur distant",
-      "es":"Contenido remoto"
+    "remote_content": {
+      "en": "Remote Content",
+      "fr": "Serveur distant",
+      "es": "Contenido remoto",
+      "id": "Konten Remote"
     },
-    "remote_name":{
-      "en":"Remote name",
-      "fr":"Nom ",
-      "es":"Nombre remoto"
+    "remote_name": {
+      "en": "Remote name",
+      "fr": "Nom ",
+      "es": "Nombre remoto",
+      "id": "Nama remote"
     },
-    "remote_repo_url":{
-      "en":"Remote server repository URL",
-      "fr":"URL du dépot du serveur distant",
-      "es":"URL del repositorio del servidor remoto"
+    "remote_repo_url": {
+      "en": "Remote server repository URL",
+      "fr": "URL du dépot du serveur distant",
+      "es": "URL del repositorio del servidor remoto",
+      "id": "url repo"
     },
-    "about_to_upload_content":{
-      "en":"About to upload content",
-      "fr":"Sur le point de télécharger du contenu",
-      "es":"A punto de subir el contenido"
+    "about_to_upload_content": {
+      "en": "About to upload content",
+      "fr": "Sur le point de télécharger du contenu",
+      "es": "A punto de subir el contenido",
+      "id": "Konten akan diunggah"
     },
-    "remote_repo_added":{
-      "en":"Added the remote repository",
-      "fr":"Ajout du référentiel distant",
-      "es":"Se agregó el repositorio remoto"
+    "remote_repo_added": {
+      "en": "Added the remote repository",
+      "fr": "Ajout du référentiel distant",
+      "es": "Se agregó el repositorio remoto",
+      "id": "Repositori remote telah ditambahkan"
     },
-    "could_not_fetch_list":{
-      "en":"Could not fetch the repo's remote list",
-      "fr":"Impossible de récupérer la liste des dépôts distants",
-      "es":"No se pudo obtener la lista remota del repositorio"
+    "could_not_fetch_list": {
+      "en": "Could not fetch the repo's remote list",
+      "fr": "Impossible de récupérer la liste des dépôts distants",
+      "es": "No se pudo obtener la lista remota del repositorio",
+      "id": "Tidak dapat ambit daftar remote repo"
     },
-    "could_not_add_remote_repo":{
-      "en":"Could not add the remote to repository",
-      "fr":"Impossible d'ajouter le référentiel distant",
-      "es":"No se pudo agregar el remoto al repositorio"
+    "could_not_add_remote_repo": {
+      "en": "Could not add the remote to repository",
+      "fr": "Impossible d'ajouter le référentiel distant",
+      "es": "No se pudo agregar el remoto al repositorio",
+      "id": "Tidak dapat tamba remote ke repositori"
     },
-    "update":{
-      "en":"Update",
-      "fr":"Mettre à jour",
-      "es":"Actualizar"
+    "update": {
+      "en": "Update",
+      "fr": "Mettre à jour",
+      "es": "Actualizar",
+      "id": "Membarui"
     },
-    "create_content_tn":{
-      "en":"Translation Notes",
-      "fr":"Notes de traduction",
-      "es":"Notas de traducción"
+    "create_content_tn": {
+      "en": "Translation Notes",
+      "fr": "Notes de traduction",
+      "es": "Notas de traducción",
+      "id": "Catatan buat Terjemahan"
     },
-    "create_content_tq":{
-      "en":"Translation Questions",
-      "fr":"Questions de traduction",
-      "es":"Preguntas de traducción"
+    "create_content_tq": {
+      "en": "Translation Questions",
+      "fr": "Questions de traduction",
+      "es": "Preguntas de traducción",
+      "id": "Pertanyaan buat Terjemahan"
     },
-    "create_content_sq":{
-      "en":"Study Questions",
-      "fr":"Questions d'étude",
-      "es":"Preguntas de estudio"
+    "create_content_sq": {
+      "en": "Study Questions",
+      "fr": "Questions d'étude",
+      "es": "Preguntas de estudio",
+      "id": "Pertanyaan-pertanyaan Studi"
     },
-    "required_field":{
-      "en":"* Required fields",
-      "fr":"* champs obligatoires"
+    "required_field": {
+      "en": "* Required fields",
+      "fr": "* champs obligatoires",
+      "id": "* Data yg diperlukan"
     },
-    "could_not_delete_remote":{
-      "en":"Could not delete remote",
-      "es":"No se pudo borrar el remoto"
+    "could_not_delete_remote": {
+      "en": "Could not delete remote",
+      "es": "No se pudo borrar el remoto",
+      "id": "Tidak dapat hapus remote"
     },
-    "could_not_list_remotes":{
-      "en":"Could not list remotes",
-      "es":"No se pudo encontrar la lista de remotos"
+    "could_not_list_remotes": {
+      "en": "Could not list remotes",
+      "es": "No se pudo encontrar la lista de remotos",
+      "id": "Tidak dapat cantum remote-remote"
     },
-    "sideloaded_content":{
-      "en":"Sideloaded content",
-      "es":"Contenido subido"
+    "sideloaded_content": {
+      "en": "Sideloaded content",
+      "es": "Contenido subido",
+      "id": "Konten yang diungguh dari samping"
     },
-    "content_updates":{
-      "en":"Content updates",
-      "es":"Actualizaciones del contenido"
+    "content_updates": {
+      "en": "Content updates",
+      "es": "Actualizaciones del contenido",
+      "id": "Pembaruhan konten"
     },
     "local_resource": {
       "en": "Local resource",
       "fr": "Ressource locale",
-      "es": "Recurso local"
+      "es": "Recurso local",
+      "id": "Sumber daya lokal"
     },
     "local_project": {
       "en": "Local project",
       "fr": "Projet local",
-      "es": "Proyecto local"
+      "es": "Proyecto local",
+      "id": "Proyek lokal"
     },
-    "commits":{
-      "en":"Commits",
-      "es":"Cambios"
+    "commits": {
+      "en": "Commits",
+      "es": "Cambios",
+      "id": "Komit-komit"
     },
-    "row_path":{
-      "en":"Path",
-      "es":"Dirección"
+    "row_path": {
+      "en": "Path",
+      "es": "Dirección",
+      "id": "Jalan"
     },
-    "status":{
-      "en":"Status",
-      "es":"Estado"
+    "status": {
+      "en": "Status",
+      "es": "Estado",
+      "id": "Status"
     },
-    "no_changes":{
-      "en":"No changes made",
-      "es":"No se hicieron cambios"
+    "no_changes": {
+      "en": "No changes made",
+      "es": "No se hicieron cambios",
+      "id": "Tidak ada perubahan yg dibuat"
     },
-    "add_and_commit":{
-      "en":"Add and commit",
-      "es":"Hacer commit"
+    "add_and_commit": {
+      "en": "Add and commit",
+      "es": "Hacer commit",
+      "id": "Tambah dan komit"
     },
-    "commit_message":{
-      "en":"Commit message",
-      "es":"Mensaje del commit"
+    "commit_message": {
+      "en": "Commit message",
+      "es": "Mensaje del commit",
+      "id": "Catatan komit"
     },
-    "about_to_commit_content":{
-      "en":"About to commit content",
-      "es":"A punto de hacer commit del contenido"
+    "about_to_commit_content": {
+      "en": "About to commit content",
+      "es": "A punto de hacer commit del contenido",
+      "id": "Konten akan dikomit"
     },
-    "commits_fetched":{
-      "en":"Commits successfully fetched",
-      "es":"Se han obtenido correctamente los commits"
+    "commits_fetched": {
+      "en": "Commits successfully fetched",
+      "es": "Se han obtenido correctamente los commits",
+      "id": "Komit-komit berhasil diambil"
     },
-    "could_not_fetch_commits":{
-      "en":"Failed to fetch commits",
-      "es":"No se pudo obtener los commits"
+    "could_not_fetch_commits": {
+      "en": "Failed to fetch commits",
+      "es": "No se pudo obtener los commits",
+      "id": "Tidak dapat ambil komit"
     },
-    "commit_complete":{
-      "en":"Commit complete",
-      "es":"Se completó el commit"
+    "commit_complete": {
+      "en": "Commit complete",
+      "es": "Se completó el commit",
+      "id": "Komit telah diselesaikan"
     },
-    "could_not_commit":{
-      "en":"Failed to commit",
-      "es":"No se pudo hacer el commit"
+    "could_not_commit": {
+      "en": "Failed to commit",
+      "es": "No se pudo hacer el commit",
+      "id": "Komit gagal"
     },
-    "could_not_fetch_internet_status":{
-      "en":"Could not fetch internet status",
-      "es":"No se pudo obtener el estado del internet"
+    "could_not_fetch_internet_status": {
+      "en": "Could not fetch internet status",
+      "es": "No se pudo obtener el estado del internet",
+      "id": "Tidak dapat ambil status internet"
     },
-    "update_remote":{
-      "en":"Update remote",
-      "es":"Actualizar remoto"
+    "update_remote": {
+      "en": "Update server",
+      "fr": "Mettre à jour le serveur",
+      "es": "Actualizar remoto",
+      "id": "Perbarui remote"
     },
-    "pull_from_downloaded":{
-      "en":"Pull from downloaded",
-      "fr":"Tirer depuis la version téléchargée"
+    "pull_from_downloaded": {
+      "en": "Pull from downloaded",
+      "fr": "Tirer depuis la version téléchargée",
+      "id": "Tarik dari versi yang diunduh"
     },
-    "dcs-username":{
-      "en":"Username",
-      "es":"Nombre de usuario"
+    "dcs-username": {
+      "en": "Username",
+      "es": "Nombre de usuario",
+      "id": "Nama pengguna"
     },
-    "dcs-password":{
-      "en":"Password",
-      "es":"Contraseña"
+    "dcs-password": {
+      "en": "Password",
+      "es": "Contraseña",
+      "id": "kata sandi"
     },
-    "could_not_fetch_status":{
-      "en":"Failed to fetch repo status",
-      "es":"No se pudo obtener el estado del repositorio"
+    "could_not_fetch_status": {
+      "en": "Failed to fetch repo status",
+      "es": "No se pudo obtener el estado del repositorio",
+      "id": "Tidak dapat ambil status"
     },
-    "no_commits":{
-      "en":"No commits made",
-      "es":"No se hicieron commits"
+    "no_commits": {
+      "en": "No commits made",
+      "es": "No se hicieron commits",
+      "id": "Tidak ada komit yg dibuat"
     },
-    "row_author":{
-      "en":"Author",
-      "es":"Autor"
+    "row_author": {
+      "en": "Author",
+      "es": "Autor",
+      "id": "Penulis"
     },
-    "row_date":{
-      "en":"Date",
-      "es":"Fecha"
+    "row_date": {
+      "en": "Date",
+      "es": "Fecha",
+      "id": "Tanggal"
     },
-    "row_message":{
-      "en":"Message",
-      "es":"Mensaje"
+    "row_message": {
+      "en": "Message",
+      "es": "Mensaje",
+      "id": "Informasi"
     },
-    "push_complete":{
-      "en":"Push complete",
-      "es":"Se completó el push"
+    "push_complete": {
+      "en": "Push complete",
+      "es": "Se completó el push",
+      "id": "Dorongan telah selesai"
     },
-    "could_not_push":{
-      "en":"Failed to push",
-      "es":"No se pudo hacer el push"
+    "could_not_push": {
+      "en": "Failed to push",
+      "es": "No se pudo hacer el push",
+      "id": "Dorong gagal"
     },
-    "branches":{
-      "en":"Current branch",
-      "es":"Rama actual"
+    "branches": {
+      "en": "Current branch",
+      "es": "Rama actual",
+      "id": "Cabang-cabang"
     },
-    "could_not_fetch_brances":{
-      "en":"Could not fetch repo's branches",
-      "es":"No se pudo obtener las ramas del repositorio"
+    "could_not_fetch_brances": {
+      "en": "Could not fetch repo's branches",
+      "es": "No se pudo obtener las ramas del repositorio",
+      "id": "Tidak dapat ambil cabang repo"
     },
-    "branch_switched":{
-      "en":"Branch switched",
-      "es":"Cambió de rama"
+    "branch_switched": {
+      "en": "Branch switched",
+      "es": "Cambió de rama",
+      "id": "Cabang telah diruba"
     },
-    "could_not_switch_branch":{
-      "en":"Could not switch branch",
-      "es":"No se pudo cambiar la rama"
+    "could_not_switch_branch": {
+      "en": "Could not switch branch",
+      "es": "No se pudo cambiar la rama",
+      "id": "Cabang tidak dapat diruba"
     },
-    "could_not_make_branch":{
-      "en":"Could not make branch",
-      "es":"No se pudo crear la rama"
+    "could_not_make_branch": {
+      "en": "Could not make branch",
+      "es": "No se pudo crear la rama",
+      "id": "Tidak dapat membuat cabang"
     },
-    "version_manager":{
-      "en":"Version manager",
-      "es":"Administrador de versiones"
+    "version_manager": {
+      "en": "Version manager",
+      "es": "Administrador de versiones",
+      "id": "Administrasi versi"
     },
-    "changes_tab":{
-      "en":"CHANGES",
-      "es":"CAMBIOS"
+    "changes_tab": {
+      "en": "CHANGES",
+      "es": "CAMBIOS",
+      "id": "Perubahan-perubahan"
     },
-    "settings_tab":{
-      "en":"SETTINGS",
-      "es":"CONFIGURACIÓN"
+    "settings_tab": {
+      "en": "SETTINGS",
+      "es": "CONFIGURACIÓN",
+      "id": "PENGATURAN"
     },
-    "new_branch":{
-      "en":"Branch name *",
-      "es":"Nombre de la rama *"
+    "new_branch": {
+      "en": "Branch name *",
+      "es": "Nombre de la rama *",
+      "id": "Nama cabang *"
     },
-    "add_branch":{
-      "en":"ADD BRANCH",
-      "es":"CREAR RAMA"
+    "add_branch": {
+      "en": "ADD BRANCH",
+      "es": "CREAR RAMA",
+      "id": "Tambah cabang"
     },
-    "remote_url_requirement":{
-      "en":"URL should start with https://",
-      "es":"La URL debe empezar por https://"
+    "remote_url_requirement": {
+      "en": "URL should start with https://",
+      "es": "La URL debe empezar por https://",
+      "id": "URL perlu dimulai dengan https://"
     },
-    "do_update":{
-      "en":"UPDATE",
-      "es":"ACTUALIZAR"
+    "do_update": {
+      "en": "UPDATE",
+      "es": "ACTUALIZAR",
+      "id": "MEMBARUI"
     },
     "could_not_copy_repo_to_updates": {
       "en": "Could not copy repo to updates",
-      "fr": "Impossible de copier le dépôt au dossier mises à jours"
+      "fr": "Impossible de copier le dépôt au dossier mises à jours",
+      "id": "Tidak dapat menyalin repo ke pembaruan"
     },
     "could_not_find_downloaded_remote": {
       "en": "Could not find downloaded remote for updates repo",
-      "fr": "Impossible de trouver le remote downloaded pour le dépôt de mises à jour"
+      "fr": "Impossible de trouver le remote downloaded pour le dépôt de mises à jour",
+      "id": "Tidak dapat menemukan remote yang diunduh untuk repo pembaruan"
     },
     "could_not_pull_to_update": {
       "en": "Could not pull to update",
-      "fr": "Impossible de tirer vers le dépôt de mises à jour"
+      "fr": "Impossible de tirer vers le dépôt de mises à jour",
+      "id": "Tidak dapat menarik untuk membarui"
     },
     "could_not_delete_update": {
       "en": "Could not delete update",
-      "fr": "Impossible d'effacer le dépôt de miser à jour"
+      "fr": "Impossible d'effacer le dépôt de miser à jour",
+      "id": "Tidak dapat menghapus pembaruan"
     },
     "could_not_add_update_remote_to_local": {
       "en": "Could not add update remote to editable repo",
-      "fr": "Impossible d'ajouter le remote update au dépôt éditable"
+      "fr": "Impossible d'ajouter le remote update au dépôt éditable",
+      "id": "Tidak dapat menambahkan pembaruan remote ke repo yang dapat diedit"
     },
     "could_not_remove_update_remote_from_local": {
       "en": "Could not remove update remote from local repo",
-      "fr": "Impossible d'enlever le remote update du dossier local"
+      "fr": "Impossible d'enlever le remote update du dossier local",
+      "id": "Tidak dapat menghapus pembaruan remote dari repo lokal"
     },
     "pulled": {
       "en": "Updates pulled from downloaded repo",
-      "fr": "Mises à jour récupérées du dépôt téléchargé"
+      "fr": "Mises à jour récupérées du dépôt téléchargé",
+      "id": "Pembaruan diambil dari repo yang diunduh"
     },
     "commit_helper_text": {
       "en": "Commits create history for your project. Use meaningful names. We suggest one commit a day to document progress.",
-      "es": "Las commits crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas un commit al día para documentar el progreso."
+      "es": "Las commits crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas un commit al día para documentar el progreso.",
+      "id": "Komit-komit menciptakan sejarah proyek. Gunakan nama yang bermakna. Kami menyarankan satu komitmen per hari untuk mendokumentasikan kemajuan."
     },
-    "app_should_be_connected": {
-      "en": "Liminal should be connected to Internet.",
-      "es": "Liminal debe estar conectada a Internet."
+    "operation_requires_internet": {
+      "en": "An Internet connection is required to continue (currently offline)",
+      "es": "Se requiere una conexión a Internet para continuar (actualmente está desconectado)",
+      "id": "Koneksi internet diperlukan untuk melanjutkan (saat ini terputus)",
+      "fr": "Il faut une connexion à l’Internet pour poursuivre (l’application est en mode hors ligne)"
     },
     "add_remote_repo_to_update": {
-      "en":"Add remote repository URL to update",
-      "es":"Agregar URL del repositorio remoto para actualizar"
+      "en": "Configure server settings",
+      "fr": "Configurer les paramêtres du serveur"
     },
     "update_without_latest_changes": {
-      "en":"Update without latest changes?",
-      "es":"¿Acualizar sin los últimos cambios?"
+      "en": "Update without latest changes?",
+      "es": "¿Acualizar sin los últimos cambios?",
+      "id": "Perbarui tanpa perubahan terbaru?"
     },
     "uncommitted_changes": {
-      "en":"You have uncommitted changes that won't be sent to the remote server.",
-      "es":"Tienes cambios sin hacer commit que no serán enviados al servidor remoto."
+      "en": "You have uncommitted changes that won't be sent to the remote server.",
+      "es": "Tienes cambios sin hacer commit que no serán enviados al servidor remoto.",
+      "id": "Ada perubahan yang belum dikomit yang tidak akan dikirim ke server remote."
     },
     "update_anyways": {
-      "en":"Update anyways",
-      "es":"Actualizar de todas formas"
+      "en": "Update anyway",
+      "es": "Actualizar de todas formas",
+      "id": "Lanjutkan dan membarui"
+    },
+    "generate_pdf": {
+      "en": "Generate a PDF",
+      "id": "Hasilkan PDF"
+    },
+    "push_to_dcs": {
+      "en": "Push",
+      "es": "Push",
+      "id": "Dorong"
     }
   }
 }
