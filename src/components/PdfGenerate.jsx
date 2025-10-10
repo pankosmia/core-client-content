@@ -31,6 +31,7 @@ import {enqueueSnackbar} from "notistack";
 import { useAssumeGraphite } from "font-detect-rhl";
 import {getCVTexts, getBookName} from "../helpers/cv";
 import GraphiteTest from './GraphiteTest';
+import TextDir from './helpers/TextDir';
 
 function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
 
@@ -53,7 +54,6 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     const [showVersesLabels, setShowVersesLabels] = useState(true);
     const [showFirstVerseLabel, setShowFirstVerseLabel] = useState(true);
     const [selectedColumns, setSelectedColumns] = useState(2);
-
 
     const isFirefox = useAssumeGraphite({});
 
@@ -181,6 +181,17 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         } else {
             throw new Error(`Unexpected pdfType '${pdfType}'`);
         }
+        const textDir = await TextDir(pdfHtml);
+        const cssFile = () => {
+          if (pdfType === "para") {
+            return (textDir === "ltr" ? "/app-resources/pdf/para_bible_page_styles.css" : "/app-resources/pdf/para_bible_page_styles_rtl.css");
+          } else {
+            return (textDir === "ltr" ? "/app-resources/pdf/bcv_bible_page_styles.css" : "/app-resources/pdf/bcv_bible_page_styles_rtl.css");
+          }
+        }
+        const sleep = (ms) => {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
         const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
         const server = window.location.origin;
         if (!isFirefox) newPage.document.body.innerHTML = `<div class="${adjSelectedFontClass}">${pdfHtml}</div>`
@@ -195,8 +206,14 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
         newPage.document.head.appendChild(fontSetLink);
         const link = document.createElement('link');
         link.rel="stylesheet";
-        link.href = pdfType === "para" ? `${server}/app-resources/pdf/para_bible_page_styles.css` : `${server}/app-resources/pdf/bcv_bible_page_styles.css`;
+        link.href = `${server}${cssFile()}`;
         newPage.document.head.appendChild(link)
+
+        // For a new window (!isFirefox) PagedJS can need more time (varies with content length) before textDir is applied
+        sleep(!isFirefox ? pdfHtml.length / 300 : 0).then(() => { 
+          newPage.document.body.setAttribute('dir', textDir);
+        });
+
         return true;
     }
 
