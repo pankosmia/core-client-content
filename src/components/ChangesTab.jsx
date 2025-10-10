@@ -10,7 +10,8 @@ import {
     Divider,
     Tooltip,
     Dialog, DialogContent, DialogContentText, DialogActions, AppBar, Toolbar,
-    Link
+    Link,
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import {debugContext, i18nContext, netContext, doI18n, postJson, getJson} from "pithekos-lib";
@@ -51,6 +52,18 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
     
     const [updateAnywaysAnchorEl, setUpdateAnywaysAnchorEl] = useState(null);
     const updateAnywaysOpen = Boolean(updateAnywaysAnchorEl);
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     const repoStatus = async repo_path => {
 
@@ -202,16 +215,28 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                         <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
                             {status.length > 0 
                                 ?
-                                <DataGrid
-                                    initialState={{
-                                        sorting: {
-                                            sortModel: [{ field: 'path', sort: 'asc' }],
-                                        }
-                                    }}
-                                    rows={statusRows}
-                                    columns={statusColumns}
-                                    sx={{fontSize: "1rem", height:'63%'}}
-                                />
+                                <TableContainer component={Paper}>
+                                    <Table sx={{ minWidth:"100%", height:250 }} size="small" aria-label="status dense table">
+                                        <TableHead>
+                                            <TableRow>
+                                                {statusColumns.map((s, n) => {
+                                                    return <TableCell align="left">{s.headerName}</TableCell>
+                                                })}
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {statusRows.map((row) => (
+                                                <TableRow
+                                                    key={row.status}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell component="th" scope="row">{row.status}</TableCell>
+                                                    <TableCell align="left">{row.path}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                                 :
                                 <Typography variant="h6">
                                     {doI18n("pages:content:no_changes", i18nRef.current)}
@@ -245,16 +270,57 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                         <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
                             {commits.length > 0 
                                 ?
-                                <DataGrid
-                                    initialState={{
-                                        sorting: {
-                                            sortModel: [{ field: 'date', sort: 'desc' }],
-                                        }
-                                    }}
-                                    rows={commitsRows}
-                                    columns={commitsColumns}
-                                    sx={{fontSize: "1rem", height:'80%'}}
-                                />
+                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                    <TableContainer sx={{ maxHeight: 440 }}>
+                                        <Table stickyHeader aria-label="commits sticky table">
+                                            <TableHead>
+                                                <TableRow>
+                                                {commitsColumns.map((column, n) => (
+                                                    <TableCell
+                                                    key={n}
+                                                    align={"left"}
+                                                    /* style={{ minWidth: column.minWidth }} */
+                                                    >
+                                                        {column.headerName}
+                                                    </TableCell>
+                                                ))}
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {commitsRows
+                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                                .map((row, n) => {
+                                                    return (
+                                                    <TableRow hover role="checkbox" tabIndex={-1} key={n}>
+                                                        <TableCell align="left">{row.author}</TableCell>
+                                                        <TableCell align="left">{row.date}</TableCell>
+                                                        <TableCell align="left">{row.message}</TableCell>
+                                                        {/* {commitsColumns.map((column) => {
+                                                        const value = row[column.id];
+                                                        return (
+                                                            <TableCell key={column.id} align={column.align}>
+                                                            {column.format && typeof value === 'number'
+                                                                ? column.format(value)
+                                                                : value}
+                                                            </TableCell>
+                                                        );
+                                                        })} */}
+                                                    </TableRow>
+                                                    );
+                                                })}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                    <TablePagination
+                                        rowsPerPageOptions={[10, 25, 100]}
+                                        component="div"
+                                        count={rows.length}
+                                        rowsPerPage={rowsPerPage}
+                                        page={page}
+                                        onPageChange={handleChangePage}
+                                        onRowsPerPageChange={handleChangeRowsPerPage}
+                                    />
+                                </Paper>
                                 :
                                 <Typography variant="h6">
                                     {doI18n("pages:content:no_commits", i18nRef.current)}
