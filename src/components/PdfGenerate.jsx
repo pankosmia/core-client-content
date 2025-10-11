@@ -189,30 +189,51 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             return (textDir === "ltr" ? "/app-resources/pdf/bcv_bible_page_styles.css" : "/app-resources/pdf/bcv_bible_page_styles_rtl.css");
           }
         }
-        const sleep = (ms) => {
-          return new Promise(resolve => setTimeout(resolve, ms));
-        }
-        const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
-        const server = window.location.origin;
-        if (!isFirefox) newPage.document.body.innerHTML = `<div class="${adjSelectedFontClass}">${pdfHtml}</div>`
-        isFirefox && newPage.document.write(`<div class="${adjSelectedFontClass}">${pdfHtml}</div>`);  
-        newPage.document.head.innerHTML = '<title>PDF Preview</title>'
-        const script = document.createElement('script')
-        script.src = `${server}/app-resources/pdf/paged.polyfill.js`;
-        newPage.document.head.appendChild(script)
-        const fontSetLink = document.createElement('link');
-        fontSetLink.rel="stylesheet";
-        fontSetLink.href="/webfonts/_webfonts.css";
-        newPage.document.head.appendChild(fontSetLink);
-        const link = document.createElement('link');
-        link.rel="stylesheet";
-        link.href = `${server}${cssFile()}`;
-        newPage.document.head.appendChild(link)
 
-        // For a new window (!isFirefox) PagedJS can need more time (varies with content length) before textDir is applied
-        sleep(!isFirefox ? pdfHtml.length / 300 : 0).then(() => { 
-          newPage.document.body.setAttribute('dir', textDir);
-        });
+        const openPreview = () => {
+          const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
+          const server = window.location.origin;
+
+          if (!isFirefox) newPage.document.body.innerHTML = `<div id="content" class="${adjSelectedFontClass}">${pdfHtml}</div>`
+          isFirefox && newPage.document.write(`<div id="content" class="${adjSelectedFontClass}">${pdfHtml}</div>`);  
+        
+          newPage.document.head.innerHTML = '<title>PDF Preview</title>'
+
+          const script = newPage.document.createElement('script')
+          script.src = `${server}/app-resources/pdf/paged.polyfill.js`;
+
+          // Return resolved promise after stylesheets have finished loading
+          const loadStylesheet = (href) => {
+            return new Promise((resolve) => {
+              const link = newPage.document.createElement('link');
+              link.rel = "stylesheet";
+              link.href = href;
+              link.onload = resolve;
+              newPage.document.head.appendChild(link);
+            });
+          };
+
+          // Load stylesheets
+          const handleLoadStyles = async () => {
+              await loadStylesheet("/webfonts/_webfonts.css");
+              await loadStylesheet(`${server}${cssFile()}`);
+          };
+          script.onload = () => {
+              const previewer = new newPage.Paged.Previewer(); // Access the Previewer
+              previewer.preview(newPage.document)
+                .then(() => {
+                  handleLoadStyles(); // Append stylesheets after PagedJS is ready.
+                  newPage.document.body.setAttribute('dir', textDir);  // Apply direction AFTER PagedJS is ready and stylesheets have finished loading.
+
+                });
+          };
+
+          // Append the script to the head to start final loading
+          newPage.document.head.appendChild(script)
+        };
+
+        // Call the function to open the preview
+        openPreview();
 
         return true;
     }
