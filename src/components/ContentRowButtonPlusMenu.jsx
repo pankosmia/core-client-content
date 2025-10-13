@@ -106,16 +106,11 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             {
             isNormal ? 
                 <>
-                    {/* <MenuItem
-                        onClick={() => window.location.href = "/clients/core-contenthandler_text_translation#/newBook"}
-                        disabled={!["textTranslation"].includes(repoInfo.flavor)}
-                    >
-                        {doI18n("pages:content:new_book", i18nRef.current)}
-                    </MenuItem>  */}
                     <MenuItem
                         onClick={() => {
-                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repopath=${repoInfo.path}&repoBC=${repoInfo.book_codes}`
+                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repopath=${repoInfo.path}&repoBC=${repoInfo.book_codes}`;
                         }}
+                        disabled={!["textTranslation"].includes(repoInfo.flavor)}
                         >
                          {doI18n("pages:content:new_book", i18nRef.current)}
                         </MenuItem>
