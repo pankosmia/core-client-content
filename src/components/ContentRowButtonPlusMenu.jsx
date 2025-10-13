@@ -116,7 +116,8 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                         onClick={() => {
                             const form = document.createElement('form');
                             form.method = 'POST'; 
-                            form.action = "/clients/core-contenthandler_text_translation#/newBook";
+                            form.action = "/clients/core-contenthandler_text_translation#/newBook"
+                            ;
                             document.body.appendChild(form);
                             form.submit();
                         }}
