@@ -11,7 +11,7 @@ import {
     Tooltip,
     Dialog, DialogContent, DialogContentText, DialogActions, AppBar, Toolbar,
     Link,
-    Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import {debugContext, i18nContext, netContext, doI18n, postJson, getJson} from "pithekos-lib";
@@ -53,8 +53,8 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
     const [updateAnywaysAnchorEl, setUpdateAnywaysAnchorEl] = useState(null);
     const updateAnywaysOpen = Boolean(updateAnywaysAnchorEl);
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -211,12 +211,12 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                 }}
             >
                 <Item>
-                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"flex-end" }}>
-                        <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
+                    <Stack direction="column" spacing={0} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"space-between" }}>
+                        <Box sx={{width:'100%'}}>
                             {status.length > 0 
                                 ?
                                 <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth:"100%", height:250 }} size="small" aria-label="status dense table">
+                                    <Table sx={{ minWidth:"100%"}} size="small" aria-label="status dense table">
                                         <TableHead>
                                             <TableRow>
                                                 {statusColumns.map((s, n) => {
@@ -242,6 +242,8 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                     {doI18n("pages:content:no_changes", i18nRef.current)}
                                 </Typography>
                             }
+                        </Box>
+                        <Box>
                             <TextField
                                 id="commit-message-input"
                                 fullWidth
@@ -266,20 +268,20 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                     </Stack>
                 </Item>
                 <Item>
-                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"flex-end" }}>
-                        <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
+                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"space-between" }}>
+                        <Box sx={{width:'100%'}}>
                             {commits.length > 0 
                                 ?
                                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                                    <TableContainer sx={{ maxHeight: 440 }}>
-                                        <Table stickyHeader aria-label="commits sticky table">
+                                    <TableContainer sx={{ maxHeight: {xs:50, md: 100, lg: 230 }}}>
+                                        <Table stickyHeader aria-label="commits sticky table" sx={{ tableLayout: 'fixed' }}>
                                             <TableHead>
                                                 <TableRow>
                                                 {commitsColumns.map((column, n) => (
                                                     <TableCell
-                                                    key={n}
-                                                    align={"left"}
-                                                    /* style={{ minWidth: column.minWidth }} */
+                                                        key={n}
+                                                        align={"left"}
+                                                        sx={{ width: '33%', whiteSpace: 'normal', wordBreak: 'break-word',}}
                                                     >
                                                         {column.headerName}
                                                     </TableCell>
@@ -292,19 +294,9 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                                 .map((row, n) => {
                                                     return (
                                                     <TableRow hover role="checkbox" tabIndex={-1} key={n}>
-                                                        <TableCell align="left">{row.author}</TableCell>
-                                                        <TableCell align="left">{row.date}</TableCell>
-                                                        <TableCell align="left">{row.message}</TableCell>
-                                                        {/* {commitsColumns.map((column) => {
-                                                        const value = row[column.id];
-                                                        return (
-                                                            <TableCell key={column.id} align={column.align}>
-                                                            {column.format && typeof value === 'number'
-                                                                ? column.format(value)
-                                                                : value}
-                                                            </TableCell>
-                                                        );
-                                                        })} */}
+                                                        <TableCell sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.author}</TableCell>
+                                                        <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.date}</TableCell>
+                                                        <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.message}</TableCell>
                                                     </TableRow>
                                                     );
                                                 })}
@@ -314,7 +306,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                     <TablePagination
                                         rowsPerPageOptions={[10, 25, 100]}
                                         component="div"
-                                        count={rows.length}
+                                        count={commitsRows.length}
                                         rowsPerPage={rowsPerPage}
                                         page={page}
                                         onPageChange={handleChangePage}
@@ -326,6 +318,8 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                     {doI18n("pages:content:no_commits", i18nRef.current)}
                                 </Typography>
                             }
+                        </Box>
+                        <Box sx={{/* height:'100%', */ width:'100%'/* , flexGrow: 1 */}}>
                             {
                                 remotes.length === 0 && 
                                 <Link 
@@ -353,7 +347,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                                 setPushAnchorEl(event.currentTarget)
                                             }
                                         }}
-                                        sx={{mt:1}}
+                                        /* sx={{mt:1}} */
                                     >
                                         {doI18n("pages:content:update_remote", i18nRef.current)}
                                     </Button>
