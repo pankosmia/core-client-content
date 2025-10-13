@@ -114,12 +114,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                     </MenuItem>  */}
                     <MenuItem
                         onClick={() => {
-                            const form = document.createElement('form');
-                            form.method = 'POST'; 
-                            form.action = "/clients/core-contenthandler_text_translation#/newBook"
-                            ;
-                            document.body.appendChild(form);
-                            form.submit();
+                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repopath=${repoInfo.path}&repoBC=${repoInfo.book_codes}`
                         }}
                         >
                          {doI18n("pages:content:new_book", i18nRef.current)}
