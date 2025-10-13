@@ -62,7 +62,7 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button color="warning" onClick={closeFn}>
+            <Button color="primary" onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button

@@ -61,7 +61,7 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button color="warning" onClick={closeFn}>
+            <Button color="primary" onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button

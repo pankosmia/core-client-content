@@ -1,5 +1,6 @@
 import {useContext, useState, useEffect} from 'react';
 import {
+    AppBar,
     Box,
     Button,
     Dialog,
@@ -10,6 +11,7 @@ import {
     List,
     ListItem,
     ListItemText,
+    Toolbar,
     Typography,
     useTheme,
 } from "@mui/material";
@@ -79,7 +81,14 @@ function UsfmExport({bookNames, repoSourcePath, open, closeFn}) {
             },
         }}
     >
-        <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:export_as_usfm", i18nRef.current)}</b></DialogTitle>
+          <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+            <Toolbar>
+                <Typography variant="h6" component="div">
+                  {doI18n("pages:content:export_as_usfm", i18nRef.current)}
+                </Typography>
+
+            </Toolbar>
+        </AppBar>
         <DialogContent sx={{ mt: 1 }} style={{ overflow: "hidden"}}>
           <Box sx={{ maxHeight: '269px' }}>
             <DialogContentText>
