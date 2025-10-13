@@ -61,6 +61,21 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
     /** adjSelectedFontClass reshapes selectedFontClass if Graphite is absent. */
     const adjSelectedFontClass = isGraphite ? typographyRef.current.font_set : typographyRef.current.font_set.replace(/Pankosmia-AwamiNastaliq(.*)Pankosmia-NotoNastaliqUrdu/ig, 'Pankosmia-NotoNastaliqUrdu');
 
+    /** Get computed font styles to speed pdf load time by eliminating _webfonts.css load.
+     *  We could do this without a tempElement if we use adjSelectedFontClass on an existing element with
+     * const computedStyles = window.getComputedStyle(elementRef.current); */
+    const [adjSelectedFontFamilies, setAdjSelectedFontFamilies] = useState(null);
+    useEffect(() => {
+      const tempElement = document.createElement('div'); // Temporary element with adjSelectedFontClass className
+      tempElement.className = adjSelectedFontClass;
+      document.body.appendChild(tempElement);
+
+      const computedStyles = window.getComputedStyle(tempElement); // Get font-family from adjSelectedFontClass
+      setAdjSelectedFontFamilies(computedStyles.fontFamily);
+
+      document.body.removeChild(tempElement); // Remove temporary element
+    }, [adjSelectedFontClass]);
+
     const generatePdf = async (bookCode, pdfType="para") => {
         let pdfHtml;
         if (pdfType === "para") {
@@ -190,17 +205,41 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
           }
         }
 
+        // Extract names of font css files called by the font class
+        const parts = adjSelectedFontClass.replace("fonts-", "").split("Pankosmia-");
+        const formatPart = (part) => {
+            return part.replace(/([a-z])(?=[A-Z])/g, '$1_').replace(/SILSR/g, 'SIL_SR'); // Insert underscores between lowercase and uppercase letters and handle SILSR
+        };
+        const fontUrlFilenames = parts.map((part) => {
+            const formattedPart = formatPart(part);
+            return formattedPart ? `/webfonts/pankosmia-${formattedPart}.css` : '';
+        }).filter(Boolean); // Remove empty values
+
+        const adjSelectedFontFamiliesStr = adjSelectedFontFamilies.replace(/"/g, "'");
+
+        const sleep = (ms) => {
+          return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
         const openPreview = () => {
           const newPage = isFirefox ? window.open("", "_self") : window.open('about:blank', '_blank');
           const server = window.location.origin;
 
-          if (!isFirefox) newPage.document.body.innerHTML = `<div id="content" class="${adjSelectedFontClass}">${pdfHtml}</div>`
-          isFirefox && newPage.document.write(`<div id="content" class="${adjSelectedFontClass}">${pdfHtml}</div>`);  
+          // Write initial content
+          const contentHTML = `<div id="content" style="font-family: ${adjSelectedFontFamiliesStr};">${pdfHtml}</div>`;
+          if (!isFirefox) {
+            newPage.document.body.innerHTML = contentHTML
+          } else {
+            newPage.document.write(contentHTML);
+            newPage.document.close();
+          }
         
+          // Setup document head
           newPage.document.head.innerHTML = '<title>PDF Preview</title>'
 
           const script = newPage.document.createElement('script')
           script.src = `${server}/app-resources/pdf/paged.polyfill.js`;
+          // script.defer = true; // Non-blocking script
 
           // Return resolved promise after stylesheets have finished loading
           const loadStylesheet = (href) => {
@@ -212,21 +251,28 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
               newPage.document.head.appendChild(link);
             });
           };
-
+          
           // Load stylesheets
           const handleLoadStyles = async () => {
-              await loadStylesheet("/webfonts/_webfonts.css");
+              await fontUrlFilenames.forEach(loadStylesheet);
               await loadStylesheet(`${server}${cssFile()}`);
           };
           script.onload = () => {
               const previewer = new newPage.Paged.Previewer(); // Access the Previewer
               previewer.preview(newPage.document)
                 .then(() => {
-                  handleLoadStyles(); // Append stylesheets after PagedJS is ready.
-                  newPage.document.body.setAttribute('dir', textDir);  // Apply direction AFTER PagedJS is ready and stylesheets have finished loading.
-
+                  return handleLoadStyles(); // Append stylesheets after PagedJS is ready.
+                })
+                .then(() => {
+                  // These time estimates are for Electron. Browsers need around 1/3rd of this time.
+                  if (textDir === 'rtl') {
+                    sleep(pdfHtml.length / 17)
+                      .then(() => {
+                        newPage.document.body.setAttribute('dir', textDir);  // Apply direction AFTER PagedJS is ready and stylesheets have finished loading.
+                      });
+                  }
                 });
-          };
+              };
 
           // Append the script to the head to start final loading
           newPage.document.head.appendChild(script)
