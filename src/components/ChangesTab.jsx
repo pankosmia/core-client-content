@@ -16,14 +16,12 @@ import {
 import { styled } from '@mui/material/styles';
 import {debugContext, i18nContext, netContext, doI18n, postJson, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
-import {DataGrid} from '@mui/x-data-grid';
 import PushToDcs from './PushToDcs';
 import PullFromDownloaded from "./PullFromDownloaded";
 
 const Item = styled(Paper)(({ theme }) => ({
     minHeight:'38vh',
     maxHeight:'38vh',
-    /* width:'35vw', */
     width:'100%',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -148,13 +146,11 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         {
             field: 'status',
             headerName: doI18n("pages:content:status", i18nRef.current),
-            /* minWidth: 200, */
             flex: 3
         },
         {
             field: 'path',
             headerName: doI18n("pages:content:row_path", i18nRef.current),
-           /*  minWidth: 200, */
             flex: 3
         }
     ];
@@ -172,20 +168,14 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         {
             field: 'author',
             headerName: doI18n("pages:content:row_author", i18nRef.current),
-            /* minWidth: 200, */
-            /* flex: 5 */
         },
         {
             field: 'date',
             headerName: doI18n("pages:content:row_date", i18nRef.current),
-            /* minWidth: 200, */
-            /* flex: 5 */
         },
         {
             field: 'message',
             headerName: doI18n("pages:content:row_message", i18nRef.current),
-           /*  minWidth: 200, */
-            /* flex: 5 */
         }
     ];
 
@@ -319,7 +309,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                 </Typography>
                             }
                         </Box>
-                        <Box sx={{/* height:'100%', */ width:'100%'/* , flexGrow: 1 */}}>
+                        <Box sx={{width:'100%'}}>
                             {
                                 remotes.length === 0 && 
                                 <Link 
@@ -347,7 +337,6 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                                 setPushAnchorEl(event.currentTarget)
                                             }
                                         }}
-                                        /* sx={{mt:1}} */
                                     >
                                         {doI18n("pages:content:update_remote", i18nRef.current)}
                                     </Button>
