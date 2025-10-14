@@ -42,6 +42,9 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
                 component: 'form',
             },
         }}
+        sx={{    
+            backdropFilter: "blur(3px)",
+        }}
     >
         <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
             <Toolbar>
