@@ -42,6 +42,9 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
                 component: 'form',
             },
         }}
+        sx={{    
+            backdropFilter: "blur(3px)",
+        }}
     >
         <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
             <Toolbar>
@@ -62,7 +65,7 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button color="warning" onClick={closeFn}>
+            <Button color="primary" onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button

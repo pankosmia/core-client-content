@@ -18,7 +18,9 @@ import {
     ListItemIcon,
     ListItemText,
     Checkbox,
-    Switch
+    Switch,
+    AppBar,
+    Toolbar
 } from "@mui/material";
 import LooksOneOutlinedIcon from '@mui/icons-material/LooksOneOutlined';
 import LooksTwoOutlinedIcon from '@mui/icons-material/LooksTwoOutlined';
@@ -269,8 +271,14 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
             },
         }}
     >
-        <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:generate_as_pdf", i18nRef.current)}</b></DialogTitle>
-        <DialogContent sx={{ mt: 1 }}>
+        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+            <Toolbar>
+                <Typography variant="h6" component="div">
+                    {doI18n("pages:content:generate_as_pdf", i18nRef.current)}
+                </Typography>
+            </Toolbar>
+        </AppBar>
+        <DialogContent>
             <DialogContentText>
                 <Typography>
                     {doI18n("pages:content:pick_one_book_export", i18nRef.current)}
@@ -298,8 +306,8 @@ function PdfGenerate({bookNames, repoSourcePath, open, closeFn}) {
                   MenuProps={{
                       PaperProps: {
                           style: {
-                              maxHeight: 224,
-                              width: 250,
+                              maxHeight: 220,
+                              width: 246,
                           },
                       }
                   }}

@@ -1,5 +1,6 @@
 import {useRef, useContext, useState, useEffect} from 'react';
 import {
+    AppBar,
     Box,
     Button,
     Dialog,
@@ -13,7 +14,9 @@ import {
     OutlinedInput,
     Radio,
     RadioGroup,
-    Select
+    Select,
+    Toolbar,
+    Typography
 } from "@mui/material";
 import {getText, debugContext, i18nContext, doI18n, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
@@ -100,7 +103,13 @@ function ZipExport({bookNames, repoSourcePath, open, closeFn}) {
             },
         }}
     >
-        <DialogTitle sx={{ backgroundColor: 'secondary.main' }}><b>{doI18n("pages:content:export_as_zip", i18nRef.current)}</b></DialogTitle>
+        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
+            <Toolbar>
+                <Typography variant="h6" component="div">
+                    {doI18n("pages:content:export_as_zip", i18nRef.current)}
+                </Typography>
+            </Toolbar>
+        </AppBar>
         <DialogContent sx={{ mt: 1 }}>
             {
             zipSet !== 'all' &&

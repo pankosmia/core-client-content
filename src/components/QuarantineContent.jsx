@@ -42,6 +42,9 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
                 component: 'form',
             },
         }}
+        sx={{    
+            backdropFilter: "blur(3px)",
+        }}
     >
         <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
             <Toolbar>
@@ -61,7 +64,7 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button color="warning" onClick={closeFn}>
+            <Button color="primary" onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
