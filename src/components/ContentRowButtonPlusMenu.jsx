@@ -108,7 +108,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                 <>
                     <MenuItem
                         onClick={() => {
-                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repopath=${repoInfo.path}&repoBC=${repoInfo.book_codes}`;
+                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}&repoBookCode=${repoInfo.book_codes}`;
                         }}
                         disabled={!["textTranslation"].includes(repoInfo.flavor)}
                         >
