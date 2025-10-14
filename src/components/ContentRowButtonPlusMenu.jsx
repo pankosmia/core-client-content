@@ -21,15 +21,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
 
-    const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
-    const usfmExportOpen = Boolean(usfmExportAnchorEl);
-
-    const [zipExportAnchorEl, setZipExportAnchorEl] = useState(null);
-    const zipExportOpen = Boolean(zipExportAnchorEl);
-
-    const [pdfGenerateAnchorEl, setPdfGenerateAnchorEl] = useState(null);
-    const pdfGenerateOpen = Boolean(pdfGenerateAnchorEl);
-
     const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
     const contentRowOpen = Boolean(contentRowAnchorEl);
 
@@ -54,8 +45,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const [versionManagerAnchorEl, setVersionManagerAnchorEl] = useState(null);
     const versionManagerOpen = Boolean(versionManagerAnchorEl);
 
-    const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
-    const newBookOpen = Boolean(newBookAnchorEl);
 
     const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
@@ -226,65 +215,34 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             slotProps={{list: {'aria-labelledby': 'basic-button',}}}
         >
           <MenuItem
-              onClick={(event) => {
-                  setUsfmExportAnchorEl(event.currentTarget);
-                  setContentRowAnchorEl(null);
-                  setSubMenuAnchorEl(null);
-              }}
+              onClick={() => {
+                    window.location.href=`/clients/core-contenthandler_text_translation#/usfmExport?repoPath=${repoInfo.path}&repoBookCode=${repoInfo.book_codes}`;
+                }}
               disabled={repoInfo.flavor !== "textTranslation"}
           >
               {doI18n("pages:content:export_usfm", i18nRef.current)}
           </MenuItem>
           <MenuItem
-              onClick={(event) => {
-                  setZipExportAnchorEl(event.currentTarget);
-                  setContentRowAnchorEl(null);
-                  setSubMenuAnchorEl(null);
-              }}
+              onClick={() => {
+                    window.location.href=`/clients/core-contenthandler_text_translation#/zipExport?repoPath=${repoInfo.path}&repoBookCode=${repoInfo.book_codes}`;
+                }}
               disabled={repoInfo.flavor !== "textTranslation"}
           >
               {doI18n("pages:content:export_zip", i18nRef.current)}
           </MenuItem>
           <MenuItem
-              onClick={(event) => {
-                  setPdfGenerateAnchorEl(event.currentTarget);
-                  setContentRowAnchorEl(null);
-                  setSubMenuAnchorEl(null);
-              }}
+                onClick={() => {
+                    window.location.href=`/clients/core-contenthandler_text_translation#/pdfExport?repoPath=${repoInfo.path}&repoBookCode=${repoInfo.book_codes}`;
+                }}
               disabled={repoInfo.flavor !== "textTranslation"}
           >
               {doI18n("pages:content:export_pdf", i18nRef.current)}
           </MenuItem>                        
         </Menu>
-        <UsfmExport
-            bookNames={repoInfo.book_codes}
-            repoSourcePath={repoInfo.path}
-            open={usfmExportOpen}
-            closeFn={() => setUsfmExportAnchorEl(null)}
-        />
-        <ZipExport
-            bookNames={repoInfo.book_codes}
-            repoSourcePath={repoInfo.path}
-            open={zipExportOpen}
-            closeFn={() => setZipExportAnchorEl(null)}
-        />
-        <PdfGenerate
-            bookNames={repoInfo.book_codes}
-            repoSourcePath={repoInfo.path}
-            open={pdfGenerateOpen}
-            closeFn={() => setPdfGenerateAnchorEl(null)}
-        />
         <VersionManager
             repoInfo={repoInfo}
             open={versionManagerOpen}
             setOpen={setVersionManagerAnchorEl}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
-        <NewTextTranslationBook
-            repoInfo={repoInfo}
-            open={newBookOpen}
-            setOpen={setNewBookAnchorEl}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
