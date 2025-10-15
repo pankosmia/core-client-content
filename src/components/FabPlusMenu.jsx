@@ -98,13 +98,13 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_text_translation#/textTranslation"}>
                     {doI18n("pages:content:create_content", i18nRef.current)}
                 </MenuItem>
-                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[0]) ;handleBcvResourceClick()}}>
+                <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse"}>
                     {doI18n("pages:content:create_content_tn", i18nRef.current)}
                 </MenuItem>
-                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[1]) ;handleBcvResourceClick()}}>
+                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse"}>
                     {doI18n("pages:content:create_content_tq", i18nRef.current)}
                 </MenuItem>
-                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[2]) ;handleBcvResourceClick()}}>
+                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse"}>
                     {doI18n("pages:content:create_content_sq", i18nRef.current)}
                 </MenuItem>
                 <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_obs#/obsContent"}>
