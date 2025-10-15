@@ -40,6 +40,7 @@ export default function NewBcvContent({ open, closeModal, reposModCount, setRepo
     const [bookCodes, setBookCodes] = useState([]);
     const [protestantOnly, setProtestantOnly] = useState(true);
 
+    console.log("resource format", resourceFormat)
     useEffect(() =>{
         if (open === true){
             getAndSetJson({
