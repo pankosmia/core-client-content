@@ -205,8 +205,8 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                         <Box sx={{width:'100%'}}>
                             {status.length > 0 
                                 ?
-                                <TableContainer component={Paper}>
-                                    <Table sx={{ minWidth:"100%"}} size="small" aria-label="status dense table">
+                                <TableContainer component={Paper} sx={{ maxHeight: {xs:65, sm:70, md: 120, lg: 250} }}>
+                                    <Table stickyHeader sx={{ minWidth:"100%" }} size="small" aria-label="status dense table">
                                         <TableHead>
                                             <TableRow>
                                                 {statusColumns.map((s, n) => {
@@ -244,6 +244,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                 required={true}
                                 disabled={status.length === 0}
                                 helperText={doI18n("pages:content:commit_helper_text", i18nRef.current)}
+                                size={window.innerHeight <= 600 ? "small" : "medium"}
                                 sx={{mt:1}}
                             />
                             <Button
@@ -263,45 +264,35 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                             {commits.length > 0 
                                 ?
                                 <Paper sx={{ width: '100%', overflow: 'hidden' }}>
-                                    <TableContainer sx={{ maxHeight: {xs:50, md: 100, lg: 230 }}}>
+                                    <TableContainer sx={{ maxHeight: {xs:140, sm:170, lg: 240, xl:300 }}}>
                                         <Table stickyHeader aria-label="commits sticky table" sx={{ tableLayout: 'fixed' }}>
                                             <TableHead>
                                                 <TableRow>
-                                                {commitsColumns.map((column, n) => (
-                                                    <TableCell
-                                                        key={n}
-                                                        align={"left"}
-                                                        sx={{ width: '33%', whiteSpace: 'normal', wordBreak: 'break-word',}}
-                                                    >
-                                                        {column.headerName}
-                                                    </TableCell>
-                                                ))}
+                                                    {commitsColumns.map((column, n) => (
+                                                        <TableCell
+                                                            key={n}
+                                                            align={"left"}
+                                                            sx={{ width: '33%', whiteSpace: 'normal', wordBreak: 'break-word',}}
+                                                        >
+                                                            {column.headerName}
+                                                        </TableCell>
+                                                    ))}
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
                                                 {commitsRows
-                                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                                 .map((row, n) => {
                                                     return (
-                                                    <TableRow hover role="checkbox" tabIndex={-1} key={n}>
-                                                        <TableCell sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.author}</TableCell>
-                                                        <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.date}</TableCell>
-                                                        <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.message}</TableCell>
-                                                    </TableRow>
+                                                        <TableRow hover role="checkbox" tabIndex={-1} key={n}>
+                                                            <TableCell sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.author}</TableCell>
+                                                            <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.date}</TableCell>
+                                                            <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.message}</TableCell>
+                                                        </TableRow>
                                                     );
                                                 })}
                                             </TableBody>
                                         </Table>
                                     </TableContainer>
-                                    <TablePagination
-                                        rowsPerPageOptions={[10, 25, 100]}
-                                        component="div"
-                                        count={commitsRows.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        onPageChange={handleChangePage}
-                                        onRowsPerPageChange={handleChangeRowsPerPage}
-                                    />
                                 </Paper>
                                 :
                                 <Typography variant="h6">
