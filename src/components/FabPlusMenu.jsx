@@ -1,22 +1,15 @@
 import {Box, Fab, Menu, MenuItem, Typography} from "@mui/material";
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import NewBibleContent from "./NewTextTranslationContent";
-import NewBcvContent from "./NewBcvContent";
-import NewOBSContent from "./NewOBSContent";
 import {useState, useContext} from "react";
 import {i18nContext, netContext, doI18n} from "pithekos-lib";
 
-function FabPlusMenu({reposModCount, setReposModCount}) {
+function FabPlusMenu() {
 
     const {i18nRef} = useContext(i18nContext);
     const {enabledRef} = useContext(netContext);
     const [importAnchorEl, setImportAnchorEl] = useState(null);
     const [createAnchorEl, setCreateAnchorEl] = useState(null);
-    const [openedModal, setOpenedModal] = useState(null);
-    const [resourceFormat, setResourceFormat] = useState("tn");
-
-    const resourceFormatList = ["tn", "tq", "sq"];
 
     const handleImportClose = () => {
         setImportAnchorEl(null);
@@ -25,22 +18,6 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
     const handleCreateClose = () => {
         setCreateAnchorEl(null);
     };
-
-    const handleTextBibleClick = () => {
-        setOpenedModal('text-bible');
-        setCreateAnchorEl(null);
-    };
-
-    const handleBcvResourceClick = () => {
-        setOpenedModal('bcv-content');
-        setCreateAnchorEl(null);
-    }
-
-    const handleOBSResourceClick = () => {
-        setOpenedModal('obs-content');
-        setCreateAnchorEl(null);
-    }
-
     return <>
         <Box
             sx={{mb: 2}}
@@ -112,26 +89,6 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 </MenuItem>
             </Menu>
         </Box>
-        <NewBibleContent
-            open={openedModal === 'text-bible'}
-            closeModal={() => setOpenedModal(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
-        <NewBcvContent
-            open={openedModal === 'bcv-content'}
-            closeModal={() => setOpenedModal(null)}
-            reposModCount={reposModCount} 
-            setReposModCount={setReposModCount}
-            resourceFormat={resourceFormat}
-        />
-        <NewOBSContent
-            open={openedModal === 'obs-content'}
-            closeModal={() => setOpenedModal(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
-
     </>;
 }
 
