@@ -10,19 +10,18 @@ import {
     Divider,
     Tooltip,
     Dialog, DialogContent, DialogContentText, DialogActions, AppBar, Toolbar,
-    Link
+    Link,
+    Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TablePagination
 } from "@mui/material";
 import { styled } from '@mui/material/styles';
 import {debugContext, i18nContext, netContext, doI18n, postJson, getJson} from "pithekos-lib";
 import {enqueueSnackbar} from "notistack";
-import {DataGrid} from '@mui/x-data-grid';
 import PushToDcs from './PushToDcs';
 import PullFromDownloaded from "./PullFromDownloaded";
 
 const Item = styled(Paper)(({ theme }) => ({
     minHeight:'38vh',
     maxHeight:'38vh',
-    /* width:'35vw', */
     width:'100%',
     ...theme.typography.body2,
     padding: theme.spacing(1),
@@ -51,6 +50,18 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
     
     const [updateAnywaysAnchorEl, setUpdateAnywaysAnchorEl] = useState(null);
     const updateAnywaysOpen = Boolean(updateAnywaysAnchorEl);
+
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
 
     const repoStatus = async repo_path => {
 
@@ -135,13 +146,11 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         {
             field: 'status',
             headerName: doI18n("pages:content:status", i18nRef.current),
-            /* minWidth: 200, */
             flex: 3
         },
         {
             field: 'path',
             headerName: doI18n("pages:content:row_path", i18nRef.current),
-           /*  minWidth: 200, */
             flex: 3
         }
     ];
@@ -159,20 +168,14 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
         {
             field: 'author',
             headerName: doI18n("pages:content:row_author", i18nRef.current),
-            /* minWidth: 200, */
-            /* flex: 5 */
         },
         {
             field: 'date',
             headerName: doI18n("pages:content:row_date", i18nRef.current),
-            /* minWidth: 200, */
-            /* flex: 5 */
         },
         {
             field: 'message',
             headerName: doI18n("pages:content:row_message", i18nRef.current),
-           /*  minWidth: 200, */
-            /* flex: 5 */
         }
     ];
 
@@ -198,25 +201,39 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                 }}
             >
                 <Item>
-                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"flex-end" }}>
-                        <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
+                    <Stack direction="column" spacing={0} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"space-between" }}>
+                        <Box sx={{width:'100%'}}>
                             {status.length > 0 
                                 ?
-                                <DataGrid
-                                    initialState={{
-                                        sorting: {
-                                            sortModel: [{ field: 'path', sort: 'asc' }],
-                                        }
-                                    }}
-                                    rows={statusRows}
-                                    columns={statusColumns}
-                                    sx={{fontSize: "1rem", height:'63%'}}
-                                />
+                                <TableContainer component={Paper} sx={{ maxHeight: {xs:65, sm:70, md: 120, lg: 250} }}>
+                                    <Table stickyHeader sx={{ minWidth:"100%" }} size="small" aria-label="status dense table">
+                                        <TableHead>
+                                            <TableRow>
+                                                {statusColumns.map((s, n) => {
+                                                    return <TableCell align="left">{s.headerName}</TableCell>
+                                                })}
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {statusRows.map((row) => (
+                                                <TableRow
+                                                    key={row.status}
+                                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                                >
+                                                    <TableCell component="th" scope="row">{row.status}</TableCell>
+                                                    <TableCell align="left">{row.path}</TableCell>
+                                                </TableRow>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                                 :
                                 <Typography variant="h6">
                                     {doI18n("pages:content:no_changes", i18nRef.current)}
                                 </Typography>
                             }
+                        </Box>
+                        <Box>
                             <TextField
                                 id="commit-message-input"
                                 fullWidth
@@ -227,6 +244,7 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                 required={true}
                                 disabled={status.length === 0}
                                 helperText={doI18n("pages:content:commit_helper_text", i18nRef.current)}
+                                size={window.innerHeight <= 600 ? "small" : "medium"}
                                 sx={{mt:1}}
                             />
                             <Button
@@ -241,25 +259,48 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                     </Stack>
                 </Item>
                 <Item>
-                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"flex-end" }}>
-                        <Box sx={{height:'100%', width:'100%', flexGrow: 1}}>
+                    <Stack direction="column" spacing={2} sx={{ height:"100%", alignItems:"flex-start", justifyContent:"space-between" }}>
+                        <Box sx={{width:'100%'}}>
                             {commits.length > 0 
                                 ?
-                                <DataGrid
-                                    initialState={{
-                                        sorting: {
-                                            sortModel: [{ field: 'date', sort: 'desc' }],
-                                        }
-                                    }}
-                                    rows={commitsRows}
-                                    columns={commitsColumns}
-                                    sx={{fontSize: "1rem", height:'80%'}}
-                                />
+                                <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                                    <TableContainer sx={{ maxHeight: {xs:140, sm:170, lg: 240, xl:300 }}}>
+                                        <Table stickyHeader aria-label="commits sticky table" sx={{ tableLayout: 'fixed' }}>
+                                            <TableHead>
+                                                <TableRow>
+                                                    {commitsColumns.map((column, n) => (
+                                                        <TableCell
+                                                            key={n}
+                                                            align={"left"}
+                                                            sx={{ width: '33%', whiteSpace: 'normal', wordBreak: 'break-word',}}
+                                                        >
+                                                            {column.headerName}
+                                                        </TableCell>
+                                                    ))}
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {commitsRows
+                                                .map((row, n) => {
+                                                    return (
+                                                        <TableRow hover role="checkbox" tabIndex={-1} key={n}>
+                                                            <TableCell sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.author}</TableCell>
+                                                            <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.date}</TableCell>
+                                                            <TableCell align="left" sx={{ whiteSpace: 'normal', wordBreak: 'break-word' }}>{row.message}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })}
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </Paper>
                                 :
                                 <Typography variant="h6">
                                     {doI18n("pages:content:no_commits", i18nRef.current)}
                                 </Typography>
                             }
+                        </Box>
+                        <Box sx={{width:'100%'}}>
                             {
                                 remotes.length === 0 && 
                                 <Link 
@@ -287,7 +328,6 @@ function ChangesTab({repoInfo, open, reposModCount, setReposModCount, setTabValu
                                                 setPushAnchorEl(event.currentTarget)
                                             }
                                         }}
-                                        sx={{mt:1}}
                                     >
                                         {doI18n("pages:content:update_remote", i18nRef.current)}
                                     </Button>
