@@ -1,34 +1,19 @@
 import {IconButton, Menu, MenuItem, Divider, ListItemText, Typography} from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {i18nContext, doI18n, getJson, debugContext} from "pithekos-lib";
-import UsfmExport from "./UsfmExport";
-import ZipExport from "./ZipExport";
-import PdfGenerate from "./PdfGenerate";
 import CopyContent from "./CopyContent";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
-import VersionManager from "./VersionManager";
-import NewTextTranslationBook from "./NewTextTranslationBook";
 import {useState, useContext, useEffect} from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-import PullFromDownloaded from "./PullFromDownloaded";
 
 function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, isNormal}) {
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
-
-    const [usfmExportAnchorEl, setUsfmExportAnchorEl] = useState(null);
-    const usfmExportOpen = Boolean(usfmExportAnchorEl);
-
-    const [zipExportAnchorEl, setZipExportAnchorEl] = useState(null);
-    const zipExportOpen = Boolean(zipExportAnchorEl);
-
-    const [pdfGenerateAnchorEl, setPdfGenerateAnchorEl] = useState(null);
-    const pdfGenerateOpen = Boolean(pdfGenerateAnchorEl);
 
     const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
     const contentRowOpen = Boolean(contentRowAnchorEl);
@@ -42,20 +27,12 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
     const [quarantineContentAnchorEl, setQuarantineContentAnchorEl] = useState(null);
     const quarantineContentOpen = Boolean(quarantineContentAnchorEl);
 
-    const [pullAnchorEl, setPullAnchorEl] = useState(null);
-    const pullOpen = Boolean(pullAnchorEl);
-
     const [restoreContentAnchorEl, setRestoreContentAnchorEl] = useState(null);
     const restoreContentOpen = Boolean(restoreContentAnchorEl);
 
     const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
     const deleteContentOpen = Boolean(deleteContentAnchorEl);
 
-    const [versionManagerAnchorEl, setVersionManagerAnchorEl] = useState(null);
-    const versionManagerOpen = Boolean(versionManagerAnchorEl);
-
-    const [newBookAnchorEl, setNewBookAnchorEl] = useState(null);
-    const newBookOpen = Boolean(newBookAnchorEl);
 
     const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
@@ -107,14 +84,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             isNormal ? 
                 <>
                     <MenuItem
-                        onClick={(event) => {
-                            setNewBookAnchorEl(event.currentTarget);
-                            setContentRowAnchorEl(null);
+                        onClick={() => {
+                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}`;
                         }}
                         disabled={!["textTranslation"].includes(repoInfo.flavor)}
-                    >
-                        {doI18n("pages:content:new_book", i18nRef.current)}
-                    </MenuItem>
+                        >
+                         {doI18n("pages:content:new_book", i18nRef.current)}
+                        </MenuItem>
                     <Divider/>
                     <MenuItem
                         onClick={(event) => {
@@ -170,10 +146,7 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                                 {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
                             </MenuItem> */}
                             <MenuItem
-                                onClick={(event) => {
-                                    setVersionManagerAnchorEl(event.currentTarget);
-                                    setContentRowAnchorEl(null);
-                                }}
+                                onClick={() => { window.location.href=`/clients/core-contenthandler_version_manager#/version_manager?repoPath=${repoInfo.path}`}}
                                 disabled={!repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_updates_"}
                             >
                                 {doI18n("pages:content:version_manager", i18nRef.current)}
@@ -227,68 +200,30 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             slotProps={{list: {'aria-labelledby': 'basic-button',}}}
         >
           <MenuItem
-              onClick={(event) => {
-                  setUsfmExportAnchorEl(event.currentTarget);
-                  setContentRowAnchorEl(null);
-                  setSubMenuAnchorEl(null);
-              }}
+              onClick={() => {
+                    window.location.href=`/clients/core-contenthandler_text_translation#/usfmExport?repoPath=${repoInfo.path}`;
+                }}
               disabled={repoInfo.flavor !== "textTranslation"}
           >
               {doI18n("pages:content:export_usfm", i18nRef.current)}
           </MenuItem>
           <MenuItem
-              onClick={(event) => {
-                  setZipExportAnchorEl(event.currentTarget);
-                  setContentRowAnchorEl(null);
-                  setSubMenuAnchorEl(null);
-              }}
+              onClick={() => {
+                    window.location.href=`/clients/core-contenthandler_text_translation#/zipExport?repoPath=${repoInfo.path}`;
+                }}
               disabled={repoInfo.flavor !== "textTranslation"}
           >
               {doI18n("pages:content:export_zip", i18nRef.current)}
           </MenuItem>
           <MenuItem
-              onClick={(event) => {
-                  setPdfGenerateAnchorEl(event.currentTarget);
-                  setContentRowAnchorEl(null);
-                  setSubMenuAnchorEl(null);
-              }}
+                onClick={() => {
+                    window.location.href=`/clients/core-contenthandler_text_translation#/pdfExport?repoPath=${repoInfo.path}`;
+                }}
               disabled={repoInfo.flavor !== "textTranslation"}
           >
               {doI18n("pages:content:export_pdf", i18nRef.current)}
           </MenuItem>                        
         </Menu>
-        <UsfmExport
-            bookNames={repoInfo.book_codes}
-            repoSourcePath={repoInfo.path}
-            open={usfmExportOpen}
-            closeFn={() => setUsfmExportAnchorEl(null)}
-        />
-        <ZipExport
-            bookNames={repoInfo.book_codes}
-            repoSourcePath={repoInfo.path}
-            open={zipExportOpen}
-            closeFn={() => setZipExportAnchorEl(null)}
-        />
-        <PdfGenerate
-            bookNames={repoInfo.book_codes}
-            repoSourcePath={repoInfo.path}
-            open={pdfGenerateOpen}
-            closeFn={() => setPdfGenerateAnchorEl(null)}
-        />
-        <VersionManager
-            repoInfo={repoInfo}
-            open={versionManagerOpen}
-            setOpen={setVersionManagerAnchorEl}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
-        <NewTextTranslationBook
-            repoInfo={repoInfo}
-            open={newBookOpen}
-            setOpen={setNewBookAnchorEl}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
         <CopyContent
             repoInfo={repoInfo}
             open={copyContentOpen}
@@ -307,13 +242,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             repoInfo={repoInfo}
             open={quarantineContentOpen}
             closeFn={() => setQuarantineContentAnchorEl(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
-        <PullFromDownloaded
-            repoInfo={repoInfo}
-            open={pullOpen}
-            closeFn={() => setPullAnchorEl(null)}
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
         />
