@@ -1,0 +1,16 @@
+{
+    "menu1": {
+        "label":"label",
+        "url":"url",
+        "flavor":"flavor",
+        "repoPath":"repoPath"
+    },
+    "menu":[
+        {"label":"text translation","url":"/clients/core-contenthandler_text_translation#/textTranslation","flavor":"","repoPath":""},
+        {"label":"New note","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn","flavor":"","repoPath":""},
+        {"label":"new Question","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq","flavor":"","repoPath":""},
+        {"label":"New Study Question","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq","flavor":"","repoPath":""}
+
+    ]
+    
+}
