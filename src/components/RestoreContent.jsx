@@ -62,7 +62,7 @@ function RestoreContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
             </DialogContentText>
         </DialogContent>
         <DialogActions>
-            <Button color="warning" onClick={closeFn}>
+            <Button onClick={closeFn}>
                 {doI18n("pages:content:cancel", i18nRef.current)}
             </Button>
             <Button
