@@ -42,6 +42,13 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
       setSubMenuAnchorEl(event.currentTarget);
     };
 
+    function redirectionNewBook(){
+        if(repoInfo.flavor === "textTranslation"){
+           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}`
+        } else {
+            window.location.href=`/clients/core-contenthandler_bcv#/newBcvBook?repoPath=${repoInfo.path}`
+        }
+    }
     const repoStatus = async repo_path => {
 
         const statusUrl = `/git/status/${repo_path}`;
@@ -84,10 +91,8 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             isNormal ? 
                 <>
                     <MenuItem
-                        onClick={() => {
-                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}`;
-                        }}
-                        disabled={!["textTranslation"].includes(repoInfo.flavor)}
+                        onClick={() => { redirectionNewBook()}}
+                        disabled={["textStories"].includes(repoInfo.flavor)}
                         >
                          {doI18n("pages:content:new_book", i18nRef.current)}
                         </MenuItem>
