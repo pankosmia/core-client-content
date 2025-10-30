@@ -877,6 +877,14 @@
       "en": "Generate a PDF",
       "id": "Hasilkan PDF"
     },
+    "pdf_preview": {
+      "en": "PDF Preview",
+      "id": "Pratinjau PDF"
+    },
+    "print": {
+      "en": "Print",
+      "id": "Cetak"
+    },
     "push_to_dcs": {
       "en": "Push",
       "es": "Push",
