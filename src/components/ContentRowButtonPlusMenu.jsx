@@ -83,15 +83,21 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
             {
             isNormal ? 
                 <>
-                    <MenuItem
-                        onClick={() => {
-                           window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}`;
-                        }}
-                        disabled={!["textTranslation"].includes(repoInfo.flavor)}
-                        >
-                         {doI18n("pages:content:new_book", i18nRef.current)}
-                        </MenuItem>
-                    <Divider/>
+                     {
+                        repoInfo.path.includes("_local_/_local_") 
+                        &&
+                        <>
+                            <MenuItem
+                                onClick={() => {
+                                window.location.href=`/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}`;
+                                }}
+                                disabled={!["textTranslation"].includes(repoInfo.flavor)}
+                                >
+                                {doI18n("pages:content:new_book", i18nRef.current)}
+                            </MenuItem>
+                            <Divider/>
+                        </>
+                    }
                     <MenuItem
                         onClick={(event) => {
                             setCopyContentAnchorEl(event.currentTarget);
@@ -136,15 +142,6 @@ function ContentRowButtonPlusMenu({repoInfo, reposModCount, setReposModCount, is
                         repoInfo.path.includes("_local_/_local_") 
                         &&
                         <>
-                            {/* <MenuItem
-                                onClick={(event) => {
-                                    setPullAnchorEl(event.currentTarget);
-                                    setContentRowAnchorEl(null);
-                                }}
-                                disabled={status.length > 0}
-                            >
-                                {doI18n("pages:content:pull_from_downloaded", i18nRef.current)}
-                            </MenuItem> */}
                             <MenuItem
                                 onClick={() => { window.location.href=`/clients/core-contenthandler_version_manager#/version_manager?repoPath=${repoInfo.path}`}}
                                 disabled={!repoInfo.path.split("/")[0] === "_local_" || repoInfo.path.split("/")[1] === "_updates_"}
