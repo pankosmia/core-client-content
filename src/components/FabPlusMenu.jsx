@@ -30,6 +30,13 @@ function FabPlusMenu() {
             .catch((err) => console.error(err));
     }, []);
 
+    useEffect(()=>{
+        fetch('/content_metadata.json')
+            .then(response => response.json())
+            .then(data => setMenu(data.menu))
+            .catch(error => console.error('Erreur chargement données',error));
+    },[]);
+
 
     const handleClick = (url) => {
         window.location.href = url;

@@ -6,11 +6,45 @@
         "repoPath":"repoPath"
     },
     "menu":[
-        {"label":"text translation","url":"/clients/core-contenthandler_text_translation#/textTranslation","flavor":"","repoPath":""},
-        {"label":"New note","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn","flavor":"","repoPath":""},
-        {"label":"new Question","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq","flavor":"","repoPath":""},
-        {"label":"New Study Question","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq","flavor":"","repoPath":""}
-
-    ]
+        {"label":"text translation","url":"/clients/core-contenthandler_text_translation#/textTranslation","flavor":"textTranslation","repoPath":""},
+        {"label":"New note","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn","flavor":"x-bcvnotes","repoPath":""},
+        {"label":"new Question","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq","flavor":"x-bcvquestions","repoPath":""},
+        {"label":"New Study Question","url":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq","flavor":"x-bcvquestions","repoPath":""}
+    ],
     
+    "textTranslation":{
+        "create_document":{
+            "label": "textTranslation",
+            "url":"/clients/core-contenthandler_text_translation#/textTranslation"
+        },
+        "new_book":{
+            "label":"New book text translation",
+            "url":"/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}"
+        },
+        "export":{
+            "usfm":"/clients/core-contenthandler_text_translation#/usfmExport?repoPath=${repoInfo.path}",
+            "zip":"/clients/core-contenthandler_text_translation#/zipExport?repoPath=${repoInfo.path}",
+            "pdf":"/clients/core-contenthandler_text_translation#/pdfExport?repoPath=${repoInfo.path}"
+        }
+    },
+    "bcvContent":{
+        "create_document":{
+            "label_1": "New note",
+            "url_1":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn",
+            "label_2":"New Question",
+            "url_2":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq",
+            "label_3":"New Study Question",
+            "url_3":"/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq"
+        },
+        "new_book":{
+            "label":"New book Bcv",
+            "url":"/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}"
+        }
+    },
+    "obsContent":{
+        "create_document":{
+            "label": "obsContent",
+            "url":"/clients/core-contenthandler_obs#/obsContent"
+        }
+    }
 }
