@@ -3,7 +3,6 @@ import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
 import { useState, useContext, useEffect } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
-import menuMetadata from "../content_metadata.json"
 function FabPlusMenu() {
 
     const { i18nRef } = useContext(i18nContext);
@@ -18,28 +17,6 @@ function FabPlusMenu() {
 
     const handleCreateClose = () => {
         setCreateAnchorEl(null);
-    };
-
-    useEffect(() => {
-        fetch("/content_metadata.json")
-            .then((res) => {
-                if (!res.ok) throw new Error("Erreur de chargement du content_metadata.json");
-                return res.json();
-            })
-            .then((data) => setMenu(data.menu))
-            .catch((err) => console.error(err));
-    }, []);
-
-    useEffect(()=>{
-        fetch('/content_metadata.json')
-            .then(response => response.json())
-            .then(data => setMenu(data.menu))
-            .catch(error => console.error('Erreur chargement données',error));
-    },[]);
-
-
-    const handleClick = (url) => {
-        window.location.href = url;
     };
 
     return <>
@@ -111,11 +88,6 @@ function FabPlusMenu() {
                 <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_obs#/obsContent"}>
                     {doI18n("pages:content:create_content_obs", i18nRef.current)}
                 </MenuItem>
-                {menuMetadata.menu.map((item, index) => (
-                    <MenuItem key={index} onClick={() => handleClick(item.url)}>
-                        {item.label}
-                    </MenuItem>
-                ))}
             </Menu>
         </Box>
     </>;
