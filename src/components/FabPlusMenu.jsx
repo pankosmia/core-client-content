@@ -33,7 +33,7 @@ function FabPlusMenu() {
             if (Array.isArray(docs)) {
                 return docs.map((doc) => ({
                     category: key,
-                    label: doc.label,
+                    label: doI18n(`${doc.label}`, i18nRef.current),
                     url: doc.url,
                 }));
             }

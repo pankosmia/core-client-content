@@ -53,7 +53,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
             if (Array.isArray(docs)) {
                 return docs.map((doc) => ({
                     category: key,
-                    label: doc.label,
+                    label: doI18n(`${doc.label}`, i18nRef.current),
                     url: doc.url.replace("%%repoInfo.path%%",repoInfo.path),
                 }));
             }
@@ -68,7 +68,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
             if (Array.isArray(docs)) {
                 return docs.map((doc) => ({
                     category: key,
-                    label: doc.label,
+                    label: doI18n(`${doc.label}`, i18nRef.current),
                     url: doc.url,
                 }));
             }
@@ -85,8 +85,9 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                     const flavorItems = doc.subMenu[0];
                     return Object.entries(flavorItems).flatMap(([key, items]) => {
                         return items.map(item => ({
+                            category,
                             key,
-                            label: item.label,
+                            label:doI18n(`${item.label}`, i18nRef.current),
                             url: item.url.replace("%%repoInfo.path%%",repoInfo.path),
                         }));
                     });
@@ -151,6 +152,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                                         <MenuItem
                                             key={item.label}
                                             onClick={() => window.location.href = item.url}
+                                               disabled={![item.category].includes(repoInfo.flavor)}
                                         >
                                             {item.label}
                                         </MenuItem>
