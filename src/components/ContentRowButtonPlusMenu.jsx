@@ -54,31 +54,16 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                 return docs.map((doc) => ({
                     category: key,
                     label: doI18n(`${doc.label}`, i18nRef.current),
-                    url: doc.url.replace("%%repoInfo.path%%",repoInfo.path),
+                    url: doc.url.replace("%%repoInfo.path%%", repoInfo.path),
                 }));
             }
             return [];
         })
         .flat();
-
-    const disabledExport = Object.entries(menu)
+         
+        const createItemExport = Object.entries(menu)
         .filter(([_, value]) => value.export)
-        .map(([key, value]) => {
-            const docs = value.export;
-            if (Array.isArray(docs)) {
-                return docs.map((doc) => ({
-                    category: key,
-                    label: doI18n(`${doc.label}`, i18nRef.current),
-                    url: doc.url,
-                }));
-            }
-            return [];
-        })
-        .flat();
-
-    const createItemExport = Object.entries(menu)
-        .filter(([_, value]) => value.export)
-        .map(([category, value]) => {
+        .flatMap(([category, value]) => {
             const exportsArray = value.export;
             if (Array.isArray(exportsArray)) {
                 return exportsArray.flatMap((doc) => {
@@ -87,15 +72,16 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                         return items.map(item => ({
                             category,
                             key,
-                            label:doI18n(`${item.label}`, i18nRef.current),
-                            url: item.url.replace("%%repoInfo.path%%",repoInfo.path),
+                            label: doI18n(`${item.label}`, i18nRef.current),
+                            url: item.url.replace("%%repoInfo.path%%", repoInfo.path),
                         }));
                     });
                 });
             }
             return [];
         })
-        .flat();
+        .flat()
+        const hasExport = createItemExport.some(item => item.category === repoInfo.flavor);
 
     const handleSubMenuClick = (event) => {
         setSubMenuAnchorEl(event.currentTarget);
@@ -152,7 +138,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                                         <MenuItem
                                             key={item.label}
                                             onClick={() => window.location.href = item.url}
-                                               disabled={![item.category].includes(repoInfo.flavor)}
+                                            disabled={![item.category].includes(repoInfo.flavor)}
                                         >
                                             {item.label}
                                         </MenuItem>
@@ -189,21 +175,17 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                             {doI18n("pages:content:quarantine_content", i18nRef.current)}
                         </MenuItem>
                         <Divider />
-                        {disabledExport
-                            .map((item) => (
-                                <MenuItem
-                                    onClick={handleSubMenuClick}
-                                    disabled={![item.category].includes(repoInfo.flavor)}
-                                >
-                                    <ListItemText>
-                                        {doI18n("pages:content:export", i18nRef.current)}
-                                    </ListItemText>
-                                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                        <ArrowRightIcon />
-                                    </Typography>
-                                </MenuItem>
-                            ))
-                        }
+                        < MenuItem
+                            onClick={handleSubMenuClick}
+                            disabled={!hasExport}
+                        >
+                            <ListItemText>
+                                {doI18n("pages:content:export", i18nRef.current)}
+                            </ListItemText>
+                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                <ArrowRightIcon />
+                            </Typography>
+                        </MenuItem>
                         <Divider />
                         {
                             repoInfo.path.includes("_local_/_local_")
@@ -250,7 +232,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                         </MenuItem>
                     </>
             }
-        </Menu>
+        </Menu >
         <Menu
             id="basic-sub-menu"
             anchorEl={subMenuAnchorEl}
@@ -264,6 +246,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
             slotProps={{ list: { 'aria-labelledby': 'basic-button', } }}
         >
             {createItemExport
+                .filter(item => item.category === repoInfo.flavor)
                 .map((item) => (
                     <MenuItem
                         key={item.label}
