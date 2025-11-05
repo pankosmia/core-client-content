@@ -19,6 +19,28 @@ function FabPlusMenu() {
         setCreateAnchorEl(null);
     };
 
+    useEffect(() => {
+        fetch("/clients/content/contentmetadata.json")
+            .then(res => res.json())
+            .then(data => setMenu(data))
+            .catch(err => console.error("Error :", err));
+    }, []);
+
+    const createItems = Object.entries(menu)
+        .filter(([_, value]) => value.create_document)
+        .map(([key, value]) => {
+            const docs = value.create_document;
+            if (Array.isArray(docs)) {
+                return docs.map((doc) => ({
+                    category: key,
+                    label: doc.label,
+                    url: doc.url,
+                }));
+            }
+            return [];
+        })
+        .flat();
+
     return <>
         <Box
             sx={{ mb: 2 }}
@@ -73,21 +95,11 @@ function FabPlusMenu() {
                 open={!!createAnchorEl}
                 onClose={handleCreateClose}
             >
-                <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_text_translation#/textTranslation"}>
-                    {doI18n("pages:content:create_content", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn"}>
-                    {doI18n("pages:content:create_content_tn", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq"}>
-                    {doI18n("pages:content:create_content_tq", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq"}>
-                    {doI18n("pages:content:create_content_sq", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_obs#/obsContent"}>
-                    {doI18n("pages:content:create_content_obs", i18nRef.current)}
-                </MenuItem>
+                {createItems.map((item) => (
+                    <MenuItem onClick={() => window.location.href = item.url}>
+                      {item.label}
+                    </MenuItem>
+                ))}
             </Menu>
         </Box>
     </>;

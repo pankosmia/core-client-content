@@ -64,10 +64,12 @@
         "url": "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq"
       }
     ],
-    "new_book": {
-      "label": "pages:content:new_book",
-      "url": "/clients/core-contenthandler_bcv#/newBcvBook?repoPath=%%repoInfo.path%%"
-    }
+    "new_book": [
+      {
+        "label": "pages:content:new_book",
+        "url": "/clients/core-contenthandler_bcv#/newBcvBook?repoPath=%%repoInfo.path%%"
+      }
+    ]
   },
   "textStories": {
     "create_document": [

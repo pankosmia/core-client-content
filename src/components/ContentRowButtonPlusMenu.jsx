@@ -39,6 +39,63 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
 
     const [menu, setMenu] = useState([]);
 
+    useEffect(() => {
+        fetch("/clients/content/contentmetadata.json")
+            .then(res => res.json())
+            .then(data => setMenu(data))
+            .catch(err => console.error("Error :", err));
+    }, []);
+
+    const createItemNewBook = Object.entries(menu)
+        .filter(([_, value]) => value.new_book)
+        .map(([key, value]) => {
+            const docs = value.new_book;
+            if (Array.isArray(docs)) {
+                return docs.map((doc) => ({
+                    category: key,
+                    label: doc.label,
+                    url: doc.url.replace("%%repoInfo.path%%",repoInfo.path),
+                }));
+            }
+            return [];
+        })
+        .flat();
+
+    const disabledExport = Object.entries(menu)
+        .filter(([_, value]) => value.export)
+        .map(([key, value]) => {
+            const docs = value.export;
+            if (Array.isArray(docs)) {
+                return docs.map((doc) => ({
+                    category: key,
+                    label: doc.label,
+                    url: doc.url,
+                }));
+            }
+            return [];
+        })
+        .flat();
+
+    const createItemExport = Object.entries(menu)
+        .filter(([_, value]) => value.export)
+        .map(([category, value]) => {
+            const exportsArray = value.export;
+            if (Array.isArray(exportsArray)) {
+                return exportsArray.flatMap((doc) => {
+                    const flavorItems = doc.subMenu[0];
+                    return Object.entries(flavorItems).flatMap(([key, items]) => {
+                        return items.map(item => ({
+                            key,
+                            label: item.label,
+                            url: item.url.replace("%%repoInfo.path%%",repoInfo.path),
+                        }));
+                    });
+                });
+            }
+            return [];
+        })
+        .flat();
+
     const handleSubMenuClick = (event) => {
         setSubMenuAnchorEl(event.currentTarget);
     };
@@ -88,14 +145,17 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                             repoInfo.path.includes("_local_/_local_")
                             &&
                             <>
-                                <MenuItem
-                                    onClick={() => {
-                                        window.location.href = `/clients/core-contenthandler_text_translation#/newBook?repoPath=${repoInfo.path}`;
-                                    }}
-                                    disabled={!["textTranslation"].includes(repoInfo.flavor)}
-                                >
-                                    {doI18n("pages:content:new_book", i18nRef.current)}
-                                </MenuItem>
+                                {createItemNewBook
+                                    .filter(item => item.category === repoInfo.flavor)
+                                    .map((item) => (
+                                        <MenuItem
+                                            key={item.label}
+                                            onClick={() => window.location.href = item.url}
+                                        >
+                                            {item.label}
+                                        </MenuItem>
+                                    ))
+                                }
                                 <Divider />
                             </>
                         }
@@ -127,17 +187,21 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                             {doI18n("pages:content:quarantine_content", i18nRef.current)}
                         </MenuItem>
                         <Divider />
-                        <MenuItem
-                            disabled={repoInfo.flavor !== "textTranslation"}
-                            onClick={handleSubMenuClick}
-                        >
-                            <ListItemText>
-                                {doI18n("pages:content:export", i18nRef.current)}
-                            </ListItemText>
-                            <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                                <ArrowRightIcon />
-                            </Typography>
-                        </MenuItem>
+                        {disabledExport
+                            .map((item) => (
+                                <MenuItem
+                                    onClick={handleSubMenuClick}
+                                    disabled={![item.category].includes(repoInfo.flavor)}
+                                >
+                                    <ListItemText>
+                                        {doI18n("pages:content:export", i18nRef.current)}
+                                    </ListItemText>
+                                    <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                                        <ArrowRightIcon />
+                                    </Typography>
+                                </MenuItem>
+                            ))
+                        }
                         <Divider />
                         {
                             repoInfo.path.includes("_local_/_local_")
@@ -197,30 +261,16 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
             transformOrigin={{ vertical: 'top', horizontal: 'right' }}
             slotProps={{ list: { 'aria-labelledby': 'basic-button', } }}
         >
-            <MenuItem
-                onClick={() => {
-                    window.location.href = `/clients/core-contenthandler_text_translation#/usfmExport?repoPath=${repoInfo.path}`;
-                }}
-                disabled={repoInfo.flavor !== "textTranslation"}
-            >
-                {doI18n("pages:content:export_usfm", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={() => {
-                    window.location.href = `/clients/core-contenthandler_text_translation#/zipExport?repoPath=${repoInfo.path}`;
-                }}
-                disabled={repoInfo.flavor !== "textTranslation"}
-            >
-                {doI18n("pages:content:export_zip", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-                onClick={() => {
-                    window.location.href = `/clients/core-contenthandler_text_translation#/pdfExport?repoPath=${repoInfo.path}`;
-                }}
-                disabled={repoInfo.flavor !== "textTranslation"}
-            >
-                {doI18n("pages:content:export_pdf", i18nRef.current)}
-            </MenuItem>
+            {createItemExport
+                .map((item) => (
+                    <MenuItem
+                        key={item.label}
+                        onClick={() => window.location.href = item.url}
+                    >
+                        {item.label}
+                    </MenuItem>
+                ))
+            }
         </Menu>
         <CopyContent
             repoInfo={repoInfo}
