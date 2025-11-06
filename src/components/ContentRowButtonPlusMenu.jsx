@@ -47,8 +47,8 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
     }, []);
 
     const createItemNewBook = Object.entries(menu)
-        .filter(([_, value]) => value.new_book)
-        .map(([key, value]) => {
+        .filter(([, value]) => value.new_book)
+        .flatMap(([key, value]) => {
             const docs = value.new_book;
             if (Array.isArray(docs)) {
                 return docs.map((doc) => ({
@@ -59,10 +59,9 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
             }
             return [];
         })
-        .flat();
-         
-        const createItemExport = Object.entries(menu)
-        .filter(([_, value]) => value.export)
+
+    const createItemExport = Object.entries(menu)
+        .filter(([, value]) => value.export)
         .flatMap(([category, value]) => {
             const exportsArray = value.export;
             if (Array.isArray(exportsArray)) {
@@ -81,7 +80,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
             return [];
         })
         .flat()
-        const hasExport = createItemExport.some(item => item.category === repoInfo.flavor);
+    const hasExport = createItemExport.some(item => item.category === repoInfo.flavor);
 
     const handleSubMenuClick = (event) => {
         setSubMenuAnchorEl(event.currentTarget);
@@ -136,7 +135,6 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                                     .filter(item => item.category === repoInfo.flavor)
                                     .map((item) => (
                                         <MenuItem
-                                            key={item.label}
                                             onClick={() => window.location.href = item.url}
                                             disabled={![item.category].includes(repoInfo.flavor)}
                                         >

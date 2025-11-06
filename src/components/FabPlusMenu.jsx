@@ -27,8 +27,8 @@ function FabPlusMenu() {
     }, []);
 
     const createItems = Object.entries(menu)
-        .filter(([_, value]) => value.create_document)
-        .map(([key, value]) => {
+        .filter(([,value]) => value.create_document)
+        .flatMap(([key, value]) => {
             const docs = value.create_document;
             if (Array.isArray(docs)) {
                 return docs.map((doc) => ({
@@ -39,7 +39,6 @@ function FabPlusMenu() {
             }
             return [];
         })
-        .flat();
 
     return <>
         <Box
