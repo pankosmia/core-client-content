@@ -1,0 +1,82 @@
+{
+  "textTranslation": {
+    "create_document": [
+      {
+        "label": "pages:content:create_content",
+        "url": "/clients/core-contenthandler_text_translation#/textTranslation"
+      }
+    ],
+    "new_book": [
+      {
+        "label": "pages:content:new_book",
+        "url": "/clients/core-contenthandler_text_translation#/newBook?repoPath=%%repoInfo.path%%"
+      }
+    ],
+    "export": [
+      {
+        "subMenu": [
+          {
+            "usfm": [
+              {
+                "label": "pages:content:export_usfm",
+                "url": "/clients/core-contenthandler_text_translation#/usfmExport?repoPath=%%repoInfo.path%%"
+              }
+            ],
+            "zip": [
+              {
+                "label": "pages:content:export_zip",
+                "url": "/clients/core-contenthandler_text_translation#/zipExport?repoPath=%%repoInfo.path%%"
+              }
+            ],
+            "pdf": [
+              {
+                "label": "pages:content:export_pdf",
+                "url": "/clients/core-contenthandler_text_translation#/pdfExport?repoPath=%%repoInfo.path%%"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "x-bcvnotes": {
+    "create_document": [
+      {
+        "label": "pages:content:create_content_tn",
+        "url": "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn"
+      }
+    ],
+    "new_book": [
+      {
+        "label": "pages:content:new_book",
+        "url": "/clients/core-contenthandler_bcv#/newBcvBook?repoPath=%%repoInfo.path%%"
+      }
+    ]
+  },
+  "x-bcvquestions": {
+    "create_document": [
+      {
+        "label": "pages:content:create_content_tq",
+        "url": "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq"
+      },
+      {
+        "label": "pages:content:create_content_sq",
+        "url": "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq"
+      }
+    ],
+    "new_book": [
+      {
+        "label": "pages:content:new_book",
+        "url": "/clients/core-contenthandler_bcv#/newBcvBook?repoPath=%%repoInfo.path%%"
+      }
+    ]
+  },
+  "textStories": {
+    "create_document": [
+      {
+        "label": "pages:content:create_content_obs",
+        "url": "/clients/core-contenthandler_obs#/obsContent"
+      }
+    ]
+  }
+}

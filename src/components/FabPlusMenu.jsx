@@ -1,15 +1,15 @@
-import {Box, Fab, Menu, MenuItem, Typography} from "@mui/material";
+import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import {useState, useContext} from "react";
-import {i18nContext, netContext, doI18n} from "pithekos-lib";
-
+import { useState, useContext, useEffect } from "react";
+import { i18nContext, netContext, doI18n } from "pithekos-lib";
 function FabPlusMenu() {
 
-    const {i18nRef} = useContext(i18nContext);
-    const {enabledRef} = useContext(netContext);
+    const { i18nRef } = useContext(i18nContext);
+    const { enabledRef } = useContext(netContext);
     const [importAnchorEl, setImportAnchorEl] = useState(null);
     const [createAnchorEl, setCreateAnchorEl] = useState(null);
+    const [menu, setMenu] = useState([]);
 
     const handleImportClose = () => {
         setImportAnchorEl(null);
@@ -18,9 +18,31 @@ function FabPlusMenu() {
     const handleCreateClose = () => {
         setCreateAnchorEl(null);
     };
+
+    useEffect(() => {
+        fetch("/clients/content/contentmetadata.json")
+            .then(res => res.json())
+            .then(data => setMenu(data))
+            .catch(err => console.error("Error :", err));
+    }, []);
+
+    const createItems = Object.entries(menu)
+        .filter(([,value]) => value.create_document)
+        .flatMap(([key, value]) => {
+            const docs = value.create_document;
+            if (Array.isArray(docs)) {
+                return docs.map((doc) => ({
+                    category: key,
+                    label: doI18n(`${doc.label}`, i18nRef.current),
+                    url: doc.url,
+                }));
+            }
+            return [];
+        })
+
     return <>
         <Box
-            sx={{mb: 2}}
+            sx={{ mb: 2 }}
         >
             <Fab
                 variant="extended"
@@ -29,7 +51,7 @@ function FabPlusMenu() {
                 aria-label={doI18n("pages:content:fab_import", i18nRef.current)}
                 onClick={event => setImportAnchorEl(event.currentTarget)}
             >
-                <DriveFolderUploadIcon sx={{mr: 1}}/>
+                <DriveFolderUploadIcon sx={{ mr: 1 }} />
                 <Typography variant="body2">
                     {doI18n("pages:content:fab_import", i18nRef.current)}
                 </Typography>
@@ -59,9 +81,9 @@ function FabPlusMenu() {
                 size="small"
                 aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
                 onClick={event => setCreateAnchorEl(event.currentTarget)}
-                sx={{ml: 2}}
+                sx={{ ml: 2 }}
             >
-                <CreateNewFolderIcon  sx={{mr: 1}}/>
+                <CreateNewFolderIcon sx={{ mr: 1 }} />
                 <Typography variant="body2">
                     {doI18n("pages:content:fab_create", i18nRef.current)}
                 </Typography>
@@ -72,21 +94,11 @@ function FabPlusMenu() {
                 open={!!createAnchorEl}
                 onClose={handleCreateClose}
             >
-                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_text_translation#/textTranslation"}>
-                    {doI18n("pages:content:create_content", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn"}>
-                    {doI18n("pages:content:create_content_tn", i18nRef.current)}
-                </MenuItem>
-                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq"}>
-                    {doI18n("pages:content:create_content_tq", i18nRef.current)}
-                </MenuItem>
-                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq"}>
-                    {doI18n("pages:content:create_content_sq", i18nRef.current)}
-                </MenuItem>
-                <MenuItem  onClick={() => window.location.href = "/clients/core-contenthandler_obs#/obsContent"}>
-                    {doI18n("pages:content:create_content_obs", i18nRef.current)}
-                </MenuItem>
+                {createItems.map((item) => (
+                    <MenuItem onClick={() => window.location.href = item.url}>
+                      {item.label}
+                    </MenuItem>
+                ))}
             </Menu>
         </Box>
     </>;
