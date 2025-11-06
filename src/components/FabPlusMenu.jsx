@@ -10,7 +10,16 @@ function FabPlusMenu() {
     const [importAnchorEl, setImportAnchorEl] = useState(null);
     const [createAnchorEl, setCreateAnchorEl] = useState(null);
     const [menu, setMenu] = useState([]);
+    const [urls, setUrls] = useState([]);
 
+    useEffect(() => {
+      fetch("/list-clients")
+        .then((res) => res.json())
+        .then((clients) =>
+          setUrls(clients.filter((c) => !!c.url).map((c) => c.url))
+        )
+        .catch((err) => console.error("Error fetching clients:", err));
+    }, []);
     const handleImportClose = () => {
         setImportAnchorEl(null);
     };
@@ -31,7 +40,8 @@ function FabPlusMenu() {
         .flatMap(([key, value]) => {
             const docs = value.create_document;
             if (Array.isArray(docs)) {
-                return docs.map((doc) => ({
+                return docs.filter(doc => {
+                  return urls.includes(doc.url.split('#')[0])}).map((doc) => ({
                     category: key,
                     label: doI18n(`${doc.label}`, i18nRef.current),
                     url: doc.url,
