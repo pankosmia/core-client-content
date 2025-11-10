@@ -19,7 +19,6 @@ function Notifications(remoteRepoPath, params, remoteSource) {
         ["git.door43.org/uW", "unfoldingWord curated content (Door43)"],
         ["git.door43.org/shower", "Aquifer exported content (Door43)"],
     ];
-    //const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
     const [catalog, setCatalog] = useState([]);
     const [localRepos, setLocalRepos] = useState([]);
     const [isDownloading, setIsDownloading] = useState(null);
@@ -64,10 +63,6 @@ function Notifications(remoteRepoPath, params, remoteSource) {
     );  
 
     useEffect(() => {
-        /* console.log("isDownloading", isDownloading);
-        console.log("remoteSource", remoteSource);
-        console.log("catalog", catalog);
-        console.log("localRepos", localRepos); */
         if (!isDownloading && (catalog.length > 0) && localRepos) {
             const downloadStatus = async () => {
                 const newIsDownloading = {};
@@ -89,10 +84,8 @@ function Notifications(remoteRepoPath, params, remoteSource) {
                 setIsDownloading(newIsDownloading);
             }
             if (enabledRef.current){
-                console.log("llego hasta el downloadStatus");
                 downloadStatus().then();
             }
-            console.log("isDownloading", isDownloading);
         }
     }, [isDownloading, remoteSource, catalog, localRepos, enabledRef.current])
 
@@ -120,99 +113,12 @@ function Notifications(remoteRepoPath, params, remoteSource) {
         }
     }, [remoteSource]);
 
-    // Columns for the Data Grid
-    /* const columns = [
-        {
-            field: 'resourceCode',
-            headerName: doI18n("pages:core-remote-resources:row_resource_code", i18nRef.current),
-            flex: 0.5,
-            minWidth: 140,
-            headerAlign: 'left',
-            align: 'left'
-        },
-        {
-            field: 'language',
-            headerName: doI18n("pages:core-remote-resources:row_language", i18nRef.current),
-            flex: 0.5,
-            minWidth: 120,
-            headerAlign: 'left',
-            align: 'left'
-        },
-        {
-            field: 'description',
-            headerName: doI18n("pages:core-remote-resources:row_description", i18nRef.current),
-            flex: 2,
-            minWidth: 130,
-            headerAlign: 'left',
-            align: 'left'
-        },
-        {
-            field: 'type',
-            headerName: doI18n("pages:core-remote-resources:row_type", i18nRef.current),
-            flex: 1.5,
-            minWidth: 80,
-            headerAlign: 'left',
-            align: 'left'
-        },
-        {
-            field: 'download',
-            sortable: false,
-            headerName: doI18n("pages:core-remote-resources:row_download", i18nRef.current),
-            flex: 0.5,
-            minWidth: 120,
-            headerAlign: 'left',
-            align: 'left',
-
-            renderCell: (params) => {
-                const remoteRepoPath = `${remoteSource[0]}/${params.row.name}`;
-                if (!isDownloading) {
-                    return <CloudDownload disabled/>
-                }
-                if (isDownloading[remoteRepoPath] === "notDownloaded") {
-                    return <CloudDownload onClick={() => handleDownloadClick(params, remoteRepoPath, "clone")}/>;
-                }
-                if (isDownloading[remoteRepoPath] === "updatable") {
-                    return <Update onClick={() => handleDownloadClick(params, remoteRepoPath, "fetch")}/>;
-                }
-                if (isDownloading[remoteRepoPath] === "downloading") {
-                    return <CircularProgress size="30px" color="secondary"/>;
-                }
-                return <CloudDone color="disabled"/>;
-            }
-        }
-    ]
-
-    // Rows for the Data Grid
-    const rows = catalog
-        .filter(ce => ce.source.startsWith(remoteSource[0]))
-        .filter(ce => ce.flavor)
-        .map((ce, n) => {
-            return {
-                ...ce,
-                id: n,
-                resourceCode: ce.abbreviation.toUpperCase(),
-                language: ce.language_code,
-                description: ce.description,
-                type: doI18n(`flavors:names:${ce.flavor_type}/${ce.flavor}`, i18nRef.current)
-            }
-        }) */
-    console.log("cambios de estado");
-    console.log("isDownloading", isDownloading);
-    console.log("remoteSource", remoteSource);
-    //console.log("catalog", catalog);
-    //console.log("localRepos", localRepos);
-    console.log("isDownloading[remoteRepoPath]", isDownloading ? isDownloading[remoteRepoPath.remoteRepoPath] : null);
-    console.log("remoteRepoPath", remoteRepoPath.remoteRepoPath);
-    console.log("params", remoteRepoPath.params);
-    
-
     return (<>
             {enabledRef.current 
             ?
                 isDownloading
                 ?
                     <>
-                        {/* {(isDownloading[remoteRepoPath.remoteRepoPath] === "notDownloaded") && <CloudDownload onClick={() => handleDownloadClick(remoteRepoPath.params, remoteRepoPath, "clone")}/>} */}
                         {(isDownloading[remoteRepoPath.remoteRepoPath] === "updatable") && <CloudDownload onClick={() => handleDownloadClick(remoteRepoPath.params, remoteRepoPath, "fetch")}/>}
                         {(isDownloading[remoteRepoPath.remoteRepoPath] === "downloading") && <CircularProgress size="30px" color="secondary"/>}
                         {(isDownloading[remoteRepoPath.remoteRepoPath] === "downloaded") && <CloudDone color="disabled"/>}
