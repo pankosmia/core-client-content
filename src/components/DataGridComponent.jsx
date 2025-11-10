@@ -5,6 +5,7 @@ import {DataGrid} from '@mui/x-data-grid';
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
+import Notifications from "./Notifications";
 
 function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFilter, experimentDialogOpen}) {
 
@@ -88,6 +89,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
             flex: isNormal ? 0.5 : 0.3,
             renderCell: (params) => {
+                console.log(params.row.path.split("/")[0] + "/" + params.row.path.split("/")[1]);
                 return <>
                     { isNormal &&
                     <>{
@@ -106,14 +108,19 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
                             <IconButton disabled={true}>
                                 <EditOffIcon/>
                             </IconButton>
-                    }</>
-                    }
+                    }</>}
                     <ContentRowButtonPlusMenu
                         repoInfo={params.row}
                         reposModCount={reposModCount}
                         setReposModCount={setReposModCount}
                         isNormal={isNormal}
                     />
+                    {!params.row.path.startsWith("_local_") &&
+                    <Notifications 
+                        remoteRepoPath={params.row.path} 
+                        params={params} 
+                        remoteSource={`${params.row.path.split("/")[0]}/${params.row.path.split("/")[1]}`} 
+                    />}
                 </>;
             }
         }
