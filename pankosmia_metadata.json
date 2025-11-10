@@ -297,6 +297,10 @@
       "fr": "Nouveau livre",
       "id": "Buku Baru"
     },
+    "new_tcore_content":{
+      "fr": "Nouveau Projet TCore",
+      "en": "New TCore content"
+    },
     "show_by_verse": {
       "en": "Show by verse",
       "es": "Mostrar por versículos",
