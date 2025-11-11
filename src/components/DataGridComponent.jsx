@@ -85,11 +85,10 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
         },
         {
             field: 'actions',
-            minWidth: isNormal ? 100 : 75,
+            minWidth: isNormal ? 125 : 75,
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
             flex: isNormal ? 0.5 : 0.3,
             renderCell: (params) => {
-                console.log(params.row.path.split("/")[0] + "/" + params.row.path.split("/")[1]);
                 return <>
                     { isNormal &&
                     <>{
