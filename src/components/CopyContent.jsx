@@ -19,7 +19,7 @@ function CopyContent({repoInfo, open, closeFn, reposModCount, setReposModCount})
 
     const copyRepo = async repo_path => {
         const copyRepoPath = `_local_/_local_/${repo_path.split("/")[2]}`;
-        const copyUrl = `/git/copy/${repo_path}?target_path=${copyRepoPath}`;
+        const copyUrl = `/git/copy/${repo_path}?target_path=${copyRepoPath}&add_ignore`;
         const copyResponse = await postEmptyJson(copyUrl, debugRef.current);
         if (copyResponse.ok) {
             // Set up remote for copy (pulls from downloaded) - assume there's no 'downloaded' remote
