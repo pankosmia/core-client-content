@@ -41,6 +41,9 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
         "x-obsnotes": "peripheral",
         "x-obsarticles": "peripheral",
         "x-obsimages": "peripheral",
+        "x-translationplan": "parascriptural",
+        "x-tcore": "parascriptural",
+        "x-bcvvideo": "parascriptural"
     };
 
     const columns = [
