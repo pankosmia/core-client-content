@@ -1,5 +1,5 @@
 import {useState, useEffect, useContext} from "react"
-import {IconButton} from "@mui/material";
+import {IconButton, Button} from "@mui/material";
 import {getJson, getAndSetJson, debugContext, i18nContext, doI18n, postEmptyJson, netContext} from "pithekos-lib";
 import {DataGrid} from '@mui/x-data-grid';
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
@@ -160,6 +160,14 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             flex: isNormal ? 0.5 : 0.3,
             renderCell: (params) => {
                 return <>
+                    {!params.row.path.startsWith("_local_") &&
+                    <Notification 
+                        remoteRepoPath={params.row.path} 
+                        params={params} 
+                        isDownloading={isDownloading}
+                        setIsDownloading={setIsDownloading}
+                        remoteSource={remoteSource}
+                    />}
                     { isNormal &&
                     <>{
                         params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
@@ -184,14 +192,6 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
                         setReposModCount={setReposModCount}
                         isNormal={isNormal}
                     />
-                    {!params.row.path.startsWith("_local_") &&
-                    <Notification 
-                        remoteRepoPath={params.row.path} 
-                        params={params} 
-                        isDownloading={isDownloading}
-                        setIsDownloading={setIsDownloading}
-                        remoteSource={remoteSource}
-                    />}
                 </>;
             }
         }

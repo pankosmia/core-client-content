@@ -1,9 +1,6 @@
 import {useContext, useCallback} from "react"
-import {CircularProgress} from "@mui/material";
-import CloudDownload from "@mui/icons-material/CloudDownload";
-import CloudDone from "@mui/icons-material/CloudDone";
-import CloudOff from "@mui/icons-material/CloudOff";
-import PendingIcon from '@mui/icons-material/Pending';
+import {CircularProgress, IconButton} from "@mui/material";
+import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 import {enqueueSnackbar} from "notistack";
 import {i18nContext, doI18n, debugContext, postEmptyJson, netContext} from "pithekos-lib";
 
@@ -37,19 +34,17 @@ function Notification({remoteRepoPath, params, isDownloading, setIsDownloading, 
     }, [remoteSource]);
 
     return (<>
-            {enabledRef.current 
-            ?
-                isDownloading
-                ?
-                    <>
-                        {(isDownloading[remoteRepoPath] === "updatable") && <CloudDownload onClick={() => handleDownloadClick(params, remoteRepoPath, "fetch")}/>}
+            {enabledRef.current &&
+                (isDownloading &&   
+                    (((isDownloading[remoteRepoPath] === "updatable") || (isDownloading[remoteRepoPath] === "downloading")) &&
+                    <IconButton
+                        disableRipple={(isDownloading[remoteRepoPath] === "downloading")}
+                    >
+                        {(isDownloading[remoteRepoPath] === "updatable") && <SyncOutlinedIcon onClick={(event) => { handleDownloadClick(params, remoteRepoPath, "fetch"); event.stopPropagation()} }/>}
                         {(isDownloading[remoteRepoPath] === "downloading") && <CircularProgress size="30px" color="secondary"/>}
-                        {(isDownloading[remoteRepoPath] === "downloaded") && <CloudDone color="disabled"/>}
-                    </>
-                :
-                    <PendingIcon disabled/>
-            :
-                <CloudOff disabled/>
+                    </IconButton>
+                    )
+                )
             }
         </>
     );
