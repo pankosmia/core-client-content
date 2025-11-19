@@ -157,7 +157,8 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             field: 'actions',
             minWidth: isNormal ? 125 : 75,
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
-            flex: isNormal ? 0.5 : 0.3,
+            flex: isNormal ? 0.7 : 0.3,
+            align: 'right',
             renderCell: (params) => {
                 return <>
                     {!params.row.path.startsWith("_local_") &&
