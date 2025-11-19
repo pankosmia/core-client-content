@@ -1,16 +1,28 @@
 import {useState, useEffect, useContext} from "react"
-import {IconButton} from "@mui/material";
-import {getJson, debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
+import {IconButton, Button} from "@mui/material";
+import {getJson, getAndSetJson, debugContext, i18nContext, doI18n, postEmptyJson, netContext} from "pithekos-lib";
 import {DataGrid} from '@mui/x-data-grid';
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
+import Notification from "./Notification";
 
 function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFilter, experimentDialogOpen}) {
 
     const {debugRef} = useContext(debugContext);
     const {i18nRef} = useContext(i18nContext);
+    const {enabledRef} = useContext(netContext);
     const [projectSummaries, setProjectSummaries] = useState({});
+
+    const sourceWhitelist = [
+        ["git.door43.org/BurritoTruck", "Xenizo curated content (Door43)"],
+        ["git.door43.org/uW", "unfoldingWord curated content (Door43)"],
+        ["git.door43.org/shower", "Aquifer exported content (Door43)"],
+    ];
+    const [catalog, setCatalog] = useState([]);
+    const [localRepos, setLocalRepos] = useState([]);
+    const [isDownloading, setIsDownloading] = useState(null);
+    const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
 
     const getProjectSummaries = async () => {
         const summariesResponse = await getJson(`/burrito/metadata/summaries${!isNormal ? contentFilter : ""}`, debugRef.current);
@@ -25,6 +37,65 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
         },
         [reposModCount, experimentDialogOpen]
     );
+
+    useEffect(
+        () => {
+            const doCatalog = async () => {
+                if (catalog.length === 0 && enabledRef.current) {
+                    let newCatalog = [];
+                    for (const source of sourceWhitelist) {
+                        const response = await getJson(`/gitea/remote-repos/${source[0]}`, debugRef.current);
+                        if (response.ok) {
+                            const newResponse = response.json.map(r => {
+                                return {...r, source: source[0]}
+                            })
+                            newCatalog = [...newCatalog, ...newResponse];
+                        }
+                    }
+                    setCatalog(newCatalog);
+                }
+            }
+            doCatalog().then();
+        },
+        [catalog, remoteSource, enabledRef.current]
+    );
+
+    useEffect(
+        () => {
+            if (enabledRef.current && localRepos.length === 0){
+                getAndSetJson({
+                    url: "/git/list-local-repos",
+                    setter: setLocalRepos
+                }).then()
+            }
+        },
+        [remoteSource, enabledRef.current]
+    );  
+
+    useEffect(() => {
+        if (!isDownloading && (catalog.length > 0) && localRepos && enabledRef.current) {
+            const downloadStatus = async () => {
+                const newIsDownloading = {};
+                for (const e of catalog) {
+                    if (localRepos.includes(`${e.source}/${e.name}`)) {
+                        const metadataUrl = `/burrito/metadata/summary/${e.source}/${e.name}`;
+                        let metadataResponse = await getJson(metadataUrl, debugRef.current);
+                        if (metadataResponse.ok) {
+                            const metadataTime = metadataResponse.json.timestamp;
+                            const remoteUpdateTime = Date.parse(e.updated_at)/1000;
+                            newIsDownloading[`${e.source}/${e.name}`] = (remoteUpdateTime - metadataTime > 0) ? "updatable" : "downloaded"
+                        } else {
+                            newIsDownloading[`${e.source}/${e.name}`] = "downloaded";
+                        }
+                    } else {
+                        newIsDownloading[`${e.source}/${e.name}`] = "notDownloaded";
+                    }
+                }
+                setIsDownloading(newIsDownloading);
+            }
+            downloadStatus().then();
+        }
+    }, [isDownloading, remoteSource, catalog, localRepos, enabledRef.current])
     
     const flavorTypes = {
         texttranslation: "scripture",
@@ -87,11 +158,20 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
         },
         {
             field: 'actions',
-            minWidth: isNormal ? 100 : 75,
+            minWidth: isNormal ? 125 : 75,
             headerName: doI18n("pages:content:row_actions", i18nRef.current),
-            flex: isNormal ? 0.5 : 0.3,
+            flex: isNormal ? 0.7 : 0.3,
+            align: 'right',
             renderCell: (params) => {
                 return <>
+                    {!params.row.path.startsWith("_local_") &&
+                    <Notification 
+                        remoteRepoPath={params.row.path} 
+                        params={params} 
+                        isDownloading={isDownloading}
+                        setIsDownloading={setIsDownloading}
+                        remoteSource={remoteSource}
+                    />}
                     { isNormal &&
                     <>{
                         params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
@@ -109,8 +189,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
                             <IconButton disabled={true}>
                                 <EditOffIcon/>
                             </IconButton>
-                    }</>
-                    }
+                    }</>}
                     <ContentRowButtonPlusMenu
                         repoInfo={params.row}
                         reposModCount={reposModCount}
