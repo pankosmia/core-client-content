@@ -125,16 +125,23 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             flex: 3
         },
         {
+            field: 'language',
+            headerName: doI18n("pages:content:row_language", i18nRef.current),
+            minWidth: 120,
+            flex: 0.75
+        },
+        {
             field: 'source',
             headerName: doI18n("pages:content:row_source", i18nRef.current),
             minWidth: 110,
             flex: 1
         },
-        {
-            field: 'language',
-            headerName: doI18n("pages:content:row_language", i18nRef.current),
-            minWidth: 120,
-            flex: 0.75
+         {
+            field: 'type',
+            headerName: doI18n("pages:content:row_type", i18nRef.current),
+            minWidth: 80,
+            flex: 0.75,
+            valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
         },
         {
             field: 'nBooks',
@@ -142,13 +149,6 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             type: "number",
             minWidth: 150,
             flex: 0.5
-        },
-        {
-            field: 'type',
-            headerName: doI18n("pages:content:row_type", i18nRef.current),
-            minWidth: 80,
-            flex: 0.75,
-            valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
         },
         {
             field: 'dateUpdated',
