@@ -174,7 +174,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
                     />}
                     { isNormal &&
                     <>{
-                        params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
+                        params.row.path.startsWith("_local_/_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
                             <IconButton
                                 onClick={
                                     async () => {
