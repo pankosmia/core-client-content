@@ -119,16 +119,28 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
 
     const columns = [
         {
+            field: 'abbreviation',
+            headerName: doI18n("pages:content:row_abbreviation", i18nRef.current),
+            minWidth: 110,
+            flex: 0.5
+        },
+        {
             field: 'name',
             headerName: doI18n("pages:content:row_name", i18nRef.current),
             minWidth: 110,
-            flex: 3
+            flex: 2
         },
         {
             field: 'language',
             headerName: doI18n("pages:content:row_language", i18nRef.current),
             minWidth: 120,
-            flex: 0.75
+            flex: 0.25
+        },
+        {
+            field: 'source',
+            headerName: doI18n("pages:content:row_source", i18nRef.current),
+            minWidth: 110,
+            flex: 1.5
         },
         {
             field: 'source',
@@ -140,7 +152,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             field: 'type',
             headerName: doI18n("pages:content:row_type", i18nRef.current),
             minWidth: 80,
-            flex: 0.75,
+            flex: 1,
             valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
         },
         {
