@@ -69,22 +69,7 @@
       "fr": "importer",
       "id": "impor"
     },
-    "create_content": {
-      "en": "Text Translation",
-      "fr": "Traduction (texte)",
-      "id": "Terjemahan Secara Tertulis"
-    },
-    "create_content_obs": {
-      "en": "OBS Resource",
-      "fr": "Ressource OBS",
-      "id": "Sumber Daya CAT"
-    },
-    "create_content_bcvresources": {
-      "en": "Book-Chapter-Verse Resource",
-      "fr": "Ressource livre-chapitre-verset (BCV)",
-      "es": "Nuevo contenido de recursos de Bcv",
-      "id": "Sumber Daya Buku-Fasal-Ayat"
-    },
+
     "download_content": {
       "en": "Download from Internet",
       "es": "Descargar Contenido",
@@ -154,55 +139,17 @@
       "es": "Exportar",
       "id": "Ekspor"
     },
-    "export_usfm": {
-      "en": "Export as USFM",
-      "es": "Exportar como USFM",
-      "id": "Ekspor USFM"
-    },
-    "export_label": {
-      "en": "EXPORT",
-      "es": "EXPORTAR",
-      "id": "EKSPOR"
-    },
-    "export_zip": {
-      "en": "Export as ZIP",
-      "es": "Exportar como ZIP",
-      "id": "Ekspor sebagai ZIP"
-    },
+
     "cancel": {
       "en": "CANCEL",
       "es": "CANCELAR",
       "id": "BATAL"
     },
-    "export_all": {
-      "en": "Export all books",
-      "es": "Exportar todos los libros",
-      "id": "Ekspor semua buku"
-    },
-    "pick_one_book_export": {
-      "en": "Choose a book to export",
-      "es": "Elige uno libro para exportar",
-      "id": "Pilih buku buat diekspor"
-    },
-    "pick_one_or_more_books_export": {
-      "en": "Choose one or more books to export",
-      "es": "Elige uno o más libros para exportar",
-      "id": "Pilih satuh lebih buku buat diekspor"
-    },
+
     "books": {
       "en": "Books",
       "es": "Libros",
       "id": "Buku"
-    },
-    "export_as_usfm": {
-      "en": "Export Content as USFM",
-      "es": "Exportar Contenido como USFM",
-      "id": "Ekspor konten sebagai USFM"
-    },
-    "export_as_zip": {
-      "en": "Export Content as ZIP",
-      "es": "Exportar Contenido como ZIP",
-      "id": "Ekspor Konten sebagai ZIP"
     },
     "save_book_file": {
       "en": "Save book file",
@@ -223,20 +170,10 @@
       "en": "Contents",
       "id": "Isi"
     },
-    "could_not_fetch": {
-      "en": "Could not fetch",
-      "es": "No se pudo obtener",
-      "id": "Tidak dapat ambil"
-    },
     "local_org": {
       "en": "This computer",
       "fr": "Cet ordinateur",
       "id": "Komputer ini"
-    },
-    "no_books_selected": {
-      "en": "No books were selected so nothing was exported",
-      "fr": "Aucun livre n'a été selectionné pour exportation",
-      "id": "Buku tidak ditentukan jadi tidak ada ekspor"
     },
     "protestant_books_only": {
       "en": "List protestant books only",
@@ -248,15 +185,7 @@
       "fr": "Exporter comme document Word",
       "id": "Ekspor konten sebagai dokumen Word"
     },
-    "export_pdf": {
-      "en": "Export as PDF",
-      "es": "Exportar como PDF",
-      "id": "Ekspor sebagai PDF"
-    },
-    "generate_as_pdf": {
-      "en": "Generate a PDF",
-      "id": "Hasilkan PDF"
-    },
+
     "delete_content": {
       "en": "Delete this content",
       "fr": "Supprimer ce contenu",
@@ -301,66 +230,7 @@
       "fr": "Nouveau Projet TCore",
       "en": "New TCore content"
     },
-    "show_by_verse": {
-      "en": "Show by verse",
-      "es": "Mostrar por versículos",
-      "id": "Tampil per ayat"
-    },
-    "show_title": {
-      "en": "Show title",
-      "es": "Mostrar el título",
-      "id": "Tampil judul utama"
-    },
-    "show_headings": {
-      "en": "Show headings",
-      "es": "Mostrar encabezados",
-      "id": "Tampil judul-judul"
-    },
-    "show_introductions": {
-      "en": "Show introductions",
-      "es": "Mostrar introducciones",
-      "id": "Tampil pengantar-pengantar"
-    },
-    "show_footnotes": {
-      "en": "Show footnotes",
-      "es": "Mostrar notas a pie de página",
-      "id": "Tampil catatan kaki"
-    },
-    "show_xrefs": {
-      "en": "Show cross references",
-      "es": "Mostrar referencias cruzadas",
-      "id": "Tampil referensi silang"
-    },
-    "show_para_styles": {
-      "en": "Show paragraph styles",
-      "es": "Mostrar estilos de párrafo",
-      "id": "Tampil gaya paragraf"
-    },
-    "show_character_markup": {
-      "en": "Show character markup",
-      "es": "Mostrar el marcado de caracteres",
-      "id": "Tampil markup karakter"
-    },
-    "show_chapter_labels": {
-      "en": "Show chapter labels",
-      "es": "Mostrar los nombres de los capítulos",
-      "id": "Tampil label fasal"
-    },
-    "show_verses_labels": {
-      "en": "Show verses labels",
-      "es": "Mostrar los nomnbres de los versículos",
-      "id": "Tampil label ayat"
-    },
-    "show_first_verse_label": {
-      "en": "Show first verse label",
-      "es": "Mostrar el nombre del primer versículo",
-      "id": "Tampil label ayat"
-    },
-    "number_of_columns": {
-      "en": "Select the number of columns",
-      "es": "Seleccione el número de columnas",
-      "id": "Pilih jumlah kolum-kolum"
-    },
+
     "resource_format": {
       "fr": "Choix du format de la ressource",
       "id": "Choose resource format"
@@ -502,12 +372,6 @@
       "fr": "Le contenu a été archivé",
       "es": "Se archivó el contenido",
       "id": "Konten telah diarsipkan"
-    },
-    "experiment_content": {
-      "en": "Content for experiment",
-      "fr": "Contenu de l'expérience",
-      "es": "Contedido para experimentar",
-      "id": "Konten buat Percobaan"
     },
     "restore_content": {
       "en": "Restore content",
@@ -881,10 +745,7 @@
       "en": "Generate a PDF",
       "id": "Hasilkan PDF"
     },
-    "pdf_preview": {
-      "en": "PDF Preview",
-      "id": "Pratinjau PDF"
-    },
+
     "print": {
       "en": "Print",
       "id": "Cetak"
@@ -893,6 +754,16 @@
       "en": "Push",
       "es": "Push",
       "id": "Dorong"
+    },
+    "row_abbreviation": {
+      "en": "Abbreviation",
+      "es": "@Código de Recurso",
+      "fr": "Abréviation",
+      "id": "@Kode Sumber Daya"
+    },
+    "row_description": {
+      "en": "Description",
+      "fr": "Description"
     }
   }
 }

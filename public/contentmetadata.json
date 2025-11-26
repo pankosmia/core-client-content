@@ -2,7 +2,7 @@
   "textTranslation": {
     "create_document": [
       {
-        "label": "pages:content:create_content",
+        "label": "pages:core-contenthandler_text_translation:create_content_text_translation",
         "url": "/clients/core-contenthandler_text_translation#/textTranslation"
       }
     ],
@@ -18,19 +18,19 @@
           {
             "usfm": [
               {
-                "label": "pages:content:export_usfm",
+                "label": "pages:core-contenthandler_text_translation:export_usfm",
                 "url": "/clients/core-contenthandler_text_translation#/usfmExport?repoPath=%%repoInfo.path%%"
               }
             ],
             "zip": [
               {
-                "label": "pages:content:export_zip",
+                "label": "pages:core-contenthandler_text_translation:export_zip",
                 "url": "/clients/core-contenthandler_text_translation#/zipExport?repoPath=%%repoInfo.path%%"
               }
             ],
             "pdf": [
               {
-                "label": "pages:content:export_pdf",
+                "label": "pages:core-contenthandler_text_translation:export_pdf",
                 "url": "/clients/core-contenthandler_text_translation#/pdfExport?repoPath=%%repoInfo.path%%"
               }
             ]
@@ -42,7 +42,7 @@
   "x-bcvnotes": {
     "create_document": [
       {
-        "label": "pages:content:create_content_tn",
+        "label": "pages:core-contenthandler_bcv:create_content_tn",
         "url": "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tn"
       }
     ],
@@ -56,11 +56,11 @@
   "x-bcvquestions": {
     "create_document": [
       {
-        "label": "pages:content:create_content_tq",
+        "label": "pages:core-contenthandler_bcv:create_content_tq",
         "url": "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=tq"
       },
       {
-        "label": "pages:content:create_content_sq",
+        "label": "pages:core-contenthandler_bcv:create_content_sq",
         "url": "/clients/core-contenthandler_bcv#/bookChapterVerse?resourceType=sq"
       }
     ],
@@ -81,7 +81,7 @@
   "textStories": {
     "create_document": [
       {
-        "label": "pages:content:create_content_obs",
+        "label": "pages:core-contenthandler_obs:create_content_obs",
         "url": "/clients/core-contenthandler_obs#/obsContent"
       }
     ]
