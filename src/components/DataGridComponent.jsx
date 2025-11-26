@@ -143,18 +143,24 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             flex: 1.5
         },
         {
-            field: 'nBooks',
-            headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
-            type: "number",
-            minWidth: 150,
-            flex: 0.5
+            field: 'source',
+            headerName: doI18n("pages:content:row_source", i18nRef.current),
+            minWidth: 110,
+            flex: 1
         },
-        {
+         {
             field: 'type',
             headerName: doI18n("pages:content:row_type", i18nRef.current),
             minWidth: 80,
             flex: 1,
             valueGetter: v => doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current)
+        },
+        {
+            field: 'nBooks',
+            headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
+            type: "number",
+            minWidth: 150,
+            flex: 0.5
         },
         {
             field: 'dateUpdated',
@@ -180,7 +186,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
                     />}
                     { isNormal &&
                     <>{
-                        params.row.path.startsWith("_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
+                        params.row.path.startsWith("_local_/_local_") && ["textTranslation","x-bcvnotes","x-bcvquestions","textStories"].includes(params.row.type) ?
                             <IconButton
                                 onClick={
                                     async () => {
