@@ -140,12 +140,6 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             field: 'source',
             headerName: doI18n("pages:content:row_source", i18nRef.current),
             minWidth: 110,
-            flex: 1.5
-        },
-        {
-            field: 'source',
-            headerName: doI18n("pages:content:row_source", i18nRef.current),
-            minWidth: 110,
             flex: 1
         },
          {
