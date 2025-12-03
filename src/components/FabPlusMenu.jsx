@@ -1,28 +1,30 @@
-import {Box, Fab, Menu, MenuItem, Typography} from "@mui/material";
+import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
 import CreateNewFolderIcon from '@mui/icons-material/CreateNewFolder';
-import NewBibleContent from "./NewTextTranslationContent";
-import NewBcvContent from "./NewBcvContent";
-import NewOBSContent from "./NewOBSContent";
-import {useState, useContext} from "react";
+import {useState, useContext, useEffect} from "react";
 import {i18nContext, netContext, doI18n} from "pithekos-lib";
 import ZipImport from "./ZipImport";
 
-function FabPlusMenu({reposModCount, setReposModCount}) {
+function FabPlusMenu() {
 
-    const {i18nRef} = useContext(i18nContext);
-    const {enabledRef} = useContext(netContext);
-    
+    const { i18nRef } = useContext(i18nContext);
+    const { enabledRef } = useContext(netContext);
     const [importAnchorEl, setImportAnchorEl] = useState(null);
     const [zipImportAnchorEl, setZipImportAnchorEl] = useState(null);
     const zipImportOpen = Boolean(zipImportAnchorEl);
     
     const [createAnchorEl, setCreateAnchorEl] = useState(null);
-    const [openedModal, setOpenedModal] = useState(null);
-    const [resourceFormat, setResourceFormat] = useState("tn");
+    const [menu, setMenu] = useState([]);
+    const [urls, setUrls] = useState([]);
 
-    const resourceFormatList = ["tn", "tq", "sq"];
-
+    useEffect(() => {
+      fetch("/list-clients")
+        .then((res) => res.json())
+        .then((clients) =>
+          setUrls(clients.filter((c) => !!c.url).map((c) => c.url))
+        )
+        .catch((err) => console.error("Error fetching clients:", err));
+    }, []);
     const handleImportClose = () => {
         setImportAnchorEl(null);
     };
@@ -31,24 +33,31 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
         setCreateAnchorEl(null);
     };
 
-    const handleTextBibleClick = () => {
-        setOpenedModal('text-bible');
-        setCreateAnchorEl(null);
-    };
+    useEffect(() => {
+        fetch("/clients/content/contentmetadata.json")
+            .then(res => res.json())
+            .then(data => setMenu(data))
+            .catch(err => console.error("Error :", err));
+    }, []);
 
-    const handleBcvResourceClick = () => {
-        setOpenedModal('bcv-content');
-        setCreateAnchorEl(null);
-    }
-
-    const handleOBSResourceClick = () => {
-        setOpenedModal('obs-content');
-        setCreateAnchorEl(null);
-    }
+    const createItems = Object.entries(menu)
+        .filter(([,value]) => value.create_document)
+        .flatMap(([key, value]) => {
+            const docs = value.create_document;
+            if (Array.isArray(docs)) {
+                return docs.filter(doc => {
+                  return urls.includes(doc.url.split('#')[0])}).map((doc) => ({
+                    category: key,
+                    label: doI18n(`${doc.label}`, i18nRef.current),
+                    url: doc.url,
+                }));
+            }
+            return [];
+        })
 
     return <>
         <Box
-            sx={{mb: 2}}
+            sx={{ mb: 2 }}
         >
             <Fab
                 variant="extended"
@@ -57,7 +66,7 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 aria-label={doI18n("pages:content:fab_import", i18nRef.current)}
                 onClick={event => setImportAnchorEl(event.currentTarget)}
             >
-                <DriveFolderUploadIcon sx={{mr: 1}}/>
+                <DriveFolderUploadIcon sx={{ mr: 1 }} />
                 <Typography variant="body2">
                     {doI18n("pages:content:fab_import", i18nRef.current)}
                 </Typography>
@@ -89,9 +98,9 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 size="small"
                 aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
                 onClick={event => setCreateAnchorEl(event.currentTarget)}
-                sx={{ml: 2}}
+                sx={{ ml: 2 }}
             >
-                <CreateNewFolderIcon  sx={{mr: 1}}/>
+                <CreateNewFolderIcon sx={{ mr: 1 }} />
                 <Typography variant="body2">
                     {doI18n("pages:content:fab_create", i18nRef.current)}
                 </Typography>
@@ -102,42 +111,13 @@ function FabPlusMenu({reposModCount, setReposModCount}) {
                 open={!!createAnchorEl}
                 onClose={handleCreateClose}
             >
-                <MenuItem onClick={handleTextBibleClick}>
-                    {doI18n("pages:content:create_content", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[0]) ;handleBcvResourceClick()}}>
-                    {doI18n("pages:content:create_content_tn", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[1]) ;handleBcvResourceClick()}}>
-                    {doI18n("pages:content:create_content_tq", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={() => {setResourceFormat(resourceFormatList[2]) ;handleBcvResourceClick()}}>
-                    {doI18n("pages:content:create_content_sq", i18nRef.current)}
-                </MenuItem>
-                <MenuItem onClick={handleOBSResourceClick}>
-                    {doI18n("pages:content:create_content_obs", i18nRef.current)}
-                </MenuItem>
+                {createItems.map((item) => (
+                    <MenuItem onClick={() => window.location.href = item.url}>
+                      {item.label}
+                    </MenuItem>
+                ))}
             </Menu>
         </Box>
-        <NewBibleContent
-            open={openedModal === 'text-bible'}
-            closeModal={() => setOpenedModal(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
-        <NewBcvContent
-            open={openedModal === 'bcv-content'}
-            closeModal={() => setOpenedModal(null)}
-            reposModCount={reposModCount} 
-            setReposModCount={setReposModCount}
-            resourceFormat={resourceFormat}
-        />
-        <NewOBSContent
-            open={openedModal === 'obs-content'}
-            closeModal={() => setOpenedModal(null)}
-            reposModCount={reposModCount}
-            setReposModCount={setReposModCount}
-        />
         <ZipImport
             open={zipImportOpen}
             closeFn={() => setZipImportAnchorEl(null)}
