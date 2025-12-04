@@ -14,6 +14,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
     const {enabledRef} = useContext(netContext);
     const [projectSummaries, setProjectSummaries] = useState({});
     const [languageLookup, setLanguageLookup] = useState([]);
+    const [isoThreeLookup, setIsoThreeLookup] = useState([]);
 
     const sourceWhitelist = [
         ["git.door43.org/BurritoTruck", "Xenizo curated content (Door43)"],
@@ -44,6 +45,13 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
         .then(r => r.json())
         .then(data => setLanguageLookup(data));
     }, []);
+
+      useEffect(() => {
+        fetch('/app-resources/lookups/iso639-3.json') // ISO_639-3 2025-02-21 from https://hisregistries.org/rol/ plus zht, zhs, nep
+
+          .then(r => r.json())
+          .then(data => setIsoThreeLookup(data));
+      }, []);
 
     useEffect(
         () => {
@@ -140,7 +148,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
         {
             field: 'language',
             headerName: doI18n("pages:content:row_language", i18nRef.current),
-            minWidth: 120,
+            minWidth: 175,
             flex: 0.25
         },
         {
@@ -222,6 +230,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             id: n,
             name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
             language: languageLookup.find(x => x?.id === rep.language_code)?.en ??
+                      isoThreeLookup.find(x => x?.id === rep.language_code)?.en ??
                       rep.language_code,
             nBooks: rep.book_codes.length,
             type: rep.flavor,
