@@ -13,6 +13,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
     const {i18nRef} = useContext(i18nContext);
     const {enabledRef} = useContext(netContext);
     const [projectSummaries, setProjectSummaries] = useState({});
+    const [languageLookup, setLanguageLookup] = useState([]);
 
     const sourceWhitelist = [
         ["git.door43.org/BurritoTruck", "Xenizo curated content (Door43)"],
@@ -37,6 +38,12 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
         },
         [reposModCount, experimentDialogOpen]
     );
+
+    useEffect(() => {
+      fetch('/app-resources/lookups/languages.json') // ISO_639-1 plus grc
+        .then(r => r.json())
+        .then(data => setLanguageLookup(data));
+    }, []);
 
     useEffect(
         () => {
@@ -214,7 +221,8 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             ...rep,
             id: n,
             name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
-            language: rep.language_code,
+            language: languageLookup.find(x => x?.id === rep.language_code)?.en ??
+                      rep.language_code,
             nBooks: rep.book_codes.length,
             type: rep.flavor,
             source: rep.path.startsWith("_local_") ?
