@@ -53,7 +53,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                 return docs.map((doc) => ({
                     category: key,
                     label: doI18n(`${doc.label}`, i18nRef.current),
-                    url: doc.url.replace("%%repoInfo.path%%", repoInfo.path),
+                    url: doc.url.replace("%%REPO_PATH%%", repoInfo.path),
                 }));
             }
             return [];
