@@ -4,6 +4,7 @@
     "net": false,
     "debug": false
   },
+  "minServerVersion":"0.11.3",
   "i18n": {
     "title": {
       "en": "My Content",
@@ -893,6 +894,11 @@
       "en": "Push",
       "es": "Push",
       "id": "Dorong"
+    },
+    "edit_check_project": {
+      "en": "edit check project",
+      "es": "editar proyecto de verificación",
+      "id": "editer project check"
     }
   }
 }
