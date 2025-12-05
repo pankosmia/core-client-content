@@ -4,6 +4,7 @@
     "net": false,
     "debug": false
   },
+  "minServerVersion":"0.11.3",
   "i18n": {
     "title": {
       "en": "My Content",
@@ -764,6 +765,11 @@
     "row_description": {
       "en": "Description",
       "fr": "Description"
+    },
+    "edit_check_project": {
+      "en": "edit check project",
+      "es": "editar proyecto de verificación",
+      "id": "editer project check"
     }
   }
 }

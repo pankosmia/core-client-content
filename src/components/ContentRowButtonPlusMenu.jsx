@@ -9,9 +9,8 @@ import DeleteContent from "./DeleteContent";
 import { useState, useContext, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-
 function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, isNormal }) {
-
+    console.log(repoInfo)
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
 
@@ -40,8 +39,8 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
     const [menu, setMenu] = useState([]);
 
     useEffect(() => {
-        fetch("/clients/content/contentmetadata.json")
-            .then(res => res.json())
+        getJson("/client-interfaces")
+            .then(res => res.json)
             .then(data => setMenu(data))
             .catch(err => console.error("Error :", err));
     }, []);
@@ -54,7 +53,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                 return docs.map((doc) => ({
                     category: key,
                     label: doI18n(`${doc.label}`, i18nRef.current),
-                    url: doc.url.replace("%%repoInfo.path%%", repoInfo.path),
+                    url: doc.url.replace("%%REPO_PATH%%", repoInfo.path),
                 }));
             }
             return [];
@@ -172,6 +171,7 @@ function ContentRowButtonPlusMenu({ repoInfo, reposModCount, setReposModCount, i
                         >
                             {doI18n("pages:content:quarantine_content", i18nRef.current)}
                         </MenuItem>
+                      
                         <Divider />
                         < MenuItem
                             onClick={handleSubMenuClick}
