@@ -51,7 +51,7 @@ function App() {
     }, [handleWindowResize]);
 
     return (
-        <Box sx={{ mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'scroll', width: '100%' }}>
+        <Box sx={{ mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'auto', width: '100%' }}>
             <Grid2 container sx={{ mx: 2 }}>
                 <Grid2 container>
                     <Grid2 item size={12} sx={{ m: 0 }}>
@@ -103,19 +103,14 @@ function App() {
                                 >
                                     <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
                                         <Toolbar>
-                                            <Typography variant="h6" component="div">
-                                                {doI18n("pages:content:experiment_content", i18nRef.current)}
+                                            <Typography variant="h6">
+                                                {contentFilter.includes("archive") && doI18n("pages:content:archived_content", i18nRef.current)}
+                                                {contentFilter.includes("quarantine") && doI18n("pages:content:quarantined_content", i18nRef.current)}
+                                                {contentFilter.includes("updates") && doI18n("pages:content:content_updates", i18nRef.current)}
                                             </Typography>
                                         </Toolbar>
                                     </AppBar>
                                     <DialogContent>
-                                    <DialogContentText>
-                                        <Typography variant="h6">
-                                            {contentFilter.includes("archive") && doI18n("pages:content:archived_content", i18nRef.current)}
-                                            {contentFilter.includes("quarantine") && doI18n("pages:content:quarantined_content", i18nRef.current)}
-                                            {contentFilter.includes("updates") && doI18n("pages:content:content_updates", i18nRef.current)}
-                                        </Typography>
-                                    </DialogContentText>
                                         <DataGridComponent
                                             reposModCount={reposModCount}
                                             setReposModCount={setReposModCount}
