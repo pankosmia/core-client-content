@@ -13,7 +13,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
     const {i18nRef} = useContext(i18nContext);
     const {enabledRef} = useContext(netContext);
     const [projectSummaries, setProjectSummaries] = useState({});
-    const [languageLookup, setLanguageLookup] = useState([]);
+    const [isoOneToThreeLookup, setIsoOneToThreeLookup] = useState([]);
     const [isoThreeLookup, setIsoThreeLookup] = useState([]);
 
     const sourceWhitelist = [
@@ -41,9 +41,9 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
     );
 
     useEffect(() => {
-      fetch('/app-resources/lookups/languages.json') // ISO_639-1 plus grc
+      fetch('/app-resources/lookups/iso639-1-to-3.json') // ISO_639-1 codes mapped to ISO_639-3 codes
         .then(r => r.json())
-        .then(data => setLanguageLookup(data));
+        .then(data => setIsoOneToThreeLookup(data));
     }, []);
 
       useEffect(() => {
@@ -229,8 +229,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             ...rep,
             id: n,
             name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
-            language: languageLookup.find(x => x?.id === rep.language_code)?.en ??
-                      isoThreeLookup?.[rep.language_code]?.en ??
+            language: isoThreeLookup?.[ isoOneToThreeLookup[rep.language_code] ?? rep.language_code ]?.en ??
                       rep.language_code,
             nBooks: rep.book_codes.length,
             type: rep.flavor,
