@@ -230,7 +230,7 @@ function DataGridComponent({reposModCount, setReposModCount, isNormal, contentFi
             id: n,
             name: `${rep.name.trim()}${rep.description.trim() !== rep.name.trim() ? ": " + rep.description.trim() : ""}`,
             language: languageLookup.find(x => x?.id === rep.language_code)?.en ??
-                      isoThreeLookup.find(x => x?.id === rep.language_code)?.en ??
+                      isoThreeLookup?.[rep.language_code]?.en ??
                       rep.language_code,
             nBooks: rep.book_codes.length,
             type: rep.flavor,
