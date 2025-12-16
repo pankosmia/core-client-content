@@ -227,6 +227,11 @@
       "fr": "Nouveau livre",
       "id": "Buku Baru"
     },
+    "import_book": {
+      "en": "Import Book",
+      "fr": "Importer livre",
+      "id": "Impor buku"
+    },
     "new_tcore_content":{
       "fr": "Nouveau Projet TCore",
       "en": "New TCore content"

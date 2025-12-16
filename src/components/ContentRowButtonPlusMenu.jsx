@@ -155,27 +155,31 @@ function ContentRowButtonPlusMenu({
               <>
                 {createItemNewBook.length > 0 && (
                   <>
-                    {createItemNewBook.map((item) => (
-                      <MenuItem
-                        key={`new-${item.label}`}
-                        onClick={() => (window.location.href = item.url)}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))}
+                    {createItemNewBook
+                      .filter((item) => item.category === repoInfo.flavor)
+                      .map((item) => (
+                        <MenuItem
+                          key={`new-${item.label}`}
+                          onClick={() => (window.location.href = item.url)}
+                        >
+                          {item.label}
+                        </MenuItem>
+                      ))}
                     <Divider />
                   </>
                 )}
                 {createItemImportBook.length > 0 && (
                   <>
-                    {createItemImportBook.map((item) => (
-                      <MenuItem
-                        key={`import-${item.label}`}
-                        onClick={() => (window.location.href = item.url)}
-                      >
-                        {item.label}
-                      </MenuItem>
-                    ))}
+                    {createItemImportBook
+                      .filter((item) => item.category === repoInfo.flavor)
+                      .map((item) => (
+                        <MenuItem
+                          key={`import-${item.label}`}
+                          onClick={() => (window.location.href = item.url)}
+                        >
+                          {item.label}
+                        </MenuItem>
+                      ))}
                     <Divider />
                   </>
                 )}
