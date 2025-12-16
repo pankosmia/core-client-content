@@ -96,7 +96,7 @@ function ContentRowButtonPlusMenu({
               category,
               key,
               label: doI18n(`${item.label}`, i18nRef.current),
-              url: item.url.replace("%%repoInfo.path%%", repoInfo.path),
+              url: item.url.replace("%%REPO_PATH%%", repoInfo.path),
             }));
           });
         });
