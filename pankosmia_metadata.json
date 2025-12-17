@@ -821,6 +821,18 @@
       "fr": "modifier les vérifications tCore",
       "es": "@editar proyecto de verificación",
       "id": "@editer project check"
+    },
+    "export_pdf": {
+      "en": "Share as PDF",
+      "fr": "Partager au format PDF"
+    },
+    "export_usfm": {
+      "en": "Share as USFM",
+      "fr": "Partager au format USFM"
+    },
+    "export_zip": {
+      "en": "Share as ZIP",
+      "fr": "Partager au format ZIP"
     }
   }
 }
