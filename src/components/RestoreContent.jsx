@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { debugContext, i18nContext, doI18n, postEmptyJson } from "pithekos-lib";
 import { enqueueSnackbar } from "notistack";
-
+import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
 function RestoreContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
     const { i18nRef } = useContext(i18nContext);
     const { debugRef } = useContext(debugContext);
@@ -34,47 +34,35 @@ function RestoreContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
         }
     }
 
-    return <Dialog
-        open={open}
-        onClose={closeFn}
-        slotProps={{
-            paper: {
-                component: 'form',
-            },
-        }}
-    >
-        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
-            <Toolbar>
-                <Typography variant="h6" component="div">
-                    {doI18n("pages:content:restore_content", i18nRef.current)}
-                </Typography>
-
-            </Toolbar>
-        </AppBar>
-        <DialogContent>
-            <DialogContentText>
-                <Typography variant="h6">
-                    {repoInfo.name}
-                </Typography>
-                <Typography>
-                    {doI18n("pages:content:about_to_restore_content", i18nRef.current)}
-                </Typography>
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={closeFn}>
-                {doI18n("pages:content:cancel", i18nRef.current)}
-            </Button>
-            <Button
-                variant='contained'
-                color="primary"
-                onClick={async () => {
+    return (
+        <PanDialog
+            titleLabel={doI18n("pages:content:restore_content", i18nRef.current)}
+            isOpen={open}
+            closeFn={() => closeFn()}
+        >
+            <DialogContent>
+                <DialogContentText>
+                    <Typography variant="h6">
+                        {repoInfo.name}
+                    </Typography>
+                    <Typography>
+                        {doI18n("pages:content:about_to_restore_content", i18nRef.current)}
+                    </Typography>
+                </DialogContentText>
+            </DialogContent>
+            <PanDialogActions
+                actionFn={async () => {
                     await restoreRepo(repoInfo.path);
                     closeFn();
                 }}
-            >{doI18n("pages:content:accept", i18nRef.current)}</Button>
-        </DialogActions>
-    </Dialog>;
+                actionLabel={doI18n("pages:content:accept", i18nRef.current)}
+                closeFn={() => closeFn()}
+                closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
+            />
+        </PanDialog>
+    )
+
+
 }
 
 export default RestoreContent;

@@ -1,5 +1,5 @@
 
-import {useContext} from 'react';
+import { useContext } from 'react';
 import {
     AppBar,
     Button,
@@ -11,12 +11,12 @@ import {
     Toolbar,
     Typography
 } from "@mui/material";
-import {debugContext, i18nContext, doI18n, postEmptyJson} from "pithekos-lib";
-import {enqueueSnackbar} from "notistack";
-
-function DeleteContent({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
-    const {i18nRef} = useContext(i18nContext);
-    const {debugRef} = useContext(debugContext);
+import { debugContext, i18nContext, doI18n, postEmptyJson } from "pithekos-lib";
+import { enqueueSnackbar } from "notistack";
+import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
+function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+    const { i18nRef } = useContext(i18nContext);
+    const { debugRef } = useContext(debugContext);
 
     const deleteRepo = async repo_path => {
 
@@ -25,61 +25,44 @@ function DeleteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
         if (deleteResponse.ok) {
             enqueueSnackbar(
                 doI18n("pages:content:repo_deleted", i18nRef.current),
-                {variant: "success"}
+                { variant: "success" }
             );
             setReposModCount(reposModCount + 1)
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_delete_repo", i18nRef.current),
-                {variant: "error"}
+                { variant: "error" }
             );
         }
     }
 
-    return <Dialog
-        open={open}
-        onClose={closeFn}
-        slotProps={{
-            paper: {
-                component: 'form',
-            },
-        }}
-        sx={{    
-            backdropFilter: "blur(3px)",
-        }}
-    >
-        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
-            <Toolbar>
-                <Typography variant="h6" component="div">
-                   {doI18n("pages:content:delete_content", i18nRef.current)}
-                </Typography>
-
-            </Toolbar>
-        </AppBar>
-        <DialogContent>
-            <DialogContentText>
-                <Typography variant="h6">
-                    {repoInfo.name}
-                </Typography>
-                <Typography>
-                    {doI18n("pages:content:about_to_delete_content", i18nRef.current)}
-                </Typography>
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={closeFn}>
-                {doI18n("pages:content:cancel", i18nRef.current)}
-            </Button>
-            <Button
-             variant='contained'
-                color="primary"
-                onClick={async () => {
+    return (
+        <PanDialog
+            titleLabel={doI18n("pages:content:delete_content", i18nRef.current)}
+            isOpen={open}
+            closeFn={() => closeFn()}
+        >
+            <DialogContent>
+                <DialogContentText>
+                    <Typography variant="h6">
+                        {repoInfo.name}
+                    </Typography>
+                    <Typography>
+                        {doI18n("pages:content:delete_content", i18nRef.current)}
+                    </Typography>
+                </DialogContentText>
+            </DialogContent>
+            <PanDialogActions
+                actionFn={async () => {
                     await deleteRepo(repoInfo.path);
                     closeFn();
                 }}
-            >{doI18n("pages:content:do_delete_button", i18nRef.current)}</Button>
-        </DialogActions>
-    </Dialog>;
+                actionLabel={doI18n("pages:content:do_delete_button", i18nRef.current)}
+                closeFn={() => closeFn()}
+                closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
+            />
+        </PanDialog>
+    );
 }
 
 export default DeleteContent;

@@ -1,4 +1,4 @@
-import {useState, useContext, useEffect} from 'react';
+import { useState, useContext, useEffect } from 'react';
 import {
     Button,
     Dialog,
@@ -13,12 +13,13 @@ import {
     List, ListItemButton, ListItemIcon, ListItemText
 } from "@mui/material";
 import DoneIcon from '@mui/icons-material/Done';
-import {debugContext, i18nContext, doI18n, postEmptyJson, getJson} from "pithekos-lib";
-import {enqueueSnackbar} from "notistack";
+import { debugContext, i18nContext, doI18n, postEmptyJson, getJson } from "pithekos-lib";
+import { enqueueSnackbar } from "notistack";
+import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
 
-function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount}) {
-    const {i18nRef} = useContext(i18nContext);
-    const {debugRef} = useContext(debugContext);
+function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+    const { i18nRef } = useContext(i18nContext);
+    const { debugRef } = useContext(debugContext);
     const [remoteUrlValue, setRemoteUrlValue] = useState('');
     /* const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/); */
     const [remotes, setRemotes] = useState(null);
@@ -26,7 +27,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
     const [selectedBranchIndex, setSelectedBranchIndex] = useState();
 
     useEffect(() => {
-        const doFetch = async () => { 
+        const doFetch = async () => {
             const remoteListUrl = `/git/remotes/${repoInfo.path}`;
             const remoteList = await getJson(remoteListUrl, debugRef.current);
             if (remoteList.ok) {
@@ -38,15 +39,15 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             } else {
                 enqueueSnackbar(
                     doI18n("pages:content:could_not_list_remotes", i18nRef.current),
-                    {variant: "error"}
+                    { variant: "error" }
                 )
             }
         };
-        if (open){
+        if (open) {
             doFetch().then()
         }
     },
-    [reposModCount, open])
+        [reposModCount, open])
 
     const addRemoteRepo = async repo_path => {
 
@@ -56,7 +57,7 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             if (!deleteResponse.ok) {
                 enqueueSnackbar(
                     doI18n("pages:content:could_not_delete_remote", i18nRef.current),
-                    {variant: "error"}
+                    { variant: "error" }
                 )
             }
         }
@@ -66,13 +67,13 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
         if (addResponse.ok) {
             enqueueSnackbar(
                 doI18n("pages:content:remote_repo_added", i18nRef.current),
-                {variant: "success"}
+                { variant: "success" }
             );
             setReposModCount(reposModCount + 1);
         } else {
             enqueueSnackbar(
                 doI18n("pages:content:could_not_add_remote_repo", i18nRef.current),
-                {variant: "error"}
+                { variant: "error" }
             );
         }
     }
@@ -95,10 +96,10 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
 
         const branchUrl = `/git/branch/${branch}/${repo_path}`;
         const branchResponse = await postEmptyJson(branchUrl, debugRef.current);
-        
+
         if (branchResponse.ok) {
             setReposModCount(reposModCount + 1);
-            if (branchResponse.json.is_good){
+            if (branchResponse.json.is_good) {
                 enqueueSnackbar(
                     doI18n(`pages:content:branch_switched`, i18nRef.current),
                     { variant: "success" }
@@ -122,14 +123,14 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
             repoBranches(repoInfo.path).then();
         }
     },
-    [open]);
+        [open]);
 
     useEffect(() => {
         if (branchList.length > 0) {
             setSelectedBranchIndex(branchList.findIndex((b) => b.is_head === true));
         }
     },
-    [branchList]);
+        [branchList]);
 
     const handleRemoteUrlValidation = (e) => {
         setRemoteUrlValue(e.target.value);
@@ -137,87 +138,67 @@ function RemoteContent({repoInfo, open, closeFn, reposModCount, setReposModCount
 
     const handleListItemClick = (event, index) => {
         setSelectedBranchIndex(index);
-      };
+    };
 
-    return <Dialog
-        fullWidth={true}
-        open={open}
-        onClose={closeFn}
-        slotProps={{
-            paper: {
-                component: 'form',
-            },
-        }}
-        sx={{
-            backdropFilter: "blur(3px)",
-        }}
-    >
-        <AppBar color='secondary' sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}>
-            <Toolbar>
-                <Typography variant="h6" component="div">
-                    {doI18n("pages:content:remote_content", i18nRef.current)}
-                </Typography>
-            </Toolbar>
-        </AppBar>
-        <DialogContent>
-            <DialogContentText>
-                <Typography variant="h6">
-                    {repoInfo.name}
-                </Typography>
-                <Stack spacing={2} sx={{ m: 2 }}>
-                    <TextField
-                        id="repo-url"
-                        label={doI18n("pages:content:remote_repo_url", i18nRef.current)}
-                        value={remoteUrlValue}
-                        variant="outlined"
-                        onChange={(e) => handleRemoteUrlValidation(e)}
-                        error={!remoteUrlValue.startsWith("https://")}
-                        required={true}
-                    />
-                    <Typography variant="subtitle1">
-                        {doI18n("pages:content:branches", i18nRef.current)}
+    return (
+        <PanDialog
+            titleLabel={doI18n("pages:content:remote_content", i18nRef.current)}
+            isOpen={open}
+            closeFn={() => closeFn}
+        >
+            <DialogContent>
+                <DialogContentText>
+                    <Typography variant="h6">
+                        {repoInfo.name}
                     </Typography>
-                    <List component="nav" aria-label="dcs-branch-list">
-                        {branchList.filter((branch) => !branch.name.includes("/")).map((branch, n) => {
-                            return <ListItemButton
-                                selected={selectedBranchIndex === n}
-                                disabled={selectedBranchIndex === n}
-                                onClick={(event) => {
-                                    checkoutBranch(repoInfo.path, branch.name).then();
-                                    handleListItemClick(event, n);
-                                }}
-                            >
-                                <ListItemIcon>
-                                    {selectedBranchIndex === n && <DoneIcon />}
-                                </ListItemIcon>
-                                <ListItemText primary={branch.name} />
-                            </ListItemButton>
-                        })}
-                    </List>
-                </Stack>
-                <Typography>
-                    {doI18n("pages:content:about_to_upload_content", i18nRef.current)}
-                </Typography>
-            </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={closeFn} color='primary'>
-                {doI18n("pages:content:cancel", i18nRef.current)}
-            </Button>
-            <Button
-                autoFocus
-                variant='contained'
-                color="primary"
-                disabled={remotes === null || !remoteUrlValue.startsWith("https://") || (remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue)}
-                onClick={async () => {
-                            await addRemoteRepo(repoInfo.path);
-                            closeFn()
-                        }}
-            >
-                {doI18n("pages:content:update", i18nRef.current)}
-            </Button>
-        </DialogActions>
-    </Dialog>;
+                    <Stack spacing={2} sx={{ m: 2 }}>
+                        <TextField
+                            id="repo-url"
+                            label={doI18n("pages:content:remote_repo_url", i18nRef.current)}
+                            value={remoteUrlValue}
+                            variant="outlined"
+                            onChange={(e) => handleRemoteUrlValidation(e)}
+                            error={!remoteUrlValue.startsWith("https://")}
+                            required={true}
+                        />
+                        <Typography variant="subtitle1">
+                            {doI18n("pages:content:branches", i18nRef.current)}
+                        </Typography>
+                        <List component="nav" aria-label="dcs-branch-list">
+                            {branchList.filter((branch) => !branch.name.includes("/")).map((branch, n) => {
+                                return <ListItemButton
+                                    selected={selectedBranchIndex === n}
+                                    disabled={selectedBranchIndex === n}
+                                    onClick={(event) => {
+                                        checkoutBranch(repoInfo.path, branch.name).then();
+                                        handleListItemClick(event, n);
+                                    }}
+                                >
+                                    <ListItemIcon>
+                                        {selectedBranchIndex === n && <DoneIcon />}
+                                    </ListItemIcon>
+                                    <ListItemText primary={branch.name} />
+                                </ListItemButton>
+                            })}
+                        </List>
+                    </Stack>
+                    <Typography>
+                        {doI18n("pages:content:about_to_upload_content", i18nRef.current)}
+                    </Typography>
+                </DialogContentText>
+            </DialogContent>
+            <PanDialogActions
+                actionFn={async () => {
+                    await addRemoteRepo(repoInfo.path);
+                    closeFn()
+                }}
+                actionLabel={doI18n("pages:content:update", i18nRef.current)}
+                closeFn={() => closeFn}
+                closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
+                isDisabled={remotes === null || !remoteUrlValue.startsWith("https://") || (remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue)}
+            />
+        </PanDialog >
+    );
 }
 
 export default RemoteContent;
