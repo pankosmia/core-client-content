@@ -1,12 +1,7 @@
 import { useContext } from 'react';
 import {
-    AppBar,
-    Button,
-    Dialog,
-    DialogActions,
     DialogContent,
     DialogContentText,
-    Toolbar,
     Typography
 } from "@mui/material";
 import { debugContext, i18nContext, doI18n, postEmptyJson } from "pithekos-lib";
@@ -38,7 +33,6 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
     return (
         <PanDialog
             titleLabel={doI18n("pages:content:archive_content", i18nRef.current)}
-
             isOpen={open}
             closeFn={() => closeFn()}
         >

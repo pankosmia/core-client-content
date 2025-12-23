@@ -1,12 +1,7 @@
 import { useContext } from 'react';
 import {
-    AppBar,
-    Button,
-    Dialog,
-    DialogActions,
     DialogContent,
     DialogContentText,
-    Toolbar,
     Typography
 } from "@mui/material";
 import { debugContext, i18nContext, doI18n, postEmptyJson } from "pithekos-lib";
