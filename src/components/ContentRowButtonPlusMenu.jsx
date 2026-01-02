@@ -104,6 +104,22 @@ function ContentRowButtonPlusMenu({
       return [];
     })
     .flat();
+
+  const createVersionManager = Object.entries(menu)
+    .filter(([, value]) => value.manager)
+    .flatMap(([category, value]) => {
+      const managerArray = value.manager;
+      if (Array.isArray(managerArray)) {
+        return managerArray.map((item) => ({
+          category,
+          label: doI18n(`${item.label}`, i18nRef.current),
+          url: item.url,
+        }));
+      }
+      return [];
+    })
+    .flat();
+  console.log(createVersionManager);
   const hasExport = createItemExport.some(
     (item) => item.category === repoInfo.flavor
   );
@@ -226,22 +242,27 @@ function ContentRowButtonPlusMenu({
               </Typography>
             </MenuItem>
             <Divider />
-            {repoInfo.path.includes("_local_/_local_") && (
-              <>
-                <MenuItem
-                  onClick={() => {
-                    window.location.href = `/clients/core-contenthandler_version_manager#/version_manager?repoPath=${repoInfo.path}`;
-                  }}
-                  disabled={
-                    !repoInfo.path.split("/")[0] === "_local_" ||
-                    repoInfo.path.split("/")[1] === "_updates_"
-                  }
-                >
-                  {doI18n("pages:content:version_manager", i18nRef.current)}
-                </MenuItem>
-                <Divider />
-              </>
-            )}
+            {repoInfo.path.includes("_local_/_local_") &&
+              createVersionManager.length > 0 && (
+                <>
+                  {createVersionManager.map((vm) => (
+                    <MenuItem
+                      onClick={() => {
+                        window.location.href =
+                          vm.url + `?repoPath=${repoInfo.path}`;
+                      }}
+                      disabled={
+                        !repoInfo.path.split("/")[0] === "_local_" ||
+                        repoInfo.path.split("/")[1] === "_updates_"
+                      }
+                    >
+                      {doI18n("pages:content:version_manager", i18nRef.current)}
+                    </MenuItem>
+                  ))}
+
+                  <Divider />
+                </>
+              )}
             <MenuItem
               onClick={(event) => {
                 setDeleteContentAnchorEl(event.currentTarget);
