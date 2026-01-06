@@ -22,8 +22,9 @@ function ContentRowButtonPlusMenu({
   reposModCount,
   setReposModCount,
   isNormal,
+    clientInterfaces
 }) {
-  console.log(repoInfo);
+  // console.log(repoInfo);
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
 
@@ -52,17 +53,7 @@ function ContentRowButtonPlusMenu({
 
   const [status, setStatus] = useState([]);
 
-  const [menu, setMenu] = useState([]);
-
-  console.log("repoInfo", repoInfo);
-  useEffect(() => {
-    getJson("/client-interfaces")
-      .then((res) => res.json)
-      .then((data) => setMenu(data))
-      .catch((err) => console.error("Error :", err));
-  }, []);
-
-  const createItemNewBook = Object.entries(menu)
+  const createItemNewBook = Object.entries(clientInterfaces)
     .filter(([, value]) => value.new_book)
     .flatMap(([key, value]) => {
       const docs = value.new_book;
@@ -75,7 +66,7 @@ function ContentRowButtonPlusMenu({
       }
       return [];
     });
-  const createItemImportBook = Object.entries(menu)
+  const createItemImportBook = Object.entries(clientInterfaces)
     .filter(([, value]) => value.import_book)
     .flatMap(([key, value]) => {
       const docs = value.import_book;
@@ -88,7 +79,7 @@ function ContentRowButtonPlusMenu({
       }
       return [];
     });
-  const createItemExport = Object.entries(menu)
+  const createItemExport = Object.entries(clientInterfaces)
     .filter(([, value]) => value.export)
     .flatMap(([category, value]) => {
       const exportsArray = value.export;
@@ -109,7 +100,7 @@ function ContentRowButtonPlusMenu({
     })
     .flat();
 
-  const createVersionManager = Object.entries(menu)
+  const createVersionManager = Object.entries(clientInterfaces)
     .filter(([, value]) => value.manager)
     .flatMap(([category, value]) => {
       const managerArray = value.manager;

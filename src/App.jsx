@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useContext } from "react"
 import { Grid2, Box, IconButton, Button, Dialog, DialogActions, DialogContent, DialogContentText, Menu, MenuItem, AppBar, Toolbar, Typography } from "@mui/material";
-import { i18nContext, doI18n } from "pithekos-lib";
+import {i18nContext, doI18n, getJson} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
 import DataGridComponent from "./components/DataGridComponent";
@@ -16,6 +16,7 @@ function App() {
     const experimentMenuOpen = Boolean(experimentMenuAnchorEl);
 
     const [experimentDialogOpen, setExperimentDialogOpen] = useState(false);
+    const [clientInterfaces, setClientInterfaces] = useState([]);
 
     const handleExperimentMenuClick = (event) => {
         setExperimentMenuAnchorEl(event.currentTarget);
@@ -50,6 +51,13 @@ function App() {
         };
     }, [handleWindowResize]);
 
+    useEffect(() => {
+        getJson("/client-interfaces")
+            .then((res) => res.json)
+            .then((data) => setClientInterfaces(data))
+            .catch((err) => console.error("Error :", err));
+    }, []);
+
     return (
         <Box sx={{ mb: 2, position: 'fixed', top: '64px', bottom: 0, right: 0, overflow: 'auto', width: '100%' }}>
             <Grid2 container sx={{ mx: 2 }}>
@@ -62,6 +70,7 @@ function App() {
                                     setNewIsOpen={setNewIsOpen}
                                     reposModCount={reposModCount}
                                     setReposModCount={setReposModCount}
+                                    clientInterfaces={clientInterfaces}
                                 />
                             </Grid2>
                             <Grid2 item>
@@ -137,6 +146,7 @@ function App() {
                             isNormal={true}
                             contentFilter={""}
                             experimentDialogOpen={experimentDialogOpen}
+                            clientInterfaces={clientInterfaces}
                         />
                     </Grid2>
                 </Grid2>
