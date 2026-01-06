@@ -16,6 +16,7 @@ import DeleteContent from "./DeleteContent";
 import { useState, useContext, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import AboutRepo from "./AboutRepo";
 function ContentRowButtonPlusMenu({
   repoInfo,
   reposModCount,
@@ -45,12 +46,15 @@ function ContentRowButtonPlusMenu({
   const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
   const deleteContentOpen = Boolean(deleteContentAnchorEl);
 
+  const [aboutRepoContentAnchorEl, setAboutRepoContentAnchorEl] = useState(null);
+
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
   const [status, setStatus] = useState([]);
 
   const [menu, setMenu] = useState([]);
 
+  console.log("repoInfo", repoInfo);
   useEffect(() => {
     getJson("/client-interfaces")
       .then((res) => res.json)
@@ -165,6 +169,12 @@ function ContentRowButtonPlusMenu({
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
+        <MenuItem
+          onClick={(event) => {
+            setAboutRepoContentAnchorEl(event.currentTarget);
+          }}>
+          about repo
+        </MenuItem>
         {isNormal ? (
           <>
             {repoInfo.path.includes("_local_/_local_") && (
@@ -356,6 +366,11 @@ function ContentRowButtonPlusMenu({
         closeFn={() => setDeleteContentAnchorEl(null)}
         reposModCount={reposModCount}
         setReposModCount={setReposModCount}
+      />
+      <AboutRepo
+        repoInfo={repoInfo}
+        open={aboutRepoContentAnchorEl}
+        closeFn={() => setAboutRepoContentAnchorEl(null)}
       />
     </>
   );
