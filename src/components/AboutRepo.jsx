@@ -14,7 +14,12 @@ export default function AboutRepo({ repoInfo, open, closeFn }) {
                     if (keys.includes(key)) {
                         return (
                             <DialogContentText key={key} mb={2}>
-                                <Typography fullWidth size="small">
+                                <Typography
+                                    variant={key === "name" ? "h6" : "body2"}
+                                    sx={{
+                                        fontWeight: key === "name" ? "bold" : "normal",
+                                    }}
+                                    fullWidth size="small">
                                     {key} - {value}
                                 </Typography>
                             </DialogContentText>
@@ -25,7 +30,13 @@ export default function AboutRepo({ repoInfo, open, closeFn }) {
                     if (keys.includes(key)) {
                         return (
                             <DialogContentText key={key} mb={2}>
-                                <Typography fullWidth size="small">
+                                <Typography
+                                    variant={key === "name" ? "h6" : "body2"}
+                                    sx={{
+                                        fontWeight: key === "name" ? "bold" : "normal",
+                                        fontStyle: key === "description" ? "italic" : "normal",
+                                    }}
+                                    fullWidth size="small">
                                     {key} - {value}
                                 </Typography>
                             </DialogContentText>
