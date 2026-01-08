@@ -833,6 +833,10 @@
     "export_zip": {
       "en": "Share as ZIP",
       "fr": "Partager au format ZIP"
+    },
+    "about_document":{
+      "en":"About",
+      "fr":"A propos"
     }
   }
 }

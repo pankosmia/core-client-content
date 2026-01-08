@@ -1,49 +1,43 @@
-import { DialogContent, DialogContentText, Typography } from "@mui/material";
+import { DialogContent, DialogContentText } from "@mui/material";
 import { PanDialog } from "pankosmia-rcl";
+import { doI18n, i18nContext } from "pithekos-lib";
+import { useContext } from "react";
 
 export default function AboutRepo({ repoInfo, open, closeFn }) {
 
+    const { i18nRef } = useContext(i18nContext);
+
     return <PanDialog
-        titleLabel={`About ${repoInfo.abbreviation} - ${repoInfo.source} `}
+        titleLabel={`${doI18n("pages:content:about_document", i18nRef.current)} ${repoInfo.source} - ${repoInfo.abbreviation} `}
         isOpen={open}
         closeFn={() => closeFn()}>
         <DialogContent>
             {repoInfo ? Object.entries(repoInfo).map(([key, value]) => {
-                if (repoInfo.name === repoInfo.description) {
-                    const keys = ["name", "flavor", "dateUpdated", "language_code"]
-                    if (keys.includes(key)) {
-                        return (
-                            <DialogContentText key={key} mb={2}>
-                                <Typography
-                                    variant={key === "name" ? "h6" : "body2"}
-                                    sx={{
-                                        fontWeight: key === "name" ? "bold" : "normal",
-                                    }}
-                                    fullWidth size="small">
-                                    {key} - {value}
-                                </Typography>
-                            </DialogContentText>
-                        );
-                    };
-                } else {
-                    const keys = ["name", "description", "flavor", "dateUpdated", "language_code"]
-                    if (keys.includes(key)) {
-                        return (
-                            <DialogContentText key={key} mb={2}>
-                                <Typography
-                                    variant={key === "name" ? "h6" : "body2"}
-                                    sx={{
-                                        fontWeight: key === "name" ? "bold" : "normal",
-                                        fontStyle: key === "description" ? "italic" : "normal",
-                                    }}
-                                    fullWidth size="small">
-                                    {key} - {value}
-                                </Typography>
-                            </DialogContentText>
-                        );
-                    };
+                const keys = repoInfo.name === repoInfo.description ? ["name", "flavor", "dateUpdated", "language_code", "book_codes"] : ["name", "description", "flavor", "dateUpdated", "language_code", "book_codes"]
+                if (!keys.includes(key)) return null;
+                if (key === "book_codes" && Array.isArray(value)) {
+                    return (
+                        <DialogContentText
+                            variant={"body2"}
+                            key={key} 
+                            sx={{ mb: 1 }}>
+                            {key} – {value.join(", ")}
+                        </DialogContentText>
+                    );
                 }
-                return null;
+                return (
+                    <DialogContentText
+                        variant={key === "name" ? "h6" : "body2"}
+                        key={key}
+                        sx={{
+                            fontWeight: key === "name" ? "bold" : "normal",
+                            fontStyle: key === "description" ? "italic" : "normal",
+                            mb: 1
+                        }}
+                    >
+                        {key} - {value}
+                    </DialogContentText>
+                );
             }) : null}
         </DialogContent>
     </PanDialog>
