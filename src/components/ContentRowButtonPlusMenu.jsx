@@ -53,7 +53,16 @@ function ContentRowButtonPlusMenu({
 
   const [status, setStatus] = useState([]);
 
-  const createItemNewBook = Object.entries(clientInterfaces)
+  const [menu, setMenu] = useState([]);
+
+  useEffect(() => {
+    getJson("/client-interfaces")
+      .then((res) => res.json)
+      .then((data) => setMenu(data))
+      .catch((err) => console.error("Error :", err));
+  }, []);
+
+  const createItemNewBook = Object.entries(menu)
     .filter(([, value]) => value.new_book)
     .flatMap(([key, value]) => {
       const docs = value.new_book;
@@ -170,7 +179,7 @@ function ContentRowButtonPlusMenu({
           <>
             {repoInfo.path.includes("_local_/_local_") && (
               <>
-                {createItemNewBook.length > 0 && (
+                {createItemNewBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
                   <>
                     {createItemNewBook
                       .filter((item) => item.category === repoInfo.flavor)
@@ -185,7 +194,7 @@ function ContentRowButtonPlusMenu({
                     <Divider />
                   </>
                 )}
-                {createItemImportBook.length > 0 && (
+                {createItemImportBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
                   <>
                     {createItemImportBook
                       .filter((item) => item.category === repoInfo.flavor)
