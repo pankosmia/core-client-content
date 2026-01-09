@@ -849,6 +849,9 @@
      "about_repo_dateUdapted":{
       "en": "Last update",
       "fr": "Dernière mise à jour"
+    },
+    "about_repo":{
+      "en": "About repo"
     }
   }
 }

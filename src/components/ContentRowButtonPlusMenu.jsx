@@ -172,8 +172,10 @@ function ContentRowButtonPlusMenu({
           onClick={(event) => {
             setAboutRepoContentAnchorEl(event.currentTarget);
           }}>
-          about repo
+         {doI18n("pages:content:about_repo", i18nRef.current)}
         </MenuItem>
+        <Divider/>
+        
         {isNormal ? (
           <>
             {repoInfo.path.includes("_local_/_local_") && (
