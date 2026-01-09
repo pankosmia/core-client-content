@@ -16,13 +16,15 @@ import DeleteContent from "./DeleteContent";
 import { useState, useContext, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import AboutRepo from "./AboutRepo";
 function ContentRowButtonPlusMenu({
   repoInfo,
   reposModCount,
   setReposModCount,
   isNormal,
+  clientInterfaces
 }) {
-  console.log(repoInfo);
+  // console.log(repoInfo);
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
 
@@ -44,6 +46,9 @@ function ContentRowButtonPlusMenu({
 
   const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
   const deleteContentOpen = Boolean(deleteContentAnchorEl);
+
+  const [aboutRepoContentAnchorEl, setAboutRepoContentAnchorEl] = useState(null);
+  const aboutRepoContentOpen = Boolean(aboutRepoContentAnchorEl);
 
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
@@ -71,7 +76,7 @@ function ContentRowButtonPlusMenu({
       }
       return [];
     });
-  const createItemImportBook = Object.entries(menu)
+  const createItemImportBook = Object.entries(clientInterfaces)
     .filter(([, value]) => value.import_book)
     .flatMap(([key, value]) => {
       const docs = value.import_book;
@@ -84,7 +89,7 @@ function ContentRowButtonPlusMenu({
       }
       return [];
     });
-  const createItemExport = Object.entries(menu)
+  const createItemExport = Object.entries(clientInterfaces)
     .filter(([, value]) => value.export)
     .flatMap(([category, value]) => {
       const exportsArray = value.export;
@@ -105,7 +110,7 @@ function ContentRowButtonPlusMenu({
     })
     .flat();
 
-  const createVersionManager = Object.entries(menu)
+  const createVersionManager = Object.entries(clientInterfaces)
     .filter(([, value]) => value.manager)
     .flatMap(([category, value]) => {
       const managerArray = value.manager;
@@ -119,7 +124,6 @@ function ContentRowButtonPlusMenu({
       return [];
     })
     .flat();
-  console.log(createVersionManager);
   const hasExport = createItemExport.some(
     (item) => item.category === repoInfo.flavor
   );
@@ -165,11 +169,20 @@ function ContentRowButtonPlusMenu({
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
+        <MenuItem
+          onClick={(event) => {
+            setAboutRepoContentAnchorEl(event.currentTarget);
+            setContentRowAnchorEl(null);
+          }}>
+          {doI18n("pages:content:about_repo", i18nRef.current)}
+        </MenuItem>
+        <Divider />
+
         {isNormal ? (
           <>
             {repoInfo.path.includes("_local_/_local_") && (
               <>
-                {createItemNewBook.length > 0 && (
+                {createItemNewBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
                   <>
                     {createItemNewBook
                       .filter((item) => item.category === repoInfo.flavor)
@@ -184,7 +197,7 @@ function ContentRowButtonPlusMenu({
                     <Divider />
                   </>
                 )}
-                {createItemImportBook.length > 0 && (
+                {createItemImportBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
                   <>
                     {createItemImportBook
                       .filter((item) => item.category === repoInfo.flavor)
@@ -356,6 +369,11 @@ function ContentRowButtonPlusMenu({
         closeFn={() => setDeleteContentAnchorEl(null)}
         reposModCount={reposModCount}
         setReposModCount={setReposModCount}
+      />
+      <AboutRepo
+        repoInfo={repoInfo}
+        open={aboutRepoContentOpen}
+        closeFn={() => setAboutRepoContentAnchorEl(null)}
       />
     </>
   );

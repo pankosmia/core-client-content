@@ -833,6 +833,25 @@
     "export_zip": {
       "en": "Share as ZIP",
       "fr": "Partager au format ZIP"
+    },
+    "about_document":{
+      "en":"About",
+      "fr":"A propos"
+    },
+    "about_repo_flavor":{
+      "en": "Type",
+      "fr": "Type"
+    },
+     "about_repo_language-code":{
+      "en": "Language code",
+      "fr": "Code Langue"
+    },
+     "about_repo_dateUdapted":{
+      "en": "Last update",
+      "fr": "Dernière mise à jour"
+    },
+    "about_repo":{
+      "en": "About repo"
     }
   }
 }

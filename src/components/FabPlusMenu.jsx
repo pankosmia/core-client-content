@@ -4,13 +4,11 @@ import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import { useState, useContext, useEffect } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
 import { getJson } from "pithekos-lib";
-function FabPlusMenu() {
+function FabPlusMenu({clientInterfaces}) {
   const { i18nRef } = useContext(i18nContext);
   const { enabledRef } = useContext(netContext);
   const [importAnchorEl, setImportAnchorEl] = useState(null);
   const [createAnchorEl, setCreateAnchorEl] = useState(null);
-  const [menu, setMenu] = useState([]);
-
 
   const handleImportClose = () => {
     setImportAnchorEl(null);
@@ -20,14 +18,7 @@ function FabPlusMenu() {
     setCreateAnchorEl(null);
   };
 
-  useEffect(() => {
-    getJson("/client-interfaces")
-      .then((res) => res.json)
-      .then((data) => setMenu(data))
-      .catch((err) => console.error("Error :", err));
-  }, []);
-
-  const createItems = Object.entries(menu)
+  const createItems = Object.entries(clientInterfaces)
     .filter(([, value]) => value.create_document)
     .flatMap(([key, value]) => {
       const docs = value.create_document;
