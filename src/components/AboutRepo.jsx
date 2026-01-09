@@ -15,16 +15,6 @@ export default function AboutRepo({ repoInfo, open, closeFn }) {
             {repoInfo ? Object.entries(repoInfo).map(([key, value]) => {
                 const keys = repoInfo.name === repoInfo.description ? ["name", "flavor", "dateUpdated", "language_code", "book_codes"] : ["name", "description", "flavor", "dateUpdated", "language_code", "book_codes"]
                 if (!keys.includes(key)) return null;
-                if (key === "book_codes" && Array.isArray(value)) {
-                    return (
-                        <DialogContentText
-                            variant={"body2"}
-                            key={key} 
-                            sx={{ mb: 1 }}>
-                            {key} – {value.join(", ")}
-                        </DialogContentText>
-                    );
-                }
                 return (
                     <DialogContentText
                         variant={key === "name" ? "h6" : "body2"}
@@ -35,7 +25,12 @@ export default function AboutRepo({ repoInfo, open, closeFn }) {
                             mb: 1
                         }}
                     >
-                        {key} - {value}
+                        {key === 'flavor' ? (`${doI18n("pages:content:about_repo_flavor", i18nRef.current)} : ${value}`) : null}
+                        {key === 'language_code' ? (`${doI18n("pages:content:about_repo_language-code", i18nRef.current)} : ${value}`) : null}
+                        {key === 'dateUpdated' ? (`${doI18n("pages:content:about_repo_dateUdapted", i18nRef.current)} : ${value}`) : null}
+                        {key === 'book_codes' && Array.isArray(value) ? (`${doI18n("pages:content:book_or_books", i18nRef.current)} : ${value.join(", ")}`) : null}
+                        {key === 'name' ? (`${value}`) : null}
+                        {key === 'description' ? (`${value}`) : null}
                     </DialogContentText>
                 );
             }) : null}
