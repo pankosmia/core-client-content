@@ -22,7 +22,7 @@ function ContentRowButtonPlusMenu({
   reposModCount,
   setReposModCount,
   isNormal,
-    clientInterfaces
+  clientInterfaces
 }) {
   // console.log(repoInfo);
   const { i18nRef } = useContext(i18nContext);
@@ -48,6 +48,7 @@ function ContentRowButtonPlusMenu({
   const deleteContentOpen = Boolean(deleteContentAnchorEl);
 
   const [aboutRepoContentAnchorEl, setAboutRepoContentAnchorEl] = useState(null);
+  const aboutRepoContentOpen = Boolean(aboutRepoContentAnchorEl);
 
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
@@ -171,11 +172,12 @@ function ContentRowButtonPlusMenu({
         <MenuItem
           onClick={(event) => {
             setAboutRepoContentAnchorEl(event.currentTarget);
+            setContentRowAnchorEl(null);
           }}>
-         {doI18n("pages:content:about_repo", i18nRef.current)}
+          {doI18n("pages:content:about_repo", i18nRef.current)}
         </MenuItem>
-        <Divider/>
-        
+        <Divider />
+
         {isNormal ? (
           <>
             {repoInfo.path.includes("_local_/_local_") && (
@@ -370,7 +372,7 @@ function ContentRowButtonPlusMenu({
       />
       <AboutRepo
         repoInfo={repoInfo}
-        open={aboutRepoContentAnchorEl}
+        open={aboutRepoContentOpen}
         closeFn={() => setAboutRepoContentAnchorEl(null)}
       />
     </>
