@@ -853,6 +853,25 @@
     "about_to_export_burrito": {
       "en": "About to export this content as Burrito",
       "es": "A punto de exportar este contenido como Burrito"
+    },
+    "about_document":{
+      "en":"About",
+      "fr":"A propos"
+    },
+    "about_repo_flavor":{
+      "en": "Type",
+      "fr": "Type"
+    },
+     "about_repo_language-code":{
+      "en": "Language code",
+      "fr": "Code Langue"
+    },
+     "about_repo_dateUdapted":{
+      "en": "Last update",
+      "fr": "Dernière mise à jour"
+    },
+    "about_repo":{
+      "en": "About repo"
     }
   }
 }
