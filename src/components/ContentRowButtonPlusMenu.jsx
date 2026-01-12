@@ -9,6 +9,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { i18nContext, doI18n, getJson, debugContext } from "pithekos-lib";
 import CopyContent from "./CopyContent";
+import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
@@ -44,6 +45,9 @@ function ContentRowButtonPlusMenu({
 
   const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
   const deleteContentOpen = Boolean(deleteContentAnchorEl);
+
+  const [exportBurritoAnchorEl, setExportBurritoAnchorEl] = useState(null);
+  const exportBurritoOpen = Boolean(exportBurritoAnchorEl);
 
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
@@ -216,7 +220,7 @@ function ContentRowButtonPlusMenu({
             <MenuItem
               onClick={(event) => {
                 setArchiveContentAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
+                
               }}
               disabled={repoInfo.path.split("/")[1] === "_archived_"}
             >
@@ -240,6 +244,15 @@ function ContentRowButtonPlusMenu({
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <ArrowRightIcon />
               </Typography>
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={(event) => {
+                setExportBurritoAnchorEl(event.currentTarget);
+                setContentRowAnchorEl(null);
+              }}
+            >
+              {doI18n("pages:content:export_burrito", i18nRef.current)}
             </MenuItem>
             <Divider />
             {repoInfo.path.includes("_local_/_local_") &&
@@ -320,8 +333,22 @@ function ContentRowButtonPlusMenu({
               {item.label}
             </MenuItem>
           ))}
-      </Menu>
+      </Menu><MenuItem
+        onClick={(event) => {
+          setExportBurritoAnchorEl(event.currentTarget);
+          setExportBurritoRowAnchorEl(null);
+        }}
+      >
+        {doI18n("pages:content:copy_content", i18nRef.current)}
+      </MenuItem>
 
+      <ExportBurrito
+        repoInfo={repoInfo}
+        open={exportBurritoOpen}
+        closeFn={() => setExportBurritoAnchorEl(null)}
+        reposModCount={reposModCount}
+        setReposModCount={setReposModCount}
+      />
       <CopyContent
         repoInfo={repoInfo}
         open={copyContentOpen}
