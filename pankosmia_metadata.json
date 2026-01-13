@@ -4,7 +4,7 @@
     "net": false,
     "debug": false
   },
-  "minServerVersion":"0.12.4",
+  "minServerVersion":"0.12.13",
   "i18n": {
     "title": {
       "en": "Documents",
