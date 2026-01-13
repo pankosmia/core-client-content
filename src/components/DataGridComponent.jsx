@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { IconButton, Button } from "@mui/material";
+import { useState, useEffect, useContext, useCallback } from "react";
+import { IconButton, Grid2, Box } from "@mui/material";
 import {
   getJson,
   getAndSetJson,
@@ -39,6 +39,37 @@ function DataGridComponent({
   const [localRepos, setLocalRepos] = useState([]);
   const [isDownloading, setIsDownloading] = useState(null);
   const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
+
+  /**
+   * Top 0 puts the top under the margin under the Import / Create buttons.
+   * For calculating height we need to adjust for:
+   * - 48px minus header
+   * - 16px minus margin
+   *        -> (App top)
+   * - 34px minus Import / Create buttons height
+   * - 16px minus margin
+   *        -> (this component's top)
+   * - 52px minus DataGrid's pagination bar (because it is separate from this component)
+   * + 16px plus App's Grid2 bottom margin (so that bottom margin isn't doubled-up)
+   * + 16px plus App's otter Box bottom margin (so that bottom margin isn't doubled-up)
+   * ======
+   * - 134px This is the amount by which to reduce the innerHeight (const adjustment)
+   */
+  const adjustment = 134;
+
+  const [maxWindowHeight, setMaxWindowHeight] = useState(window.innerHeight - adjustment);
+
+  const handleWindowResize = useCallback(() => {
+      setMaxWindowHeight(window.innerHeight - adjustment);
+  }, []);
+
+  useEffect(() => {
+      window.addEventListener('resize', handleWindowResize);
+      return () => {
+          window.removeEventListener('resize', handleWindowResize);
+      };
+  }, [handleWindowResize]);
+
 
   const getProjectSummaries = async () => {
     const summariesResponse = await getJson(
@@ -288,23 +319,46 @@ function DataGridComponent({
   });
 
   return (
-    <DataGrid
-      initialState={{
-        columns: {
-          columnVisibilityModel: {
-            nBooks: false,
-            source: isNormal,
-            dateUpdated: false,
-          },
-        },
-        sorting: {
-          sortModel: [{ field: "name", sort: "asc" }],
-        },
-      }}
-      rows={rows}
-      columns={columns}
-      sx={{ fontSize: "1rem" }}
-    />
+    <Grid2 item size={12}>
+      <Box
+        sx={{
+          height: `${maxWindowHeight}px`,
+          width: "100%",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <DataGrid
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+                nBooks: false,
+                source: isNormal,
+                dateUpdated: false,
+              },
+            },
+            sorting: {
+              sortModel: [{ field: "name", sort: "asc" }],
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          autoHeight={false}
+          sx={{
+            fontSize: "1rem",
+            "& .MuiDataGrid-columnHeaders": {
+              position: "sticky",
+              top: 0,
+              zIndex: 2,
+              backgroundColor: "background.paper",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              overflow: "auto",
+            },
+          }}
+        />
+      </Box>
+    </Grid2>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useContext } from "react"
 import {
   Grid2,
   Box,
@@ -14,8 +14,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { getJson } from "pithekos-lib";
-import { i18nContext, doI18n } from "pithekos-lib";
+import {i18nContext, doI18n, getJson} from "pithekos-lib";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
 import DataGridComponent from "./components/DataGridComponent";
@@ -68,25 +67,10 @@ function App() {
     setExperimentDialogOpen(false);
   };
 
-  /**
-   * header 48px + SpaSpa's top margin of 16px + FabPlusMenu 34px + shadow 7px = fixed position of 105px
-   * innerHeight is examined in the 2nd Box, so 105px less it's top margin of 16px = 89
-   * bottom margin comes from this component, and SpaSpa's bottom margin of 16px is hidden
-   */
-  const [, setMaxWindowHeight] = useState(window.innerHeight - 89);
-
-  const handleWindowResize = useCallback(() => {
-    setMaxWindowHeight(window.innerHeight - 89);
-  }, []);
-
-    useEffect(() => {
-        window.addEventListener('resize', handleWindowResize);
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, [handleWindowResize]);
-
-
+    /**
+    * header 48px + margin of 16px = fixed top position of 64px
+    * scrolling takes place in DataGridComponent to allow for a sticky datagrid header
+    */
 
   return (
     <Box
@@ -96,7 +80,6 @@ function App() {
         top: "64px",
         bottom: 0,
         right: 0,
-        overflow: "auto",
         width: "100%",
       }}
     >
