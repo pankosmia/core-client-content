@@ -4,11 +4,15 @@ import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import { useState, useContext, useEffect } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
 import { getJson } from "pithekos-lib";
+import ImportBurrito from "./ImportBurrito";
+
 function FabPlusMenu({clientInterfaces}) {
   const { i18nRef } = useContext(i18nContext);
   const { enabledRef } = useContext(netContext);
   const [importAnchorEl, setImportAnchorEl] = useState(null);
   const [createAnchorEl, setCreateAnchorEl] = useState(null);
+  const [importBurritoAnchorEl, setImportBurritoAnchorEl] = useState(null);
+  const importBurritoOpen = Boolean(importBurritoAnchorEl);
 
   const handleImportClose = () => {
     setImportAnchorEl(null);
@@ -96,6 +100,13 @@ function FabPlusMenu({clientInterfaces}) {
           ))}
         </Menu>
       </Box>
+      <ImportBurrito
+        repoInfo={repoInfo}
+        open={importBurritoOpen}
+        closeFn={() => setImportBurritoAnchorEl(null)}
+        reposModCount={reposModCount}
+        setReposModCount={setReposModCount}
+      />
     </>
   );
 }
