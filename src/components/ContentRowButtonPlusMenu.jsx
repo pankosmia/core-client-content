@@ -346,15 +346,8 @@ function ContentRowButtonPlusMenu({
               {item.label}
             </MenuItem>
           ))}
-      </Menu><MenuItem
-        onClick={(event) => {
-          setExportBurritoAnchorEl(event.currentTarget);
-          setExportBurritoRowAnchorEl(null);
-        }}
-      >
-        {doI18n("pages:content:copy_content", i18nRef.current)}
-      </MenuItem>
-
+      </Menu>
+      
       <ExportBurrito
         repoInfo={repoInfo}
         open={exportBurritoOpen}
