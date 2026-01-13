@@ -70,7 +70,12 @@ function FabPlusMenu({clientInterfaces}) {
           >
             {doI18n("pages:content:download_content", i18nRef.current)}
           </MenuItem>
-          <MenuItem onClick={handleImportClose} disabled={true}>
+          <MenuItem
+            onClick={(event) => {
+              setImportBurritoAnchorEl(event.currentTarget);
+              setContentRowAnchorEl(null);
+            }}
+          >
             {doI18n("pages:content:import_content", i18nRef.current)}
           </MenuItem>
         </Menu>
@@ -101,11 +106,8 @@ function FabPlusMenu({clientInterfaces}) {
         </Menu>
       </Box>
       <ImportBurrito
-        repoInfo={repoInfo}
         open={importBurritoOpen}
         closeFn={() => setImportBurritoAnchorEl(null)}
-        reposModCount={reposModCount}
-        setReposModCount={setReposModCount}
       />
     </>
   );

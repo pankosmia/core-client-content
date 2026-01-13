@@ -17,13 +17,11 @@ import { FilePicker } from 'react-file-picker';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import {Proskomma} from "proskomma-core";
 
-function ImportBurrito() {
+function ImportBurrito({ open, closeFn }) {
 
     const {i18nRef} = useContext(i18nContext);
     const {debugRef} = useContext(debugContext);
     const [loading, setLoading] = useState(false);
-    const [importBurritoAnchorEl, setImportBurritoAnchorEl] = useState(true);
-    const importBurritoOpen = Boolean(importBurritoAnchorEl);
     const [filePicked, setFilePicked] = useState({});
     const [localBookContent, setLocalBookContent] = useState();
 /*     const [repoBooks, setRepoBooks] = useState([]); */
@@ -91,7 +89,7 @@ function ImportBurrito() {
     };
 
     const handleCloseCreate = async () => {
-        setImportBurritoAnchorEl(false);
+        closeFn();
         setTimeout(() => {
             window.location.href = '/clients/content';
         },500);
@@ -178,8 +176,8 @@ function ImportBurrito() {
         />
           <Dialog
               fullWidth={true}
-              open={importBurritoOpen}
-              onClose={() => {setLocalBookContent(null); setImportBurritoAnchorEl(null); handleClose()}}
+              open={open}
+              onClose={() => {setLocalBookContent(null); closeFn(); handleClose()}}
               sx={{ backdropFilter: "blur(3px)" }}
               slotProps={{ paper: { component: 'form'} }}
           >
@@ -229,7 +227,7 @@ function ImportBurrito() {
                 } */}
             </DialogContent>
             <DialogActions>
-                <Button onClick={() => {setLocalBookContent(null); setImportBurritoAnchorEl(null); handleClose()}}>
+                <Button onClick={() => { closeFn(); handleClose()}}>
                     {doI18n("pages:core-contenthandler_text_translation:cancel", i18nRef.current)}
                 </Button>
                 {/* <Tooltip 
@@ -242,7 +240,7 @@ function ImportBurrito() {
                       color="primary"
                       onClick={() => {
                         handleCreateLocalBook(localBookContent, repoPath)
-                        setImportBurritoAnchorEl(null);
+                        closeFn();
                       }}
                       disabled={localBookContent ? (bookIsDuplicate || !isUsfmValid) : false}
                   >
