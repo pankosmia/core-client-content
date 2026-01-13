@@ -21,7 +21,7 @@ function DataGridComponent({
   isNormal,
   contentFilter,
   experimentDialogOpen,
-    clientInterfaces
+  clientInterfaces
 }) {
   const { debugRef } = useContext(debugContext);
   const { i18nRef } = useContext(i18nContext);
@@ -225,7 +225,7 @@ function DataGridComponent({
                   "x-bcvnotes",
                   "x-bcvquestions",
                   "textStories",
-                ].includes(params.row.type) && clientInterfaces.workspace? (
+                ].includes(params.row.type) && clientInterfaces?.["core-local-workspace"]? (
                   <IconButton
                     onClick={async () => {
                       await postEmptyJson(
@@ -234,15 +234,15 @@ function DataGridComponent({
                       await postEmptyJson(
                         `/app-state/current-project/${params.row.path}`
                       );
-                      window.location.href = "/clients/local-projects";
+                      window.location.href = "/clients/core-local-workspace";
                     }}
                   >
                     <EditIcon />
                   </IconButton>
-                ) : (
-                  <IconButton disabled={true}>
-                    <EditOffIcon />
-                  </IconButton>
+                ) : (<></>
+                  // <IconButton disabled={true}>
+                  //   <EditOffIcon />
+                  // </IconButton>
                 )}
               </>
             )}

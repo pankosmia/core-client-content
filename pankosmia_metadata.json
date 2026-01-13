@@ -4,7 +4,7 @@
     "net": false,
     "debug": false
   },
-  "minServerVersion":"0.12.4",
+  "minServerVersion": "0.12.14",
   "i18n": {
     "title": {
       "en": "Documents",
@@ -239,7 +239,7 @@
       "fr": "Importer livre",
       "id": "Impor buku"
     },
-    "new_tcore_content":{
+    "new_tcore_content": {
       "fr": "Vérifications tCore",
       "en": "tCore checks"
     },
@@ -834,23 +834,44 @@
       "en": "Share as ZIP",
       "fr": "Partager au format ZIP"
     },
-    "about_document":{
-      "en":"About",
-      "fr":"A propos"
+    "export_burrito": {
+      "en": "Share as Burrito",
+      "es": "Compartir como Burrito",
+      "fr": "Partager au format Burrito"
     },
-    "about_repo_flavor":{
+    "burrito_exported": {
+      "en": "Burrito was succesfuly exported",
+      "es": "El burrito fue exportado correctamente"
+    },
+    "could_not_export_burrito": {
+      "en": "Could not export burrito",
+      "es": "No se pudo exportar el burrito"
+    },
+    "do_export": {
+      "en": "Export",
+      "es": "Exportar"
+    },
+    "about_to_export_burrito": {
+      "en": "About to export this content as Burrito",
+      "es": "A punto de exportar este contenido como Burrito"
+    },
+    "about_document": {
+      "en": "About",
+      "fr": "A propos"
+    },
+    "about_repo_flavor": {
       "en": "Type",
       "fr": "Type"
     },
-     "about_repo_language-code":{
+    "about_repo_language-code": {
       "en": "Language code",
       "fr": "Code Langue"
     },
-     "about_repo_dateUdapted":{
+    "about_repo_dateUdapted": {
       "en": "Last update",
       "fr": "Dernière mise à jour"
     },
-    "about_repo":{
+    "about_repo": {
       "en": "About repo"
     }
   }

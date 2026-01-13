@@ -9,6 +9,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { i18nContext, doI18n, getJson, debugContext } from "pithekos-lib";
 import CopyContent from "./CopyContent";
+import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
@@ -22,9 +23,8 @@ function ContentRowButtonPlusMenu({
   reposModCount,
   setReposModCount,
   isNormal,
-  clientInterfaces
+  clientInterfaces,
 }) {
-  // console.log(repoInfo);
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
 
@@ -47,86 +47,108 @@ function ContentRowButtonPlusMenu({
   const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
   const deleteContentOpen = Boolean(deleteContentAnchorEl);
 
-  const [aboutRepoContentAnchorEl, setAboutRepoContentAnchorEl] = useState(null);
+  const [exportBurritoAnchorEl, setExportBurritoAnchorEl] = useState(null);
+  const exportBurritoOpen = Boolean(exportBurritoAnchorEl);
+
+  const [aboutRepoContentAnchorEl, setAboutRepoContentAnchorEl] =
+    useState(null);
   const aboutRepoContentOpen = Boolean(aboutRepoContentAnchorEl);
 
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
   const [status, setStatus] = useState([]);
 
-  const [menu, setMenu] = useState([]);
+  const createItemNewBook = Object.entries(clientInterfaces).flatMap(
+    ([category, categoryValue]) => {
+      const endpoints = categoryValue?.endpoints ?? {};
 
-  useEffect(() => {
-    getJson("/client-interfaces")
-      .then((res) => res.json)
-      .then((data) => setMenu(data))
-      .catch((err) => console.error("Error :", err));
-  }, []);
+      return Object.entries(endpoints).flatMap(([, endpointValue]) => {
+        const docs = endpointValue?.new_book;
 
-  const createItemNewBook = Object.entries(menu)
-    .filter(([, value]) => value.new_book)
-    .flatMap(([key, value]) => {
-      const docs = value.new_book;
-      if (Array.isArray(docs)) {
+        if (!Array.isArray(docs)) return [];
+
         return docs.map((doc) => ({
-          category: key,
-          label: doI18n(`${doc.label}`, i18nRef.current),
-          url: doc.url.replace("%%REPO_PATH%%", repoInfo.path),
+          category,
+          label: doI18n(doc.label, i18nRef.current),
+          url:
+            "/clients/" +
+            category +
+            "#" +
+            doc.url.replace("%%REPO_PATH%%", repoInfo.path),
         }));
-      }
-      return [];
-    });
-  const createItemImportBook = Object.entries(clientInterfaces)
-    .filter(([, value]) => value.import_book)
-    .flatMap(([key, value]) => {
-      const docs = value.import_book;
-      if (Array.isArray(docs)) {
+      });
+    }
+  );
+  const createItemImportBook = Object.entries(clientInterfaces).flatMap(
+    ([category, categoryValue]) => {
+      const endpoints = categoryValue?.endpoints ?? {};
+
+      return Object.entries(endpoints).flatMap(([, endpointValue]) => {
+        const docs = endpointValue?.import_book;
+
+        if (!Array.isArray(docs)) return [];
+
         return docs.map((doc) => ({
-          category: key,
-          label: doI18n(`${doc.label}`, i18nRef.current),
-          url: doc.url.replace("%%REPO_PATH%%", repoInfo.path),
+          category,
+          label: doI18n(doc.label, i18nRef.current),
+          url:
+            "/clients/" +
+            category +
+            "#" +
+            doc.url.replace("%%REPO_PATH%%", repoInfo.path),
         }));
-      }
-      return [];
-    });
-  const createItemExport = Object.entries(clientInterfaces)
-    .filter(([, value]) => value.export)
-    .flatMap(([category, value]) => {
-      const exportsArray = value.export;
-      if (Array.isArray(exportsArray)) {
-        return exportsArray.flatMap((doc) => {
-          const flavorItems = doc.subMenu[0];
-          return Object.entries(flavorItems).flatMap(([key, items]) => {
-            return items.map((item) => ({
-              category,
-              key,
-              label: doI18n(`${item.label}`, i18nRef.current),
-              url: item.url.replace("%%REPO_PATH%%", repoInfo.path),
-            }));
+      });
+    }
+  );
+  const createItemExport = Object.entries(clientInterfaces).flatMap(
+    ([category, categoryValue]) => {
+      const endpoints = categoryValue?.endpoints ?? {};
+
+      return Object.entries(endpoints).flatMap(
+        ([endpointKey, endpointValue]) => {
+          const exportsArray = endpointValue?.export;
+          if (!Array.isArray(exportsArray)) return [];
+
+          return exportsArray.flatMap((doc) => {
+            const flavorItems = doc?.subMenu?.[0];
+            if (!flavorItems) return [];
+
+            return Object.entries(flavorItems).flatMap(([key, items]) =>
+              items.map((item) => ({
+                category, // top-level category
+                endpoint: endpointKey, // endpoint name
+                key, // flavor type (pdf/usfm/zip)
+                label: doI18n(item.label, i18nRef.current),
+                url:
+                  "/clients/" +
+                  category +
+                  "#" +
+                  item.url.replace("%%REPO_PATH%%", repoInfo.path),
+              }))
+            );
           });
-        });
-      }
-      return [];
-    })
-    .flat();
+        }
+      );
+    }
+  );
+  const createVersionManager = Object.entries(clientInterfaces).flatMap(
+    ([category, categoryValue]) => {
+      const endpoints = categoryValue?.endpoints ?? {};
 
-  const createVersionManager = Object.entries(clientInterfaces)
-    .filter(([, value]) => value.manager)
-    .flatMap(([category, value]) => {
-      const managerArray = value.manager;
-      if (Array.isArray(managerArray)) {
+      return Object.values(endpoints).flatMap((endpointValue) => {
+        const managerArray = endpointValue?.manager;
+
+        if (!Array.isArray(managerArray)) return [];
+
         return managerArray.map((item) => ({
           category,
-          label: doI18n(`${item.label}`, i18nRef.current),
-          url: item.url,
+          label: doI18n(item.label, i18nRef.current),
+          url: "/clients/" + category + "#" + item.url,
         }));
-      }
-      return [];
-    })
-    .flat();
-  const hasExport = createItemExport.some(
-    (item) => item.category === repoInfo.flavor
+      });
+    }
   );
+
 
   const handleSubMenuClick = (event) => {
     setSubMenuAnchorEl(event.currentTarget);
@@ -173,7 +195,8 @@ function ContentRowButtonPlusMenu({
           onClick={(event) => {
             setAboutRepoContentAnchorEl(event.currentTarget);
             setContentRowAnchorEl(null);
-          }}>
+          }}
+        >
           {doI18n("pages:content:about_repo", i18nRef.current)}
         </MenuItem>
         <Divider />
@@ -182,7 +205,9 @@ function ContentRowButtonPlusMenu({
           <>
             {repoInfo.path.includes("_local_/_local_") && (
               <>
-                {createItemNewBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
+                {createItemNewBook.filter(
+                  (item) => item.category === repoInfo.flavor
+                ).length > 0 && (
                   <>
                     {createItemNewBook
                       .filter((item) => item.category === repoInfo.flavor)
@@ -197,7 +222,9 @@ function ContentRowButtonPlusMenu({
                     <Divider />
                   </>
                 )}
-                {createItemImportBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
+                {createItemImportBook.filter(
+                  (item) => item.category === repoInfo.flavor
+                ).length > 0 && (
                   <>
                     {createItemImportBook
                       .filter((item) => item.category === repoInfo.flavor)
@@ -229,7 +256,6 @@ function ContentRowButtonPlusMenu({
             <MenuItem
               onClick={(event) => {
                 setArchiveContentAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
               }}
               disabled={repoInfo.path.split("/")[1] === "_archived_"}
             >
@@ -246,7 +272,7 @@ function ContentRowButtonPlusMenu({
             </MenuItem>
 
             <Divider />
-            <MenuItem onClick={handleSubMenuClick} disabled={!hasExport}>
+            <MenuItem onClick={handleSubMenuClick}>
               <ListItemText>
                 {doI18n("pages:content:export", i18nRef.current)}
               </ListItemText>
@@ -254,18 +280,28 @@ function ContentRowButtonPlusMenu({
                 <ArrowRightIcon />
               </Typography>
             </MenuItem>
+            {/* <Divider />
+            <MenuItem
+              onClick={(event) => {
+                setExportBurritoAnchorEl(event.currentTarget);
+                setContentRowAnchorEl(null);
+              }}
+            >
+              {doI18n("pages:content:export_burrito", i18nRef.current)}
+            </MenuItem>
+             */}
             <Divider />
             {repoInfo.path.includes("_local_/_local_") &&
               createVersionManager.length > 0 && (
                 <>
-                  {createVersionManager.map((vm) => (
+                  {createVersionManager.map((vm, index) => (
                     <MenuItem
+                      key={index}
                       onClick={() => {
-                        window.location.href =
-                          vm.url + `?repoPath=${repoInfo.path}`;
+                        window.location.href = `${vm.url}?repoPath=${repoInfo.path}`;
                       }}
                       disabled={
-                        !repoInfo.path.split("/")[0] === "_local_" ||
+                        repoInfo.path.split("/")[0] !== "_local_" ||
                         repoInfo.path.split("/")[1] === "_updates_"
                       }
                     >
@@ -324,7 +360,7 @@ function ContentRowButtonPlusMenu({
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
         {createItemExport
-          .filter((item) => item.category === repoInfo.flavor)
+          .filter((item) => item.endpoint === repoInfo.flavor)
           .map((item) => (
             <MenuItem
               key={item.label}
@@ -333,8 +369,23 @@ function ContentRowButtonPlusMenu({
               {item.label}
             </MenuItem>
           ))}
+        <MenuItem
+          onClick={(event) => {
+            setExportBurritoAnchorEl(event.currentTarget);
+            setContentRowAnchorEl(null);
+            setSubMenuAnchorEl(null);
+          }}
+        >
+          {doI18n("pages:content:export_burrito", i18nRef.current)}
+        </MenuItem>
       </Menu>
-
+      <ExportBurrito
+        repoInfo={repoInfo}
+        open={exportBurritoOpen}
+        closeFn={() => setExportBurritoAnchorEl(null)}
+        reposModCount={reposModCount}
+        setReposModCount={setReposModCount}
+      />
       <CopyContent
         repoInfo={repoInfo}
         open={copyContentOpen}
