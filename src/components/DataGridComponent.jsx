@@ -231,7 +231,7 @@ function DataGridComponent({
                   "x-bcvnotes",
                   "x-bcvquestions",
                   "textStories",
-                ].includes(params.row.type) && menu.workspace? (
+                ].includes(params.row.type) && menu["core-local-workspace"]? (
                   <IconButton
                     onClick={async () => {
                       await postEmptyJson(
@@ -240,7 +240,7 @@ function DataGridComponent({
                       await postEmptyJson(
                         `/app-state/current-project/${params.row.path}`
                       );
-                      window.location.href = "/clients/local-projects";
+                      window.location.href = "/clients/core-local-workspace";
                     }}
                   >
                     <EditIcon />

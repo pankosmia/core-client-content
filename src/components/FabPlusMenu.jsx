@@ -26,26 +26,23 @@ function FabPlusMenu() {
       .catch((err) => console.error("Error :", err));
   }, []);
 
-  const createItems = Object.entries(menu)
-    .filter(([, value]) => value.create_document)
-    .flatMap(([key, value]) => {
-      const docs = value.create_document;
-      if (Array.isArray(docs)) {
-        return docs.map((doc) => ({
-          category: key,
-          label: doI18n(`${doc.label}`, i18nRef.current),
-          url: doc.url,
-        }));
+  const createItems = Object.entries(menu).flatMap(
+    ([category, categoryValue]) => {
+      const endpoints = categoryValue?.endpoints ?? {};
 
-        // .filter(doc => {
-        //   return urls.includes(doc.url.split('#')[0])}).map((doc) => ({
-        //     category: key,
-        //     label: doI18n(`${doc.label}`, i18nRef.current),
-        //     url: doc.url,
-        // }));
-      }
-      return [];
-    });
+      return Object.entries(endpoints).flatMap(([, endpointValue]) => {
+        const docs = endpointValue?.create_document;
+
+        if (!Array.isArray(docs)) return [];
+
+        return docs.map((doc) => ({
+          category,
+          label: doI18n(doc.label, i18nRef.current),
+          url: "/clients/" + category + "#" + doc.url,
+        }));
+      });
+    }
+  );
 
   return (
     <>
@@ -103,7 +100,6 @@ function FabPlusMenu() {
             </MenuItem>
           ))}
         </Menu>
-        
       </Box>
     </>
   );
