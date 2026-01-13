@@ -104,31 +104,34 @@ function ContentRowButtonPlusMenu({
     ([category, categoryValue]) => {
       const endpoints = categoryValue?.endpoints ?? {};
 
-      return Object.values(endpoints).flatMap((endpointValue) => {
-        const exportsArray = endpointValue?.export;
+      return Object.entries(endpoints).flatMap(
+        ([endpointKey, endpointValue]) => {
+          const exportsArray = endpointValue?.export;
+          if (!Array.isArray(exportsArray)) return [];
 
-        if (!Array.isArray(exportsArray)) return [];
+          return exportsArray.flatMap((doc) => {
+            const flavorItems = doc?.subMenu?.[0];
+            if (!flavorItems) return [];
 
-        return exportsArray.flatMap((doc) => {
-          const flavorItems = doc?.subMenu?.[0];
-          if (!flavorItems) return [];
-
-          return Object.entries(flavorItems).flatMap(([key, items]) =>
-            items.map((item) => ({
-              category,
-              key,
-              label: doI18n(item.label, i18nRef.current),
-              url:
-                "/clients/" +
-                category +
-                "#" +
-                item.url.replace("%%REPO_PATH%%", repoInfo.path),
-            }))
-          );
-        });
-      });
+            return Object.entries(flavorItems).flatMap(([key, items]) =>
+              items.map((item) => ({
+                category, // top-level category
+                endpoint: endpointKey, // endpoint name
+                key, // flavor type (pdf/usfm/zip)
+                label: doI18n(item.label, i18nRef.current),
+                url:
+                  "/clients/" +
+                  category +
+                  "#" +
+                  item.url.replace("%%REPO_PATH%%", repoInfo.path),
+              }))
+            );
+          });
+        }
+      );
     }
   );
+  console.log(createItemExport);
   const createVersionManager = Object.entries(menu).flatMap(
     ([category, categoryValue]) => {
       const endpoints = categoryValue?.endpoints ?? {};
@@ -147,9 +150,8 @@ function ContentRowButtonPlusMenu({
     }
   );
 
-  console.log(createVersionManager);
   const hasExport = createItemExport.some(
-    (item) => item.category === repoInfo.flavor
+    (item) => item.endpoint === repoInfo.flavor
   );
 
   const handleSubMenuClick = (event) => {
@@ -339,7 +341,7 @@ function ContentRowButtonPlusMenu({
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
         {createItemExport
-          .filter((item) => item.category === repoInfo.flavor)
+          .filter((item) => item.endpoint === repoInfo.flavor)
           .map((item) => (
             <MenuItem
               key={item.label}
