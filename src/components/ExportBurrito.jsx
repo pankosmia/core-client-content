@@ -18,7 +18,7 @@ function ExportBurrito({ repoInfo, open, closeFn, reposModCount, setReposModCoun
         const exportResponse = await fetch(exportUrl);
         if (exportResponse.ok) {
             let blob = await exportResponse.blob();
-            saveAs(blob, `${repoInfo.name}.zip`);
+            saveAs(blob, `${repoInfo.abbreviation}.zip`);
             enqueueSnackbar(
                 doI18n("pages:content:burrito_exported", i18nRef.current),
                 { variant: "success" }
@@ -30,7 +30,7 @@ function ExportBurrito({ repoInfo, open, closeFn, reposModCount, setReposModCoun
                 { variant: "error" }
             );
         }
-    }
+    };
 
     return (
         <PanDialog
