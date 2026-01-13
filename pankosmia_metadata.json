@@ -835,9 +835,9 @@
       "fr": "Partager au format ZIP"
     },
     "export_burrito": {
-      "en": "Share as BURRITO",
-      "es": "Compartir como BURRITO",
-      "fr": "Partager au format BURRITO"
+      "en": "Share as Burrito",
+      "es": "Compartir como Burrito",
+      "fr": "Partager au format Burrito"
     },
     "burrito_exported": {
       "en": "Burrito was succesfuly exported",

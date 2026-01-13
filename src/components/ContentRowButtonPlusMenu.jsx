@@ -375,7 +375,8 @@ function ContentRowButtonPlusMenu({
         <MenuItem
           onClick={(event) => {
             setExportBurritoAnchorEl(event.currentTarget);
-            setExportBurritoRowAnchorEl(null);
+            setContentRowAnchorEl(null);
+            setSubMenuAnchorEl(null);
           }}
         >
           {doI18n("pages:content:export_burrito", i18nRef.current)}
