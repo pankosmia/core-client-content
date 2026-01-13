@@ -51,7 +51,7 @@ function DataGridComponent({
    *        -> (this component's top)
    * - 52px minus DataGrid's pagination bar (because it is separate from this component)
    * + 16px plus App's Grid2 bottom margin (so that bottom margin isn't doubled-up)
-   * + 16px plus App's otter Box bottom margin (so that bottom margin isn't doubled-up)
+   * + 16px plus App's outer Box bottom margin (so that bottom margin isn't doubled-up)
    * ======
    * - 134px This is the amount by which to reduce the innerHeight (const adjustment)
    */
