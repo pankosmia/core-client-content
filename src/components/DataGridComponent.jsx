@@ -239,10 +239,10 @@ function DataGridComponent({
                   >
                     <EditIcon />
                   </IconButton>
-                ) : (
-                  <IconButton disabled={true}>
-                    <EditOffIcon />
-                  </IconButton>
+                ) : (<></>
+                  // <IconButton disabled={true}>
+                  //   <EditOffIcon />
+                  // </IconButton>
                 )}
               </>
             )}

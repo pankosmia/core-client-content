@@ -149,9 +149,6 @@ function ContentRowButtonPlusMenu({
     }
   );
 
-  const hasExport = createItemExport.some(
-    (item) => item.endpoint === repoInfo.flavor
-  );
 
   const handleSubMenuClick = (event) => {
     setSubMenuAnchorEl(event.currentTarget);
@@ -275,7 +272,7 @@ function ContentRowButtonPlusMenu({
             </MenuItem>
 
             <Divider />
-            <MenuItem onClick={handleSubMenuClick} disabled={!hasExport}>
+            <MenuItem onClick={handleSubMenuClick}>
               <ListItemText>
                 {doI18n("pages:content:export", i18nRef.current)}
               </ListItemText>
