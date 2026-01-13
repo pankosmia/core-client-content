@@ -31,12 +31,10 @@ function App() {
 
   const [experimentDialogOpen, setExperimentDialogOpen] = useState(false);
   const [clientConfig, setClientConfig] = useState();
-
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
-      ?.fields?.find((field) => field.id === "archiveMenu")?.value === true;
-
+      ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
   useEffect(() => {
     getJson("/client-config")
       .then((res) => res.json)
