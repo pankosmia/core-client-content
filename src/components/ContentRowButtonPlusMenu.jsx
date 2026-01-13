@@ -9,6 +9,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { i18nContext, doI18n, getJson, debugContext } from "pithekos-lib";
 import CopyContent from "./CopyContent";
+import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
@@ -16,13 +17,15 @@ import DeleteContent from "./DeleteContent";
 import { useState, useContext, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import AboutRepo from "./AboutRepo";
 function ContentRowButtonPlusMenu({
   repoInfo,
   reposModCount,
   setReposModCount,
   isNormal,
+  clientInterfaces
 }) {
-  console.log(repoInfo);
+  // console.log(repoInfo);
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
 
@@ -45,20 +48,19 @@ function ContentRowButtonPlusMenu({
   const [deleteContentAnchorEl, setDeleteContentAnchorEl] = useState(null);
   const deleteContentOpen = Boolean(deleteContentAnchorEl);
 
+  const [exportBurritoAnchorEl, setExportBurritoAnchorEl] = useState(null);
+  const exportBurritoOpen = Boolean(exportBurritoAnchorEl);
+  
+  const [aboutRepoContentAnchorEl, setAboutRepoContentAnchorEl] = useState(null);
+  const aboutRepoContentOpen = Boolean(aboutRepoContentAnchorEl);
+
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
   const [status, setStatus] = useState([]);
 
-  const [menu, setMenu] = useState([]);
 
-  useEffect(() => {
-    getJson("/client-interfaces")
-      .then((res) => res.json)
-      .then((data) => setMenu(data))
-      .catch((err) => console.error("Error :", err));
-  }, []);
 
-  const createItemNewBook = Object.entries(menu).flatMap(
+  const createItemNewBook = Object.entries(clientInterfaces).flatMap(
     ([category, categoryValue]) => {
       const endpoints = categoryValue?.endpoints ?? {};
 
@@ -79,7 +81,7 @@ function ContentRowButtonPlusMenu({
       });
     }
   );
-  const createItemImportBook = Object.entries(menu).flatMap(
+  const createItemImportBook = Object.entries(clientInterfaces).flatMap(
     ([category, categoryValue]) => {
       const endpoints = categoryValue?.endpoints ?? {};
 
@@ -100,7 +102,7 @@ function ContentRowButtonPlusMenu({
       });
     }
   );
-  const createItemExport = Object.entries(menu).flatMap(
+  const createItemExport = Object.entries(clientInterfaces).flatMap(
     ([category, categoryValue]) => {
       const endpoints = categoryValue?.endpoints ?? {};
 
@@ -132,7 +134,7 @@ function ContentRowButtonPlusMenu({
     }
   );
   console.log(createItemExport);
-  const createVersionManager = Object.entries(menu).flatMap(
+  const createVersionManager = Object.entries(clientInterfaces).flatMap(
     ([category, categoryValue]) => {
       const endpoints = categoryValue?.endpoints ?? {};
 
@@ -195,11 +197,20 @@ function ContentRowButtonPlusMenu({
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
+        <MenuItem
+          onClick={(event) => {
+            setAboutRepoContentAnchorEl(event.currentTarget);
+            setContentRowAnchorEl(null);
+          }}>
+          {doI18n("pages:content:about_repo", i18nRef.current)}
+        </MenuItem>
+        <Divider />
+
         {isNormal ? (
           <>
             {repoInfo.path.includes("_local_/_local_") && (
               <>
-                {createItemNewBook.length > 0 && (
+                {createItemNewBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
                   <>
                     {createItemNewBook
                       .filter((item) => item.category === repoInfo.flavor)
@@ -214,7 +225,7 @@ function ContentRowButtonPlusMenu({
                     <Divider />
                   </>
                 )}
-                {createItemImportBook.length > 0 && (
+                {createItemImportBook.filter((item) => item.category === repoInfo.flavor).length > 0 && (
                   <>
                     {createItemImportBook
                       .filter((item) => item.category === repoInfo.flavor)
@@ -246,7 +257,7 @@ function ContentRowButtonPlusMenu({
             <MenuItem
               onClick={(event) => {
                 setArchiveContentAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
+                
               }}
               disabled={repoInfo.path.split("/")[1] === "_archived_"}
             >
@@ -270,6 +281,15 @@ function ContentRowButtonPlusMenu({
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 <ArrowRightIcon />
               </Typography>
+            </MenuItem>
+            <Divider />
+            <MenuItem
+              onClick={(event) => {
+                setExportBurritoAnchorEl(event.currentTarget);
+                setContentRowAnchorEl(null);
+              }}
+            >
+              {doI18n("pages:content:export_burrito", i18nRef.current)}
             </MenuItem>
             <Divider />
             {repoInfo.path.includes("_local_/_local_") &&
@@ -350,8 +370,22 @@ function ContentRowButtonPlusMenu({
               {item.label}
             </MenuItem>
           ))}
-      </Menu>
+      </Menu><MenuItem
+        onClick={(event) => {
+          setExportBurritoAnchorEl(event.currentTarget);
+          setExportBurritoRowAnchorEl(null);
+        }}
+      >
+        {doI18n("pages:content:copy_content", i18nRef.current)}
+      </MenuItem>
 
+      <ExportBurrito
+        repoInfo={repoInfo}
+        open={exportBurritoOpen}
+        closeFn={() => setExportBurritoAnchorEl(null)}
+        reposModCount={reposModCount}
+        setReposModCount={setReposModCount}
+      />
       <CopyContent
         repoInfo={repoInfo}
         open={copyContentOpen}
@@ -386,6 +420,11 @@ function ContentRowButtonPlusMenu({
         closeFn={() => setDeleteContentAnchorEl(null)}
         reposModCount={reposModCount}
         setReposModCount={setReposModCount}
+      />
+      <AboutRepo
+        repoInfo={repoInfo}
+        open={aboutRepoContentOpen}
+        closeFn={() => setAboutRepoContentAnchorEl(null)}
       />
     </>
   );

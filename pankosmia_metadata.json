@@ -833,6 +833,45 @@
     "export_zip": {
       "en": "Share as ZIP",
       "fr": "Partager au format ZIP"
+    },
+    "export_burrito": {
+      "en": "Save as Burrito",
+      "es": "Guardar como Burrito"
+    },
+    "burrito_exported": {
+      "en": "Burrito was succesfuly exported",
+      "es": "El burrito fue exportado correctamente"
+    },
+    "could_not_export_burrito": {
+      "en": "Could not export burrito",
+      "es": "No se pudo exportar el burrito"
+    },
+    "do_export": {
+      "en": "Export",
+      "es": "Exportar"
+    },
+    "about_to_export_burrito": {
+      "en": "About to export this content as Burrito",
+      "es": "A punto de exportar este contenido como Burrito"
+    },
+    "about_document":{
+      "en":"About",
+      "fr":"A propos"
+    },
+    "about_repo_flavor":{
+      "en": "Type",
+      "fr": "Type"
+    },
+     "about_repo_language-code":{
+      "en": "Language code",
+      "fr": "Code Langue"
+    },
+     "about_repo_dateUdapted":{
+      "en": "Last update",
+      "fr": "Dernière mise à jour"
+    },
+    "about_repo":{
+      "en": "About repo"
     }
   }
 }

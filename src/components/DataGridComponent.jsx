@@ -21,6 +21,7 @@ function DataGridComponent({
   isNormal,
   contentFilter,
   experimentDialogOpen,
+  clientInterfaces
 }) {
   const { debugRef } = useContext(debugContext);
   const { i18nRef } = useContext(i18nContext);
@@ -38,14 +39,7 @@ function DataGridComponent({
   const [localRepos, setLocalRepos] = useState([]);
   const [isDownloading, setIsDownloading] = useState(null);
   const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
-  const [menu, setMenu] = useState([]);
 
-  useEffect(() => {
-    getJson("/client-interfaces")
-      .then((res) => res.json)
-      .then((data) => setMenu(data))
-      .catch((err) => console.error("Error :", err));
-  }, []);
   const getProjectSummaries = async () => {
     const summariesResponse = await getJson(
       `/burrito/metadata/summaries${!isNormal ? contentFilter : ""}`,
@@ -231,7 +225,7 @@ function DataGridComponent({
                   "x-bcvnotes",
                   "x-bcvquestions",
                   "textStories",
-                ].includes(params.row.type) && menu["core-local-workspace"]? (
+                ].includes(params.row.type) && clientInterfaces?.["core-local-workspace"]? (
                   <IconButton
                     onClick={async () => {
                       await postEmptyJson(
@@ -257,6 +251,7 @@ function DataGridComponent({
               reposModCount={reposModCount}
               setReposModCount={setReposModCount}
               isNormal={isNormal}
+              clientInterfaces={clientInterfaces}
             />
           </>
         );

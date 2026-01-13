@@ -25,22 +25,34 @@ function App() {
   const [newIsOpen, setNewIsOpen] = useState(false);
   const [reposModCount, setReposModCount] = useState(0);
   const [contentFilter, setContentFilter] = useState("");
-
   const [experimentMenuAnchorEl, setExperimentMenuAnchorEl] = useState(null);
   const experimentMenuOpen = Boolean(experimentMenuAnchorEl);
 
   const [experimentDialogOpen, setExperimentDialogOpen] = useState(false);
-  const [clientConfig, setClientConfig] = useState();
+
+  const [clientConfig, setClientConfig] = useState({});
+  const [clientInterfaces,setClientInterfaces] = useState({})
+
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
       ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
+
   useEffect(() => {
     getJson("/client-config")
       .then((res) => res.json)
       .then((data) => setClientConfig(data))
       .catch((err) => console.error("Error :", err));
   }, []);
+
+  useEffect(() => {
+        getJson("/client-interfaces")
+        .then((res) => res.json)
+        .then((data) => setClientInterfaces(data))
+        .catch((err) => console.error("Error :", err));
+    }, []);
+
+
   const handleExperimentMenuClick = (event) => {
     setExperimentMenuAnchorEl(event.currentTarget);
   };
@@ -67,12 +79,14 @@ function App() {
     setMaxWindowHeight(window.innerHeight - 89);
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("resize", handleWindowResize);
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, [handleWindowResize]);
+    useEffect(() => {
+        window.addEventListener('resize', handleWindowResize);
+        return () => {
+            window.removeEventListener('resize', handleWindowResize);
+        };
+    }, [handleWindowResize]);
+
+
 
   return (
     <Box
@@ -101,6 +115,7 @@ function App() {
                   setNewIsOpen={setNewIsOpen}
                   reposModCount={reposModCount}
                   setReposModCount={setReposModCount}
+                  clientInterfaces={clientInterfaces}
                 />
               </Grid2>
               {isArchiveMenuEnabled && (
@@ -223,6 +238,7 @@ function App() {
               isNormal={true}
               contentFilter={""}
               experimentDialogOpen={experimentDialogOpen}
+              clientInterfaces={clientInterfaces}
             />
           </Grid2>
         </Grid2>
