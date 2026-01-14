@@ -68,7 +68,8 @@
     "fab_import": {
       "en": "Import",
       "fr": "Importer",
-      "id": "Impor"
+      "id": "Impor",
+      "es": "Importar"
     },
 
     "download_content": {
@@ -872,6 +873,22 @@
     },
     "about_repo":{
       "en": "About repo"
+    },
+    "import_burrito_click": {
+      "en": "Import Burrito ZIP file",
+      "es": "Subir archivo Burrito ZIP"
+    },
+    "file_invalid": {
+      "en": "The file is invalid",
+      "es": "El archivo no es válido"
+    },
+    "burrito_imported": {
+      "en": "Burrito was succesfuly imported",
+      "es": "El burrito fue importado correctamente"
+    },
+    "could_not_import_burrito": {
+      "en": "Could not import burrito",
+      "es": "No se pudo importar el burrito"
     }
   }
 }

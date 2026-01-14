@@ -6,7 +6,7 @@ import { i18nContext, netContext, doI18n } from "pithekos-lib";
 import { getJson } from "pithekos-lib";
 import ImportBurrito from "./ImportBurrito";
 
-function FabPlusMenu({clientInterfaces}) {
+function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
   const { i18nRef } = useContext(i18nContext);
   const { enabledRef } = useContext(netContext);
   const [importAnchorEl, setImportAnchorEl] = useState(null);
@@ -73,7 +73,7 @@ function FabPlusMenu({clientInterfaces}) {
           <MenuItem
             onClick={(event) => {
               setImportBurritoAnchorEl(event.currentTarget);
-              setContentRowAnchorEl(null);
+              setImportAnchorEl(null)
             }}
           >
             {doI18n("pages:content:import_content", i18nRef.current)}
@@ -104,11 +104,13 @@ function FabPlusMenu({clientInterfaces}) {
             </MenuItem>
           ))}
         </Menu>
+        <ImportBurrito
+          open={importBurritoOpen}
+          closeFn={() => setImportBurritoAnchorEl(null)}
+          reposModCount={reposModCount}
+          setReposModCount={setReposModCount}
+        />
       </Box>
-      <ImportBurrito
-        open={importBurritoOpen}
-        closeFn={() => setImportBurritoAnchorEl(null)}
-      />
     </>
   );
 }
