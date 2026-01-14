@@ -21,6 +21,7 @@
     "proskomma-json-tools": "^0.9.1",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
+    "react-file-picker": "^0.0.6",
     "zip-project": "^1.0.0"
   },
   "devDependencies": {
