@@ -1,7 +1,7 @@
 import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
 import { getJson } from "pithekos-lib";
 import ImportBurrito from "./ImportBurrito";
@@ -22,26 +22,24 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
     setCreateAnchorEl(null);
   };
 
-  const createItems = Object.entries(clientInterfaces)
-    .filter(([, value]) => value.create_document)
-    .flatMap(([key, value]) => {
-      const docs = value.create_document;
-      if (Array.isArray(docs)) {
-        return docs.map((doc) => ({
-          category: key,
-          label: doI18n(`${doc.label}`, i18nRef.current),
-          url: doc.url,
-        }));
 
-        // .filter(doc => {
-        //   return urls.includes(doc.url.split('#')[0])}).map((doc) => ({
-        //     category: key,
-        //     label: doI18n(`${doc.label}`, i18nRef.current),
-        //     url: doc.url,
-        // }));
-      }
-      return [];
-    });
+  const createItems = Object.entries(clientInterfaces).flatMap(
+    ([category, categoryValue]) => {
+      const endpoints = categoryValue?.endpoints ?? {};
+
+      return Object.entries(endpoints).flatMap(([, endpointValue]) => {
+        const docs = endpointValue?.create_document;
+
+        if (!Array.isArray(docs)) return [];
+
+        return docs.map((doc) => ({
+          category,
+          label: doI18n(doc.label, i18nRef.current),
+          url: "/clients/" + category + "#" + doc.url,
+        }));
+      });
+    }
+  );
 
   return (
     <>
