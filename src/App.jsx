@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useContext } from "react";
+import { useState, useEffect, useCallback, useContext } from 'react';
 import {
   Grid2,
   Box,
@@ -13,45 +13,44 @@ import {
   AppBar,
   Toolbar,
   Typography,
-} from "@mui/material";
-import { getJson } from "pithekos-lib";
-import { i18nContext, doI18n } from "pithekos-lib";
-import FabPlusMenu from "./components/FabPlusMenu";
-import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
-import DataGridComponent from "./components/DataGridComponent";
+} from '@mui/material';
+import { getJson } from 'pithekos-lib';
+import { i18nContext, doI18n } from 'pithekos-lib';
+import FabPlusMenu from './components/FabPlusMenu';
+import HandymanOutlinedIcon from '@mui/icons-material/HandymanOutlined';
+import DataGridComponent from './components/DataGridComponent';
 
 function App() {
   const { i18nRef } = useContext(i18nContext);
   const [newIsOpen, setNewIsOpen] = useState(false);
   const [reposModCount, setReposModCount] = useState(0);
-  const [contentFilter, setContentFilter] = useState("");
+  const [contentFilter, setContentFilter] = useState('');
   const [experimentMenuAnchorEl, setExperimentMenuAnchorEl] = useState(null);
   const experimentMenuOpen = Boolean(experimentMenuAnchorEl);
 
   const [experimentDialogOpen, setExperimentDialogOpen] = useState(false);
 
   const [clientConfig, setClientConfig] = useState({});
-  const [clientInterfaces,setClientInterfaces] = useState({})
+  const [clientInterfaces, setClientInterfaces] = useState({});
 
   const isArchiveMenuEnabled =
-    clientConfig?.["core-client-content"]
-      ?.find((section) => section.id === "config")
-      ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
+    clientConfig?.['core-client-content']
+      ?.find((section) => section.id === 'config')
+      ?.fields?.find((field) => field.id === 'archiveMenu')?.value !== false;
 
   useEffect(() => {
-    getJson("/client-config")
+    getJson('/client-config')
       .then((res) => res.json)
       .then((data) => setClientConfig(data))
-      .catch((err) => console.error("Error :", err));
+      .catch((err) => console.error('Error :', err));
   }, []);
 
   useEffect(() => {
-        getJson("/client-interfaces")
-        .then((res) => res.json)
-        .then((data) => setClientInterfaces(data))
-        .catch((err) => console.error("Error :", err));
-    }, []);
-
+    getJson('/client-interfaces')
+      .then((res) => res.json)
+      .then((data) => setClientInterfaces(data))
+      .catch((err) => console.error('Error :', err));
+  }, []);
 
   const handleExperimentMenuClick = (event) => {
     setExperimentMenuAnchorEl(event.currentTarget);
@@ -79,25 +78,23 @@ function App() {
     setMaxWindowHeight(window.innerHeight - 89);
   }, []);
 
-    useEffect(() => {
-        window.addEventListener('resize', handleWindowResize);
-        return () => {
-            window.removeEventListener('resize', handleWindowResize);
-        };
-    }, [handleWindowResize]);
-
-
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, [handleWindowResize]);
 
   return (
     <Box
       sx={{
         mb: 2,
-        position: "fixed",
-        top: "64px",
+        position: 'fixed',
+        top: '64px',
         bottom: 0,
         right: 0,
-        overflow: "auto",
-        width: "100%",
+        overflow: 'auto',
+        width: '100%',
       }}
     >
       <Grid2 container sx={{ mx: 2 }}>
@@ -107,7 +104,7 @@ function App() {
               container
               spacing={2}
               direction="row"
-              sx={{ justifyContent: "flex-start", alignItems: "flex-start" }}
+              sx={{ justifyContent: 'flex-start', alignItems: 'flex-start' }}
             >
               <Grid2 item>
                 <FabPlusMenu
@@ -121,11 +118,7 @@ function App() {
               {isArchiveMenuEnabled && (
                 <Grid2 item>
                   <Box sx={{ boxShadow: 3, borderRadius: 50 }}>
-                    <IconButton
-                      size="small"
-                      color="primary"
-                      onClick={handleExperimentMenuClick}
-                    >
+                    <IconButton size="small" color="primary" onClick={handleExperimentMenuClick}>
                       <HandymanOutlinedIcon />
                     </IconButton>
                   </Box>
@@ -136,75 +129,60 @@ function App() {
                     onClose={handleExperimentMenuClose}
                     slotProps={{
                       list: {
-                        "aria-labelledby": "basic-button",
+                        'aria-labelledby': 'basic-button',
                       },
                     }}
                   >
                     <MenuItem
                       onClick={() => {
-                        setContentFilter("?org=_local_/_archive_");
+                        setContentFilter('?org=_local_/_archive_');
                         handleExperimentMenuClose();
                         handleExperimentDialogClickOpen();
                       }}
                     >
-                      {doI18n(
-                        "pages:content:archived_content",
-                        i18nRef.current
-                      )}
+                      {doI18n('pages:content:archived_content', i18nRef.current)}
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        setContentFilter("?org=_local_/_quarantine_");
+                        setContentFilter('?org=_local_/_quarantine_');
                         handleExperimentMenuClose();
                         handleExperimentDialogClickOpen();
                       }}
                     >
-                      {doI18n(
-                        "pages:content:quarantined_content",
-                        i18nRef.current
-                      )}
+                      {doI18n('pages:content:quarantined_content', i18nRef.current)}
                     </MenuItem>
                     <MenuItem
                       onClick={() => {
-                        setContentFilter("?org=_local_/_updates_");
+                        setContentFilter('?org=_local_/_updates_');
                         handleExperimentMenuClose();
                         handleExperimentDialogClickOpen();
                       }}
                     >
-                      {doI18n("pages:content:content_updates", i18nRef.current)}
+                      {doI18n('pages:content:content_updates', i18nRef.current)}
                     </MenuItem>
                   </Menu>
                   <Dialog
                     fullWidth={true}
-                    maxWidth={"lg"}
+                    maxWidth={'lg'}
                     open={experimentDialogOpen}
                     onClose={handleExperimentDialogClose}
                   >
                     <AppBar
                       color="secondary"
                       sx={{
-                        position: "relative",
+                        position: 'relative',
                         borderTopLeftRadius: 4,
                         borderTopRightRadius: 4,
                       }}
                     >
                       <Toolbar>
                         <Typography variant="h6">
-                          {contentFilter.includes("archive") &&
-                            doI18n(
-                              "pages:content:archived_content",
-                              i18nRef.current
-                            )}
-                          {contentFilter.includes("quarantine") &&
-                            doI18n(
-                              "pages:content:quarantined_content",
-                              i18nRef.current
-                            )}
-                          {contentFilter.includes("updates") &&
-                            doI18n(
-                              "pages:content:content_updates",
-                              i18nRef.current
-                            )}
+                          {contentFilter.includes('archive') &&
+                            doI18n('pages:content:archived_content', i18nRef.current)}
+                          {contentFilter.includes('quarantine') &&
+                            doI18n('pages:content:quarantined_content', i18nRef.current)}
+                          {contentFilter.includes('updates') &&
+                            doI18n('pages:content:content_updates', i18nRef.current)}
                         </Typography>
                       </Toolbar>
                     </AppBar>
@@ -223,7 +201,7 @@ function App() {
                         }}
                         color="primary"
                       >
-                        {doI18n("pages:content:close", i18nRef.current)}
+                        {doI18n('pages:content:close', i18nRef.current)}
                       </Button>
                     </DialogActions>
                   </Dialog>
@@ -236,7 +214,7 @@ function App() {
               reposModCount={reposModCount}
               setReposModCount={setReposModCount}
               isNormal={true}
-              contentFilter={""}
+              contentFilter={''}
               experimentDialogOpen={experimentDialogOpen}
               clientInterfaces={clientInterfaces}
             />

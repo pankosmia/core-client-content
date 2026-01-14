@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { IconButton, Button } from "@mui/material";
+import { useState, useEffect, useContext } from 'react';
+import { IconButton, Button } from '@mui/material';
 import {
   getJson,
   getAndSetJson,
@@ -8,12 +8,12 @@ import {
   doI18n,
   postEmptyJson,
   netContext,
-} from "pithekos-lib";
-import { DataGrid } from "@mui/x-data-grid";
-import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
-import EditIcon from "@mui/icons-material/Edit";
-import EditOffIcon from "@mui/icons-material/EditOff";
-import Notification from "./Notification";
+} from 'pithekos-lib';
+import { DataGrid } from '@mui/x-data-grid';
+import ContentRowButtonPlusMenu from './ContentRowButtonPlusMenu';
+import EditIcon from '@mui/icons-material/Edit';
+import EditOffIcon from '@mui/icons-material/EditOff';
+import Notification from './Notification';
 
 function DataGridComponent({
   reposModCount,
@@ -21,7 +21,7 @@ function DataGridComponent({
   isNormal,
   contentFilter,
   experimentDialogOpen,
-  clientInterfaces
+  clientInterfaces,
 }) {
   const { debugRef } = useContext(debugContext);
   const { i18nRef } = useContext(i18nContext);
@@ -31,9 +31,9 @@ function DataGridComponent({
   const [isoThreeLookup, setIsoThreeLookup] = useState([]);
 
   const sourceWhitelist = [
-    ["git.door43.org/BurritoTruck", "Xenizo curated content (Door43)"],
-    ["git.door43.org/uW", "unfoldingWord curated content (Door43)"],
-    ["git.door43.org/shower", "Aquifer exported content (Door43)"],
+    ['git.door43.org/BurritoTruck', 'Xenizo curated content (Door43)'],
+    ['git.door43.org/uW', 'unfoldingWord curated content (Door43)'],
+    ['git.door43.org/shower', 'Aquifer exported content (Door43)'],
   ];
   const [catalog, setCatalog] = useState([]);
   const [localRepos, setLocalRepos] = useState([]);
@@ -42,7 +42,7 @@ function DataGridComponent({
 
   const getProjectSummaries = async () => {
     const summariesResponse = await getJson(
-      `/burrito/metadata/summaries${!isNormal ? contentFilter : ""}`,
+      `/burrito/metadata/summaries${!isNormal ? contentFilter : ''}`,
       debugRef.current
     );
     if (summariesResponse.ok) {
@@ -55,13 +55,13 @@ function DataGridComponent({
   }, [reposModCount, experimentDialogOpen]);
 
   useEffect(() => {
-    fetch("/app-resources/lookups/iso639-1-to-3.json") // ISO_639-1 codes mapped to ISO_639-3 codes
+    fetch('/app-resources/lookups/iso639-1-to-3.json') // ISO_639-1 codes mapped to ISO_639-3 codes
       .then((r) => r.json())
       .then((data) => setIsoOneToThreeLookup(data));
   }, []);
 
   useEffect(() => {
-    fetch("/app-resources/lookups/iso639-3.json") // ISO_639-3 2025-02-21 from https://hisregistries.org/rol/ plus zht, zhs, nep
+    fetch('/app-resources/lookups/iso639-3.json') // ISO_639-3 2025-02-21 from https://hisregistries.org/rol/ plus zht, zhs, nep
       .then((r) => r.json())
       .then((data) => setIsoThreeLookup(data));
   }, []);
@@ -71,10 +71,7 @@ function DataGridComponent({
       if (catalog.length === 0 && enabledRef.current) {
         let newCatalog = [];
         for (const source of sourceWhitelist) {
-          const response = await getJson(
-            `/gitea/remote-repos/${source[0]}`,
-            debugRef.current
-          );
+          const response = await getJson(`/gitea/remote-repos/${source[0]}`, debugRef.current);
           if (response.ok) {
             const newResponse = response.json.map((r) => {
               return { ...r, source: source[0] };
@@ -91,19 +88,14 @@ function DataGridComponent({
   useEffect(() => {
     if (enabledRef.current && localRepos.length === 0) {
       getAndSetJson({
-        url: "/git/list-local-repos",
+        url: '/git/list-local-repos',
         setter: setLocalRepos,
       }).then();
     }
   }, [remoteSource, enabledRef.current]);
 
   useEffect(() => {
-    if (
-      !isDownloading &&
-      catalog.length > 0 &&
-      localRepos &&
-      enabledRef.current
-    ) {
+    if (!isDownloading && catalog.length > 0 && localRepos && enabledRef.current) {
       const downloadStatus = async () => {
         const newIsDownloading = {};
         for (const e of catalog) {
@@ -114,14 +106,12 @@ function DataGridComponent({
               const metadataTime = metadataResponse.json.timestamp;
               const remoteUpdateTime = Date.parse(e.updated_at) / 1000;
               newIsDownloading[`${e.source}/${e.name}`] =
-                remoteUpdateTime - metadataTime > 0
-                  ? "updatable"
-                  : "downloaded";
+                remoteUpdateTime - metadataTime > 0 ? 'updatable' : 'downloaded';
             } else {
-              newIsDownloading[`${e.source}/${e.name}`] = "downloaded";
+              newIsDownloading[`${e.source}/${e.name}`] = 'downloaded';
             }
           } else {
-            newIsDownloading[`${e.source}/${e.name}`] = "notDownloaded";
+            newIsDownloading[`${e.source}/${e.name}`] = 'notDownloaded';
           }
         }
         setIsDownloading(newIsDownloading);
@@ -131,84 +121,81 @@ function DataGridComponent({
   }, [isDownloading, remoteSource, catalog, localRepos, enabledRef.current]);
 
   const flavorTypes = {
-    texttranslation: "scripture",
-    audiotranslation: "scripture",
-    "x-bcvnotes": "parascriptural",
-    "x-bnotes": "parascriptural",
-    "x-bcvarticles": "parascriptural",
-    "x-bcvquestions": "parascriptural",
-    "x-bcvimages": "parascriptural",
-    "x-juxtalinear": "scripture",
-    "x-parallel": "parascriptural",
-    textstories: "gloss",
-    "x-obsquestions": "peripheral",
-    "x-obsnotes": "peripheral",
-    "x-obsarticles": "peripheral",
-    "x-obsimages": "peripheral",
-    "x-translationplan": "parascriptural",
-    "x-tcore": "parascriptural",
-    "x-bcvvideo": "parascriptural",
+    texttranslation: 'scripture',
+    audiotranslation: 'scripture',
+    'x-bcvnotes': 'parascriptural',
+    'x-bnotes': 'parascriptural',
+    'x-bcvarticles': 'parascriptural',
+    'x-bcvquestions': 'parascriptural',
+    'x-bcvimages': 'parascriptural',
+    'x-juxtalinear': 'scripture',
+    'x-parallel': 'parascriptural',
+    textstories: 'gloss',
+    'x-obsquestions': 'peripheral',
+    'x-obsnotes': 'peripheral',
+    'x-obsarticles': 'peripheral',
+    'x-obsimages': 'peripheral',
+    'x-translationplan': 'parascriptural',
+    'x-tcore': 'parascriptural',
+    'x-bcvvideo': 'parascriptural',
   };
 
   const columns = [
     {
-      field: "abbreviation",
-      headerName: doI18n("pages:content:row_abbreviation", i18nRef.current),
+      field: 'abbreviation',
+      headerName: doI18n('pages:content:row_abbreviation', i18nRef.current),
       minWidth: 110,
       flex: 0.5,
     },
     {
-      field: "name",
-      headerName: doI18n("pages:content:row_name", i18nRef.current),
+      field: 'name',
+      headerName: doI18n('pages:content:row_name', i18nRef.current),
       minWidth: 110,
       flex: 2,
     },
     {
-      field: "language",
-      headerName: doI18n("pages:content:row_language", i18nRef.current),
+      field: 'language',
+      headerName: doI18n('pages:content:row_language', i18nRef.current),
       minWidth: 175,
       flex: 0.25,
     },
     {
-      field: "source",
-      headerName: doI18n("pages:content:row_source", i18nRef.current),
+      field: 'source',
+      headerName: doI18n('pages:content:row_source', i18nRef.current),
       minWidth: 110,
       flex: 1,
     },
     {
-      field: "type",
-      headerName: doI18n("pages:content:row_type", i18nRef.current),
+      field: 'type',
+      headerName: doI18n('pages:content:row_type', i18nRef.current),
       minWidth: 80,
       flex: 1,
       valueGetter: (v) =>
-        doI18n(
-          `flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`,
-          i18nRef.current
-        ),
+        doI18n(`flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`, i18nRef.current),
     },
     {
-      field: "nBooks",
-      headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
-      type: "number",
+      field: 'nBooks',
+      headerName: doI18n('pages:content:row_nbooks', i18nRef.current),
+      type: 'number',
       minWidth: 150,
       flex: 0.5,
     },
     {
-      field: "dateUpdated",
-      headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
+      field: 'dateUpdated',
+      headerName: doI18n('pages:content:row_date_updated', i18nRef.current),
       minWidth: 200,
       flex: 1,
     },
     {
-      field: "actions",
+      field: 'actions',
       minWidth: isNormal ? 125 : 75,
-      headerName: doI18n("pages:content:row_actions", i18nRef.current),
+      headerName: doI18n('pages:content:row_actions', i18nRef.current),
       flex: isNormal ? 0.7 : 0.3,
-      align: "right",
+      align: 'right',
       renderCell: (params) => {
         return (
           <>
-            {!params.row.path.startsWith("_local_") && (
+            {!params.row.path.startsWith('_local_') && (
               <Notification
                 remoteRepoPath={params.row.path}
                 params={params}
@@ -219,27 +206,22 @@ function DataGridComponent({
             )}
             {isNormal && (
               <>
-                {params.row.path.startsWith("_local_/_local_") &&
-                [
-                  "textTranslation",
-                  "x-bcvnotes",
-                  "x-bcvquestions",
-                  "textStories",
-                ].includes(params.row.type) && clientInterfaces?.["core-local-workspace"]? (
+                {params.row.path.startsWith('_local_/_local_') &&
+                ['textTranslation', 'x-bcvnotes', 'x-bcvquestions', 'textStories'].includes(
+                  params.row.type
+                ) &&
+                clientInterfaces?.['core-local-workspace'] ? (
                   <IconButton
                     onClick={async () => {
-                      await postEmptyJson(
-                        `/navigation/bcv/${params.row.book_codes[0]}/1/1`
-                      );
-                      await postEmptyJson(
-                        `/app-state/current-project/${params.row.path}`
-                      );
-                      window.location.href = "/clients/core-local-workspace";
+                      await postEmptyJson(`/navigation/bcv/${params.row.book_codes[0]}/1/1`);
+                      await postEmptyJson(`/app-state/current-project/${params.row.path}`);
+                      window.location.href = '/clients/core-local-workspace';
                     }}
                   >
                     <EditIcon />
                   </IconButton>
-                ) : (<></>
+                ) : (
+                  <></>
                   // <IconButton disabled={true}>
                   //   <EditOffIcon />
                   // </IconButton>
@@ -268,21 +250,18 @@ function DataGridComponent({
       ...rep,
       id: n,
       name: `${rep.name.trim()}${
-        rep.description.trim() !== rep.name.trim()
-          ? ": " + rep.description.trim()
-          : ""
+        rep.description.trim() !== rep.name.trim() ? ': ' + rep.description.trim() : ''
       }`,
       language:
-        isoThreeLookup?.[
-          isoOneToThreeLookup[rep.language_code] ?? rep.language_code
-        ]?.en ?? rep.language_code,
+        isoThreeLookup?.[isoOneToThreeLookup[rep.language_code] ?? rep.language_code]?.en ??
+        rep.language_code,
       nBooks: rep.book_codes.length,
       type: rep.flavor,
-      source: rep.path.startsWith("_local_")
-        ? rep.path.startsWith("_local_/_sideloaded_")
-          ? doI18n("pages:content:local_resource", i18nRef.current)
-          : doI18n("pages:content:local_project", i18nRef.current)
-        : `${rep.path.split("/")[1]} (${rep.path.split("/")[0]})`,
+      source: rep.path.startsWith('_local_')
+        ? rep.path.startsWith('_local_/_sideloaded_')
+          ? doI18n('pages:content:local_resource', i18nRef.current)
+          : doI18n('pages:content:local_project', i18nRef.current)
+        : `${rep.path.split('/')[1]} (${rep.path.split('/')[0]})`,
       dateUpdated: rep.generated_date,
     };
   });
@@ -298,12 +277,12 @@ function DataGridComponent({
           },
         },
         sorting: {
-          sortModel: [{ field: "name", sort: "asc" }],
+          sortModel: [{ field: 'name', sort: 'asc' }],
         },
       }}
       rows={rows}
       columns={columns}
-      sx={{ fontSize: "1rem" }}
+      sx={{ fontSize: '1rem' }}
     />
   );
 }
