@@ -27,7 +27,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
         formData.append('file', file, "data.zip");
 
         const fileName = filePicked?.name?.replace(/\.[^/.]+$/, "");
-        const response = await fetch(`/burrito/zipped/_local_/_local_/${encodeURIComponent(fileName)}`, {
+        const response = await fetch(`/burrito/zipped/_local_/_sideloaded_/${encodeURIComponent(fileName)}`, {
             method: 'POST',
             body: formData,
         });
@@ -40,8 +40,9 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
             );
             setReposModCount(reposModCount + 1);
         } else {
+            const error = await response.json(); 
             enqueueSnackbar(
-                doI18n("pages:content:could_not_import_burrito", i18nRef.current),
+                `${doI18n("pages:content:could_not_import_burrito", i18nRef.current)}: ${error.reason}`,
                 { variant: "error" }
             )
         };
