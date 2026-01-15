@@ -15,6 +15,23 @@ import EditIcon from '@mui/icons-material/Edit';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import Notification from './Notification';
 
+const getEditDocumentKeys = (data) => {
+  let map = {};
+  for (let [l, v] of Object.entries(data)) {
+    if (!v.endpoints) continue;
+    for (let [k, t] of Object.entries(v.endpoints)) {
+      if (t.edit) {
+        if (!map[k]) {
+          map[k] = [];
+        }
+
+        map[k].push(`${l}#${t.edit.url}`);
+      }
+    }
+  }
+  return map;
+};
+
 function DataGridComponent({
   reposModCount,
   setReposModCount,
@@ -29,6 +46,8 @@ function DataGridComponent({
   const [projectSummaries, setProjectSummaries] = useState({});
   const [isoOneToThreeLookup, setIsoOneToThreeLookup] = useState([]);
   const [isoThreeLookup, setIsoThreeLookup] = useState([]);
+  const editTable = getEditDocumentKeys(clientInterfaces);
+  console.log(editTable);
 
   const sourceWhitelist = [
     ['git.door43.org/BurritoTruck', 'Xenizo curated content (Door43)'],
@@ -193,6 +212,12 @@ function DataGridComponent({
       flex: isNormal ? 0.7 : 0.3,
       align: 'right',
       renderCell: (params) => {
+        let editUrl;
+        console.log(editTable);
+        if (editTable[params.row.type]) {
+          editUrl = editTable[params.row.type][0];
+        }
+
         return (
           <>
             {!params.row.path.startsWith('_local_') && (
@@ -207,25 +232,17 @@ function DataGridComponent({
             {isNormal && (
               <>
                 {params.row.path.startsWith('_local_/_local_') &&
-                ['textTranslation', 'x-bcvnotes', 'x-bcvquestions', 'textStories'].includes(
-                  params.row.type
-                ) &&
-                clientInterfaces?.['core-local-workspace'] ? (
+                editUrl &&
                   <IconButton
                     onClick={async () => {
                       await postEmptyJson(`/navigation/bcv/${params.row.book_codes[0]}/1/1`);
                       await postEmptyJson(`/app-state/current-project/${params.row.path}`);
-                      window.location.href = '/clients/core-local-workspace';
+                      window.location.href = '/clients/' + editUrl;
                     }}
                   >
                     <EditIcon />
                   </IconButton>
-                ) : (
-                  <></>
-                  // <IconButton disabled={true}>
-                  //   <EditOffIcon />
-                  // </IconButton>
-                )}
+                }
               </>
             )}
             <ContentRowButtonPlusMenu
