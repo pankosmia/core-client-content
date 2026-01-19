@@ -24,7 +24,7 @@ function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
 
   return (
     <PanDialog
-      titleLabel={`{doI18n('pages:content:delete_content', i18nRef.current)} - ${repoInfo.name}`}
+      titleLabel={`${doI18n('pages:content:delete_content', i18nRef.current)} - ${repoInfo.name}`}
       isOpen={open}
       closeFn={() => closeFn()}
     >
