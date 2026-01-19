@@ -25,16 +25,13 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:quarantine_content', i18nRef.current)}
+      titleLabel={`${doI18n('pages:content:quarantine_content', i18nRef.current)} - ${repoInfo.name}`}
       isOpen={open}
       closeFn={() => closeFn()}
     >
       <DialogContent>
         <DialogContentText>
-          <Typography variant="h6">{repoInfo.name}</Typography>
-          <Typography>
             {doI18n('pages:content:about_to_quarantine_content', i18nRef.current)}
-          </Typography>
         </DialogContentText>
       </DialogContent>
       <PanDialogActions

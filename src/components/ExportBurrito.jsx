@@ -27,16 +27,13 @@ function ExportBurrito({ repoInfo, open, closeFn, reposModCount, setReposModCoun
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:export_burrito', i18nRef.current)}
+      titleLabel={`${doI18n('pages:content:export_burrito', i18nRef.current)} - ${repoInfo.name}`}
       isOpen={open}
       closeFn={() => closeFn()}
     >
       <DialogContent>
         <DialogContentText>
-          <Typography variant="h6">{repoInfo.name}</Typography>
-          <Typography>
-            {doI18n('pages:content:about_to_export_burrito', i18nRef.current)}
-          </Typography>
+          {doI18n('pages:content:about_to_export_burrito', i18nRef.current)}
         </DialogContentText>
       </DialogContent>
       <PanDialogActions

@@ -126,13 +126,12 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:remote_content', i18nRef.current)}
+      titleLabel={`${doI18n('pages:content:remote_content', i18nRef.current)} - ${repoInfo.name}`}
       isOpen={open}
       closeFn={() => closeFn}
     >
       <DialogContent>
         <DialogContentText>
-          <Typography variant="h6">{repoInfo.name}</Typography>
           <Stack spacing={2} sx={{ m: 2 }}>
             <TextField
               id="repo-url"

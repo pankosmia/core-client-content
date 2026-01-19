@@ -23,16 +23,13 @@ function RestoreContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:restore_content', i18nRef.current)}
+      titleLabel={`${doI18n('pages:content:restore_content', i18nRef.current)} - ${repoInfo.name}`}
       isOpen={open}
       closeFn={() => closeFn()}
     >
       <DialogContent>
         <DialogContentText>
-          <Typography variant="h6">{repoInfo.name}</Typography>
-          <Typography>
             {doI18n('pages:content:about_to_restore_content', i18nRef.current)}
-          </Typography>
         </DialogContentText>
       </DialogContent>
       <PanDialogActions
