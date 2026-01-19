@@ -202,6 +202,7 @@ function App() {
               contentFilter={''}
               experimentDialogOpen={experimentDialogOpen}
               clientInterfaces={clientInterfaces}
+              clientConfig={clientConfig}
             />
           </Grid2>
         </Grid2>
