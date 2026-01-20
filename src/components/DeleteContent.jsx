@@ -30,7 +30,7 @@ function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
     >
       <DialogContent>
         <DialogContentText>
-          {doI18n('pages:content:delete_content', i18nRef.current)}
+          {doI18n('pages:content:about_to_delete_content', i18nRef.current)}
         </DialogContentText>
       </DialogContent>
       <PanDialogActions
