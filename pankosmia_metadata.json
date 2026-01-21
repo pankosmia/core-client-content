@@ -845,20 +845,22 @@
       "id": "Simpan sebagai Burrito"
     },
     "burrito_exported": {
-      "en": "Burrito was succesfuly exported",
-      "es": "El burrito fue exportado correctamente"
+      "en": "Burrito was succesfuly saved",
+      "es": "@El burrito fue exportado correctamente",
+      "id": "Burrito telah disimpan"
     },
     "could_not_export_burrito": {
       "en": "Could not export burrito",
       "es": "No se pudo exportar el burrito"
     },
     "do_export": {
-      "en": "Export",
-      "es": "Exportar"
+      "en": "Save",
+      "es": "@Exportar",
+      "id": "Simpan"
     },
     "about_to_export_burrito": {
-      "en": "About to export this content as Burrito",
-      "es": "A punto de exportar este contenido como Burrito"
+      "en": "About to save this content as Burrito",
+      "es": "@A punto de exportar este contenido como Burrito"
     },
     "about_document": {
       "en": "About",
