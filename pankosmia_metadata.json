@@ -140,7 +140,7 @@
     "export": {
       "en": "Export",
       "es": "Exportar",
-      "fr": "@Partager",
+      "fr": "Exporter",
       "id": "Ekspor"
     },
 
@@ -191,7 +191,7 @@
     },
     "export_docx": {
       "en": "Save as DOCX (Word document)",
-      "fr": "@Partager au format DOCX (document Word)",
+      "fr": "Sauvegarder au format DOCX (document Word)",
       "id": "Simpan konten sebagai dokumen Word"
     },
 
@@ -792,7 +792,7 @@
     },
     "generate_pdf": {
       "en": "Save as PDF",
-      "fr": "@Partager au format PDF",
+      "fr": "Sauvegarder au format PDF",
       "id": "Simpan sebagai PDF"
     },
 
@@ -825,28 +825,29 @@
     },
     "export_pdf": {
       "en": "Save as PDF",
-      "fr": "@Partager au format PDF",
+      "fr": "Sauvegarder au format PDF",
       "id": "Simpan sebagai PDF"
     },
     "export_usfm": {
       "en": "Save as USFM",
-      "fr": "@Partager au format USFM",
+      "fr": "Sauvegarder au format USFM",
       "id": "Simpan sebagai USFM"
     },
     "export_zip": {
       "en": "Save as ZIP",
-      "fr": "@Partager au format ZIP",
+      "fr": "Sauvegarder au format ZIP",
       "id": "Simpan sebagai ZIP"
     },
     "export_burrito": {
       "en": "Save as Burrito",
       "es": "@Compartir como Burrito",
-      "fr": "@Partager au format Burrito",
+      "fr": "Sauvegarder au format Burrito",
       "id": "Simpan sebagai Burrito"
     },
     "burrito_exported": {
-      "en": "Burrito was succesfuly saved",
+      "en": "Burrito was successfuly saved",
       "es": "@El burrito fue exportado correctamente",
+      "fr": "Burrito sauvegardé avec succès",
       "id": "Burrito telah disimpan"
     },
     "could_not_export_burrito": {
@@ -855,7 +856,7 @@
     },
     "do_export": {
       "en": "Save",
-      "es": "@Exportar",
+      "es": "Sauvegarder",
       "id": "Simpan"
     },
     "about_to_export_burrito": {
@@ -864,7 +865,7 @@
     },
     "about_document": {
       "en": "About",
-      "fr": "A propos"
+      "fr": "À propos"
     },
     "about_repo_flavor": {
       "en": "Type",
