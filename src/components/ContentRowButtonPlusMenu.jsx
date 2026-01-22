@@ -24,6 +24,7 @@ function ContentRowButtonPlusMenu({
   setReposModCount,
   isNormal,
   clientInterfaces,
+  clientConfig,
 }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
@@ -57,6 +58,12 @@ function ContentRowButtonPlusMenu({
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
   const [status, setStatus] = useState([]);
+
+  const isArchiveMenuEnabled =
+    clientConfig?.["core-client-content"]
+      ?.find((section) => section.id === "config")
+      ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
+
   let createItemNewBook;
   let createItemImportBook;
   let createItemExport;
@@ -211,40 +218,44 @@ function ContentRowButtonPlusMenu({
           <>
             {repoInfo.path.includes("_local_/_local_") && (
               <>
-                {createItemNewBook && createItemNewBook.filter(
-                  (item) => item.category === repoInfo.flavor,
-                ).length > 0 && (
-                  <>
-                    {createItemNewBook && createItemNewBook
-                      .filter((item) => item.category === repoInfo.flavor)
-                      .map((item) => (
-                        <MenuItem
-                          key={`new-${item.label}`}
-                          onClick={() => (window.location.href = item.url)}
-                        >
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                    <Divider />
-                  </>
-                )}
-                {createItemImportBook && createItemImportBook.filter(
-                  (item) => item.category === repoInfo.flavor,
-                ).length > 0 && (
-                  <>
-                    {createItemImportBook && createItemImportBook
-                      .filter((item) => item.category === repoInfo.flavor)
-                      .map((item) => (
-                        <MenuItem
-                          key={`import-${item.label}`}
-                          onClick={() => (window.location.href = item.url)}
-                        >
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                    <Divider />
-                  </>
-                )}
+                {createItemNewBook &&
+                  createItemNewBook.filter(
+                    (item) => item.category === repoInfo.flavor,
+                  ).length > 0 && (
+                    <>
+                      {createItemNewBook &&
+                        createItemNewBook
+                          .filter((item) => item.category === repoInfo.flavor)
+                          .map((item) => (
+                            <MenuItem
+                              key={`new-${item.label}`}
+                              onClick={() => (window.location.href = item.url)}
+                            >
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                      <Divider />
+                    </>
+                  )}
+                {createItemImportBook &&
+                  createItemImportBook.filter(
+                    (item) => item.category === repoInfo.flavor,
+                  ).length > 0 && (
+                    <>
+                      {createItemImportBook &&
+                        createItemImportBook
+                          .filter((item) => item.category === repoInfo.flavor)
+                          .map((item) => (
+                            <MenuItem
+                              key={`import-${item.label}`}
+                              onClick={() => (window.location.href = item.url)}
+                            >
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                      <Divider />
+                    </>
+                  )}
               </>
             )}
             <MenuItem
@@ -259,23 +270,27 @@ function ContentRowButtonPlusMenu({
             >
               {doI18n("pages:content:copy_content", i18nRef.current)}
             </MenuItem>
-            <MenuItem
-              onClick={(event) => {
-                setArchiveContentAnchorEl(event.currentTarget);
-              }}
-              disabled={repoInfo.path.split("/")[1] === "_archived_"}
-            >
-              {doI18n("pages:content:archive_content", i18nRef.current)}
-            </MenuItem>
-            <MenuItem
-              onClick={(event) => {
-                setQuarantineContentAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
-              }}
-              disabled={repoInfo.path.split("/")[1] === "_quarantine_"}
-            >
-              {doI18n("pages:content:quarantine_content", i18nRef.current)}
-            </MenuItem>
+            {isArchiveMenuEnabled && (
+              <>
+                <MenuItem
+                  onClick={(event) => {
+                    setArchiveContentAnchorEl(event.currentTarget);
+                  }}
+                  disabled={repoInfo.path.split("/")[1] === "_archived_"}
+                >
+                  {doI18n("pages:content:archive_content", i18nRef.current)}
+                </MenuItem>
+                <MenuItem
+                  onClick={(event) => {
+                    setQuarantineContentAnchorEl(event.currentTarget);
+                    setContentRowAnchorEl(null);
+                  }}
+                  disabled={repoInfo.path.split("/")[1] === "_quarantine_"}
+                >
+                  {doI18n("pages:content:quarantine_content", i18nRef.current)}
+                </MenuItem>{" "}
+              </>
+            )}
 
             <Divider />
             <MenuItem onClick={handleSubMenuClick}>
@@ -365,16 +380,17 @@ function ContentRowButtonPlusMenu({
         transformOrigin={{ vertical: "top", horizontal: "right" }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
-        {createItemExport && createItemExport
-          .filter((item) => item.endpoint === repoInfo.flavor)
-          .map((item) => (
-            <MenuItem
-              key={item.label}
-              onClick={() => (window.location.href = item.url)}
-            >
-              {item.label}
-            </MenuItem>
-          ))}
+        {createItemExport &&
+          createItemExport
+            .filter((item) => item.endpoint === repoInfo.flavor)
+            .map((item) => (
+              <MenuItem
+                key={item.label}
+                onClick={() => (window.location.href = item.url)}
+              >
+                {item.label}
+              </MenuItem>
+            ))}
         <MenuItem
           onClick={(event) => {
             setExportBurritoAnchorEl(event.currentTarget);

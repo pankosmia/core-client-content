@@ -42,6 +42,7 @@ function DataGridComponent({
   contentFilter,
   experimentDialogOpen,
   clientInterfaces,
+  clientConfig,
 }) {
   const { debugRef } = useContext(debugContext);
   const { i18nRef } = useContext(i18nContext);
@@ -301,6 +302,7 @@ function DataGridComponent({
               setReposModCount={setReposModCount}
               isNormal={isNormal}
               clientInterfaces={clientInterfaces}
+              clientConfig={clientConfig}
             />
           </>
         );
