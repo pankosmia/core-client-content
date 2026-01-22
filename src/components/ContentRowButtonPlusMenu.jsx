@@ -73,13 +73,12 @@ function ContentRowButtonPlusMenu({
       ([category, categoryValue]) => {
         const endpoints = categoryValue?.endpoints ?? {};
 
-        return Object.entries(endpoints).flatMap(([, endpointValue]) => {
+        return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
           const docs = endpointValue?.new_book;
-
           if (!Array.isArray(docs)) return [];
 
           return docs.map((doc) => ({
-            category,
+            category:key,
             label: doI18n(doc.label, i18nRef.current),
             url:
               "/clients/" +
@@ -94,13 +93,13 @@ function ContentRowButtonPlusMenu({
       ([category, categoryValue]) => {
         const endpoints = categoryValue?.endpoints ?? {};
 
-        return Object.entries(endpoints).flatMap(([, endpointValue]) => {
+        return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
           const docs = endpointValue?.import_book;
 
           if (!Array.isArray(docs)) return [];
 
           return docs.map((doc) => ({
-            category,
+            category:key,
             label: doI18n(doc.label, i18nRef.current),
             url:
               "/clients/" +
@@ -126,7 +125,7 @@ function ContentRowButtonPlusMenu({
 
               return Object.entries(flavorItems).flatMap(([key, items]) =>
                 items.map((item) => ({
-                  category, // top-level category
+                  category:endpointKey, // top-level category
                   endpoint: endpointKey, // endpoint name
                   key, // flavor type (pdf/usfm/zip)
                   label: doI18n(item.label, i18nRef.current),
@@ -160,7 +159,7 @@ function ContentRowButtonPlusMenu({
       },
     );
   }
-
+  console.log(createItemNewBook)
   const handleSubMenuClick = (event) => {
     setSubMenuAnchorEl(event.currentTarget);
   };
