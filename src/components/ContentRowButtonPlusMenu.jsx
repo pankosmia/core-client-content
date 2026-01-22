@@ -233,7 +233,6 @@ function ContentRowButtonPlusMenu({
                               {item.label}
                             </MenuItem>
                           ))}
-                      <Divider />
                     </>
                   )}
                 {createItemImportBook &&
