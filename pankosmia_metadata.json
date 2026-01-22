@@ -138,10 +138,10 @@
       "id": "buku atau buku-buku"
     },
     "export": {
-      "en": "Share",
-      "es": "@Exportar",
-      "fr": "Partager",
-      "id": "@Ekspor"
+      "en": "Export",
+      "es": "Exportar",
+      "fr": "Exporter",
+      "id": "Ekspor"
     },
 
     "cancel": {
@@ -190,9 +190,9 @@
       "id": "Cantum hanya buku Protestan"
     },
     "export_docx": {
-      "en": "Share as DOCX (Word document)",
-      "fr": "Partager au format DOCX (document Word)",
-      "id": "@Ekspor konten sebagai dokumen Word"
+      "en": "Save as DOCX (Word document)",
+      "fr": "Sauvegarder au format DOCX (document Word)",
+      "id": "Simpan konten sebagai dokumen Word"
     },
 
     "delete_content": {
@@ -791,9 +791,9 @@
       "id": "Lanjutkan dan membarui"
     },
     "generate_pdf": {
-      "en": "Share as PDF",
-      "fr": "Partager au format PDF",
-      "id": "@Hasilkan PDF"
+      "en": "Save as PDF",
+      "fr": "Sauvegarder au format PDF",
+      "id": "Simpan sebagai PDF"
     },
 
     "print": {
@@ -824,41 +824,48 @@
       "id": "@editer project check"
     },
     "export_pdf": {
-      "en": "Share as PDF",
-      "fr": "Partager au format PDF"
+      "en": "Save as PDF",
+      "fr": "Sauvegarder au format PDF",
+      "id": "Simpan sebagai PDF"
     },
     "export_usfm": {
-      "en": "Share as USFM",
-      "fr": "Partager au format USFM"
+      "en": "Save as USFM",
+      "fr": "Sauvegarder au format USFM",
+      "id": "Simpan sebagai USFM"
     },
     "export_zip": {
-      "en": "Share as ZIP",
-      "fr": "Partager au format ZIP"
+      "en": "Save as ZIP",
+      "fr": "Sauvegarder au format ZIP",
+      "id": "Simpan sebagai ZIP"
     },
     "export_burrito": {
-      "en": "Share as Burrito",
-      "es": "Compartir como Burrito",
-      "fr": "Partager au format Burrito"
+      "en": "Save as Burrito",
+      "es": "@Compartir como Burrito",
+      "fr": "Sauvegarder au format Burrito",
+      "id": "Simpan sebagai Burrito"
     },
     "burrito_exported": {
-      "en": "Burrito was succesfuly exported",
-      "es": "El burrito fue exportado correctamente"
+      "en": "Burrito was successfuly saved",
+      "es": "@El burrito fue exportado correctamente",
+      "fr": "Burrito sauvegardé avec succès",
+      "id": "Burrito telah disimpan"
     },
     "could_not_export_burrito": {
       "en": "Could not export burrito",
       "es": "No se pudo exportar el burrito"
     },
     "do_export": {
-      "en": "Export",
-      "es": "Exportar"
+      "en": "Save",
+      "es": "Sauvegarder",
+      "id": "Simpan"
     },
     "about_to_export_burrito": {
-      "en": "About to export this content as Burrito",
-      "es": "A punto de exportar este contenido como Burrito"
+      "en": "About to save this content as Burrito",
+      "es": "@A punto de exportar este contenido como Burrito"
     },
     "about_document": {
       "en": "About",
-      "fr": "A propos"
+      "fr": "À propos"
     },
     "about_repo_flavor": {
       "en": "Type",
