@@ -261,7 +261,6 @@ function DataGridComponent({
       align: "right",
       renderCell: (params) => {
         let editUrl;
-        console.log(editTable);
         if (editTable[params.row.type]) {
           editUrl = editTable[params.row.type][0];
         }

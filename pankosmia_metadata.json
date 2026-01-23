@@ -460,24 +460,6 @@
       "fr": "Partager",
       "id": "@Membarui"
     },
-    "create_content_tn": {
-      "en": "Translation Notes",
-      "es": "Notas de traducción",
-      "fr": "Notes de traduction",
-      "id": "Catatan buat Terjemahan"
-    },
-    "create_content_tq": {
-      "en": "Translation Questions",
-      "es": "Preguntas de traducción",
-      "fr": "Questions de traduction",
-      "id": "Pertanyaan buat Terjemahan"
-    },
-    "create_content_sq": {
-      "en": "Study Questions",
-      "es": "Preguntas de estudio",
-      "fr": "Questions d'étude",
-      "id": "Pertanyaan-pertanyaan Studi"
-    },
     "required_field": {
       "en": "* Required fields",
       "fr": "* Champs obligatoires",
