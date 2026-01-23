@@ -1,12 +1,13 @@
 import { useContext } from 'react';
-import { DialogContent, DialogContentText, Typography } from '@mui/material';
+import { DialogContent, DialogContentText, Typography, useTheme } from '@mui/material';
 import { debugContext, i18nContext, doI18n, postEmptyJson } from 'pithekos-lib';
 import { enqueueSnackbar } from 'notistack';
 import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
 function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
-
+  const theme = useTheme();
+  
   const deleteRepo = async (repo_path) => {
     const deleteUrl = `/git/delete/${repo_path}`;
     const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
@@ -27,6 +28,7 @@ function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
       titleLabel={`${doI18n('pages:content:delete_content', i18nRef.current)} - ${repoInfo.name}`}
       isOpen={open}
       closeFn={() => closeFn()}
+      theme={theme}
     >
       <DialogContent>
         <DialogContentText>

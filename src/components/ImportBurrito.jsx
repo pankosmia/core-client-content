@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import { useContext, useState } from 'react';
 import {
     Button,
     Dialog,
@@ -7,20 +7,22 @@ import {
     Tooltip,
     AppBar,
     Toolbar,
-    Typography
+    Typography,
+    useTheme
 } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
-import {i18nContext, doI18n} from "pithekos-lib";
+import { i18nContext, doI18n } from "pithekos-lib";
 import { FilePicker } from 'react-file-picker';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
+import { PanDialog, PanDialogActions } from "pankosmia-rcl";
 
 function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
 
-    const {i18nRef} = useContext(i18nContext);
+    const { i18nRef } = useContext(i18nContext);
     const [loading, setLoading] = useState(false);
     const [filePicked, setFilePicked] = useState(null);
     const isZip = filePicked?.name?.toLowerCase().endsWith('.zip');
-
+    const theme = useTheme();
     const handleImport = async (file) => {
         const formData = new FormData();
 
@@ -32,7 +34,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
             body: formData,
         });
 
-        if (response.ok){
+        if (response.ok) {
             setFilePicked(null);
             enqueueSnackbar(
                 doI18n("pages:content:burrito_imported", i18nRef.current),
@@ -40,74 +42,53 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
             );
             setReposModCount(reposModCount + 1);
         } else {
-            const error = await response.json(); 
+            const error = await response.json();
             enqueueSnackbar(
                 `${doI18n("pages:content:could_not_import_burrito", i18nRef.current)}: ${error.reason}`,
                 { variant: "error" }
             )
         };
     };
-  
+
     return (
-        <Dialog
-            fullWidth={true}
-            open={open}
-            onClose={() => { setFilePicked(null) ; closeFn() }}
-            sx={{ backdropFilter: "blur(3px)" }}
-            slotProps={{ paper: { component: 'form'} }}
+        <PanDialog
+            titleLabel={doI18n("pages:content:import_content", i18nRef.current)}
+            isOpen={open}
+            closeFn={() => { setFilePicked(null); closeFn() }}
+            theme={theme}
         >
-        <AppBar
-            color="secondary"
-            sx={{
-                position: "relative",
-                borderTopLeftRadius: 4,
-                borderTopRightRadius: 4,
-            }}
-        >
-            <Toolbar>
-                <Typography variant="h6" component="div">
-                    {doI18n("pages:content:import_content", i18nRef.current)}
-                </Typography>
-            </Toolbar>
-        </AppBar>
-        <DialogContent sx={{ mt: 1 }}>
-            <FilePicker
-                extensions={['zip']}
-                onChange={(file) => {setFilePicked(file)}}
-                onError={error => {enqueueSnackbar(`${error}`, {variant: "error",}); setLoading(false);}}
-            >
-                <Button 
-                    type="button" 
-                    disabled={loading}
-                    variant="contained"
-                    color="primary" 
-                    component="span"
-                    startIcon={<UploadFileIcon />}
+            <DialogContent sx={{ mt: 1 }}>
+                <FilePicker
+                    extensions={['zip']}
+                    onChange={(file) => { setFilePicked(file) }}
+                    onError={error => { enqueueSnackbar(`${error}`, { variant: "error", }); setLoading(false); }}
                 >
-                    {loading ? 'Reading File...' : (filePicked?.name ? filePicked?.name : doI18n("pages:content:import_burrito_click", i18nRef.current))}
-                </Button>
-            </FilePicker>
-        </DialogContent>
-        <DialogActions>
-            <Button onClick={() => { closeFn(); setFilePicked(null) }}>
-                {doI18n("pages:content:cancel", i18nRef.current)}
-            </Button>
-            <Tooltip 
+                    <Button
+                        type="button"
+                        disabled={loading}
+                        variant="contained"
+                        color="primary"
+                        component="span"
+                        startIcon={<UploadFileIcon />}
+                    >
+                        {loading ? 'Reading File...' : (filePicked?.name ? filePicked?.name : doI18n("pages:content:import_burrito_click", i18nRef.current))}
+                    </Button>
+                </FilePicker>
+            </DialogContent>
+            <Tooltip
                 open={!isZip && filePicked}
                 title={doI18n("pages:content:file_invalid", i18nRef.current)}
                 placement="top-end"
             >
-                <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => { handleImport(filePicked); closeFn(); setTimeout(() => setFilePicked(null), 1500); }}
-                    disabled={!filePicked || !isZip}
-                >
-                    {doI18n("pages:content:create", i18nRef.current)}
-                </Button>
+                <PanDialogActions
+                    actionFn={() => { handleImport(filePicked); closeFn(); setTimeout(() => setFilePicked(null), 1500); }}
+                    isDisabled={!filePicked || !isZip}
+                    actionLabel={doI18n("pages:content:create", i18nRef.current)}
+                    closeFn={() => { closeFn(); setFilePicked(null) }}
+                    closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
+                />
             </Tooltip>
-        </DialogActions>
-    </Dialog>
+        </PanDialog>
     );
 }
 

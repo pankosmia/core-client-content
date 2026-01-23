@@ -38,24 +38,12 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
       )
     );
 
-    // dedupe by url to remove duplicate-producing branches
-    const seen = new Set();
-    const unique = [];
-    for (const it of all) {
-      if (!it?.url) continue;
-      if (!seen.has(it.url)) {
-        seen.add(it.url);
-        unique.push(it);
-      }
-    }
-
     // move "Biblical Text" to the front if present
-    const idx = unique.findIndex(i => i.url === matchPart || i.url.includes(matchPart));
-    if (idx > -1) unique.unshift(unique.splice(idx, 1)[0]);
+    const idx = all.findIndex(i => i.url === matchPart || i.url.includes(matchPart));
+    if (idx > -1) all.unshift(all.splice(idx, 1)[0]);
 
-    return unique;
+    return all;
   })();
-
 
   return (
     <>
