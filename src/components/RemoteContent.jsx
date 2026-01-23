@@ -132,6 +132,7 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
       isOpen={open}
       closeFn={() => closeFn}
       theme={theme}
+      fullWidth={false}
     >
       <DialogContent>
         <DialogContentText>

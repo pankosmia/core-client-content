@@ -12,6 +12,7 @@ export default function AboutRepo({ repoInfo, open, closeFn }) {
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}
+      fullWidth={false}
     >
       <DialogContent>
         {repoInfo

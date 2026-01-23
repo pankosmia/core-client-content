@@ -30,6 +30,7 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}
+      fullWidth={false}
     >
       <DialogContent>
         <DialogContentText>

@@ -30,6 +30,7 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}
+      fullWidth={false}
     >
       <DialogContent>
         <DialogContentText>

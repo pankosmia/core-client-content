@@ -1,13 +1,8 @@
 import { useContext, useState } from 'react';
 import {
     Button,
-    Dialog,
-    DialogActions,
     DialogContent,
     Tooltip,
-    AppBar,
-    Toolbar,
-    Typography,
     useTheme
 } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
@@ -56,8 +51,9 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
             isOpen={open}
             closeFn={() => { setFilePicked(null); closeFn() }}
             theme={theme}
+            fullWidth={false}
         >
-            <DialogContent sx={{ mt: 1 }}>
+            <DialogContent>
                 <FilePicker
                     extensions={['zip']}
                     onChange={(file) => { setFilePicked(file) }}

@@ -48,6 +48,7 @@ function CopyContent({ repoInfo, open, closeFn, reposModCount, setReposModCount 
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}
+      fullWidth={false}
     >
       <DialogContent>
         <DialogContentText>
