@@ -159,7 +159,6 @@ function ContentRowButtonPlusMenu({
       },
     );
   }
-  console.log(createItemNewBook)
   const handleSubMenuClick = (event) => {
     setSubMenuAnchorEl(event.currentTarget);
   };
