@@ -26,7 +26,7 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
 
   return (
     <PanDialog
-      titleLabel={`${doI18n('pages:content:quarantine_content', i18nRef.current)} - ${repoInfo.name}`}
+      titleLabel={`${doI18n('pages:content:quarantine_content', i18nRef.current)} - ${repoInfo.abbreviation}`}
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}

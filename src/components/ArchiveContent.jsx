@@ -26,7 +26,7 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
 
   return (
     <PanDialog
-      titleLabel={`${doI18n('pages:content:archive_content', i18nRef.current)} - ${repoInfo.name}`}
+      titleLabel={`${doI18n('pages:content:archive_content', i18nRef.current)} - ${repoInfo.abbreviation}`}
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}

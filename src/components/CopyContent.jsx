@@ -44,15 +44,14 @@ function CopyContent({ repoInfo, open, closeFn, reposModCount, setReposModCount 
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:copy_content', i18nRef.current)}
+      titleLabel={`${doI18n('pages:content:copy_content', i18nRef.current)} - ${repoInfo.abbreviation}`}
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}
     >
       <DialogContent>
         <DialogContentText>
-          <Typography variant="h6">{repoInfo.name}</Typography>
-          <Typography>{doI18n('pages:content:about_to_copy_content', i18nRef.current)}</Typography>
+          {doI18n('pages:content:about_to_copy_content', i18nRef.current)}
         </DialogContentText>
       </DialogContent>
       <PanDialogActions
