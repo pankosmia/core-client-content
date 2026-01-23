@@ -33,7 +33,7 @@
     "create": {
       "en": "New Document",
       "es": "@Crear",
-      "fr": "@Créer",
+      "fr": "Nouveau document",
       "id": "Dokumen Baru"
     },
     "name": {
@@ -62,7 +62,7 @@
     },
     "fab_create": {
       "en": "New Document",
-      "fr": "@Créer",
+      "fr": "Nouveau document",
       "id": "Dokumen Baru"
     },
     "fab_import": {
