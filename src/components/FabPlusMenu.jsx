@@ -22,21 +22,40 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
     setCreateAnchorEl(null);
   };
 
-  const createItems = Object.entries(clientInterfaces).flatMap(([category, categoryValue]) => {
-    const endpoints = categoryValue?.endpoints ?? {};
+  // Use this to set "Biblical Text" as the first item.
+  const matchPart = '/createDocument/textTranslation';
 
-    return Object.entries(endpoints).flatMap(([, endpointValue]) => {
-      const docs = endpointValue?.create_document;
+  const createItems = (() => {
+    if (!clientInterfaces) return [];
 
-      if (!Array.isArray(docs)) return [];
+    const all = Object.entries(clientInterfaces).flatMap(([category, cv]) =>
+      Object.values(cv?.endpoints || {}).flatMap(ev =>
+        (ev?.create_document || []).map(doc => ({
+          category,
+          label: doI18n(doc.label, i18nRef.current),
+          url: '/clients/' + category + '#' + doc.url,
+        }))
+      )
+    );
 
-      return docs.map((doc) => ({
-        category,
-        label: doI18n(doc.label, i18nRef.current),
-        url: '/clients/' + category + '#' + doc.url,
-      }));
-    });
-  });
+    // dedupe by url to remove duplicate-producing branches
+    const seen = new Set();
+    const unique = [];
+    for (const it of all) {
+      if (!it?.url) continue;
+      if (!seen.has(it.url)) {
+        seen.add(it.url);
+        unique.push(it);
+      }
+    }
+
+    // move "Biblical Text" to the front if present
+    const idx = unique.findIndex(i => i.url === matchPart || i.url.includes(matchPart));
+    if (idx > -1) unique.unshift(unique.splice(idx, 1)[0]);
+
+    return unique;
+  })();
+
 
   return (
     <>

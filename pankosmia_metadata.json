@@ -28,13 +28,13 @@
       "en": "New Document",
       "es": "@Nuevo Contenido",
       "fr": "Nouveau document",
-      "id": "@Konten Baru"
+      "id": "Dokumen Baru"
     },
     "create": {
-      "en": "Create",
-      "es": "Crear",
-      "fr": "Créer",
-      "id": "Buat"
+      "en": "New Document",
+      "es": "@Crear",
+      "fr": "@Créer",
+      "id": "Dokumen Baru"
     },
     "name": {
       "en": "Document name",
@@ -61,9 +61,9 @@
       "id": "Kode Bahasa ('und' buat yg tak dpt ditentukan)"
     },
     "fab_create": {
-      "en": "Create",
-      "fr": "Créer",
-      "id": "Buat"
+      "en": "New Document",
+      "fr": "@Créer",
+      "id": "Dokumen Baru"
     },
     "fab_import": {
       "en": "Import",
