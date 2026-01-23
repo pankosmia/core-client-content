@@ -9,6 +9,7 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
+  useTheme,
 } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
 import { debugContext, i18nContext, doI18n, postEmptyJson, getJson } from 'pithekos-lib';
@@ -23,6 +24,7 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
   const [remotes, setRemotes] = useState(null);
   const [branchList, setBranchList] = useState([]);
   const [selectedBranchIndex, setSelectedBranchIndex] = useState();
+  const theme = useTheme();
 
   useEffect(() => {
     const doFetch = async () => {
@@ -129,6 +131,7 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
       titleLabel={doI18n('pages:content:remote_content', i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn}
+      theme={theme}
     >
       <DialogContent>
         <DialogContentText>

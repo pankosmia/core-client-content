@@ -1,16 +1,17 @@
-import { DialogContent, DialogContentText } from '@mui/material';
+import { DialogContent, DialogContentText, useTheme } from '@mui/material';
 import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
 import { doI18n, i18nContext } from 'pithekos-lib';
 import { useContext } from 'react';
 
 export default function AboutRepo({ repoInfo, open, closeFn }) {
   const { i18nRef } = useContext(i18nContext);
-
+  const theme = useTheme();
   return (
     <PanDialog
       titleLabel={`${doI18n('pages:content:about_document', i18nRef.current)} ${repoInfo.source} - ${repoInfo.abbreviation} `}
       isOpen={open}
       closeFn={() => closeFn()}
+      theme={theme}
     >
       <DialogContent>
         {repoInfo
@@ -52,6 +53,7 @@ export default function AboutRepo({ repoInfo, open, closeFn }) {
       <PanDialogActions
         closeFn={() => closeFn()}
         closeLabel={doI18n('pages:content:close', i18nRef.current)}
+        onlyCloseButton={true}
       />
     </PanDialog>
   );

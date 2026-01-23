@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { DialogContent, DialogContentText, Typography } from '@mui/material';
+import { DialogContent, DialogContentText, Typography, useTheme } from '@mui/material';
 import { debugContext, i18nContext, doI18n, postEmptyJson } from 'pithekos-lib';
 import { enqueueSnackbar } from 'notistack';
 import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
@@ -7,6 +7,7 @@ import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
 function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
+  const theme = useTheme();
 
   const quarantineRepo = async (repo_path) => {
     const quarantineUrl = `/git/copy/${repo_path}?target_path=_local_/_quarantine_/${repo_path.split('/')[2]}&delete_src`;
@@ -28,6 +29,7 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
       titleLabel={doI18n('pages:content:quarantine_content', i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
+      theme={theme}
     >
       <DialogContent>
         <DialogContentText>
