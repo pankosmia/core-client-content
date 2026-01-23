@@ -7,7 +7,8 @@ import {
     Tooltip,
     AppBar,
     Toolbar,
-    Typography
+    Typography,
+    useTheme
 } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { i18nContext, doI18n } from "pithekos-lib";
@@ -21,7 +22,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
     const [loading, setLoading] = useState(false);
     const [filePicked, setFilePicked] = useState(null);
     const isZip = filePicked?.name?.toLowerCase().endsWith('.zip');
-
+    const theme = useTheme();
     const handleImport = async (file) => {
         const formData = new FormData();
 
@@ -54,6 +55,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
             titleLabel={doI18n("pages:content:import_content", i18nRef.current)}
             isOpen={open}
             closeFn={() => { setFilePicked(null); closeFn() }}
+            theme={theme}
         >
             <DialogContent sx={{ mt: 1 }}>
                 <FilePicker
