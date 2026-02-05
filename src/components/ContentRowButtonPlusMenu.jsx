@@ -68,6 +68,7 @@ function ContentRowButtonPlusMenu({
   let createItemImportBook;
   let createItemExport;
   let createVersionManager;
+  let createItemDeleteBook;
   if (clientInterfaces) {
     createItemNewBook = Object.entries(clientInterfaces).flatMap(
       ([category, categoryValue]) => {
@@ -78,7 +79,27 @@ function ContentRowButtonPlusMenu({
           if (!Array.isArray(docs)) return [];
 
           return docs.map((doc) => ({
-            category:key,
+            category: key,
+            label: doI18n(doc.label, i18nRef.current),
+            url:
+              "/clients/" +
+              category +
+              "#" +
+              doc.url.replace("%%REPO_PATH%%", repoInfo.path),
+          }));
+        });
+      },
+    );
+    createItemDeleteBook = Object.entries(clientInterfaces).flatMap(
+      ([category, categoryValue]) => {
+        const endpoints = categoryValue?.endpoints ?? {};
+
+        return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
+          const docs = endpointValue?.delete_book;
+          if (!Array.isArray(docs)) return [];
+
+          return docs.map((doc) => ({
+            category: key,
             label: doI18n(doc.label, i18nRef.current),
             url:
               "/clients/" +
@@ -99,7 +120,7 @@ function ContentRowButtonPlusMenu({
           if (!Array.isArray(docs)) return [];
 
           return docs.map((doc) => ({
-            category:key,
+            category: key,
             label: doI18n(doc.label, i18nRef.current),
             url:
               "/clients/" +
@@ -125,7 +146,7 @@ function ContentRowButtonPlusMenu({
 
               return Object.entries(flavorItems).flatMap(([key, items]) =>
                 items.map((item) => ({
-                  category:endpointKey, // top-level category
+                  category: endpointKey, // top-level category
                   endpoint: endpointKey, // endpoint name
                   key, // flavor type (pdf/usfm/zip)
                   label: doI18n(item.label, i18nRef.current),
@@ -223,6 +244,24 @@ function ContentRowButtonPlusMenu({
                     <>
                       {createItemNewBook &&
                         createItemNewBook
+                          .filter((item) => item.category === repoInfo.flavor)
+                          .map((item) => (
+                            <MenuItem
+                              key={`new-${item.label}`}
+                              onClick={() => (window.location.href = item.url)}
+                            >
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                    </>
+                  )}
+                {createItemDeleteBook &&
+                  createItemDeleteBook.filter(
+                    (item) => item.category === repoInfo.flavor,
+                  ).length > 0 && (
+                    <>
+                      {createItemDeleteBook &&
+                        createItemDeleteBook
                           .filter((item) => item.category === repoInfo.flavor)
                           .map((item) => (
                             <MenuItem
