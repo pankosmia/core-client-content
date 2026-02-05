@@ -73,7 +73,6 @@ function ContentRowButtonPlusMenu({
     createItemNewBook = Object.entries(clientInterfaces).flatMap(
       ([category, categoryValue]) => {
         const endpoints = categoryValue?.endpoints ?? {};
-
         return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
           const docs = endpointValue?.new_book;
           if (!Array.isArray(docs)) return [];
