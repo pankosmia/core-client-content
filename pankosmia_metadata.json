@@ -8,7 +8,7 @@
   "i18n": {
     "title": {
       "en": "Documents",
-      "es": "@Mi Contenido",
+      "es": "Documentos",
       "fr": "Documents",
       "id": "@Konten Saya"
     },
@@ -26,19 +26,19 @@
     },
     "new_content": {
       "en": "New Document",
-      "es": "@Nuevo Contenido",
+      "es": "Nuevo documento",
       "fr": "Nouveau document",
       "id": "Dokumen Baru"
     },
     "create": {
       "en": "New Document",
-      "es": "@Crear",
+      "es": "Nuevo documento",
       "fr": "Nouveau document",
       "id": "Dokumen Baru"
     },
     "name": {
       "en": "Document name",
-      "es": "@Nombre",
+      "es": "Nombre del documento",
       "fr": "Nom du document",
       "id": "@Nama"
     },
@@ -74,13 +74,13 @@
 
     "download_content": {
       "en": "Download from internet",
-      "es": "@Descargar Contenido",
+      "es": "Descargar de Internet",
       "fr": "Télécharger depuis internet",
       "id": "@Unduh dari Internet"
     },
     "import_content": {
       "en": "Import from computer",
-      "es": "@Cargar Contenido",
+      "es": "Importar desde la computadora",
       "fr": "Importer depuis l'ordinateur",
       "id": "Impor dari komputer"
     },
@@ -294,37 +294,37 @@
     },
     "copy_content": {
       "en": "Create editable copy",
-      "es": "@Hacer una copia local",
+      "es": "Crear copia editable",
       "fr": "Créer une copie éditable",
       "id": "@Buat duplikat local"
     },
     "about_to_copy_content": {
       "en": "Do you want to create an editable copy of this document?",
-      "es": "@A punto de hacer una copia local",
+      "es": "¿Desea crear una copia editable de este documento?",
       "fr": "Voulez-vous créer une copie éditable de ce document ?",
       "id": "@Duplikat local akan dibuat"
     },
     "do_copy_button": {
       "en": "Create",
-      "es": "@Copiar",
+      "es": "Crear",
       "fr": "Créer",
       "id": "@Duplikasi"
     },
     "could_not_copy_repo": {
       "en": "The document could not be copied",
-      "es": "@No se pudo hacer la copia local",
+      "es": "No se pudo copiar el documento",
       "fr": "Le document n'a pas pu être copié",
       "id": "@Tidak dapat buat duplikat local"
     },
     "repo_copied": {
       "en": "Document copied",
-      "es": "@Contenido copiado",
+      "es": "Documento copiado",
       "fr": "Document copié",
       "id": "@Konten telah diduplikasikan"
     },
     "quarantined_content": {
       "en": "Quarantined documents",
-      "es": "@Contenido en cuarentena",
+      "es": "Documentos en cuarentena",
       "fr": "Documents en quarantaine",
       "id": "@Konten yang dikarantina"
     },
@@ -336,31 +336,31 @@
     },
     "about_to_quarantine_content": {
       "en": "Do you want to quarantine this document?",
-      "es": "@A punto de poner en cuarentena",
+      "es": "¿Desea poner este documento en cuarentena?",
       "fr": "Voulez-vous mettre ce document en quarantaine ?",
       "id": "@Konten akan dikarantina"
     },
     "accept": {
       "en": "Label",
-      "es": "@Aceptar",
+      "es": "Etiqueta",
       "fr": "Étiqueter",
       "id": "@Terima"
     },
     "could_not_quarantine_repo": {
       "en": "The document could not be quarantined",
-      "es": "@No se pudo poner en cuarentena",
+      "es": "El documento no se pudo poner en cuarentena",
       "fr": "Le document n'a pas pu être mis en quarantaine",
       "id": "@Remote tidak dapat dikarantina"
     },
     "repo_quarantined": {
       "en": "Document quarantined",
-      "es": "@Contenido puesto en cuarentena",
+      "es": "Documento puesto en cuarentena",
       "fr": "Document mis en quarantaine",
       "id": "@Konten telah dikarantinakan"
     },
     "archived_content": {
       "en": "Archived documents",
-      "es": "@Archivar contenido",
+      "es": "Archivar documentos",
       "fr": "Documents archivés",
       "id": "@Konten yang diarsipkan"
     },
@@ -372,43 +372,43 @@
     },
     "about_to_archive_content": {
       "en": "Do you want to archive this document?",
-      "es": "@A punto de archivar contenido",
+      "es": "¿Desea archivar este documento?",
       "fr": "Voulez-vous archiver ce document ?",
       "id": "@Konten akan diarsipkan"
     },
     "could_not_archive_repo": {
       "en": "The document could not be archived",
-      "es": "@No se pudo archivar el contenido",
+      "es": "No se pudo archivar el documento",
       "fr": "Le document n'a pas pu être archivé",
       "id": "@Tidak dapat arsip konten"
     },
     "repo_archived": {
       "en": "Document archived",
-      "es": "@Se archivó el contenido",
+      "es": "Documento archivado",
       "fr": "Document archivé",
       "id": "@Konten telah diarsipkan"
     },
     "restore_content": {
       "en": "Restore document",
-      "es": "@Restaurar contenido",
+      "es": "Restaurar documento",
       "fr": "Restaurer le document",
       "id": "@Pulihkan konten"
     },
     "about_to_restore_content": {
       "en": "Do you want to restore this document?",
-      "es": "@A punto de restaurar el contenido",
+      "es": "¿Desea restaurar este documento?",
       "fr": "Voulez-vous restaurer ce document ?",
       "id": "@Konten akan dipulihkan"
     },
     "could_not_restore_repo": {
       "en": "The document could not be restored",
-      "es": "@No se pudo restaurar el contenido",
+      "es": "No se pudo restaurar el documento",
       "fr": "Le document n'a pas pu être restauré",
       "id": "@konten tidak dapat dipulihkan"
     },
     "repo_restored": {
       "en": "Document restored",
-      "es": "@Se restauró el contenido",
+      "es": "Se restauró el documento",
       "fr": "Document restauré",
       "id": "@Konten telah dipulihkan"
     },
@@ -426,37 +426,37 @@
     },
     "remote_repo_url": {
       "en": "Online sharing destination URL",
-      "es": "@URL del repositorio del servidor remoto",
+      "es": "URL de destino para compartir en línea",
       "fr": "URL de la destination de partage en ligne",
       "id": "@url repo"
     },
     "about_to_upload_content": {
       "en": "Do you want to share this document to Door43?",
-      "es": "@A punto de subir el contenido",
+      "es": "¿Desea compartir este documento en Door43?",
       "fr": "Voulez-vous partager ce document sur Door43 ?",
       "id": "@Konten akan diunggah"
     },
     "remote_repo_added": {
       "en": "Added online sharing destination",
-      "es": "@Se agregó el repositorio remoto",
+      "es": "El destino para compartir en línea fue agregado",
       "fr": "La destination de partage en ligne a été ajoutée",
       "id": "@Repositori remote telah ditambahkan"
     },
     "could_not_fetch_list": {
       "en": "The list of documents could not be fetched",
-      "es": "@No se pudo obtener la lista remota del repositorio",
+      "es": "No se pudo obtener la lista de documentos",
       "fr": "La liste de documents n'a pas pu être récupérée",
       "id": "@Tidak dapat ambit daftar remote repo"
     },
     "could_not_add_remote_repo": {
       "en": "The URL could not be added",
-      "es": "@No se pudo agregar el remoto al repositorio",
+      "es": "No se pudo agregar el destino",
       "fr": "L'URL n'a pas pu être ajouté",
       "id": "@Tidak dapat tamba remote ke repositori"
     },
     "update": {
       "en": "Share",
-      "es": "@Actualizar",
+      "es": "Compartir",
       "fr": "Partager",
       "id": "@Membarui"
     },
@@ -467,7 +467,7 @@
     },
     "could_not_delete_remote": {
       "en": "The sharing destination could not be deleted",
-      "es": "@No se pudo borrar el remoto",
+      "es": "No se pudo borrar el destino para compartir en línea",
       "fr": "La destination de partage n'a pas pu être supprimée",
       "id": "@Tidak dapat hapus remote"
     },
@@ -478,13 +478,13 @@
     },
     "sideloaded_content": {
       "en": "Imported from computer",
-      "es": "@Contenido subido",
+      "es": "Importado desde la computadora",
       "fr": "Importé depuis l'ordinateur",
       "id": "@Konten yang diungguh dari samping"
     },
     "content_updates": {
       "en": "Documents updates",
-      "es": "@Actualizaciones del contenido",
+      "es": "Actualizaciones de documentos",
       "fr": "Mises à jour de documents",
       "id": "@Pembaruhan konten"
     },
@@ -502,13 +502,13 @@
     },
     "commits": {
       "en": "Labels",
-      "es": "@Cambios",
+      "es": "Etiquetas",
       "fr": "Étiquettes",
       "id": "@Komit-komit"
     },
     "row_path": {
       "en": "Location",
-      "es": "@Dirección",
+      "es": "Dirección",
       "fr": "Emplacement",
       "id": "@Jalan"
     },
@@ -520,7 +520,7 @@
     },
     "no_changes": {
       "en": "Changes to your document will appear here",
-      "es": "@No se hicieron cambios",
+      "es": "Los cambios a tu documento se mostrarán aquí",
       "fr": "Les modifications de votre document apparaîtront ici",
       "id": "@Tidak ada perubahan yg dibuat"
     },
@@ -531,37 +531,37 @@
     },
     "commit_message": {
       "en": "Label description",
-      "es": "@Mensaje del commit",
+      "es": "Descripción de la etiqueta",
       "fr": "Description de l'étiquette",
       "id": "@Catatan komit"
     },
     "about_to_commit_content": {
       "en": "Do you want to label this document?",
-      "es": "@A punto de hacer commit del contenido",
+      "es": "¿Desea etiquetar este documento?",
       "fr": "Voulez-vous étiqueter ce document ?",
       "id": "@Konten akan dikomit"
     },
     "commits_fetched": {
       "en": "New labels fetched",
-      "es": "@Se han obtenido correctamente los commits",
+      "es": "Se han obtenido correctamente las etiquetas nuevas",
       "fr": "Nouvelles étiquettes récupérées",
       "id": "@Komit-komit berhasil diambil"
     },
     "could_not_fetch_commits": {
       "en": "Labels could not be fetched",
-      "es": "@No se pudo obtener los commits",
+      "es": "No se pudo obtener las etiquetas",
       "fr": "Les étiquettes n'ont pas pu être récupérées",
       "id": "@Tidak dapat ambil komit"
     },
     "commit_complete": {
       "en": "New label added",
-      "es": "@Se completó el commit",
+      "es": "Se agregó una nueva etiqueta",
       "fr": "Nouvelle étiquette ajoutée",
       "id": "@Komit telah diselesaikan"
     },
     "could_not_commit": {
       "en": "The document could not be labeled",
-      "es": "@No se pudo hacer el commit",
+      "es": "No se pudo etiquetar el documento",
       "fr": "Le document n'a pas pu être étiqueté",
       "id": "@Komit gagal"
     },
@@ -572,7 +572,7 @@
     },
     "update_remote": {
       "en": "Share",
-      "es": "@Actualizar remoto",
+      "es": "Compartir",
       "fr": "Partager",
       "id": "@Perbarui remote"
     },
@@ -617,19 +617,19 @@
     },
     "row_message": {
       "en": "Description",
-      "es": "@Mensaje",
+      "es": "Descripción",
       "fr": "Description",
       "id": "@Informasi"
     },
     "push_complete": {
       "en": "Successfully shared on Door43",
-      "es": "@Se completó el push",
+      "es": "Se ha compartido en Door43 exitosamente",
       "fr": "Partagé avec succès sur Door43",
       "id": "@Dorongan telah selesai"
     },
     "could_not_push": {
       "en": "The document could not be shared",
-      "es": "@No se pudo hacer el push",
+      "es": "El documento no se pudo compartir",
       "fr": "Le document n'a pas pu être partagé",
       "id": "@Dorong gagal"
     },
@@ -641,7 +641,7 @@
     },
     "could_not_fetch_brances": {
       "en": "Document's branches could not be fetched",
-      "es": "@No se pudo obtener las ramas del repositorio",
+      "es": "No se pudo obtener las ramas del documento",
       "fr": "Les branches du document n'ont pas pu être récupérées",
       "id": "@Tidak dapat ambil cabang repo"
     },
@@ -653,13 +653,13 @@
     },
     "could_not_switch_branch": {
       "en": "The branch could not be switched",
-      "es": "@No se pudo cambiar la rama",
+      "es": "No se pudo cambiar la rama",
       "fr": "La branche n'a pas pu être changée",
       "id": "@Cabang tidak dapat diruba"
     },
     "could_not_make_branch": {
       "en": "The branch could not be created",
-      "es": "@No se pudo crear la rama",
+      "es": "No se pudo crear la rama",
       "fr": "La branche n'a pas pu être créée",
       "id": "@Tidak dapat membuat cabang"
     },
@@ -740,7 +740,7 @@
     },
     "commit_helper_text": {
       "en": "Label changes creates a backup of the document. Labels are a history of versions, use clear descriptions. We suggest one label a day to track progress.",
-      "es": "@Las commits crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas un commit al día para documentar el progreso.",
+      "es": "Las etiquetas crean un historial para tu proyecto, usa nombres que tengan significado. Recomendamos que hagas una etiqueta al día para documentar el progreso.",
       "fr": "Étiqueter les modifications crée une sauvegarde du document. Les étiquettes sont un historique des versions, utilisez des descriptions claires. Nous suggérons une étiquette par jour pour suivre le progrès.",
       "id": "@Komit-komit menciptakan sejarah proyek. Gunakan nama yang bermakna. Kami menyarankan satu komitmen per hari untuk mendokumentasikan kemajuan."
     },
@@ -756,13 +756,13 @@
     },
     "update_without_latest_changes": {
       "en": "Share without latest changes?",
-      "es": "@¿Acualizar sin los últimos cambios?",
+      "es": "¿Compartir sin los últimos cambios?",
       "fr": "Partager sans les dernières modifications ?",
       "id": "@Perbarui tanpa perubahan terbaru?"
     },
     "uncommitted_changes": {
       "en": "You have unlabeled changes that won't be sent to the sharing destination.",
-      "es": "@Tienes cambios sin hacer commit que no serán enviados al servidor remoto.",
+      "es": "Tienes cambios sin etiquetar que no serán enviados al servidor remoto.",
       "fr": "Vous avez des modifications non étiquetées qui ne seront pas envoyées à la destination de partage.",
       "id": "@Ada perubahan yang belum dikomit yang tidak akan dikirim ke server remote."
     },
@@ -785,13 +785,13 @@
     },
     "push_to_dcs": {
       "en": "Share on Door43",
-      "es": "@Push",
+      "es": "Compartir en Door43",
       "fr": "Partager sur Door43",
       "id": "@Dorong"
     },
     "row_abbreviation": {
       "en": "Abbreviation",
-      "es": "@Código de Recurso",
+      "es": "Abreviación",
       "fr": "Abréviation",
       "id": "@Kode Sumber Daya"
     },
@@ -802,7 +802,7 @@
     "edit_check_project": {
       "en": "edit tCore checks",
       "fr": "modifier les vérifications tCore",
-      "es": "@editar proyecto de verificación",
+      "es": "editar verificaciones de tCore",
       "id": "@editer project check"
     },
     "export_pdf": {
@@ -822,13 +822,13 @@
     },
     "export_burrito": {
       "en": "Save as Burrito",
-      "es": "@Compartir como Burrito",
+      "es": "Guardar como Burrito",
       "fr": "Sauvegarder au format Burrito",
       "id": "Simpan sebagai Burrito"
     },
     "burrito_exported": {
       "en": "Burrito was successfuly saved",
-      "es": "@El burrito fue exportado correctamente",
+      "es": "El burrito fue guardado correctamente",
       "fr": "Burrito sauvegardé avec succès",
       "id": "Burrito telah disimpan"
     },
@@ -843,7 +843,7 @@
     },
     "about_to_export_burrito": {
       "en": "About to save this content as Burrito",
-      "es": "@A punto de exportar este contenido como Burrito"
+      "es": "A punto de guardar este contenido como Burrito"
     },
     "about_document": {
       "en": "About",
