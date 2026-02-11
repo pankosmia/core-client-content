@@ -14,6 +14,7 @@ import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
+import { PanTable } from "pankosmia-rcl";
 
 const getEditDocumentKeys = (data) => {
   let map = {};
@@ -259,14 +260,24 @@ function DataGridComponent({
       headerName: doI18n("pages:content:row_actions", i18nRef.current),
       flex: isNormal ? 0.7 : 0.3,
       align: "right",
+      numeric: 1,
       renderCell: (params) => {
         let editUrl;
         if (editTable[params.row.type]) {
           editUrl = editTable[params.row.type][0];
         }
-
+      
         return (
-          <>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 1,
+              whiteSpace: "nowrap",
+            }}
+          >
             {!params.row.path.startsWith("_local_") && (
               <Notification
                 remoteRepoPath={params.row.path}
@@ -276,24 +287,16 @@ function DataGridComponent({
                 remoteSource={remoteSource}
               />
             )}
-            {isNormal && (
-              <>
-                {params.row.path.startsWith("_local_/_local_") && editUrl && (
-                  <IconButton
-                    onClick={async () => {
-                      await postEmptyJson(
-                        `/navigation/bcv/${params.row.book_codes[0]}/1/1`,
-                      );
-                      await postEmptyJson(
-                        `/app-state/current-project/${params.row.path}`,
-                      );
-                      window.location.href = "/clients/" + editUrl;
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                )}
-              </>
+            {isNormal && params.row.path.startsWith("_local_/_local_") && editUrl && (
+              <IconButton
+                onClick={async () => {
+                  await postEmptyJson(`/navigation/bcv/${params.row.book_codes[0]}/1/1`);
+                  await postEmptyJson(`/app-state/current-project/${params.row.path}`);
+                  window.location.href = "/clients/" + editUrl;
+                }}
+              >
+                <EditIcon />
+              </IconButton>
             )}
             <ContentRowButtonPlusMenu
               repoInfo={params.row}
@@ -303,7 +306,7 @@ function DataGridComponent({
               clientInterfaces={clientInterfaces}
               clientConfig={clientConfig}
             />
-          </>
+          </Box>
         );
       },
     },
@@ -343,37 +346,26 @@ function DataGridComponent({
         sx={{
           height: `${maxWindowHeight}px`,
           width: "100%",
+          overflow: "auto",
           position: "relative",
-          overflow: "hidden",
         }}
       >
-        <DataGrid
-          initialState={{
-            columns: {
-              columnVisibilityModel: {
-                nBooks: false,
-                source: isNormal,
-                dateUpdated: false,
-              },
-            },
-            sorting: {
-              sortModel: [{ field: "name", sort: "asc" }],
-            },
-          }}
+        <PanTable
+          showColumnFilters
           rows={rows}
           columns={columns}
-          autoHeight={false}
           sx={{
-            fontSize: "1rem",
-            "& .MuiDataGrid-columnHeaders": {
+            height: "100%",
+            "& .MuiTable-root": { 
+              borderCollapse: "separate", 
+            },
+            "& .MuiTableCell-head": { 
               position: "sticky",
               top: 0,
-              zIndex: 2,
+              zIndex: 10,
               backgroundColor: "background.paper",
-            },
-            "& .MuiDataGrid-virtualScroller": {
-              overflow: "auto",
-            },
+              boxShadow: "0px 2px 2px -1px rgba(0,0,0,0.1)",
+            }
           }}
         />
       </Box>
