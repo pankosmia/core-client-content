@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { i18nContext, doI18n, getJson, debugContext } from "pithekos-lib";
+import { i18nContext, doI18n, getJson, debugContext, postJson } from "pithekos-lib";
 import CopyContent from "./CopyContent";
 import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
@@ -179,7 +179,7 @@ function ContentRowButtonPlusMenu({
   };
   const reloadIngredient = async () => {
     const url = `/burrito/metadata/remake-ingredients/${repoInfo.path}`;
-    const reloadResponse = await getJson(url, debugRef.current);
+    const reloadResponse = await postJson(url, debugRef.current);
     if (reloadResponse.ok) {
       enqueueSnackbar(
         doI18n("pages:content:reload_ingredients", i18nRef.current) +
