@@ -1,16 +1,18 @@
 import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import { i18nContext, netContext, doI18n } from "pithekos-lib";
 import { getJson } from "pithekos-lib";
-function FabPlusMenu() {
+import ImportBurrito from "./ImportBurrito";
+
+function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
   const { i18nRef } = useContext(i18nContext);
   const { enabledRef } = useContext(netContext);
   const [importAnchorEl, setImportAnchorEl] = useState(null);
   const [createAnchorEl, setCreateAnchorEl] = useState(null);
-  const [menu, setMenu] = useState([]);
-
+  const [importBurritoAnchorEl, setImportBurritoAnchorEl] = useState(null);
+  const importBurritoOpen = Boolean(importBurritoAnchorEl);
 
   const handleImportClose = () => {
     setImportAnchorEl(null);
@@ -20,33 +22,28 @@ function FabPlusMenu() {
     setCreateAnchorEl(null);
   };
 
-  useEffect(() => {
-    getJson("/client-interfaces")
-      .then((res) => res.json)
-      .then((data) => setMenu(data))
-      .catch((err) => console.error("Error :", err));
-  }, []);
+  // Use this to set "Biblical Text" as the first item.
+  const matchPart = '/createDocument/textTranslation';
 
-  const createItems = Object.entries(menu)
-    .filter(([, value]) => value.create_document)
-    .flatMap(([key, value]) => {
-      const docs = value.create_document;
-      if (Array.isArray(docs)) {
-        return docs.map((doc) => ({
-          category: key,
-          label: doI18n(`${doc.label}`, i18nRef.current),
-          url: doc.url,
-        }));
+  const createItems = (() => {
+    if (!clientInterfaces) return [];
 
-        // .filter(doc => {
-        //   return urls.includes(doc.url.split('#')[0])}).map((doc) => ({
-        //     category: key,
-        //     label: doI18n(`${doc.label}`, i18nRef.current),
-        //     url: doc.url,
-        // }));
-      }
-      return [];
-    });
+    const all = Object.entries(clientInterfaces).flatMap(([category, cv]) =>
+      Object.values(cv?.endpoints || {}).flatMap(ev =>
+        (ev?.create_document || []).map(doc => ({
+          category,
+          label: doI18n(doc.label, i18nRef.current),
+          url: '/clients/' + category + '#' + doc.url,
+        }))
+      )
+    );
+
+    // move "Biblical Text" to the front if present
+    const idx = all.findIndex(i => i.url === matchPart || i.url.includes(matchPart));
+    if (idx > -1) all.unshift(all.splice(idx, 1)[0]);
+
+    return all;
+  })();
 
   return (
     <>
@@ -55,12 +52,12 @@ function FabPlusMenu() {
           variant="extended"
           color="primary"
           size="small"
-          aria-label={doI18n("pages:content:fab_import", i18nRef.current)}
+          aria-label={doI18n('pages:content:fab_import', i18nRef.current)}
           onClick={(event) => setImportAnchorEl(event.currentTarget)}
         >
           <DriveFolderUploadIcon sx={{ mr: 1 }} />
           <Typography variant="body2">
-            {doI18n("pages:content:fab_import", i18nRef.current)}
+            {doI18n('pages:content:fab_import', i18nRef.current)}
           </Typography>
         </Fab>
         <Menu
@@ -70,12 +67,17 @@ function FabPlusMenu() {
           onClose={handleImportClose}
         >
           <MenuItem
-            onClick={() => (window.location.href = "/clients/download")}
+            onClick={() => (window.location.href = '/clients/download')}
             disabled={!enabledRef.current}
           >
-            {doI18n("pages:content:download_content", i18nRef.current)}
+            {doI18n('pages:content:download_content', i18nRef.current)}
           </MenuItem>
-          <MenuItem onClick={handleImportClose} disabled={true}>
+          <MenuItem
+            onClick={(event) => {
+              setImportBurritoAnchorEl(event.currentTarget);
+              setImportAnchorEl(null)
+            }}
+          >
             {doI18n("pages:content:import_content", i18nRef.current)}
           </MenuItem>
         </Menu>
@@ -83,13 +85,13 @@ function FabPlusMenu() {
           variant="extended"
           color="primary"
           size="small"
-          aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
+          aria-label={doI18n('pages:content:fab_create', i18nRef.current)}
           onClick={(event) => setCreateAnchorEl(event.currentTarget)}
           sx={{ ml: 2 }}
         >
           <CreateNewFolderIcon sx={{ mr: 1 }} />
           <Typography variant="body2">
-            {doI18n("pages:content:fab_create", i18nRef.current)}
+            {doI18n('pages:content:fab_create', i18nRef.current)}
           </Typography>
         </Fab>
         <Menu
@@ -99,11 +101,15 @@ function FabPlusMenu() {
           onClose={handleCreateClose}
         >
           {createItems.map((item) => (
-            <MenuItem onClick={() => (window.location.href = item.url)}>
-              {item.label}
-            </MenuItem>
+            <MenuItem onClick={() => (window.location.href = item.url)}>{item.label}</MenuItem>
           ))}
         </Menu>
+        <ImportBurrito
+          open={importBurritoOpen}
+          closeFn={() => setImportBurritoAnchorEl(null)}
+          reposModCount={reposModCount}
+          setReposModCount={setReposModCount}
+        />
       </Box>
     </>
   );
