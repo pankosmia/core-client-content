@@ -271,6 +271,7 @@ function DataGridComponent({
           <Box
             sx={{
               display: "flex",
+              pt: 0.5,
               flexDirection: "row",
               alignItems: "center",
               justifyContent: "flex-end",
@@ -365,6 +366,10 @@ function DataGridComponent({
               zIndex: 10,
               backgroundColor: "background.paper",
               boxShadow: "0px 2px 2px -1px rgba(0,0,0,0.1)",
+            },
+            "& .MuiTableCell-root": {
+              verticalAlign: "top",
+              paddingTop: "5px",
             }
           }}
         />
