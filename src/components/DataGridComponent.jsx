@@ -15,6 +15,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
 import { PanTable } from "pankosmia-rcl";
+import { useTheme, alpha } from '@mui/material/styles';
 
 const getEditDocumentKeys = (data) => {
   let map = {};
@@ -62,6 +63,7 @@ function DataGridComponent({
   const [localRepos, setLocalRepos] = useState([]);
   const [isDownloading, setIsDownloading] = useState(null);
   const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
+  const theme = useTheme();
 
   /**
    * Top 0 puts the top under the margin under the Import / Create buttons.
@@ -253,6 +255,23 @@ function DataGridComponent({
       headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
       minWidth: 200,
       flex: 1,
+      renderCell: (params) => {
+        const dateValue = params.row.dateUpdated;
+        
+        if (!dateValue) return "";
+        const date = new Date(dateValue);
+        if (isNaN(date.getTime())) return "";
+        
+        return new Intl.DateTimeFormat('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).format(date).replace(/\./g, '');
+      }
     },
     {
       field: "actions",
@@ -353,6 +372,7 @@ function DataGridComponent({
       >
         <PanTable
           showColumnFilters
+          theme={theme}
           rows={rows}
           columns={columns}
           sx={{
@@ -370,6 +390,9 @@ function DataGridComponent({
             "& .MuiTableCell-root": {
               verticalAlign: "top",
               paddingTop: "5px",
+            },
+            "& .MuiTableBody-root .MuiTableRow-root:nth-of-type(even) .MuiTableCell-root": {
+              backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.05),
             }
           }}
         />
