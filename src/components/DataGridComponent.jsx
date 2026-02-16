@@ -1,5 +1,5 @@
-import { useState, useEffect, useContext } from "react";
-import { IconButton, Button } from "@mui/material";
+import { useState, useEffect, useContext, useCallback } from "react";
+import { IconButton, Grid2, Box } from "@mui/material";
 import {
   getJson,
   getAndSetJson,
@@ -15,12 +15,34 @@ import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
 
+const getEditDocumentKeys = (data) => {
+  let map = {};
+  if (data) {
+    for (let [l, v] of Object.entries(data)) {
+      if (!v.endpoints) continue;
+      for (let [k, t] of Object.entries(v.endpoints)) {
+        if (t.edit) {
+          if (!map[k]) {
+            map[k] = [];
+          }
+
+          map[k].push(`${l}#${t.edit.url}`);
+        }
+      }
+    }
+  }
+
+  return map;
+};
+
 function DataGridComponent({
   reposModCount,
   setReposModCount,
   isNormal,
   contentFilter,
   experimentDialogOpen,
+  clientInterfaces,
+  clientConfig,
 }) {
   const { debugRef } = useContext(debugContext);
   const { i18nRef } = useContext(i18nContext);
@@ -28,6 +50,7 @@ function DataGridComponent({
   const [projectSummaries, setProjectSummaries] = useState({});
   const [isoOneToThreeLookup, setIsoOneToThreeLookup] = useState([]);
   const [isoThreeLookup, setIsoThreeLookup] = useState([]);
+  const editTable = getEditDocumentKeys(clientInterfaces);
 
   const sourceWhitelist = [
     ["git.door43.org/BurritoTruck", "Xenizo curated content (Door43)"],
@@ -38,18 +61,43 @@ function DataGridComponent({
   const [localRepos, setLocalRepos] = useState([]);
   const [isDownloading, setIsDownloading] = useState(null);
   const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
-  const [menu, setMenu] = useState([]);
+
+  /**
+   * Top 0 puts the top under the margin under the Import / Create buttons.
+   * For calculating height we need to adjust for:
+   * - 48px minus header
+   * - 16px minus margin
+   *        -> (App top)
+   * - 34px minus Import / Create buttons height
+   * - 16px minus margin
+   *        -> (this component's top)
+   * - 52px minus DataGrid's pagination bar (because it is separate from this component)
+   * + 16px plus App's Grid2 bottom margin (so that bottom margin isn't doubled-up)
+   * + 16px plus App's outer Box bottom margin (so that bottom margin isn't doubled-up)
+   * ======
+   * - 134px This is the amount by which to reduce the innerHeight (const adjustment)
+   */
+  const adjustment = 134;
+
+  const [maxWindowHeight, setMaxWindowHeight] = useState(
+    window.innerHeight - adjustment,
+  );
+
+  const handleWindowResize = useCallback(() => {
+    setMaxWindowHeight(window.innerHeight - adjustment);
+  }, []);
 
   useEffect(() => {
-    getJson("/client-interfaces")
-      .then((res) => res.json)
-      .then((data) => setMenu(data))
-      .catch((err) => console.error("Error :", err));
-  }, []);
+    window.addEventListener("resize", handleWindowResize);
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, [handleWindowResize]);
+
   const getProjectSummaries = async () => {
     const summariesResponse = await getJson(
       `/burrito/metadata/summaries${!isNormal ? contentFilter : ""}`,
-      debugRef.current
+      debugRef.current,
     );
     if (summariesResponse.ok) {
       setProjectSummaries(summariesResponse.json);
@@ -79,7 +127,7 @@ function DataGridComponent({
         for (const source of sourceWhitelist) {
           const response = await getJson(
             `/gitea/remote-repos/${source[0]}`,
-            debugRef.current
+            debugRef.current,
           );
           if (response.ok) {
             const newResponse = response.json.map((r) => {
@@ -189,7 +237,7 @@ function DataGridComponent({
       valueGetter: (v) =>
         doI18n(
           `flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`,
-          i18nRef.current
+          i18nRef.current,
         ),
     },
     {
@@ -212,6 +260,11 @@ function DataGridComponent({
       flex: isNormal ? 0.7 : 0.3,
       align: "right",
       renderCell: (params) => {
+        let editUrl;
+        if (editTable[params.row.type]) {
+          editUrl = editTable[params.row.type][0];
+        }
+
         return (
           <>
             {!params.row.path.startsWith("_local_") && (
@@ -225,29 +278,19 @@ function DataGridComponent({
             )}
             {isNormal && (
               <>
-                {params.row.path.startsWith("_local_/_local_") &&
-                [
-                  "textTranslation",
-                  "x-bcvnotes",
-                  "x-bcvquestions",
-                  "textStories",
-                ].includes(params.row.type) && menu.workspace? (
+                {params.row.path.startsWith("_local_/_local_") && editUrl && (
                   <IconButton
                     onClick={async () => {
                       await postEmptyJson(
-                        `/navigation/bcv/${params.row.book_codes[0]}/1/1`
+                        `/navigation/bcv/${params.row.book_codes[0]}/1/1`,
                       );
                       await postEmptyJson(
-                        `/app-state/current-project/${params.row.path}`
+                        `/app-state/current-project/${params.row.path}`,
                       );
-                      window.location.href = "/clients/local-projects";
+                      window.location.href = "/clients/" + editUrl;
                     }}
                   >
                     <EditIcon />
-                  </IconButton>
-                ) : (
-                  <IconButton disabled={true}>
-                    <EditOffIcon />
                   </IconButton>
                 )}
               </>
@@ -257,6 +300,8 @@ function DataGridComponent({
               reposModCount={reposModCount}
               setReposModCount={setReposModCount}
               isNormal={isNormal}
+              clientInterfaces={clientInterfaces}
+              clientConfig={clientConfig}
             />
           </>
         );
@@ -293,23 +338,46 @@ function DataGridComponent({
   });
 
   return (
-    <DataGrid
-      initialState={{
-        columns: {
-          columnVisibilityModel: {
-            nBooks: false,
-            source: isNormal,
-            dateUpdated: false,
-          },
-        },
-        sorting: {
-          sortModel: [{ field: "name", sort: "asc" }],
-        },
-      }}
-      rows={rows}
-      columns={columns}
-      sx={{ fontSize: "1rem" }}
-    />
+    <Grid2 item size={12}>
+      <Box
+        sx={{
+          height: `${maxWindowHeight}px`,
+          width: "100%",
+          position: "relative",
+          overflow: "hidden",
+        }}
+      >
+        <DataGrid
+          initialState={{
+            columns: {
+              columnVisibilityModel: {
+                nBooks: false,
+                source: isNormal,
+                dateUpdated: false,
+              },
+            },
+            sorting: {
+              sortModel: [{ field: "name", sort: "asc" }],
+            },
+          }}
+          rows={rows}
+          columns={columns}
+          autoHeight={false}
+          sx={{
+            fontSize: "1rem",
+            "& .MuiDataGrid-columnHeaders": {
+              position: "sticky",
+              top: 0,
+              zIndex: 2,
+              backgroundColor: "background.paper",
+            },
+            "& .MuiDataGrid-virtualScroller": {
+              overflow: "auto",
+            },
+          }}
+        />
+      </Box>
+    </Grid2>
   );
 }
 

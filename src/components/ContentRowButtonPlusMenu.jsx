@@ -68,13 +68,33 @@ function ContentRowButtonPlusMenu({
   let createItemImportBook;
   let createItemExport;
   let createVersionManager;
+  let createItemDeleteBook;
   if (clientInterfaces) {
     createItemNewBook = Object.entries(clientInterfaces).flatMap(
       ([category, categoryValue]) => {
         const endpoints = categoryValue?.endpoints ?? {};
-
         return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
           const docs = endpointValue?.new_book;
+          if (!Array.isArray(docs)) return [];
+
+          return docs.map((doc) => ({
+            category: key,
+            label: doI18n(doc.label, i18nRef.current),
+            url:
+              "/clients/" +
+              category +
+              "#" +
+              doc.url.replace("%%REPO_PATH%%", repoInfo.path),
+          }));
+        });
+      },
+    );
+    createItemDeleteBook = Object.entries(clientInterfaces).flatMap(
+      ([category, categoryValue]) => {
+        const endpoints = categoryValue?.endpoints ?? {};
+
+        return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
+          const docs = endpointValue?.delete_book;
           if (!Array.isArray(docs)) return [];
 
           return docs.map((doc) => ({
@@ -256,6 +276,24 @@ function ContentRowButtonPlusMenu({
                           ))}
                     </>
                   )}
+                {createItemDeleteBook &&
+                  createItemDeleteBook.filter(
+                    (item) => item.category === repoInfo.flavor,
+                  ).length > 0 && (
+                    <>
+                      {createItemDeleteBook &&
+                        createItemDeleteBook
+                          .filter((item) => item.category === repoInfo.flavor)
+                          .map((item) => (
+                            <MenuItem
+                              key={`new-${item.label}`}
+                              onClick={() => (window.location.href = item.url)}
+                            >
+                              {item.label}
+                            </MenuItem>
+                          ))}
+                    </>
+                  )}
                 {createItemImportBook &&
                   createItemImportBook.filter(
                     (item) => item.category === repoInfo.flavor,
@@ -360,6 +398,17 @@ function ContentRowButtonPlusMenu({
             >
               {doI18n("pages:content:delete_content", i18nRef.current)}
             </MenuItem>
+            {repoInfo.path.includes("_local_/_local_") && (
+              <MenuItem
+                onClick={() => {
+                  reloadIngredient();
+                  setContentRowAnchorEl(null);
+                  setSubMenuAnchorEl(null);
+                }}
+              >
+                {doI18n("pages:content:reload_ingredients", i18nRef.current)}
+              </MenuItem>
+            )}
           </>
         ) : (
           <>
@@ -418,15 +467,6 @@ function ContentRowButtonPlusMenu({
           }}
         >
           {doI18n("pages:content:export_burrito", i18nRef.current)}
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            reloadIngredient();
-            setContentRowAnchorEl(null);
-            setSubMenuAnchorEl(null);
-          }}
-        >
-          {doI18n("pages:content:reload_ingredients", i18nRef.current)}
         </MenuItem>
       </Menu>
       <ExportBurrito

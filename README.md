@@ -1,3 +1,3 @@
-# content
+# documents
 
-A place to view and manage my content, including read-only resources and content I am helping to create
+A place to view and manage read-only resources and new documents I am helping to create
