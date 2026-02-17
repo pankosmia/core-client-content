@@ -68,7 +68,6 @@ function AppLayout() {
         <App />
       </SpaContainer>
     </SnackbarProvider>
-
   </ThemeProvider>
 }
 createRoot(document.getElementById('root'))
