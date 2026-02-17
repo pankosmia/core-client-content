@@ -2,8 +2,8 @@ import { useContext, useCallback } from 'react';
 import { CircularProgress, IconButton } from '@mui/material';
 import SyncOutlinedIcon from '@mui/icons-material/SyncOutlined';
 import { enqueueSnackbar } from 'notistack';
-import { i18nContext, doI18n, debugContext, postEmptyJson, netContext } from 'pithekos-lib';
-
+import {doI18n, postEmptyJson } from 'pithekos-lib';
+import {i18nContext,debugContext,netContext} from "pankosmia-rcl";
 function Notification({ remoteRepoPath, params, isDownloading, setIsDownloading, remoteSource }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);

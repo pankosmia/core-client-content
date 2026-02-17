@@ -14,7 +14,8 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import {i18nContext, doI18n, getJson} from "pithekos-lib";
+import {doI18n, getJson} from "pithekos-lib";
+import {i18nContext} from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
 import DataGridComponent from "./components/DataGridComponent";

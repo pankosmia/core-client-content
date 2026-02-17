@@ -12,7 +12,8 @@ import {
   useTheme,
 } from '@mui/material';
 import DoneIcon from '@mui/icons-material/Done';
-import { debugContext, i18nContext, doI18n, postEmptyJson, getJson } from 'pithekos-lib';
+import { doI18n, postEmptyJson, getJson } from 'pithekos-lib';
+import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from 'notistack';
 import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
 
