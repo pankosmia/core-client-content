@@ -390,6 +390,7 @@ function DataGridComponent({
             "& .MuiTableCell-root": {
               verticalAlign: "top",
               paddingTop: "5px",
+              paddingBottom: "5px",
             },
             "& .MuiTableBody-root .MuiTableRow-root:nth-of-type(even) .MuiTableCell-root": {
               backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.05),
