@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {doI18n, getJson} from "pithekos-lib";
+import {doI18n, getJson, postJson} from "pithekos-lib";
 import {i18nContext,debugContext} from "pankosmia-rcl";
 import CopyContent from "./CopyContent";
 import ExportBurrito from "./ExportBurrito";
@@ -198,7 +198,29 @@ function ContentRowButtonPlusMenu({
       );
     }
   };
-
+  const reloadIngredient = async () => {
+    const url = `/burrito/metadata/remake-ingredients/${repoInfo.path}`;
+    const reloadResponse = await postJson(url, debugRef.current);
+    if (reloadResponse.ok) {
+      enqueueSnackbar(
+        doI18n("pages:content:reload_ingredients", i18nRef.current) +
+          " " +
+          repoInfo.path,
+        {
+          variant: "success",
+        },
+      );
+    } else {
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_reload", i18nRef.current) +
+          " " +
+          repoInfo.path,
+        {
+          variant: "error",
+        },
+      );
+    }
+  };
   useEffect(() => {
     if (contentRowOpen) {
       repoStatus(repoInfo.path).then();
@@ -377,6 +399,17 @@ function ContentRowButtonPlusMenu({
             >
               {doI18n("pages:content:delete_content", i18nRef.current)}
             </MenuItem>
+            {repoInfo.path.includes("_local_/_local_") && (
+              <MenuItem
+                onClick={() => {
+                  reloadIngredient();
+                  setContentRowAnchorEl(null);
+                  setSubMenuAnchorEl(null);
+                }}
+              >
+                {doI18n("pages:content:reload_ingredients", i18nRef.current)}
+              </MenuItem>
+            )}
           </>
         ) : (
           <>

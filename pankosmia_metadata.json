@@ -879,6 +879,12 @@
     "could_not_import_burrito": {
       "en": "Could not import burrito",
       "es": "No se pudo importar el burrito"
+    },
+    "reload_ingredients": {
+      "en": "Reload Ingredients"
+    },
+    "could_not_reload": {
+      "en": "Could not reload ingredients"
     }
   }
 }
