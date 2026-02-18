@@ -3,12 +3,11 @@ import { IconButton, Grid2, Box } from "@mui/material";
 import {
   getJson,
   getAndSetJson,
-  debugContext,
-  i18nContext,
   doI18n,
   postEmptyJson,
-  netContext,
+  
 } from "pithekos-lib";
+import {i18nContext,debugContext,netContext} from "pankosmia-rcl";
 import { DataGrid } from "@mui/x-data-grid";
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";

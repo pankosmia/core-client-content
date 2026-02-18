@@ -2,8 +2,8 @@ import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import { useState, useContext } from "react";
-import { i18nContext, netContext, doI18n } from "pithekos-lib";
-import { getJson } from "pithekos-lib";
+import {doI18n } from "pithekos-lib";
+import {i18nContext,netContext} from "pankosmia-rcl";
 import ImportBurrito from "./ImportBurrito";
 
 function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {

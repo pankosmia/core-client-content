@@ -1,6 +1,8 @@
 import { DialogContent, DialogContentText, useTheme } from '@mui/material';
 import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
-import { doI18n, i18nContext } from 'pithekos-lib';
+import { doI18n } from 'pithekos-lib';
+import {i18nContext} from "pankosmia-rcl";
+
 import { useContext } from 'react';
 
 export default function AboutRepo({ repoInfo, open, closeFn }) {

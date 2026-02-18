@@ -1,17 +1,13 @@
 import { useContext, useState } from 'react';
 import {
     Button,
-    Dialog,
-    DialogActions,
     DialogContent,
     Tooltip,
-    AppBar,
-    Toolbar,
-    Typography,
     useTheme
 } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
-import { i18nContext, doI18n } from "pithekos-lib";
+import {doI18n } from "pithekos-lib";
+import {i18nContext} from "pankosmia-rcl";
 import { FilePicker } from 'react-file-picker';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";

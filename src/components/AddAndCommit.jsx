@@ -11,7 +11,9 @@ import {
   Stack,
   TextField,
 } from '@mui/material';
-import { debugContext, i18nContext, doI18n, getJson, postJson } from 'pithekos-lib';
+import { doI18n, getJson, postJson } from 'pithekos-lib';
+import {i18nContext,debugContext} from "pankosmia-rcl";
+
 import { enqueueSnackbar } from 'notistack';
 
 function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
