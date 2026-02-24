@@ -11,7 +11,7 @@
     "@mui/x-data-grid": "^8.18.0",
     "file-saver": "^2.0.5",
     "notistack": "^3.0.2",
-    "pankosmia-rcl": "^0.1.26",
+    "pankosmia-rcl": "0.1.29",
     "pithekos-lib": "^0.11.20",
     "react": "^17.0.0 || ^18.0.0",
     "react-dom": "^17.0.0 || ^18.0.0",
