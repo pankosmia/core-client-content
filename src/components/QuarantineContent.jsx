@@ -45,7 +45,7 @@ function QuarantineContent({ repoInfo, open, closeFn, reposModCount, setReposMod
           await quarantineRepo(repoInfo.path);
           closeFn();
         }}
-        actionLabel={doI18n('pages:content:accept', i18nRef.current)}
+        actionLabel={doI18n('pages:content:quarantine_content', i18nRef.current)}
         closeFn={() => closeFn()}
         closeLabel={doI18n('pages:content:cancel', i18nRef.current)}
       />
