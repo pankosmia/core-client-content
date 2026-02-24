@@ -46,7 +46,7 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
           await archiveRepo(repoInfo.path);
           closeFn();
         }}
-        actionLabel={doI18n('pages:content:accept', i18nRef.current)}
+        actionLabel={doI18n('pages:content:archive_content', i18nRef.current)}
         closeFn={() => closeFn()}
         closeLabel={doI18n('pages:content:cancel', i18nRef.current)}
       />

@@ -71,7 +71,6 @@
       "id": "Impor",
       "es": "Importar"
     },
-
     "download_content": {
       "en": "Download from internet",
       "es": "Descargar de Internet",
@@ -143,14 +142,12 @@
       "fr": "Exporter",
       "id": "Ekspor"
     },
-
     "cancel": {
       "en": "Cancel",
       "es": "Cancelar",
       "fr": "Annuler",
       "id": "Batal"
     },
-
     "books": {
       "en": "Books",
       "es": "Libros",
