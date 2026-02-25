@@ -13,6 +13,8 @@ import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
+import { PanTable } from "pankosmia-rcl";
+import { useTheme, alpha } from '@mui/material/styles';
 
 const getEditDocumentKeys = (data) => {
   let map = {};
@@ -60,6 +62,7 @@ function DataGridComponent({
   const [localRepos, setLocalRepos] = useState([]);
   const [isDownloading, setIsDownloading] = useState(null);
   const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
+  const theme = useTheme();
 
   /**
    * Top 0 puts the top under the margin under the Import / Create buttons.
@@ -251,6 +254,23 @@ function DataGridComponent({
       headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
       minWidth: 200,
       flex: 1,
+      renderCell: (params) => {
+        const dateValue = params.row.dateUpdated;
+        
+        if (!dateValue) return "";
+        const date = new Date(dateValue);
+        if (isNaN(date.getTime())) return "";
+        
+        return new Intl.DateTimeFormat('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).format(date).replace(/\./g, '');
+      }
     },
     {
       field: "actions",
@@ -258,14 +278,25 @@ function DataGridComponent({
       headerName: doI18n("pages:content:row_actions", i18nRef.current),
       flex: isNormal ? 0.7 : 0.3,
       align: "right",
+      numeric: 1,
       renderCell: (params) => {
         let editUrl;
         if (editTable[params.row.type]) {
           editUrl = editTable[params.row.type][0];
         }
-
+      
         return (
-          <>
+          <Box
+            sx={{
+              display: "flex",
+              pt: 0.5,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "flex-end",
+              gap: 1,
+              whiteSpace: "nowrap",
+            }}
+          >
             {!params.row.path.startsWith("_local_") && (
               <Notification
                 remoteRepoPath={params.row.path}
@@ -275,24 +306,16 @@ function DataGridComponent({
                 remoteSource={remoteSource}
               />
             )}
-            {isNormal && (
-              <>
-                {params.row.path.startsWith("_local_/_local_") && editUrl && (
-                  <IconButton
-                    onClick={async () => {
-                      await postEmptyJson(
-                        `/navigation/bcv/${params.row.book_codes[0]}/1/1`,
-                      );
-                      await postEmptyJson(
-                        `/app-state/current-project/${params.row.path}`,
-                      );
-                      window.location.href = "/clients/" + editUrl;
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                )}
-              </>
+            {isNormal && params.row.path.startsWith("_local_/_local_") && editUrl && (
+              <IconButton
+                onClick={async () => {
+                  await postEmptyJson(`/navigation/bcv/${params.row.book_codes[0]}/1/1`);
+                  await postEmptyJson(`/app-state/current-project/${params.row.path}`);
+                  window.location.href = "/clients/" + editUrl;
+                }}
+              >
+                <EditIcon />
+              </IconButton>
             )}
             <ContentRowButtonPlusMenu
               repoInfo={params.row}
@@ -302,7 +325,7 @@ function DataGridComponent({
               clientInterfaces={clientInterfaces}
               clientConfig={clientConfig}
             />
-          </>
+          </Box>
         );
       },
     },
@@ -342,37 +365,35 @@ function DataGridComponent({
         sx={{
           height: `${maxWindowHeight}px`,
           width: "100%",
+          overflow: "auto",
           position: "relative",
-          overflow: "hidden",
         }}
       >
-        <DataGrid
-          initialState={{
-            columns: {
-              columnVisibilityModel: {
-                nBooks: false,
-                source: isNormal,
-                dateUpdated: false,
-              },
-            },
-            sorting: {
-              sortModel: [{ field: "name", sort: "asc" }],
-            },
-          }}
+        <PanTable
+          showColumnFilters
+          theme={theme}
           rows={rows}
           columns={columns}
-          autoHeight={false}
           sx={{
-            fontSize: "1rem",
-            "& .MuiDataGrid-columnHeaders": {
+            height: "100%",
+            "& .MuiTable-root": { 
+              borderCollapse: "separate", 
+            },
+            "& .MuiTableCell-head": { 
               position: "sticky",
               top: 0,
-              zIndex: 2,
+              zIndex: 10,
               backgroundColor: "background.paper",
+              boxShadow: "0px 2px 2px -1px rgba(0,0,0,0.1)",
             },
-            "& .MuiDataGrid-virtualScroller": {
-              overflow: "auto",
+            "& .MuiTableCell-root": {
+              verticalAlign: "top",
+              paddingTop: "5px",
+              paddingBottom: "5px",
             },
+            "& .MuiTableBody-root .MuiTableRow-root:nth-of-type(even) .MuiTableCell-root": {
+              backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.05),
+            }
           }}
         />
       </Box>

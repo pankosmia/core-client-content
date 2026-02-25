@@ -260,10 +260,10 @@
       "id": "Bahasa"
     },
     "row_nbooks": {
-      "en": "Number of books",
-      "fr": "Nombre de livres",
-      "es": "Número de libros",
-      "id": "Jumlah buku-buku"
+      "en": "Books",
+      "fr": "Livres",
+      "es": "Libros",
+      "id": "Buku"
     },
     "row_type": {
       "en": "Type",
@@ -278,10 +278,10 @@
       "id": "Sumber"
     },
     "row_date_updated": {
-      "en": "Date of update",
-      "fr": "Date de mise à jour",
-      "es": "Fecha de actualización",
-      "id": "Tanggal pembaruan"
+      "en": "Update",
+      "fr": "MaJ",
+      "es": "Actualización",
+      "id": "Pembaruan"
     },
     "row_actions": {
       "en": "Actions",
