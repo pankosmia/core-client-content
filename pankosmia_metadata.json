@@ -877,8 +877,10 @@
       "en": "Could not import burrito",
       "es": "No se pudo importar el burrito"
     },
-    "reload_ingredients": {
-      "en": "Reload Ingredients"
+    "remake_metadata": {
+      "en": "Remake metadata",
+      "es": "Recrear metadata",
+      "fr": "Recréer metadonnées"
     },
     "could_not_reload": {
       "en": "Could not reload ingredients"
