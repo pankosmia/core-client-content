@@ -203,7 +203,7 @@ function ContentRowButtonPlusMenu({
     const reloadResponse = await postJson(url, debugRef.current);
     if (reloadResponse.ok) {
       enqueueSnackbar(
-        doI18n("pages:content:reload_ingredients", i18nRef.current) +
+        doI18n("pages:content:remake_metadata", i18nRef.current) +
           " " +
           repoInfo.path,
         {
@@ -407,7 +407,7 @@ function ContentRowButtonPlusMenu({
                   setSubMenuAnchorEl(null);
                 }}
               >
-                {doI18n("pages:content:reload_ingredients", i18nRef.current)}
+                {doI18n("pages:content:remake_metadata", i18nRef.current)}
               </MenuItem>
             )}
           </>
