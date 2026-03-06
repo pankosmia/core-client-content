@@ -1,25 +1,16 @@
 import { createRoot } from 'react-dom/client';
-import { SpSpa } from 'pankosmia-rcl';
+import { SpSpa,fallbackTheme } from 'pankosmia-rcl';
 import App from './App';
 import './index.css';
-import { getAndSetJson, SpaContainer } from 'pithekos-lib';
-import { MaterialDesignContent, SnackbarProvider } from 'notistack';
+import { getAndSetJson } from 'pithekos-lib';
 import { ThemeProvider } from '@emotion/react';
 import { useEffect, useState } from 'react';
 import { createTheme } from '@mui/material';
+import { MaterialDesignContent, SnackbarProvider } from 'notistack';
 import styled from '@emotion/styled';
 function AppLayout() {
 
-  const [themeSpec, setThemeSpec] = useState({
-    palette: {
-      primary: {
-        main: "#666",
-      },
-      secondary: {
-        main: "#888",
-      },
-    },
-  });
+  const [themeSpec, setThemeSpec] = useState(fallbackTheme);
 
   useEffect(() => {
     if (
@@ -64,15 +55,14 @@ function AppLayout() {
       }}
       maxSnack={6}
     >
-      <SpaContainer>
+      <SpSpa requireNet={false} titleKey="pages:content:title" currentId="content">
         <App />
-      </SpaContainer>
+      </SpSpa>
     </SnackbarProvider>
+
   </ThemeProvider>
 }
 createRoot(document.getElementById('root'))
   .render(
-    <SpSpa requireNet={false} titleKey="pages:content:title" currentId="content">
-      <AppLayout/>
-    </SpSpa>
+    <AppLayout />
   );
