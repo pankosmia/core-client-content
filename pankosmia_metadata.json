@@ -132,8 +132,8 @@
       "id": "Skema ayat"
     },
     "book_or_books": {
-      "en": "book(s)",
-      "fr": "livre(s)",
+      "en": "Book(s)",
+      "fr": "Livre(s)",
       "id": "buku atau buku-buku"
     },
     "export": {
@@ -853,6 +853,10 @@
     "about_repo_language-code": {
       "en": "Language code",
       "fr": "Code Langue"
+    },
+    "about_repo_language-name": {
+      "en": "Language name",
+      "fr": "Nom de la langue"
     },
     "about_repo_dateUdapted": {
       "en": "Last update",
