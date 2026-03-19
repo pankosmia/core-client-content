@@ -7,8 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import {doI18n, getJson, postJson} from "pithekos-lib";
-import {i18nContext,debugContext} from "pankosmia-rcl";
+import { doI18n, getJson, postJson } from "pithekos-lib";
+import { i18nContext, debugContext } from "pankosmia-rcl";
 import CopyContent from "./CopyContent";
 import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
@@ -60,6 +60,7 @@ function ContentRowButtonPlusMenu({
 
   const [status, setStatus] = useState([]);
 
+
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
@@ -70,12 +71,32 @@ function ContentRowButtonPlusMenu({
   let createItemExport;
   let createVersionManager;
   let createItemDeleteBook;
+  let createAboutRepo;
   if (clientInterfaces) {
     createItemNewBook = Object.entries(clientInterfaces).flatMap(
       ([category, categoryValue]) => {
         const endpoints = categoryValue?.endpoints ?? {};
         return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
           const docs = endpointValue?.new_book;
+          if (!Array.isArray(docs)) return [];
+
+          return docs.map((doc) => ({
+            category: key,
+            label: doI18n(doc.label, i18nRef.current),
+            url:
+              "/clients/" +
+              category +
+              "#" +
+              doc.url.replace("%%REPO_PATH%%", repoInfo.path),
+          }));
+        });
+      },
+    );
+    createAboutRepo = Object.entries(clientInterfaces).flatMap(
+      ([category, categoryValue]) => {
+        const endpoints = categoryValue?.endpoints ?? {};
+        return Object.entries(endpoints).flatMap(([key, endpointValue]) => {
+          const docs = endpointValue?.about_repo;
           if (!Array.isArray(docs)) return [];
 
           return docs.map((doc) => ({
@@ -204,8 +225,8 @@ function ContentRowButtonPlusMenu({
     if (reloadResponse.ok) {
       enqueueSnackbar(
         doI18n("pages:content:remake_metadata", i18nRef.current) +
-          " " +
-          repoInfo.path,
+        " " +
+        repoInfo.path,
         {
           variant: "success",
         },
@@ -213,8 +234,8 @@ function ContentRowButtonPlusMenu({
     } else {
       enqueueSnackbar(
         doI18n("pages:content:could_not_reload", i18nRef.current) +
-          " " +
-          repoInfo.path,
+        " " +
+        repoInfo.path,
         {
           variant: "error",
         },
@@ -245,7 +266,7 @@ function ContentRowButtonPlusMenu({
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
-        <MenuItem
+        {/* <MenuItem
           onClick={(event) => {
             setAboutRepoContentAnchorEl(event.currentTarget);
             setContentRowAnchorEl(null);
@@ -253,10 +274,28 @@ function ContentRowButtonPlusMenu({
         >
           {doI18n("pages:content:about_repo", i18nRef.current)}
         </MenuItem>
-        <Divider />
-
+        <Divider /> */}
         {isNormal ? (
           <>
+            {createAboutRepo &&
+              createAboutRepo.filter(
+                (item) => item.category === repoInfo.flavor,
+              ).length > 0 && (
+                <>
+                  {createAboutRepo &&
+                    createAboutRepo
+                      .filter((item) => item.category === repoInfo.flavor)
+                      .map((item) => (
+                        <MenuItem
+                          key={`new-${item.label}`}
+                          onClick={() => (window.location.href = item.url)}
+                        >
+                          {item.label}
+                        </MenuItem>
+                      ))}
+                </>
+              )}
+            <Divider />
             {repoInfo.path.includes("_local_/_local_") && (
               <>
                 {createItemNewBook &&
