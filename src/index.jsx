@@ -1,15 +1,14 @@
-import { createRoot } from 'react-dom/client';
-import { SpSpa,fallbackTheme } from 'pankosmia-rcl';
-import App from './App';
-import './index.css';
-import { getAndSetJson } from 'pithekos-lib';
-import { ThemeProvider } from '@emotion/react';
-import { useEffect, useState } from 'react';
-import { createTheme } from '@mui/material';
-import { MaterialDesignContent, SnackbarProvider } from 'notistack';
-import styled from '@emotion/styled';
+import { createRoot } from "react-dom/client";
+import { SpSpa, fallbackTheme } from "pankosmia-rcl";
+import App from "./App";
+import "./index.css";
+import { getAndSetJson } from "pithekos-lib";
+import { ThemeProvider } from "@emotion/react";
+import { useEffect, useState } from "react";
+import { createTheme } from "@mui/material";
+import { MaterialDesignContent, SnackbarProvider } from "notistack";
+import styled from "@emotion/styled";
 function AppLayout() {
-
   const [themeSpec, setThemeSpec] = useState(fallbackTheme);
 
   useEffect(() => {
@@ -45,24 +44,26 @@ function AppLayout() {
       color: "#2E7D32",
     },
   }));
-  return <ThemeProvider theme={theme}>
-    <SnackbarProvider
-      Components={{
-        error: CustomSnackbarContent,
-        info: CustomSnackbarContent,
-        warning: CustomSnackbarContent,
-        success: CustomSnackbarContent,
-      }}
-      maxSnack={6}
-    >
-      <SpSpa requireNet={false} titleKey="pages:content:title" currentId="content">
-        <App />
-      </SpSpa>
-    </SnackbarProvider>
-
-  </ThemeProvider>
-}
-createRoot(document.getElementById('root'))
-  .render(
-    <AppLayout />
+  return (
+    <ThemeProvider theme={theme}>
+      <SnackbarProvider
+        Components={{
+          error: CustomSnackbarContent,
+          info: CustomSnackbarContent,
+          warning: CustomSnackbarContent,
+          success: CustomSnackbarContent,
+        }}
+        maxSnack={6}
+      >
+        <SpSpa
+          requireNet={false}
+          titleKey="pages:content:title"
+          currentId="content"
+        >
+          <App />
+        </SpSpa>
+      </SnackbarProvider>
+    </ThemeProvider>
   );
+}
+createRoot(document.getElementById("root")).render(<AppLayout />);

@@ -1,20 +1,14 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import { IconButton, Grid2, Box } from "@mui/material";
-import {
-  getJson,
-  getAndSetJson,
-  doI18n,
-  postEmptyJson,
-  
-} from "pithekos-lib";
-import {i18nContext,debugContext,netContext} from "pankosmia-rcl";
+import { getJson, getAndSetJson, doI18n, postEmptyJson } from "pithekos-lib";
+import { i18nContext, debugContext, netContext } from "pankosmia-rcl";
 import { DataGrid } from "@mui/x-data-grid";
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditIcon from "@mui/icons-material/Edit";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
 import { PanTable } from "pankosmia-rcl";
-import { useTheme, alpha } from '@mui/material/styles';
+import { useTheme, alpha } from "@mui/material/styles";
 
 const getEditDocumentKeys = (data) => {
   let map = {};
@@ -256,21 +250,23 @@ function DataGridComponent({
       flex: 1,
       renderCell: (params) => {
         const dateValue = params.row.dateUpdated;
-        
+
         if (!dateValue) return "";
         const date = new Date(dateValue);
         if (isNaN(date.getTime())) return "";
-        
-        return new Intl.DateTimeFormat('en-GB', {
-          day: '2-digit',
-          month: 'short',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit',
-          second: '2-digit',
-          hour12: false
-        }).format(date).replace(/\./g, '');
-      }
+
+        return new Intl.DateTimeFormat("en-GB", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false,
+        })
+          .format(date)
+          .replace(/\./g, "");
+      },
     },
     {
       field: "actions",
@@ -284,7 +280,7 @@ function DataGridComponent({
         if (editTable[params.row.type]) {
           editUrl = editTable[params.row.type][0];
         }
-      
+
         return (
           <Box
             sx={{
@@ -306,17 +302,23 @@ function DataGridComponent({
                 remoteSource={remoteSource}
               />
             )}
-            {isNormal && params.row.path.startsWith("_local_/_local_") && editUrl && (
-              <IconButton
-                onClick={async () => {
-                  await postEmptyJson(`/navigation/bcv/${params.row.book_codes[0]}/1/1`);
-                  await postEmptyJson(`/app-state/current-project/${params.row.path}`);
-                  window.location.href = "/clients/" + editUrl;
-                }}
-              >
-                <EditIcon />
-              </IconButton>
-            )}
+            {isNormal &&
+              params.row.path.startsWith("_local_/_local_") &&
+              editUrl && (
+                <IconButton
+                  onClick={async () => {
+                    await postEmptyJson(
+                      `/navigation/bcv/${params.row.book_codes[0]}/1/1`,
+                    );
+                    await postEmptyJson(
+                      `/app-state/current-project/${params.row.path}`,
+                    );
+                    window.location.href = "/clients/" + editUrl;
+                  }}
+                >
+                  <EditIcon />
+                </IconButton>
+              )}
             <ContentRowButtonPlusMenu
               repoInfo={params.row}
               reposModCount={reposModCount}
@@ -376,10 +378,10 @@ function DataGridComponent({
           columns={columns}
           sx={{
             height: "100%",
-            "& .MuiTable-root": { 
-              borderCollapse: "separate", 
+            "& .MuiTable-root": {
+              borderCollapse: "separate",
             },
-            "& .MuiTableCell-head": { 
+            "& .MuiTableCell-head": {
               position: "sticky",
               top: 0,
               zIndex: 10,
@@ -391,9 +393,11 @@ function DataGridComponent({
               paddingTop: "5px",
               paddingBottom: "5px",
             },
-            "& .MuiTableBody-root .MuiTableRow-root:nth-of-type(even) .MuiTableCell-root": {
-              backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.05),
-            }
+            "& .MuiTableBody-root .MuiTableRow-root:nth-of-type(even) .MuiTableCell-root":
+              {
+                backgroundColor: (theme) =>
+                  alpha(theme.palette.primary.main, 0.05),
+              },
           }}
         />
       </Box>

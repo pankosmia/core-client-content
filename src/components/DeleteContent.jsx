@@ -1,32 +1,46 @@
-import { useContext } from 'react';
-import { DialogContent, DialogContentText, Typography, useTheme } from '@mui/material';
-import {doI18n, postEmptyJson } from 'pithekos-lib';
-import {i18nContext,debugContext} from "pankosmia-rcl";
-import { enqueueSnackbar } from 'notistack';
-import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
-function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+import { useContext } from "react";
+import {
+  DialogContent,
+  DialogContentText,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { doI18n, postEmptyJson } from "pithekos-lib";
+import { i18nContext, debugContext } from "pankosmia-rcl";
+import { enqueueSnackbar } from "notistack";
+import { PanDialog, PanDialogActions } from "pankosmia-rcl";
+function DeleteContent({
+  repoInfo,
+  open,
+  closeFn,
+  reposModCount,
+  setReposModCount,
+}) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
   const theme = useTheme();
-  
+
   const deleteRepo = async (repo_path) => {
     const deleteUrl = `/git/delete/${repo_path}`;
     const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
     if (deleteResponse.ok) {
-      enqueueSnackbar(doI18n('pages:content:repo_deleted', i18nRef.current), {
-        variant: 'success',
+      enqueueSnackbar(doI18n("pages:content:repo_deleted", i18nRef.current), {
+        variant: "success",
       });
       setReposModCount(reposModCount + 1);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_delete_repo', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_delete_repo", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:delete_content', i18nRef.current)}
+      titleLabel={doI18n("pages:content:delete_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}
@@ -34,7 +48,9 @@ function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
       <DialogContent>
         <DialogContentText>
           <Typography variant="h6">{repoInfo.name}</Typography>
-          <Typography>{doI18n('pages:content:delete_content', i18nRef.current)}</Typography>
+          <Typography>
+            {doI18n("pages:content:delete_content", i18nRef.current)}
+          </Typography>
         </DialogContentText>
       </DialogContent>
       <PanDialogActions
@@ -42,9 +58,9 @@ function DeleteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
           await deleteRepo(repoInfo.path);
           closeFn();
         }}
-        actionLabel={doI18n('pages:content:do_delete_button', i18nRef.current)}
+        actionLabel={doI18n("pages:content:do_delete_button", i18nRef.current)}
         closeFn={() => closeFn()}
-        closeLabel={doI18n('pages:content:cancel', i18nRef.current)}
+        closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
       />
     </PanDialog>
   );

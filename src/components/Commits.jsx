@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from "react";
 import {
   AppBar,
   Button,
@@ -8,12 +8,12 @@ import {
   DialogContentText,
   Toolbar,
   Typography,
-} from '@mui/material';
-import { DataGrid } from '@mui/x-data-grid';
-import {doI18n, getJson } from 'pithekos-lib';
-import {i18nContext,debugContext} from "pankosmia-rcl";
+} from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { doI18n, getJson } from "pithekos-lib";
+import { i18nContext, debugContext } from "pankosmia-rcl";
 
-import { enqueueSnackbar } from 'notistack';
+import { enqueueSnackbar } from "notistack";
 
 function Commits({ repoInfo, open, closeFn }) {
   const { i18nRef } = useContext(i18nContext);
@@ -27,9 +27,12 @@ function Commits({ repoInfo, open, closeFn }) {
     if (statusResponse.ok) {
       setStatus(statusResponse.json);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_fetch_status', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_fetch_status", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
@@ -39,9 +42,12 @@ function Commits({ repoInfo, open, closeFn }) {
     if (commitsResponse.ok) {
       setCommits(commitsResponse.json);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_fetch_commits', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_fetch_commits", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
@@ -54,14 +60,14 @@ function Commits({ repoInfo, open, closeFn }) {
 
   const statusColumns = [
     {
-      field: 'status',
-      headerName: doI18n('pages:content:status', i18nRef.current),
+      field: "status",
+      headerName: doI18n("pages:content:status", i18nRef.current),
       minWidth: 110,
       flex: 3,
     },
     {
-      field: 'path',
-      headerName: doI18n('pages:content:row_path', i18nRef.current),
+      field: "path",
+      headerName: doI18n("pages:content:row_path", i18nRef.current),
       minWidth: 110,
       flex: 3,
     },
@@ -78,20 +84,20 @@ function Commits({ repoInfo, open, closeFn }) {
 
   const commitsColumns = [
     {
-      field: 'author',
-      headerName: doI18n('pages:content:row_author', i18nRef.current),
+      field: "author",
+      headerName: doI18n("pages:content:row_author", i18nRef.current),
       minWidth: 110,
       flex: 3,
     },
     {
-      field: 'date',
-      headerName: doI18n('pages:content:row_date', i18nRef.current),
+      field: "date",
+      headerName: doI18n("pages:content:row_date", i18nRef.current),
       minWidth: 110,
       flex: 3,
     },
     {
-      field: 'message',
-      headerName: doI18n('pages:content:row_message', i18nRef.current),
+      field: "message",
+      headerName: doI18n("pages:content:row_message", i18nRef.current),
       minWidth: 110,
       flex: 3,
     },
@@ -113,20 +119,24 @@ function Commits({ repoInfo, open, closeFn }) {
       open={open}
       onClose={closeFn}
       fullWidth={true}
-      maxWidth={'lg'}
+      maxWidth={"lg"}
       slotProps={{
         paper: {
-          component: 'form',
+          component: "form",
         },
       }}
     >
       <AppBar
         color="secondary"
-        sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+        sx={{
+          position: "relative",
+          borderTopLeftRadius: 4,
+          borderTopRightRadius: 4,
+        }}
       >
         <Toolbar>
           <Typography variant="h6" component="div">
-            {doI18n('pages:content:commits', i18nRef.current)}
+            {doI18n("pages:content:commits", i18nRef.current)}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -138,16 +148,16 @@ function Commits({ repoInfo, open, closeFn }) {
           <DataGrid
             initialState={{
               sorting: {
-                sortModel: [{ field: 'path', sort: 'asc' }],
+                sortModel: [{ field: "path", sort: "asc" }],
               },
             }}
             rows={statusRows}
             columns={statusColumns}
-            sx={{ fontSize: '1rem' }}
+            sx={{ fontSize: "1rem" }}
           />
         ) : (
           <Typography variant="h6">
-            {doI18n('pages:content:no_changes', i18nRef.current)}
+            {doI18n("pages:content:no_changes", i18nRef.current)}
           </Typography>
         )}
         {commits.length > 0 ? (
@@ -158,26 +168,26 @@ function Commits({ repoInfo, open, closeFn }) {
             <DataGrid
               initialState={{
                 sorting: {
-                  sortModel: [{ field: 'date', sort: 'asc' }],
+                  sortModel: [{ field: "date", sort: "asc" }],
                 },
               }}
               rows={commitsRows}
               columns={commitsColumns}
-              sx={{ fontSize: '1rem' }}
+              sx={{ fontSize: "1rem" }}
             />
           </>
         ) : (
           <Typography variant="h6">
-            {doI18n('pages:content:no_commits', i18nRef.current)}
+            {doI18n("pages:content:no_commits", i18nRef.current)}
           </Typography>
         )}
       </DialogContent>
       <DialogActions>
         <Button color="warning" onClick={closeFn}>
-          {doI18n('pages:content:cancel', i18nRef.current)}
+          {doI18n("pages:content:cancel", i18nRef.current)}
         </Button>
         <Button variant="contained" color="primary" onClick={closeFn}>
-          {doI18n('pages:content:accept', i18nRef.current)}
+          {doI18n("pages:content:accept", i18nRef.current)}
         </Button>
       </DialogActions>
     </Dialog>
