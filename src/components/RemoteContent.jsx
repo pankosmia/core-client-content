@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from "react";
 import {
   DialogContent,
   DialogContentText,
@@ -10,17 +10,23 @@ import {
   ListItemIcon,
   ListItemText,
   useTheme,
-} from '@mui/material';
-import DoneIcon from '@mui/icons-material/Done';
-import { doI18n, postEmptyJson, getJson } from 'pithekos-lib';
+} from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import { doI18n, postEmptyJson, getJson } from "pithekos-lib";
 import { i18nContext, debugContext } from "pankosmia-rcl";
-import { enqueueSnackbar } from 'notistack';
-import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
+import { enqueueSnackbar } from "notistack";
+import { PanDialog, PanDialogActions } from "pankosmia-rcl";
 
-function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+function RemoteContent({
+  repoInfo,
+  open,
+  closeFn,
+  reposModCount,
+  setReposModCount,
+}) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
-  const [remoteUrlValue, setRemoteUrlValue] = useState('');
+  const [remoteUrlValue, setRemoteUrlValue] = useState("");
   /* const remoteUrlRegex = new RegExp(/^\S+@\S+:\S+$/); */
   const [remotes, setRemotes] = useState(null);
   const [branchList, setBranchList] = useState([]);
@@ -33,14 +39,19 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
       const remoteList = await getJson(remoteListUrl, debugRef.current);
       if (remoteList.ok) {
         setRemotes(remoteList.json.payload.remotes);
-        const originRecord = remoteList.json.payload.remotes.filter((p) => p.name === 'origin')[0];
+        const originRecord = remoteList.json.payload.remotes.filter(
+          (p) => p.name === "origin",
+        )[0];
         if (originRecord) {
           setRemoteUrlValue(originRecord.url);
         }
       } else {
-        enqueueSnackbar(doI18n('pages:content:could_not_list_remotes', i18nRef.current), {
-          variant: 'error',
-        });
+        enqueueSnackbar(
+          doI18n("pages:content:could_not_list_remotes", i18nRef.current),
+          {
+            variant: "error",
+          },
+        );
       }
     };
     if (open) {
@@ -49,27 +60,36 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
   }, [reposModCount, open]);
 
   const addRemoteRepo = async (repo_path) => {
-    if (remotes.filter((p) => p.name === 'origin')[0]) {
+    if (remotes.filter((p) => p.name === "origin")[0]) {
       const deleteUrl = `/git/remote/delete/${repo_path}?remote_name=origin`;
       const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
       if (!deleteResponse.ok) {
-        enqueueSnackbar(doI18n('pages:content:could_not_delete_remote', i18nRef.current), {
-          variant: 'error',
-        });
+        enqueueSnackbar(
+          doI18n("pages:content:could_not_delete_remote", i18nRef.current),
+          {
+            variant: "error",
+          },
+        );
       }
     }
 
     const addUrl = `/git/remote/add/${repo_path}?remote_name=origin&remote_url=${remoteUrlValue}`;
     const addResponse = await postEmptyJson(addUrl, debugRef.current);
     if (addResponse.ok) {
-      enqueueSnackbar(doI18n('pages:content:remote_repo_added', i18nRef.current), {
-        variant: 'success',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:remote_repo_added", i18nRef.current),
+        {
+          variant: "success",
+        },
+      );
       setReposModCount(reposModCount + 1);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_add_remote_repo', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_add_remote_repo", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
@@ -79,9 +99,12 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
     if (branchesResponse.ok) {
       setBranchList(branchesResponse.json.payload.branches);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_fetch_branches', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_fetch_branches", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
@@ -92,18 +115,27 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
     if (branchResponse.ok) {
       setReposModCount(reposModCount + 1);
       if (branchResponse.json.is_good) {
-        enqueueSnackbar(doI18n(`pages:content:branch_switched`, i18nRef.current), {
-          variant: 'success',
-        });
+        enqueueSnackbar(
+          doI18n(`pages:content:branch_switched`, i18nRef.current),
+          {
+            variant: "success",
+          },
+        );
       } else {
-        enqueueSnackbar(doI18n('pages:content:could_not_switch_branch', i18nRef.current), {
-          variant: 'error',
-        });
+        enqueueSnackbar(
+          doI18n("pages:content:could_not_switch_branch", i18nRef.current),
+          {
+            variant: "error",
+          },
+        );
       }
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_switch_branch', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_switch_branch", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
@@ -129,7 +161,7 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:remote_content', i18nRef.current)}
+      titleLabel={doI18n("pages:content:remote_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn}
       theme={theme}
@@ -140,19 +172,19 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
           <Stack spacing={2} sx={{ m: 2 }}>
             <TextField
               id="repo-url"
-              label={doI18n('pages:content:remote_repo_url', i18nRef.current)}
+              label={doI18n("pages:content:remote_repo_url", i18nRef.current)}
               value={remoteUrlValue}
               variant="outlined"
               onChange={(e) => handleRemoteUrlValidation(e)}
-              error={!remoteUrlValue.startsWith('https://')}
+              error={!remoteUrlValue.startsWith("https://")}
               required={true}
             />
             <Typography variant="subtitle1">
-              {doI18n('pages:content:branches', i18nRef.current)}
+              {doI18n("pages:content:branches", i18nRef.current)}
             </Typography>
             <List component="nav" aria-label="dcs-branch-list">
               {branchList
-                .filter((branch) => !branch.name.includes('/'))
+                .filter((branch) => !branch.name.includes("/"))
                 .map((branch, n) => {
                   return (
                     <ListItemButton
@@ -163,7 +195,9 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
                         handleListItemClick(event, n);
                       }}
                     >
-                      <ListItemIcon>{selectedBranchIndex === n && <DoneIcon />}</ListItemIcon>
+                      <ListItemIcon>
+                        {selectedBranchIndex === n && <DoneIcon />}
+                      </ListItemIcon>
                       <ListItemText primary={branch.name} />
                     </ListItemButton>
                   );
@@ -171,7 +205,7 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
             </List>
           </Stack>
           <Typography>
-            {doI18n('pages:content:about_to_upload_content', i18nRef.current)}
+            {doI18n("pages:content:about_to_upload_content", i18nRef.current)}
           </Typography>
         </DialogContentText>
       </DialogContent>
@@ -180,13 +214,13 @@ function RemoteContent({ repoInfo, open, closeFn, reposModCount, setReposModCoun
           await addRemoteRepo(repoInfo.path);
           closeFn();
         }}
-        actionLabel={doI18n('pages:content:update', i18nRef.current)}
+        actionLabel={doI18n("pages:content:update", i18nRef.current)}
         closeFn={() => closeFn}
-        closeLabel={doI18n('pages:content:cancel', i18nRef.current)}
+        closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
         isDisabled={
           remotes === null ||
-          !remoteUrlValue.startsWith('https://') ||
-          remotes.filter((p) => p.name === 'origin')[0]?.url === remoteUrlValue
+          !remoteUrlValue.startsWith("https://") ||
+          remotes.filter((p) => p.name === "origin")[0]?.url === remoteUrlValue
         }
       />
     </PanDialog>

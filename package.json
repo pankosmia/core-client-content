@@ -24,7 +24,7 @@
     "eslint-plugin-react": "^7.37.5",
     "globals": "^17.0.0",
     "husky": "^9.1.7",
-    "prettier": "^3.7.4",
+    "prettier": "3.8.1",
     "typescript-eslint": "^8.53.0",
     "vite": "^6.0.7"
   },
@@ -37,23 +37,13 @@
     "build": "node --max_old_space_size=4096 ./node_modules/vite/bin/vite.js build",
     "build:cra": "node --max_old_space_size=4096 node_modules/react-scripts/scripts/build.js",
     "build:vite": "vite build",
-    "dev": "vite"
+    "dev": "vite",
+    "prepare": "husky"
   },
   "eslintConfig": {
     "extends": [
       "react-app",
       "react-app/jest"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.{js,ts,jsx,tsx,json,css,md}": [
-      "prettier --write",
-      "git add"
     ]
   },
   "browserslist": {

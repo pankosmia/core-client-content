@@ -2,11 +2,11 @@ import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
 import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
 import { useState, useContext } from "react";
-import {doI18n } from "pithekos-lib";
-import {i18nContext,netContext} from "pankosmia-rcl";
+import { doI18n } from "pithekos-lib";
+import { i18nContext, netContext } from "pankosmia-rcl";
 import ImportBurrito from "./ImportBurrito";
 
-function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
+function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
   const { enabledRef } = useContext(netContext);
   const [importAnchorEl, setImportAnchorEl] = useState(null);
@@ -23,23 +23,25 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
   };
 
   // Use this to set "Biblical Text" as the first item.
-  const matchPart = '/createDocument/textTranslation';
+  const matchPart = "/createDocument/textTranslation";
 
   const createItems = (() => {
     if (!clientInterfaces) return [];
 
     const all = Object.entries(clientInterfaces).flatMap(([category, cv]) =>
-      Object.values(cv?.endpoints || {}).flatMap(ev =>
-        (ev?.create_document || []).map(doc => ({
+      Object.values(cv?.endpoints || {}).flatMap((ev) =>
+        (ev?.create_document || []).map((doc) => ({
           category,
           label: doI18n(doc.label, i18nRef.current),
-          url: '/clients/' + category + '#' + doc.url,
-        }))
-      )
+          url: "/clients/" + category + "#" + doc.url,
+        })),
+      ),
     );
 
     // move "Biblical Text" to the front if present
-    const idx = all.findIndex(i => i.url === matchPart || i.url.includes(matchPart));
+    const idx = all.findIndex(
+      (i) => i.url === matchPart || i.url.includes(matchPart),
+    );
     if (idx > -1) all.unshift(all.splice(idx, 1)[0]);
 
     return all;
@@ -52,12 +54,12 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
           variant="extended"
           color="primary"
           size="small"
-          aria-label={doI18n('pages:content:fab_import', i18nRef.current)}
+          aria-label={doI18n("pages:content:fab_import", i18nRef.current)}
           onClick={(event) => setImportAnchorEl(event.currentTarget)}
         >
           <DriveFolderUploadIcon sx={{ mr: 1 }} />
           <Typography variant="body2">
-            {doI18n('pages:content:fab_import', i18nRef.current)}
+            {doI18n("pages:content:fab_import", i18nRef.current)}
           </Typography>
         </Fab>
         <Menu
@@ -67,15 +69,15 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
           onClose={handleImportClose}
         >
           <MenuItem
-            onClick={() => (window.location.href = '/clients/download')}
+            onClick={() => (window.location.href = "/clients/download")}
             disabled={!enabledRef.current}
           >
-            {doI18n('pages:content:download_content', i18nRef.current)}
+            {doI18n("pages:content:download_content", i18nRef.current)}
           </MenuItem>
           <MenuItem
             onClick={(event) => {
               setImportBurritoAnchorEl(event.currentTarget);
-              setImportAnchorEl(null)
+              setImportAnchorEl(null);
             }}
           >
             {doI18n("pages:content:import_content", i18nRef.current)}
@@ -85,13 +87,13 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
           variant="extended"
           color="primary"
           size="small"
-          aria-label={doI18n('pages:content:fab_create', i18nRef.current)}
+          aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
           onClick={(event) => setCreateAnchorEl(event.currentTarget)}
           sx={{ ml: 2 }}
         >
           <CreateNewFolderIcon sx={{ mr: 1 }} />
           <Typography variant="body2">
-            {doI18n('pages:content:fab_create', i18nRef.current)}
+            {doI18n("pages:content:fab_create", i18nRef.current)}
           </Typography>
         </Fab>
         <Menu
@@ -101,7 +103,9 @@ function FabPlusMenu({clientInterfaces, reposModCount, setReposModCount}) {
           onClose={handleCreateClose}
         >
           {createItems.map((item) => (
-            <MenuItem onClick={() => (window.location.href = item.url)}>{item.label}</MenuItem>
+            <MenuItem onClick={() => (window.location.href = item.url)}>
+              {item.label}
+            </MenuItem>
           ))}
         </Menu>
         <ImportBurrito

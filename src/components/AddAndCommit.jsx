@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect } from "react";
 import {
   AppBar,
   Button,
@@ -10,16 +10,22 @@ import {
   Typography,
   Stack,
   TextField,
-} from '@mui/material';
-import { doI18n, getJson, postJson } from 'pithekos-lib';
-import {i18nContext,debugContext} from "pankosmia-rcl";
+} from "@mui/material";
+import { doI18n, getJson, postJson } from "pithekos-lib";
+import { i18nContext, debugContext } from "pankosmia-rcl";
 
-import { enqueueSnackbar } from 'notistack';
+import { enqueueSnackbar } from "notistack";
 
-function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+function AddAndCommit({
+  repoInfo,
+  open,
+  closeFn,
+  reposModCount,
+  setReposModCount,
+}) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
-  const [commitMessage, setCommitMessage] = useState('');
+  const [commitMessage, setCommitMessage] = useState("");
   const [commitsArray, setCommitsArray] = useState([]);
 
   const repoStatus = async (repo_path) => {
@@ -28,9 +34,12 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
     if (repoStatusResponse.ok) {
       setCommitsArray(repoStatusResponse.json);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_fetch_commits', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_fetch_commits", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
@@ -43,16 +52,26 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
   const addAndCommitRepo = async (repo_path, commitMessage) => {
     const addAndCommitUrl = `/git/add-and-commit/${repo_path}`;
     const commitJson = JSON.stringify({ commit_message: commitMessage });
-    const addAndCommitResponse = await postJson(addAndCommitUrl, commitJson, debugRef.current);
+    const addAndCommitResponse = await postJson(
+      addAndCommitUrl,
+      commitJson,
+      debugRef.current,
+    );
     if (addAndCommitResponse.ok) {
-      enqueueSnackbar(doI18n('pages:content:commit_complete', i18nRef.current), {
-        variant: 'success',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:commit_complete", i18nRef.current),
+        {
+          variant: "success",
+        },
+      );
       setReposModCount(reposModCount + 1);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_commit', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_commit", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
@@ -65,20 +84,24 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
       open={open}
       onClose={closeFn}
       fullWidth={true}
-      maxWidth={'lg'}
+      maxWidth={"lg"}
       slotProps={{
         paper: {
-          component: 'form',
+          component: "form",
         },
       }}
     >
       <AppBar
         color="secondary"
-        sx={{ position: 'relative', borderTopLeftRadius: 4, borderTopRightRadius: 4 }}
+        sx={{
+          position: "relative",
+          borderTopLeftRadius: 4,
+          borderTopRightRadius: 4,
+        }}
       >
         <Toolbar>
           <Typography variant="h6" component="div">
-            {doI18n('pages:content:commits', i18nRef.current)}
+            {doI18n("pages:content:commits", i18nRef.current)}
           </Typography>
         </Toolbar>
       </AppBar>
@@ -88,7 +111,7 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
           <Stack spacing={2} sx={{ m: 2 }}>
             <TextField
               id="commit-message"
-              label={doI18n('pages:content:commit_message', i18nRef.current)}
+              label={doI18n("pages:content:commit_message", i18nRef.current)}
               value={commitMessage}
               variant="outlined"
               onChange={(e) => handleCommitMessage(e)}
@@ -96,24 +119,24 @@ function AddAndCommit({ repoInfo, open, closeFn, reposModCount, setReposModCount
             />
           </Stack>
           <Typography>
-            {doI18n('pages:content:about_to_commit_content', i18nRef.current)}
+            {doI18n("pages:content:about_to_commit_content", i18nRef.current)}
           </Typography>
         </DialogContentText>
       </DialogContent>
       <DialogActions>
         <Button color="warning" onClick={closeFn}>
-          {doI18n('pages:content:cancel', i18nRef.current)}
+          {doI18n("pages:content:cancel", i18nRef.current)}
         </Button>
         <Button
           variant="contained"
           color="primary"
-          disabled={commitsArray.length === 0 || commitMessage === ''}
+          disabled={commitsArray.length === 0 || commitMessage === ""}
           onClick={() => {
             addAndCommitRepo(repoInfo.path, commitMessage).then();
             closeFn();
           }}
         >
-          {doI18n('pages:content:accept', i18nRef.current)}
+          {doI18n("pages:content:accept", i18nRef.current)}
         </Button>
       </DialogActions>
     </Dialog>

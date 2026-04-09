@@ -60,7 +60,6 @@ function ContentRowButtonPlusMenu({
 
   const [status, setStatus] = useState([]);
 
-
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
@@ -225,8 +224,8 @@ function ContentRowButtonPlusMenu({
     if (reloadResponse.ok) {
       enqueueSnackbar(
         doI18n("pages:content:remake_metadata", i18nRef.current) +
-        " " +
-        repoInfo.path,
+          " " +
+          repoInfo.path,
         {
           variant: "success",
         },
@@ -234,8 +233,8 @@ function ContentRowButtonPlusMenu({
     } else {
       enqueueSnackbar(
         doI18n("pages:content:could_not_reload", i18nRef.current) +
-        " " +
-        repoInfo.path,
+          " " +
+          repoInfo.path,
         {
           variant: "error",
         },

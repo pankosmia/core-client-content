@@ -1,33 +1,47 @@
-import { useContext } from 'react';
-import { DialogContent, DialogContentText, Typography, useTheme } from '@mui/material';
-import {doI18n, postEmptyJson } from 'pithekos-lib';
-import {i18nContext,debugContext} from "pankosmia-rcl";
-import { enqueueSnackbar } from 'notistack';
-import { PanDialog, PanDialogActions } from 'pankosmia-rcl';
+import { useContext } from "react";
+import {
+  DialogContent,
+  DialogContentText,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { doI18n, postEmptyJson } from "pithekos-lib";
+import { i18nContext, debugContext } from "pankosmia-rcl";
+import { enqueueSnackbar } from "notistack";
+import { PanDialog, PanDialogActions } from "pankosmia-rcl";
 
-function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCount }) {
+function ArchiveContent({
+  repoInfo,
+  open,
+  closeFn,
+  reposModCount,
+  setReposModCount,
+}) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
   const theme = useTheme();
-  
+
   const archiveRepo = async (repo_path) => {
-    const archiveUrl = `/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split('/')[2]}&delete_src`;
+    const archiveUrl = `/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split("/")[2]}&delete_src`;
     const archiveResponse = await postEmptyJson(archiveUrl, debugRef.current);
     if (archiveResponse.ok) {
-      enqueueSnackbar(doI18n('pages:content:repo_archived', i18nRef.current), {
-        variant: 'success',
+      enqueueSnackbar(doI18n("pages:content:repo_archived", i18nRef.current), {
+        variant: "success",
       });
       setReposModCount(reposModCount + 1);
     } else {
-      enqueueSnackbar(doI18n('pages:content:could_not_archive_repo', i18nRef.current), {
-        variant: 'error',
-      });
+      enqueueSnackbar(
+        doI18n("pages:content:could_not_archive_repo", i18nRef.current),
+        {
+          variant: "error",
+        },
+      );
     }
   };
 
   return (
     <PanDialog
-      titleLabel={doI18n('pages:content:archive_content', i18nRef.current)}
+      titleLabel={doI18n("pages:content:archive_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
       theme={theme}
@@ -36,7 +50,7 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
         <DialogContentText>
           <Typography variant="h6">{repoInfo.name}</Typography>
           <Typography>
-            {doI18n('pages:content:about_to_archive_content', i18nRef.current)}
+            {doI18n("pages:content:about_to_archive_content", i18nRef.current)}
           </Typography>
         </DialogContentText>
       </DialogContent>
@@ -46,9 +60,9 @@ function ArchiveContent({ repoInfo, open, closeFn, reposModCount, setReposModCou
           await archiveRepo(repoInfo.path);
           closeFn();
         }}
-        actionLabel={doI18n('pages:content:archive_content', i18nRef.current)}
+        actionLabel={doI18n("pages:content:archive_content", i18nRef.current)}
         closeFn={() => closeFn()}
-        closeLabel={doI18n('pages:content:cancel', i18nRef.current)}
+        closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
       />
     </PanDialog>
   );
