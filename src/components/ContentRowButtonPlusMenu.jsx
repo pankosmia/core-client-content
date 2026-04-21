@@ -18,7 +18,6 @@ import DeleteContent from "./DeleteContent";
 import { useState, useContext, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import AboutRepo from "./AboutRepo";
 function ContentRowButtonPlusMenu({
   repoInfo,
   reposModCount,
@@ -531,11 +530,6 @@ function ContentRowButtonPlusMenu({
         closeFn={() => setDeleteContentAnchorEl(null)}
         reposModCount={reposModCount}
         setReposModCount={setReposModCount}
-      />
-      <AboutRepo
-        repoInfo={repoInfo}
-        open={aboutRepoContentOpen}
-        closeFn={() => setAboutRepoContentAnchorEl(null)}
       />
     </>
   );
