@@ -265,35 +265,17 @@ function ContentRowButtonPlusMenu({
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
-        {/* <MenuItem
-          onClick={(event) => {
-            setAboutRepoContentAnchorEl(event.currentTarget);
-            setContentRowAnchorEl(null);
-          }}
-        >
-          {doI18n("pages:content:about_repo", i18nRef.current)}
-        </MenuItem>
-        <Divider /> */}
         {isNormal ? (
           <>
             {createAboutRepo &&
-              createAboutRepo.filter(
-                (item) => item.category === repoInfo.flavor,
-              ).length > 0 && (
-                <>
-                  {createAboutRepo &&
-                    createAboutRepo
-                      .filter((item) => item.category === repoInfo.flavor)
-                      .map((item) => (
-                        <MenuItem
-                          key={`new-${item.label}`}
-                          onClick={() => (window.location.href = item.url)}
-                        >
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                </>
-              )}
+              createAboutRepo.map((item) => (
+                <MenuItem
+                  key={`new-${item.label}`}
+                  onClick={() => (window.location.href = item.url)}
+                >
+                  {item.label}
+                </MenuItem>
+              ))}
             <Divider />
             {repoInfo.path.includes("_local_/_local_") && (
               <>
