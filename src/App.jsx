@@ -13,13 +13,14 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  Tooltip,
 } from "@mui/material";
 import { doI18n, getJson } from "pithekos-lib";
 import { i18nContext } from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
 import DataGridComponent from "./components/DataGridComponent";
-
+import LibraryBooksOutlinedIcon from "@mui/icons-material/LibraryBooksOutlined";
 function App() {
   const { i18nRef } = useContext(i18nContext);
   const [newIsOpen, setNewIsOpen] = useState(false);
@@ -67,6 +68,10 @@ function App() {
     setExperimentDialogOpen(false);
   };
 
+  const handlePdfPublisher = () => {
+    window.location.href =
+      "http://127.0.0.1:19119/clients/core-contenthandler_text_translation#/export/pdf";
+  };
   /**
    * header 48px + margin of 16px = fixed top position of 64px
    * scrolling takes place in DataGridComponent to allow for a sticky datagrid header
@@ -88,7 +93,7 @@ function App() {
           <Grid2 item size={12} sx={{ m: 0 }}>
             <Grid2
               container
-              spacing={2}
+              spacing={1}
               direction="row"
               sx={{ justifyContent: "flex-start", alignItems: "flex-start" }}
             >
@@ -101,17 +106,21 @@ function App() {
                   clientInterfaces={clientInterfaces}
                 />
               </Grid2>
+              <Grid2 item>
+                <Tooltip
+                  title={doI18n("pages:content:pdf_publisher", i18nRef.current)}
+                >
+                  <IconButton onClick={handlePdfPublisher}>
+                    <LibraryBooksOutlinedIcon />
+                  </IconButton>
+                </Tooltip>
+              </Grid2>
+
               {isArchiveMenuEnabled && (
                 <Grid2 item>
-                  <Box sx={{ boxShadow: 3, borderRadius: 50 }}>
-                    <IconButton
-                      size="small"
-                      color="primary"
-                      onClick={handleExperimentMenuClick}
-                    >
-                      <HandymanOutlinedIcon />
-                    </IconButton>
-                  </Box>
+                  <IconButton onClick={handleExperimentMenuClick}>
+                    <HandymanOutlinedIcon />
+                  </IconButton>
                   <Menu
                     id="basic-menu"
                     anchorEl={experimentMenuAnchorEl}
