@@ -1,6 +1,6 @@
 import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
-import DriveFolderUploadIcon from "@mui/icons-material/DriveFolderUpload";
-import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
+import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import { useState, useContext } from "react";
 import { doI18n } from "pithekos-lib";
 import { i18nContext, netContext } from "pankosmia-rcl";
@@ -57,7 +57,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
           aria-label={doI18n("pages:content:fab_import", i18nRef.current)}
           onClick={(event) => setImportAnchorEl(event.currentTarget)}
         >
-          <DriveFolderUploadIcon sx={{ mr: 1 }} />
+          <DriveFolderUploadOutlinedIcon sx={{ mr: 1 }} />
           <Typography variant="body2">
             {doI18n("pages:content:fab_import", i18nRef.current)}
           </Typography>
@@ -91,7 +91,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
           onClick={(event) => setCreateAnchorEl(event.currentTarget)}
           sx={{ ml: 2 }}
         >
-          <CreateNewFolderIcon sx={{ mr: 1 }} />
+          <CreateNewFolderOutlinedIcon sx={{ mr: 1 }} />
           <Typography variant="body2">
             {doI18n("pages:content:fab_create", i18nRef.current)}
           </Typography>

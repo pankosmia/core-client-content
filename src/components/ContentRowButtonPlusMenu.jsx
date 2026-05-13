@@ -18,7 +18,6 @@ import DeleteContent from "./DeleteContent";
 import { useState, useContext, useEffect } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
-import AboutRepo from "./AboutRepo";
 function ContentRowButtonPlusMenu({
   repoInfo,
   reposModCount,
@@ -265,35 +264,17 @@ function ContentRowButtonPlusMenu({
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
-        {/* <MenuItem
-          onClick={(event) => {
-            setAboutRepoContentAnchorEl(event.currentTarget);
-            setContentRowAnchorEl(null);
-          }}
-        >
-          {doI18n("pages:content:about_repo", i18nRef.current)}
-        </MenuItem>
-        <Divider /> */}
         {isNormal ? (
           <>
             {createAboutRepo &&
-              createAboutRepo.filter(
-                (item) => item.category === repoInfo.flavor,
-              ).length > 0 && (
-                <>
-                  {createAboutRepo &&
-                    createAboutRepo
-                      .filter((item) => item.category === repoInfo.flavor)
-                      .map((item) => (
-                        <MenuItem
-                          key={`new-${item.label}`}
-                          onClick={() => (window.location.href = item.url)}
-                        >
-                          {item.label}
-                        </MenuItem>
-                      ))}
-                </>
-              )}
+              createAboutRepo.map((item) => (
+                <MenuItem
+                  key={`new-${item.label}`}
+                  onClick={() => (window.location.href = item.url)}
+                >
+                  {item.label}
+                </MenuItem>
+              ))}
             <Divider />
             {repoInfo.path.includes("_local_/_local_") && (
               <>
@@ -549,11 +530,6 @@ function ContentRowButtonPlusMenu({
         closeFn={() => setDeleteContentAnchorEl(null)}
         reposModCount={reposModCount}
         setReposModCount={setReposModCount}
-      />
-      <AboutRepo
-        repoInfo={repoInfo}
-        open={aboutRepoContentOpen}
-        closeFn={() => setAboutRepoContentAnchorEl(null)}
       />
     </>
   );
