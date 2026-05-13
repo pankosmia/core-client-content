@@ -238,8 +238,9 @@
       "id": "Impor buku"
     },
     "new_tcore_content": {
-      "fr": "Vérifications tCore",
-      "en": "tCore checks"
+      "fr": "Vérifications tCore 4",
+      "en": "tCore 4 checks",
+      "es": "Comprobaciones de tCore 4"
     },
 
     "resource_format": {
@@ -797,9 +798,9 @@
       "fr": "Description"
     },
     "edit_check_project": {
-      "en": "edit tCore checks",
-      "fr": "modifier les vérifications tCore",
-      "es": "editar verificaciones de tCore",
+      "en": "edit tCore 4 checks",
+      "fr": "modifier les vérifications tCore 4",
+      "es": "editar verificaciones de tCore 4",
       "id": "@editer project check"
     },
     "export_pdf": {
