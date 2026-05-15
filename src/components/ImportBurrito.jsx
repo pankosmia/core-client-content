@@ -19,14 +19,12 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
   });
   const isZip = filePicked?.name?.toLowerCase().endsWith(".zip");
   useEffect(() => {
-    console.log(plainFiles);
     if (plainFiles.length > 0) {
       const file = plainFiles[0];
 
       setFilePicked(file);
     }
   }, [plainFiles]);
-  console.log(plainFiles);
 
   const handleImport = async (file) => {
     const formData = new FormData();
