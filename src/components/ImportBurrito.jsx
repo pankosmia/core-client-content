@@ -1,24 +1,38 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Button, DialogContent, Tooltip, useTheme } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { doI18n } from "pithekos-lib";
 import { i18nContext } from "pankosmia-rcl";
-import { FilePicker } from "react-file-picker";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
+import { useFilePicker } from "use-file-picker";
 
 function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
   const [loading, setLoading] = useState(false);
   const [filePicked, setFilePicked] = useState(null);
-  const isZip = filePicked?.name?.toLowerCase().endsWith(".zip");
   const theme = useTheme();
+
+  const { openFilePicker, plainFiles } = useFilePicker({
+    accept: [".zip"],
+    readFilesContent: false,
+  });
+  const isZip = filePicked?.name?.toLowerCase().endsWith(".zip");
+  useEffect(() => {
+    console.log(plainFiles);
+    if (plainFiles.length > 0) {
+      const file = plainFiles[0];
+
+      setFilePicked(file);
+    }
+  }, [plainFiles]);
+  console.log(plainFiles);
+
   const handleImport = async (file) => {
     const formData = new FormData();
 
-    formData.append("file", file, "data.zip");
-
-    const fileName = filePicked?.name?.replace(/\.[^/.]+$/, "");
+    formData.append("file", file, file.name);
+    const fileName = file?.name?.replace(/\.[^/.]+$/, "");
     const response = await fetch(
       `/burrito/zipped/_local_/_sideloaded_/${encodeURIComponent(fileName)}`,
       {
@@ -54,31 +68,23 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
       theme={theme}
     >
       <DialogContent sx={{ mt: 1 }}>
-        <FilePicker
-          extensions={["zip"]}
-          onChange={(file) => {
-            setFilePicked(file);
+        <Button
+          onClick={() => {
+            openFilePicker();
           }}
-          onError={(error) => {
-            enqueueSnackbar(`${error}`, { variant: "error" });
-            setLoading(false);
-          }}
+          type="button"
+          disabled={loading}
+          variant="contained"
+          color="primary"
+          component="span"
+          startIcon={<UploadFileIcon />}
         >
-          <Button
-            type="button"
-            disabled={loading}
-            variant="contained"
-            color="primary"
-            component="span"
-            startIcon={<UploadFileIcon />}
-          >
-            {loading
-              ? "Reading File..."
-              : filePicked?.name
-                ? filePicked?.name
-                : doI18n("pages:content:import_burrito_click", i18nRef.current)}
-          </Button>
-        </FilePicker>
+          {loading
+            ? "Reading File..."
+            : filePicked?.name
+              ? filePicked?.name
+              : doI18n("pages:content:import_burrito_click", i18nRef.current)}
+        </Button>
       </DialogContent>
       <Tooltip
         open={!isZip && filePicked}
