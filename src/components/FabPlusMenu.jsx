@@ -51,6 +51,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
     <>
       <Box sx={{ mb: 2 }}>
         <Fab
+          sx={{ textTransform: "capitalize" }}
           variant="extended"
           color="primary"
           size="small"
@@ -89,7 +90,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
           size="small"
           aria-label={doI18n("pages:content:fab_create", i18nRef.current)}
           onClick={(event) => setCreateAnchorEl(event.currentTarget)}
-          sx={{ ml: 2 }}
+          sx={{ ml: 2, textTransform: "capitalize" }}
         >
           <CreateNewFolderOutlinedIcon sx={{ mr: 1 }} />
           <Typography variant="body2">
