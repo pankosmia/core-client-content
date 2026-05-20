@@ -43,6 +43,8 @@ function ArchiveContent({
       titleLabel={doI18n("pages:content:archive_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
+      size={"md"}
+      fullWidth={false}
     >
       <DialogContent>
         <DialogContentText>

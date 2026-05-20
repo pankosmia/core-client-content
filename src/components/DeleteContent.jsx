@@ -42,6 +42,8 @@ function DeleteContent({
       titleLabel={doI18n("pages:content:delete_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
+      fullWidth={false}
+      size={"md"}
     >
       <DialogContent>
         <DialogContentText>
