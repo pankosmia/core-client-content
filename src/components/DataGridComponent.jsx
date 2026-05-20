@@ -8,7 +8,7 @@ import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
 import { PanTable } from "pankosmia-rcl";
-import { useTheme, alpha } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 const getEditDocumentKeys = (data) => {
   let map = {};
@@ -56,7 +56,6 @@ function DataGridComponent({
   const [localRepos, setLocalRepos] = useState([]);
   const [isDownloading, setIsDownloading] = useState(null);
   const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
-  const theme = useTheme();
 
   /**
    * Top 0 puts the top under the margin under the Import / Create buttons.
@@ -373,7 +372,6 @@ function DataGridComponent({
       >
         <PanTable
           showColumnFilters
-          theme={theme}
           rows={rows}
           columns={columns}
           sx={{
