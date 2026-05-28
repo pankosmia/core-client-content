@@ -4,7 +4,7 @@ import { getJson, getAndSetJson, doI18n, postEmptyJson } from "pithekos-lib";
 import { i18nContext, debugContext, netContext } from "pankosmia-rcl";
 import { DataGrid } from "@mui/x-data-grid";
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
-import EditIcon from "@mui/icons-material/Edit";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
 import { PanTable } from "pankosmia-rcl";
@@ -316,7 +316,7 @@ function DataGridComponent({
                     window.location.href = "/clients/" + editUrl;
                   }}
                 >
-                  <EditIcon />
+                  <EditOutlinedIcon />
                 </IconButton>
               )}
             <ContentRowButtonPlusMenu
