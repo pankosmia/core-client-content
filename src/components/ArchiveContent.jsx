@@ -22,7 +22,7 @@ function ArchiveContent({
   const theme = useTheme();
 
   const archiveRepo = async (repo_path) => {
-    const archiveUrl = `/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split("/")[2]}&delete_src`;
+    const archiveUrl = `/api/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split("/")[2]}&delete_src`;
     const archiveResponse = await postEmptyJson(archiveUrl, debugRef.current);
     if (archiveResponse.ok) {
       enqueueSnackbar(doI18n("pages:content:repo_archived", i18nRef.current), {

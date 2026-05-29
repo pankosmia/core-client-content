@@ -103,7 +103,10 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
           onClose={handleCreateClose}
         >
           {createItems.map((item) => (
-            <MenuItem onClick={() => (window.location.href = item.url)}>
+            <MenuItem
+              key={item.url}
+              onClick={() => (window.location.href = item.url)}
+            >
               {item.label}
             </MenuItem>
           ))}

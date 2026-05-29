@@ -2,10 +2,8 @@ import { useState, useEffect, useContext, useCallback } from "react";
 import { IconButton, Grid2, Box } from "@mui/material";
 import { getJson, getAndSetJson, doI18n, postEmptyJson } from "pithekos-lib";
 import { i18nContext, debugContext, netContext } from "pankosmia-rcl";
-import { DataGrid } from "@mui/x-data-grid";
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
-import EditOffIcon from "@mui/icons-material/EditOff";
 import Notification from "./Notification";
 import { PanTable } from "pankosmia-rcl";
 import { useTheme, alpha } from "@mui/material/styles";
@@ -92,7 +90,7 @@ function DataGridComponent({
 
   const getProjectSummaries = async () => {
     const summariesResponse = await getJson(
-      `/burrito/metadata/summaries${!isNormal ? contentFilter : ""}`,
+      `/api/burrito/metadata/summaries${!isNormal ? contentFilter : ""}`,
       debugRef.current,
     );
     if (summariesResponse.ok) {
@@ -105,13 +103,13 @@ function DataGridComponent({
   }, [reposModCount, experimentDialogOpen]);
 
   useEffect(() => {
-    fetch("/app-resources/lookups/iso639-1-to-3.json") // ISO_639-1 codes mapped to ISO_639-3 codes
+    fetch("/api/app-resources/lookups/iso639-1-to-3.json") // ISO_639-1 codes mapped to ISO_639-3 codes
       .then((r) => r.json())
       .then((data) => setIsoOneToThreeLookup(data));
   }, []);
 
   useEffect(() => {
-    fetch("/app-resources/lookups/iso639-3.json") // ISO_639-3 2025-02-21 from https://hisregistries.org/rol/ plus zht, zhs, nep
+    fetch("/api/app-resources/lookups/iso639-3.json") // ISO_639-3 2025-02-21 from https://hisregistries.org/rol/ plus zht, zhs, nep
       .then((r) => r.json())
       .then((data) => setIsoThreeLookup(data));
   }, []);
@@ -122,7 +120,7 @@ function DataGridComponent({
         let newCatalog = [];
         for (const source of sourceWhitelist) {
           const response = await getJson(
-            `/gitea/remote-repos/${source[0]}`,
+            `/api/gitea/remote-repos/${source[0]}`,
             debugRef.current,
           );
           if (response.ok) {
@@ -141,7 +139,7 @@ function DataGridComponent({
   useEffect(() => {
     if (enabledRef.current && localRepos.length === 0) {
       getAndSetJson({
-        url: "/git/list-local-repos",
+        url: "/api/git/list-local-repos",
         setter: setLocalRepos,
       }).then();
     }
@@ -158,7 +156,7 @@ function DataGridComponent({
         const newIsDownloading = {};
         for (const e of catalog) {
           if (localRepos.includes(`${e.source}/${e.name}`)) {
-            const metadataUrl = `/burrito/metadata/summary/${e.source}/${e.name}`;
+            const metadataUrl = `/api/burrito/metadata/summary/${e.source}/${e.name}`;
             let metadataResponse = await getJson(metadataUrl, debugRef.current);
             if (metadataResponse.ok) {
               const metadataTime = metadataResponse.json.timestamp;
@@ -308,10 +306,10 @@ function DataGridComponent({
                 <IconButton
                   onClick={async () => {
                     await postEmptyJson(
-                      `/navigation/bcv/${params.row.book_codes[0]}/1/1`,
+                      `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
                     );
                     await postEmptyJson(
-                      `/app-state/current-project/${params.row.path}`,
+                      `/api/app-state/current-project/${params.row.path}`,
                     );
                     window.location.href = "/clients/" + editUrl;
                   }}
