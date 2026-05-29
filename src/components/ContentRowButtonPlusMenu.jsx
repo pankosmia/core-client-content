@@ -204,7 +204,7 @@ function ContentRowButtonPlusMenu({
   };
 
   const repoStatus = async (repo_path) => {
-    const statusUrl = `/git/status/${repo_path}`;
+    const statusUrl = `/api/git/status/${repo_path}`;
     const statusResponse = await getJson(statusUrl, debugRef.current);
     if (statusResponse.ok) {
       setStatus(statusResponse.json);
@@ -218,7 +218,7 @@ function ContentRowButtonPlusMenu({
     }
   };
   const reloadIngredient = async () => {
-    const url = `/burrito/metadata/remake-ingredients/${repoInfo.path}`;
+    const url = `/api/burrito/metadata/remake-ingredients/${repoInfo.path}`;
     const reloadResponse = await postJson(url, debugRef.current);
     if (reloadResponse.ok) {
       enqueueSnackbar(

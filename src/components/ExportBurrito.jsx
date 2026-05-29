@@ -22,7 +22,7 @@ function ExportBurrito({
   const theme = useTheme();
 
   const exportBurrito = async (repo_path) => {
-    const exportUrl = `/burrito/zipped/${repo_path}`;
+    const exportUrl = `/api/burrito/zipped/${repo_path}`;
     const exportResponse = await fetch(exportUrl);
     if (exportResponse.ok) {
       let blob = await exportResponse.blob();

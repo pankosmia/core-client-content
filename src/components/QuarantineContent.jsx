@@ -22,7 +22,7 @@ function QuarantineContent({
   const theme = useTheme();
 
   const quarantineRepo = async (repo_path) => {
-    const quarantineUrl = `/git/copy/${repo_path}?target_path=_local_/_quarantine_/${repo_path.split("/")[2]}&delete_src`;
+    const quarantineUrl = `/api/git/copy/${repo_path}?target_path=_local_/_quarantine_/${repo_path.split("/")[2]}&delete_src`;
     const quarantineResponse = await postEmptyJson(
       quarantineUrl,
       debugRef.current,

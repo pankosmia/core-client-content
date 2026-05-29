@@ -34,7 +34,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
     formData.append("file", file, file.name);
     const fileName = file?.name?.replace(/\.[^/.]+$/, "");
     const response = await fetch(
-      `/burrito/zipped/_local_/_sideloaded_/${encodeURIComponent(fileName)}`,
+      `/api/burrito/zipped/_local_/_sideloaded_/${encodeURIComponent(fileName)}`,
       {
         method: "POST",
         body: formData,

@@ -27,8 +27,8 @@ function Notification({
       );
       const fetchUrl =
         postType === "clone"
-          ? `/git/clone-repo/${remoteRepoPath}`
-          : `/git/pull-repo/origin/${remoteRepoPath}`;
+          ? `/api/git/clone-repo/${remoteRepoPath}`
+          : `/api/git/pull-repo/origin/${remoteRepoPath}`;
       const fetchResponse = await postEmptyJson(fetchUrl, debugRef.current);
       if (fetchResponse.ok) {
         enqueueSnackbar(

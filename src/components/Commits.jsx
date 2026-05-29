@@ -22,7 +22,7 @@ function Commits({ repoInfo, open, closeFn }) {
   const [commits, setCommits] = useState([]);
 
   const repoStatus = async (repo_path) => {
-    const statusUrl = `/git/status/${repo_path}`;
+    const statusUrl = `/api/git/status/${repo_path}`;
     const statusResponse = await getJson(statusUrl, debugRef.current);
     if (statusResponse.ok) {
       setStatus(statusResponse.json);
@@ -37,7 +37,7 @@ function Commits({ repoInfo, open, closeFn }) {
   };
 
   const repoCommits = async (repo_path) => {
-    const commitsUrl = `/git/log/${repo_path}`;
+    const commitsUrl = `/api/git/log/${repo_path}`;
     const commitsResponse = await getJson(commitsUrl, debugRef.current);
     if (commitsResponse.ok) {
       setCommits(commitsResponse.json);
