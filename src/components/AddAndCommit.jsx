@@ -29,7 +29,7 @@ function AddAndCommit({
   const [commitsArray, setCommitsArray] = useState([]);
 
   const repoStatus = async (repo_path) => {
-    const repoStatusUrl = `/git/status/${repo_path}`;
+    const repoStatusUrl = `/api/git/status/${repo_path}`;
     const repoStatusResponse = await getJson(repoStatusUrl, debugRef.current);
     if (repoStatusResponse.ok) {
       setCommitsArray(repoStatusResponse.json);
@@ -50,7 +50,7 @@ function AddAndCommit({
   }, [open]);
 
   const addAndCommitRepo = async (repo_path, commitMessage) => {
-    const addAndCommitUrl = `/git/add-and-commit/${repo_path}`;
+    const addAndCommitUrl = `/api/git/add-and-commit/${repo_path}`;
     const commitJson = JSON.stringify({ commit_message: commitMessage });
     const addAndCommitResponse = await postJson(
       addAndCommitUrl,

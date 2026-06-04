@@ -7,7 +7,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   Menu,
   MenuItem,
   AppBar,
@@ -39,14 +38,14 @@ function App() {
       ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
 
   useEffect(() => {
-    getJson("/client-config")
+    getJson("/api/client-config")
       .then((res) => res.json)
       .then((data) => setClientConfig(data))
       .catch((err) => console.error("Error :", err));
   }, []);
 
   useEffect(() => {
-    getJson("/client-interfaces")
+    getJson("/api/client-interfaces")
       .then((res) => res.json)
       .then((data) => setClientInterfaces(data))
       .catch((err) => console.error("Error :", err));

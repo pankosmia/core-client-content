@@ -34,7 +34,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
     formData.append("file", file, file.name);
     const fileName = file?.name?.replace(/\.[^/.]+$/, "");
     const response = await fetch(
-      `/burrito/zipped/_local_/_sideloaded_/${encodeURIComponent(fileName)}`,
+      `/api/burrito/zipped/_local_/_sideloaded_/${encodeURIComponent(fileName)}`,
       {
         method: "POST",
         body: formData,
@@ -91,20 +91,22 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
         title={doI18n("pages:content:file_invalid", i18nRef.current)}
         placement="top-end"
       >
-        <PanDialogActions
-          actionFn={() => {
-            handleImport(filePicked);
-            closeFn();
-            setTimeout(() => setFilePicked(null), 1500);
-          }}
-          isDisabled={!filePicked || !isZip}
-          actionLabel={doI18n("pages:content:create", i18nRef.current)}
-          closeFn={() => {
-            closeFn();
-            setFilePicked(null);
-          }}
-          closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
-        />
+        <span>
+          <PanDialogActions
+            actionFn={() => {
+              handleImport(filePicked);
+              closeFn();
+              setTimeout(() => setFilePicked(null), 1500);
+            }}
+            isDisabled={!filePicked || !isZip}
+            actionLabel={doI18n("pages:content:create", i18nRef.current)}
+            closeFn={() => {
+              closeFn();
+              setFilePicked(null);
+            }}
+            closeLabel={doI18n("pages:content:cancel", i18nRef.current)}
+          />
+        </span>
       </Tooltip>
     </PanDialog>
   );
