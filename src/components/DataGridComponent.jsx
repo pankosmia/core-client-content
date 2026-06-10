@@ -1,12 +1,7 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import { IconButton, Grid2, Box } from "@mui/material";
 import { getJson, getAndSetJson, doI18n, postEmptyJson } from "pithekos-lib";
-import {
-  i18nContext,
-  debugContext,
-  netContext,
-  currentProjectContext,
-} from "pankosmia-rcl";
+import { i18nContext, debugContext, netContext } from "pankosmia-rcl";
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Notification from "./Notification";
@@ -44,7 +39,6 @@ function DataGridComponent({
 }) {
   const { debugRef } = useContext(debugContext);
   const { i18nRef } = useContext(i18nContext);
-  const { currentProjectRef } = useContext(currentProjectContext);
   const { enabledRef } = useContext(netContext);
   const [projectSummaries, setProjectSummaries] = useState({});
   const [isoOneToThreeLookup, setIsoOneToThreeLookup] = useState([]);
@@ -311,28 +305,12 @@ function DataGridComponent({
               editUrl && (
                 <IconButton
                   onClick={async () => {
-                    const clickedProjectBits = params.row.path.split("/");
-                    const clickedProjectJson = {
-                      source: clickedProjectBits[0],
-                      organization: clickedProjectBits[1],
-                      project: clickedProjectBits[2],
-                    };
-                    if (
-                      !currentProjectRef.current ||
-                      clickedProjectJson.source !==
-                        currentProjectRef.current.source ||
-                      clickedProjectJson.organization !==
-                        currentProjectRef.current.organization ||
-                      clickedProjectJson.project !==
-                        currentProjectRef.current.project
-                    ) {
-                      await postEmptyJson(
-                        `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
-                      );
-                      await postEmptyJson(
-                        `/api/app-state/current-project/${params.row.path}`,
-                      );
-                    }
+                    await postEmptyJson(
+                      `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
+                    );
+                    await postEmptyJson(
+                      `/api/app-state/current-project/${params.row.path}`,
+                    );
                     window.location.href = "/clients/" + editUrl;
                   }}
                 >
