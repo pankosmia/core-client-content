@@ -33,7 +33,7 @@ function RemoteContent({
 
   useEffect(() => {
     const doFetch = async () => {
-      const remoteListUrl = `/git/remotes/${repoInfo.path}`;
+      const remoteListUrl = `/api/git/remotes/${repoInfo.path}`;
       const remoteList = await getJson(remoteListUrl, debugRef.current);
       if (remoteList.ok) {
         setRemotes(remoteList.json.payload.remotes);
@@ -59,7 +59,7 @@ function RemoteContent({
 
   const addRemoteRepo = async (repo_path) => {
     if (remotes.filter((p) => p.name === "origin")[0]) {
-      const deleteUrl = `/git/remote/delete/${repo_path}?remote_name=origin`;
+      const deleteUrl = `/api/git/remote/delete/${repo_path}?remote_name=origin`;
       const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
       if (!deleteResponse.ok) {
         enqueueSnackbar(
@@ -71,7 +71,7 @@ function RemoteContent({
       }
     }
 
-    const addUrl = `/git/remote/add/${repo_path}?remote_name=origin&remote_url=${remoteUrlValue}`;
+    const addUrl = `/api/git/remote/add/${repo_path}?remote_name=origin&remote_url=${remoteUrlValue}`;
     const addResponse = await postEmptyJson(addUrl, debugRef.current);
     if (addResponse.ok) {
       enqueueSnackbar(
@@ -92,7 +92,7 @@ function RemoteContent({
   };
 
   const repoBranches = async (repo_path) => {
-    const branchesUrl = `/git/branches/${repo_path}`;
+    const branchesUrl = `/api/git/branches/${repo_path}`;
     const branchesResponse = await getJson(branchesUrl, debugRef.current);
     if (branchesResponse.ok) {
       setBranchList(branchesResponse.json.payload.branches);
@@ -107,7 +107,7 @@ function RemoteContent({
   };
 
   const checkoutBranch = async (repo_path, branch) => {
-    const branchUrl = `/git/branch/${branch}/${repo_path}`;
+    const branchUrl = `/api/git/branch/${branch}/${repo_path}`;
     const branchResponse = await postEmptyJson(branchUrl, debugRef.current);
 
     if (branchResponse.ok) {

@@ -20,7 +20,7 @@ function DeleteContent({
   const { debugRef } = useContext(debugContext);
 
   const deleteRepo = async (repo_path) => {
-    const deleteUrl = `/git/delete/${repo_path}`;
+    const deleteUrl = `/api/git/delete/${repo_path}`;
     const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
     if (deleteResponse.ok) {
       enqueueSnackbar(doI18n("pages:content:repo_deleted", i18nRef.current), {

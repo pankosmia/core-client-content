@@ -15,7 +15,7 @@ function RestoreContent({
   const { debugRef } = useContext(debugContext);
 
   const restoreRepo = async (repo_path) => {
-    const restoreUrl = `/git/copy/${repo_path}?target_path=_local_/_local_/${repo_path.split("/")[2]}&delete_src`;
+    const restoreUrl = `/api/git/copy/${repo_path}?target_path=_local_/_local_/${repo_path.split("/")[2]}&delete_src`;
     const restoreResponse = await postEmptyJson(restoreUrl, debugRef.current);
     if (restoreResponse.ok) {
       enqueueSnackbar(doI18n("pages:content:repo_restored", i18nRef.current), {
