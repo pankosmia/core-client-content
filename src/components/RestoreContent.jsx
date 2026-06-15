@@ -1,10 +1,5 @@
 import { useContext } from "react";
-import {
-  DialogContent,
-  DialogContentText,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { DialogContent, DialogContentText, Typography } from "@mui/material";
 import { doI18n, postEmptyJson } from "pithekos-lib";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
@@ -18,7 +13,6 @@ function RestoreContent({
 }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
-  const theme = useTheme();
 
   const restoreRepo = async (repo_path) => {
     const restoreUrl = `/api/git/copy/${repo_path}?target_path=_local_/_local_/${repo_path.split("/")[2]}&delete_src`;
@@ -43,7 +37,6 @@ function RestoreContent({
       titleLabel={doI18n("pages:content:restore_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
-      theme={theme}
     >
       <DialogContent>
         <DialogContentText>

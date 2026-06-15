@@ -19,7 +19,6 @@ function ArchiveContent({
 }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
-  const theme = useTheme();
 
   const archiveRepo = async (repo_path) => {
     const archiveUrl = `/api/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split("/")[2]}&delete_src`;
@@ -44,7 +43,8 @@ function ArchiveContent({
       titleLabel={doI18n("pages:content:archive_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
-      theme={theme}
+      size={"md"}
+      fullWidth={false}
     >
       <DialogContent>
         <DialogContentText>

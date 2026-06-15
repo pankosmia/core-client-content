@@ -18,7 +18,6 @@ function DeleteContent({
 }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
-  const theme = useTheme();
 
   const deleteRepo = async (repo_path) => {
     const deleteUrl = `/api/git/delete/${repo_path}`;
@@ -43,7 +42,8 @@ function DeleteContent({
       titleLabel={doI18n("pages:content:delete_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
-      theme={theme}
+      fullWidth={false}
+      size={"md"}
     >
       <DialogContent>
         <DialogContentText>

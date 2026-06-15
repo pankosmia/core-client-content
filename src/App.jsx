@@ -4,17 +4,13 @@ import {
   Box,
   IconButton,
   Button,
-  Dialog,
   DialogActions,
   DialogContent,
   Menu,
   MenuItem,
-  AppBar,
-  Toolbar,
-  Typography,
 } from "@mui/material";
 import { doI18n, getJson } from "pithekos-lib";
-import { i18nContext } from "pankosmia-rcl";
+import { i18nContext, PanDialog, PanDialogActions } from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
 import DataGridComponent from "./components/DataGridComponent";
@@ -156,40 +152,31 @@ function App() {
                       {doI18n("pages:content:content_updates", i18nRef.current)}
                     </MenuItem>
                   </Menu>
-                  <Dialog
+                  <PanDialog
+                    titleLabel={[
+                      contentFilter.includes("archive") &&
+                        doI18n(
+                          "pages:content:archived_content",
+                          i18nRef.current,
+                        ),
+
+                      contentFilter.includes("quarantine") &&
+                        doI18n(
+                          "pages:content:quarantined_content",
+                          i18nRef.current,
+                        ),
+
+                      contentFilter.includes("updates") &&
+                        doI18n(
+                          "pages:content:content_updates",
+                          i18nRef.current,
+                        ),
+                    ]}
                     fullWidth={true}
-                    maxWidth={"lg"}
-                    open={experimentDialogOpen}
-                    onClose={handleExperimentDialogClose}
+                    size={"lg"}
+                    isOpen={experimentDialogOpen}
+                    closeFn={() => handleExperimentDialogClose()}
                   >
-                    <AppBar
-                      color="secondary"
-                      sx={{
-                        position: "relative",
-                        borderTopLeftRadius: 4,
-                        borderTopRightRadius: 4,
-                      }}
-                    >
-                      <Toolbar>
-                        <Typography variant="h6">
-                          {contentFilter.includes("archive") &&
-                            doI18n(
-                              "pages:content:archived_content",
-                              i18nRef.current,
-                            )}
-                          {contentFilter.includes("quarantine") &&
-                            doI18n(
-                              "pages:content:quarantined_content",
-                              i18nRef.current,
-                            )}
-                          {contentFilter.includes("updates") &&
-                            doI18n(
-                              "pages:content:content_updates",
-                              i18nRef.current,
-                            )}
-                        </Typography>
-                      </Toolbar>
-                    </AppBar>
                     <DialogContent>
                       <DataGridComponent
                         reposModCount={reposModCount}
@@ -198,7 +185,14 @@ function App() {
                         contentFilter={contentFilter}
                       />
                     </DialogContent>
-                    <DialogActions>
+                    <PanDialogActions
+                      onlyCloseButton
+                      closeFn={() => handleExperimentDialogClose()}
+                      closeLabel={doI18n(
+                        "pages:content:close",
+                        i18nRef.current,
+                      )}
+                    >
                       <Button
                         onClick={() => {
                           handleExperimentDialogClose();
@@ -207,8 +201,8 @@ function App() {
                       >
                         {doI18n("pages:content:close", i18nRef.current)}
                       </Button>
-                    </DialogActions>
-                  </Dialog>
+                    </PanDialogActions>
+                  </PanDialog>
                 </Grid2>
               )}
             </Grid2>

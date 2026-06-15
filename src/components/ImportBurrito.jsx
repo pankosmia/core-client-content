@@ -1,5 +1,5 @@
 import { useContext, useState, useEffect } from "react";
-import { Button, DialogContent, Tooltip, useTheme } from "@mui/material";
+import { Button, DialogContent, Tooltip } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
 import { doI18n } from "pithekos-lib";
 import { i18nContext } from "pankosmia-rcl";
@@ -11,7 +11,6 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
   const [loading, setLoading] = useState(false);
   const [filePicked, setFilePicked] = useState(null);
-  const theme = useTheme();
 
   const { openFilePicker, plainFiles } = useFilePicker({
     accept: [".zip"],
@@ -65,7 +64,6 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
         setFilePicked(null);
         closeFn();
       }}
-      theme={theme}
     >
       <DialogContent sx={{ mt: 1 }}>
         <Button
