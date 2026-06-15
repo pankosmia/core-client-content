@@ -338,11 +338,17 @@
       "fr": "Voulez-vous mettre ce document en quarantaine ?",
       "id": "@Konten akan dikarantina"
     },
-    "accept": {
+    "label": {
       "en": "Label",
       "es": "Etiqueta",
       "fr": "Étiqueter",
-      "id": "@Terima"
+      "id": "@Label"
+    },
+    "accept": {
+      "en": "Accept",
+      "fr": "Accepter",
+      "es": "Aceptar",
+      "id": "Terima"
     },
     "could_not_quarantine_repo": {
       "en": "The document could not be quarantined",
