@@ -9,7 +9,8 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
-import { doI18n, getJson } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
+import { getJson } from "pankosmia-lib/http";
 import { i18nContext, PanDialog, PanDialogActions } from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";

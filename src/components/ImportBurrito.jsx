@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
 import { Button, DialogContent, Tooltip } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
-import { doI18n } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext } from "pankosmia-rcl";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";

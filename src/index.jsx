@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import { SpSpa, fallbackTheme } from "pankosmia-rcl";
 import App from "./App";
 import "./index.css";
-import { getAndSetJson } from "pithekos-lib";
+import { getAndSetJson } from "pankosmia-lib/http";
 import { ThemeProvider } from "@emotion/react";
 import { useEffect, useState } from "react";
 import { createTheme } from "@mui/material";

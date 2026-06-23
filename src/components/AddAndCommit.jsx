@@ -11,7 +11,8 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { doI18n, getJson, postJson } from "pithekos-lib";
+import { getJson, postJson } from "pankosmia-lib/http";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 
 import { enqueueSnackbar } from "notistack";
