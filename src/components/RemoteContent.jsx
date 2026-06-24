@@ -11,7 +11,8 @@ import {
   ListItemText,
 } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
-import { doI18n, postEmptyJson, getJson } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
+import { postEmptyJson, getJson } from "pankosmia-lib/http";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";

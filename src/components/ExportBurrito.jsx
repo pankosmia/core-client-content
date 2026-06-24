@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { DialogContent, DialogContentText, Typography } from "@mui/material";
-import { doI18n } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";

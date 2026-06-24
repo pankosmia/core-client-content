@@ -7,7 +7,8 @@ import {
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { doI18n, getJson, postJson } from "pithekos-lib";
+import { getJson, postJson } from "pankosmia-lib/http";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import CopyContent from "./CopyContent";
 import ExportBurrito from "./ExportBurrito";

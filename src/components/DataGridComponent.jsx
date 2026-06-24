@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import { IconButton, Grid2, Box } from "@mui/material";
-import { getJson, getAndSetJson, doI18n, postEmptyJson } from "pithekos-lib";
+import { getJson, getAndSetJson, postEmptyJson } from "pankosmia-lib/http";
+import { doI18n } from "pankosmia-lib/i18n";
 import {
   i18nContext,
   debugContext,

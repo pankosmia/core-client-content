@@ -2,7 +2,7 @@ import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import { useState, useContext } from "react";
-import { doI18n } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, netContext } from "pankosmia-rcl";
 import ImportBurrito from "./ImportBurrito";
 
