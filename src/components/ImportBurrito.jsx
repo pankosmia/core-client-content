@@ -97,7 +97,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
               setTimeout(() => setFilePicked(null), 1500);
             }}
             isDisabled={!filePicked || !isZip}
-            actionLabel={doI18n("pages:content:create", i18nRef.current)}
+            actionLabel={doI18n("pages:content:fab_import", i18nRef.current)}
             closeFn={() => {
               closeFn();
               setFilePicked(null);
