@@ -60,6 +60,8 @@ function ContentRowButtonPlusMenu({
 
   const [status, setStatus] = useState([]);
 
+  const [localRepos, setLocalRepos] = useState([]);
+
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
@@ -241,9 +243,24 @@ function ContentRowButtonPlusMenu({
       );
     }
   };
+  const listLocalRepos = async () => {
+    const reposUrl = `/api/git/list-local-repos`;
+    const reposResponse = await getJson(reposUrl, debugRef.current);
+    if (reposResponse.ok) {
+      setLocalRepos(reposResponse.json);
+    } else {
+      enqueueSnackbar(
+        `${doI18n("pages:content:could_not_fetch_repos", i18nRef.current)}: ${JSON.parse(reposResponse?.error).reason}`,
+        {
+          variant: "error",
+        },
+      );
+    }
+  };
   useEffect(() => {
     if (contentRowOpen) {
       repoStatus(repoInfo.path).then();
+      listLocalRepos().then();
     }
   }, [contentRowOpen]);
 
@@ -343,7 +360,10 @@ function ContentRowButtonPlusMenu({
               }}
               disabled={
                 repoInfo.path.split("/")[0] === "_local_" ||
-                repoInfo.path.split("/")[1] === "_local_"
+                repoInfo.path.split("/")[1] === "_local_" ||
+                localRepos.includes(
+                  "_local_/_local_/" + repoInfo.path.split("/")[2],
+                )
               }
             >
               {doI18n("pages:content:copy_content", i18nRef.current)}
