@@ -258,9 +258,12 @@ function ContentRowButtonPlusMenu({
     }
   };
   useEffect(() => {
+    const updateRepoData = async () => {
+      await repoStatus(repoInfo.path);
+      await listLocalRepos();
+    };
     if (contentRowOpen) {
-      repoStatus(repoInfo.path).then();
-      listLocalRepos().then();
+      updateRepoData().then();
     }
   }, [contentRowOpen]);
 
