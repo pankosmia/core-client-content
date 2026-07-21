@@ -53,7 +53,7 @@ function CopyContent({
       setReposModCount(reposModCount + 1);
     } else {
       enqueueSnackbar(
-        doI18n("pages:content:could_not_copy_repo", i18nRef.current),
+        `${doI18n("pages:content:could_not_copy_repo", i18nRef.current)}: ${JSON.parse(copyResponse?.error).reason}`,
         {
           variant: "error",
         },
