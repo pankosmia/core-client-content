@@ -9,7 +9,7 @@ import {
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { getJson, postJson } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
-import { i18nContext, debugContext } from "pankosmia-rcl";
+import { i18nContext, debugContext, productContext } from "pankosmia-rcl";
 import CopyContent from "./CopyContent";
 import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
@@ -29,6 +29,7 @@ function ContentRowButtonPlusMenu({
 }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
+  const { productRef } = useContext(productContext);
 
   const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
   const contentRowOpen = Boolean(contentRowAnchorEl);
@@ -186,17 +187,24 @@ function ContentRowButtonPlusMenu({
               if (!flavorItems) return [];
 
               return Object.entries(flavorItems).flatMap(([key, items]) =>
-                items.map((item) => ({
-                  category: endpointKey, // top-level category
-                  endpoint: endpointKey, // endpoint name
-                  key, // flavor type (pdf/usfm/zip)
-                  label: doI18n(item.label, i18nRef.current),
-                  url:
-                    "/clients/" +
-                    category +
-                    "#" +
-                    item.url.replace("%%REPO_PATH%%", repoInfo.path),
-                })),
+                items
+                  .filter(
+                    (item) =>
+                      key !== "pdf" ||
+                      (productRef.current &&
+                        productRef.current.os !== "android"),
+                  )
+                  .map((item) => ({
+                    category: endpointKey, // top-level category
+                    endpoint: endpointKey, // endpoint name
+                    key, // flavor type (pdf/usfm/zip)
+                    label: doI18n(item.label, i18nRef.current),
+                    url:
+                      "/clients/" +
+                      category +
+                      "#" +
+                      item.url.replace("%%REPO_PATH%%", repoInfo.path),
+                  })),
               );
             });
           },
