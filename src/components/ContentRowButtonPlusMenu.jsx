@@ -67,6 +67,25 @@ function ContentRowButtonPlusMenu({
       ?.find((section) => section.id === "config")
       ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
 
+  const getEditFlavors = (data) => {
+    let map = {};
+    if (data) {
+      for (let v of Object.values(data)) {
+        if (!v.endpoints) continue;
+        for (let [k, t] of Object.entries(v.endpoints)) {
+          if (t.edit) {
+            if (!map[k]) {
+              map[k] = 1;
+            }
+          }
+        }
+      }
+    }
+    return Object.keys(map);
+  };
+
+  let editFlavors = getEditFlavors(clientInterfaces);
+
   let createItemNewBook;
   let createItemImportBook;
   let createItemExport;
@@ -356,21 +375,23 @@ function ContentRowButtonPlusMenu({
                   )}
               </>
             )}
-            <MenuItem
-              onClick={(event) => {
-                setCopyContentAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
-              }}
-              disabled={
-                repoInfo.path.split("/")[0] === "_local_" ||
-                repoInfo.path.split("/")[1] === "_local_" ||
-                localRepos.includes(
-                  "_local_/_local_/" + repoInfo.path.split("/")[2],
-                )
-              }
-            >
-              {doI18n("pages:content:copy_content", i18nRef.current)}
-            </MenuItem>
+            {editFlavors.includes(repoInfo.flavor) && (
+              <MenuItem
+                onClick={(event) => {
+                  setCopyContentAnchorEl(event.currentTarget);
+                  setContentRowAnchorEl(null);
+                }}
+                disabled={
+                  repoInfo.path.split("/")[0] === "_local_" ||
+                  repoInfo.path.split("/")[1] === "_local_" ||
+                  localRepos.includes(
+                    "_local_/_local_/" + repoInfo.path.split("/")[2],
+                  )
+                }
+              >
+                {doI18n("pages:content:copy_content", i18nRef.current)}
+              </MenuItem>
+            )}
             {isArchiveMenuEnabled && (
               <>
                 <MenuItem
@@ -402,16 +423,6 @@ function ContentRowButtonPlusMenu({
                 <ArrowRightIcon />
               </Typography>
             </MenuItem>
-            {/* <Divider />
-            <MenuItem
-              onClick={(event) => {
-                setExportBurritoAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
-              }}
-            >
-              {doI18n("pages:content:export_burrito", i18nRef.current)}
-            </MenuItem>
-             */}
             <Divider />
             {repoInfo.path.includes("_local_/_local_") &&
               createVersionManager.length > 0 && (
