@@ -323,6 +323,7 @@ function ContentRowButtonPlusMenu({
         open={contentRowOpen}
         onClose={() => {
           setContentRowAnchorEl(null);
+          setSubMenuAnchorEl(null);
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
@@ -438,6 +439,7 @@ function ContentRowButtonPlusMenu({
 
             <Divider />
             <MenuItem
+              onClick={handleOpenSubMenu}
               onMouseEnter={handleOpenSubMenu}
               onMouseLeave={handleCloseSubMenu}
             >
