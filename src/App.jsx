@@ -11,13 +11,21 @@ import {
 } from "@mui/material";
 import { doI18n } from "pankosmia-lib/i18n";
 import { getJson } from "pankosmia-lib/http";
-import { i18nContext, PanDialog, PanDialogActions } from "pankosmia-rcl";
+
+import {
+  i18nContext,
+  PanDialog,
+  PanDialogActions,
+  ScrollableBody,
+  productContext,
+} from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
 import DataGridComponent from "./components/DataGridComponent";
 
 function App() {
   const { i18nRef } = useContext(i18nContext);
+  const { productRef } = useContext(productContext);
   const [newIsOpen, setNewIsOpen] = useState(false);
   const [reposModCount, setReposModCount] = useState(0);
   const [contentFilter, setContentFilter] = useState("");
@@ -28,7 +36,8 @@ function App() {
 
   const [clientConfig, setClientConfig] = useState({});
   const [clientInterfaces, setClientInterfaces] = useState({});
-
+  let isAndroid =
+    productRef && productRef.current && productRef.current.os === "android";
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
@@ -69,16 +78,7 @@ function App() {
    */
 
   return (
-    <Box
-      sx={{
-        mb: 2,
-        position: "fixed",
-        top: "64px",
-        bottom: 0,
-        right: 0,
-        width: "100%",
-      }}
-    >
+    <ScrollableBody isAndroid={isAndroid}>
       <Grid2 container sx={{ mx: 2 }}>
         <Grid2 item size={12} sx={{ m: 0 }}>
           <Grid2
@@ -207,7 +207,7 @@ function App() {
           />
         </Grid2>
       </Grid2>
-    </Box>
+    </ScrollableBody>
   );
 }
 
