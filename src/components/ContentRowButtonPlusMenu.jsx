@@ -16,7 +16,7 @@ import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 function ContentRowButtonPlusMenu({
@@ -58,6 +58,23 @@ function ContentRowButtonPlusMenu({
   const aboutRepoContentOpen = Boolean(aboutRepoContentAnchorEl);
 
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
+
+  const subMenuCloseTimeoutRef = useRef(null);
+
+  const handleOpenSubMenu = (event) => {
+    clearTimeout(subMenuCloseTimeoutRef.current);
+    setSubMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseSubMenu = () => {
+    subMenuCloseTimeoutRef.current = setTimeout(() => {
+      setSubMenuAnchorEl(null);
+    }, 200);
+  };
+
+  const cancelCloseSubMenu = () => {
+    clearTimeout(subMenuCloseTimeoutRef.current);
+  };
 
   const [status, setStatus] = useState([]);
 
@@ -229,9 +246,6 @@ function ContentRowButtonPlusMenu({
       },
     );
   }
-  const handleSubMenuClick = (event) => {
-    setSubMenuAnchorEl(event.currentTarget);
-  };
 
   const repoStatus = async (repo_path) => {
     const statusUrl = `/api/git/status/${repo_path}`;
@@ -309,6 +323,7 @@ function ContentRowButtonPlusMenu({
         open={contentRowOpen}
         onClose={() => {
           setContentRowAnchorEl(null);
+          setSubMenuAnchorEl(null);
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
@@ -423,7 +438,11 @@ function ContentRowButtonPlusMenu({
             )}
 
             <Divider />
-            <MenuItem onClick={handleSubMenuClick}>
+            <MenuItem
+              onClick={handleOpenSubMenu}
+              onMouseEnter={handleOpenSubMenu}
+              onMouseLeave={handleCloseSubMenu}
+            >
               <ListItemText>
                 {doI18n("pages:content:export", i18nRef.current)}
               </ListItemText>
@@ -503,13 +522,20 @@ function ContentRowButtonPlusMenu({
         id="basic-sub-menu"
         anchorEl={subMenuAnchorEl}
         open={Boolean(subMenuAnchorEl)}
-        onClose={() => {
-          setContentRowAnchorEl(null);
-          setSubMenuAnchorEl(null);
-        }}
+        onClose={() => setSubMenuAnchorEl(null)}
         anchorOrigin={{ vertical: "top", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
-        slotProps={{ list: { "aria-labelledby": "basic-button" } }}
+        autoFocus={false}
+        disableAutoFocusItem
+        sx={{ pointerEvents: "none" }}
+        slotProps={{
+          list: { "aria-labelledby": "basic-button" },
+          paper: {
+            onMouseEnter: cancelCloseSubMenu,
+            onMouseLeave: handleCloseSubMenu,
+            sx: { pointerEvents: "auto" },
+          },
+        }}
       >
         {createItemExport &&
           createItemExport

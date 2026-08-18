@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import {
-  Grid2,
+  Grid,
   Box,
   IconButton,
   Button,
@@ -79,15 +79,15 @@ function App() {
 
   return (
     <ScrollableBody isAndroid={isAndroid}>
-      <Grid2 container sx={{ mx: 2 }}>
-        <Grid2 item size={12} sx={{ m: 0 }}>
-          <Grid2
+      <Grid container sx={{ mx: 2 }}>
+        <Grid size={12} sx={{ m: 0 }}>
+          <Grid
             container
             spacing={2}
             direction="row"
             sx={{ justifyContent: "flex-start", alignItems: "flex-start" }}
           >
-            <Grid2 item>
+            <Grid item>
               <FabPlusMenu
                 newIsOpen={newIsOpen}
                 setNewIsOpen={setNewIsOpen}
@@ -95,9 +95,9 @@ function App() {
                 setReposModCount={setReposModCount}
                 clientInterfaces={clientInterfaces}
               />
-            </Grid2>
+            </Grid>
             {isArchiveMenuEnabled && (
-              <Grid2 item>
+              <Grid item>
                 <Box sx={{ boxShadow: 3, borderRadius: 50 }}>
                   <IconButton
                     size="small"
@@ -191,11 +191,11 @@ function App() {
                     </Button>
                   </PanDialogActions>
                 </PanDialog>
-              </Grid2>
+              </Grid>
             )}
-          </Grid2>
-        </Grid2>
-        <Grid2 item size={12}>
+          </Grid>
+        </Grid>
+        <Grid size={12}>
           <DataGridComponent
             reposModCount={reposModCount}
             setReposModCount={setReposModCount}
@@ -205,8 +205,8 @@ function App() {
             clientInterfaces={clientInterfaces}
             clientConfig={clientConfig}
           />
-        </Grid2>
-      </Grid2>
+        </Grid>
+      </Grid>
     </ScrollableBody>
   );
 }

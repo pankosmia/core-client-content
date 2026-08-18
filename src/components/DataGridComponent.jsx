@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useCallback } from "react";
-import { IconButton, Grid2, Box } from "@mui/material";
+import { IconButton, Grid, Box } from "@mui/material";
 import { getJson, getAndSetJson, postEmptyJson } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import {
@@ -72,7 +72,7 @@ function DataGridComponent({
    * - 16px minus margin
    *        -> (this component's top)
    * - 52px minus DataGrid's pagination bar (because it is separate from this component)
-   * + 16px plus App's Grid2 bottom margin (so that bottom margin isn't doubled-up)
+   * + 16px plus App's Grid bottom margin (so that bottom margin isn't doubled-up)
    * + 16px plus App's outer Box bottom margin (so that bottom margin isn't doubled-up)
    * ======
    * - 134px This is the amount by which to reduce the innerHeight (const adjustment)
@@ -382,7 +382,7 @@ function DataGridComponent({
   });
 
   return (
-    <Grid2 item size={12}>
+    <Grid size={12}>
       <Box
         sx={{
           height: `${maxWindowHeight}px`,
@@ -420,7 +420,7 @@ function DataGridComponent({
           }}
         />
       </Box>
-    </Grid2>
+    </Grid>
   );
 }
 
