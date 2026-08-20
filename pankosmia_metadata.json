@@ -899,6 +899,11 @@
     "could_not_fetch_repos": {
       "en": "Could not fetch repos",
       "es": "No se pudo hacer fetch de los repositorios"
+    },
+    "connect_to_internet": {
+      "en": "Switch the app online to use this feature",
+      "es": "Cambia la aplicación a modo en línea para utilizar esta función",
+      "fr": "Passez l'application en ligne pour utiliser cette fonctionnalité"
     }
   }
 }
