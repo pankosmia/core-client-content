@@ -234,11 +234,6 @@ function DataGridComponent({
       headerName: doI18n("pages:content:row_type", i18nRef.current),
       minWidth: 80,
       flex: 1,
-      valueGetter: (v) =>
-        doI18n(
-          `flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`,
-          i18nRef.current,
-        ),
     },
     {
       field: "nBooks",
@@ -358,6 +353,7 @@ function DataGridComponent({
   });
 
   const rows = filteredProject.map((rep, n) => {
+    console.log(rep);
     return {
       ...rep,
       id: n,
@@ -371,7 +367,15 @@ function DataGridComponent({
           isoOneToThreeLookup[rep.language_code] ?? rep.language_code
         ]?.en ?? rep.language_code,
       nBooks: rep.book_codes.length,
-      type: rep.flavor,
+      type: doI18n(
+        `flavors:names:${rep.flavor_type}/${rep.flavor}`,
+        i18nRef.current,
+      ).includes("flavors")
+        ? `${rep.flavor_type}/${rep.flavor}`
+        : doI18n(
+            `flavors:names:${rep.flavor_type}/${rep.flavor}`,
+            i18nRef.current,
+          ),
       source: rep.path.startsWith("_local_")
         ? rep.path.startsWith("_local_/_sideloaded_")
           ? doI18n("pages:content:local_resource", i18nRef.current)
