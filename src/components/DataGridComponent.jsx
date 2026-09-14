@@ -370,7 +370,7 @@ function DataGridComponent({
       type: doI18n(
         `flavors:names:${rep.flavor_type}/${rep.flavor}`,
         i18nRef.current,
-      ).includes("flavors")
+      ).includes("flavors:names")
         ? `${rep.flavor_type}/${rep.flavor}`
         : doI18n(
             `flavors:names:${rep.flavor_type}/${rep.flavor}`,
