@@ -49,7 +49,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
 
   return (
     <>
-      <Box sx={{ mb: 2 }}>
+      <Box sx={{ my: 2 }}>
         <Fab
           variant="extended"
           color="primary"
