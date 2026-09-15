@@ -85,7 +85,11 @@ function App() {
             container
             spacing={2}
             direction="row"
-            sx={{ justifyContent: "flex-start", alignItems: "flex-start" }}
+            sx={{
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              my: 2,
+            }}
           >
             <Grid item>
               <FabPlusMenu
