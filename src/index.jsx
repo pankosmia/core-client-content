@@ -2,7 +2,7 @@ import { createRoot } from "react-dom/client";
 import { SpSpa, fallbackTheme } from "pankosmia-rcl";
 import App from "./App";
 import "./index.css";
-import { getAndSetJson } from "pithekos-lib";
+import { getAndSetJson } from "pankosmia-lib/http";
 import { ThemeProvider } from "@emotion/react";
 import { useEffect, useState } from "react";
 import { createTheme } from "@mui/material";
@@ -25,7 +25,35 @@ function AppLayout() {
     }
   }, []);
 
-  const theme = createTheme(themeSpec);
+  const theme = createTheme(
+    {
+      components: {
+        MuiFab: {
+          styleOverrides: {
+            root: {
+              textTransform: "capitalize",
+            },
+          },
+        },
+        MuiButton: {
+          styleOverrides: {
+            root: {
+              textTransform: "capitalize",
+            },
+          },
+        },
+        MuiTab: {
+          styleOverrides: {
+            root: {
+              textTransform: "capitalize",
+            },
+          },
+        },
+      },
+    },
+    themeSpec,
+  );
+
   const CustomSnackbarContent = styled(MaterialDesignContent)(() => ({
     "&.notistack-MuiContent-error": {
       backgroundColor: "#FDEDED",

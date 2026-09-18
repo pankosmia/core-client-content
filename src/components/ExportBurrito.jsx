@@ -1,11 +1,6 @@
 import { useContext } from "react";
-import {
-  DialogContent,
-  DialogContentText,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { doI18n } from "pithekos-lib";
+import { DialogContent, DialogContentText, Typography } from "@mui/material";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
@@ -19,7 +14,6 @@ function ExportBurrito({
   setReposModCount,
 }) {
   const { i18nRef } = useContext(i18nContext);
-  const theme = useTheme();
 
   const exportBurrito = async (repo_path) => {
     const exportUrl = `/api/burrito/zipped/${repo_path}`;
@@ -49,7 +43,6 @@ function ExportBurrito({
       titleLabel={doI18n("pages:content:export_burrito", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
-      theme={theme}
       fullWidth={true}
       size="sm"
     >

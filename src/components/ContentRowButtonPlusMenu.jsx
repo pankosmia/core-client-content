@@ -7,15 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { doI18n, getJson, postJson } from "pithekos-lib";
-import { i18nContext, debugContext } from "pankosmia-rcl";
+import { getJson, postJson } from "pankosmia-lib/http";
+import { doI18n } from "pankosmia-lib/i18n";
+import { i18nContext, debugContext, productContext } from "pankosmia-rcl";
 import CopyContent from "./CopyContent";
 import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 function ContentRowButtonPlusMenu({
@@ -28,6 +29,7 @@ function ContentRowButtonPlusMenu({
 }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
+  const { productRef } = useContext(productContext);
 
   const [contentRowAnchorEl, setContentRowAnchorEl] = useState(null);
   const contentRowOpen = Boolean(contentRowAnchorEl);
@@ -57,12 +59,50 @@ function ContentRowButtonPlusMenu({
 
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
+  const subMenuCloseTimeoutRef = useRef(null);
+
+  const handleOpenSubMenu = (event) => {
+    clearTimeout(subMenuCloseTimeoutRef.current);
+    setSubMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseSubMenu = () => {
+    subMenuCloseTimeoutRef.current = setTimeout(() => {
+      setSubMenuAnchorEl(null);
+    }, 200);
+  };
+
+  const cancelCloseSubMenu = () => {
+    clearTimeout(subMenuCloseTimeoutRef.current);
+  };
+
   const [status, setStatus] = useState([]);
+
+  const [localRepos, setLocalRepos] = useState([]);
 
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
       ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
+
+  const getEditFlavors = (data) => {
+    let map = {};
+    if (data) {
+      for (let v of Object.values(data)) {
+        if (!v.endpoints) continue;
+        for (let [k, t] of Object.entries(v.endpoints)) {
+          if (t.edit) {
+            if (!map[k]) {
+              map[k] = 1;
+            }
+          }
+        }
+      }
+    }
+    return Object.keys(map);
+  };
+
+  let editFlavors = getEditFlavors(clientInterfaces);
 
   let createItemNewBook;
   let createItemImportBook;
@@ -164,17 +204,24 @@ function ContentRowButtonPlusMenu({
               if (!flavorItems) return [];
 
               return Object.entries(flavorItems).flatMap(([key, items]) =>
-                items.map((item) => ({
-                  category: endpointKey, // top-level category
-                  endpoint: endpointKey, // endpoint name
-                  key, // flavor type (pdf/usfm/zip)
-                  label: doI18n(item.label, i18nRef.current),
-                  url:
-                    "/clients/" +
-                    category +
-                    "#" +
-                    item.url.replace("%%REPO_PATH%%", repoInfo.path),
-                })),
+                items
+                  .filter(
+                    (item) =>
+                      key !== "pdf" ||
+                      (productRef.current &&
+                        productRef.current.os !== "android"),
+                  )
+                  .map((item) => ({
+                    category: endpointKey, // top-level category
+                    endpoint: endpointKey, // endpoint name
+                    key, // flavor type (pdf/usfm/zip)
+                    label: doI18n(item.label, i18nRef.current),
+                    url:
+                      "/clients/" +
+                      category +
+                      "#" +
+                      item.url.replace("%%REPO_PATH%%", repoInfo.path),
+                  })),
               );
             });
           },
@@ -199,9 +246,6 @@ function ContentRowButtonPlusMenu({
       },
     );
   }
-  const handleSubMenuClick = (event) => {
-    setSubMenuAnchorEl(event.currentTarget);
-  };
 
   const repoStatus = async (repo_path) => {
     const statusUrl = `/api/git/status/${repo_path}`;
@@ -240,9 +284,27 @@ function ContentRowButtonPlusMenu({
       );
     }
   };
+  const listLocalRepos = async () => {
+    const reposUrl = `/api/git/list-local-repos`;
+    const reposResponse = await getJson(reposUrl, debugRef.current);
+    if (reposResponse.ok) {
+      setLocalRepos(reposResponse.json);
+    } else {
+      enqueueSnackbar(
+        `${doI18n("pages:content:could_not_fetch_repos", i18nRef.current)}: ${JSON.parse(reposResponse?.error).reason}`,
+        {
+          variant: "error",
+        },
+      );
+    }
+  };
   useEffect(() => {
+    const updateRepoData = async () => {
+      await repoStatus(repoInfo.path);
+      await listLocalRepos();
+    };
     if (contentRowOpen) {
-      repoStatus(repoInfo.path).then();
+      updateRepoData().then();
     }
   }, [contentRowOpen]);
 
@@ -261,6 +323,7 @@ function ContentRowButtonPlusMenu({
         open={contentRowOpen}
         onClose={() => {
           setContentRowAnchorEl(null);
+          setSubMenuAnchorEl(null);
         }}
         slotProps={{ list: { "aria-labelledby": "basic-button" } }}
       >
@@ -335,18 +398,23 @@ function ContentRowButtonPlusMenu({
                   )}
               </>
             )}
-            <MenuItem
-              onClick={(event) => {
-                setCopyContentAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
-              }}
-              disabled={
-                repoInfo.path.split("/")[0] === "_local_" ||
-                repoInfo.path.split("/")[1] === "_local_"
-              }
-            >
-              {doI18n("pages:content:copy_content", i18nRef.current)}
-            </MenuItem>
+            {editFlavors.includes(repoInfo.flavor) && (
+              <MenuItem
+                onClick={(event) => {
+                  setCopyContentAnchorEl(event.currentTarget);
+                  setContentRowAnchorEl(null);
+                }}
+                disabled={
+                  repoInfo.path.split("/")[0] === "_local_" ||
+                  repoInfo.path.split("/")[1] === "_local_" ||
+                  localRepos.includes(
+                    "_local_/_local_/" + repoInfo.path.split("/")[2],
+                  )
+                }
+              >
+                {doI18n("pages:content:copy_content", i18nRef.current)}
+              </MenuItem>
+            )}
             {isArchiveMenuEnabled && (
               <>
                 <MenuItem
@@ -370,7 +438,11 @@ function ContentRowButtonPlusMenu({
             )}
 
             <Divider />
-            <MenuItem onClick={handleSubMenuClick}>
+            <MenuItem
+              onClick={handleOpenSubMenu}
+              onMouseEnter={handleOpenSubMenu}
+              onMouseLeave={handleCloseSubMenu}
+            >
               <ListItemText>
                 {doI18n("pages:content:export", i18nRef.current)}
               </ListItemText>
@@ -378,16 +450,6 @@ function ContentRowButtonPlusMenu({
                 <ArrowRightIcon />
               </Typography>
             </MenuItem>
-            {/* <Divider />
-            <MenuItem
-              onClick={(event) => {
-                setExportBurritoAnchorEl(event.currentTarget);
-                setContentRowAnchorEl(null);
-              }}
-            >
-              {doI18n("pages:content:export_burrito", i18nRef.current)}
-            </MenuItem>
-             */}
             <Divider />
             {repoInfo.path.includes("_local_/_local_") &&
               createVersionManager.length > 0 && (
@@ -418,7 +480,7 @@ function ContentRowButtonPlusMenu({
             >
               {doI18n("pages:content:delete_content", i18nRef.current)}
             </MenuItem>
-            {repoInfo.path.includes("_local_/_local_") && (
+            {/* {repoInfo.path.includes("_local_/_local_") && (
               <MenuItem
                 onClick={() => {
                   reloadIngredient();
@@ -428,7 +490,7 @@ function ContentRowButtonPlusMenu({
               >
                 {doI18n("pages:content:remake_metadata", i18nRef.current)}
               </MenuItem>
-            )}
+            )} */}
           </>
         ) : (
           <>
@@ -460,13 +522,20 @@ function ContentRowButtonPlusMenu({
         id="basic-sub-menu"
         anchorEl={subMenuAnchorEl}
         open={Boolean(subMenuAnchorEl)}
-        onClose={() => {
-          setContentRowAnchorEl(null);
-          setSubMenuAnchorEl(null);
-        }}
+        onClose={() => setSubMenuAnchorEl(null)}
         anchorOrigin={{ vertical: "top", horizontal: "left" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
-        slotProps={{ list: { "aria-labelledby": "basic-button" } }}
+        autoFocus={false}
+        disableAutoFocusItem
+        sx={{ pointerEvents: "none" }}
+        slotProps={{
+          list: { "aria-labelledby": "basic-button" },
+          paper: {
+            onMouseEnter: cancelCloseSubMenu,
+            onMouseLeave: handleCloseSubMenu,
+            sx: { pointerEvents: "auto" },
+          },
+        }}
       >
         {createItemExport &&
           createItemExport

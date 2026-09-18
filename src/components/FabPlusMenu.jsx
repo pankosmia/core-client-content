@@ -1,8 +1,8 @@
-import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Fab, Menu, MenuItem, Typography, Tooltip } from "@mui/material";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import { useState, useContext } from "react";
-import { doI18n } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, netContext } from "pankosmia-rcl";
 import ImportBurrito from "./ImportBurrito";
 
@@ -49,7 +49,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
 
   return (
     <>
-      <Box sx={{ mb: 2 }}>
+      <Box>
         <Fab
           variant="extended"
           color="primary"
@@ -68,12 +68,37 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
           open={!!importAnchorEl}
           onClose={handleImportClose}
         >
-          <MenuItem
-            onClick={() => (window.location.href = "/clients/download")}
-            disabled={!enabledRef.current}
-          >
-            {doI18n("pages:content:download_content", i18nRef.current)}
-          </MenuItem>
+          {!enabledRef?.current ? (
+            <Tooltip
+              slotProps={{
+                popper: {
+                  modifiers: [
+                    { name: "offset", options: { offset: [15, -5] } },
+                  ],
+                },
+              }}
+              title={doI18n(
+                "pages:content:connect_to_internet",
+                i18nRef.current,
+              )}
+            >
+              <span>
+                <MenuItem
+                  onClick={() => (window.location.href = "/clients/download")}
+                  disabled
+                >
+                  {doI18n("pages:content:download_content", i18nRef.current)}
+                </MenuItem>
+              </span>
+            </Tooltip>
+          ) : (
+            <MenuItem
+              onClick={() => (window.location.href = "/clients/download")}
+              disabled={!enabledRef.current}
+            >
+              {doI18n("pages:content:download_content", i18nRef.current)}
+            </MenuItem>
+          )}
           <MenuItem
             onClick={(event) => {
               setImportBurritoAnchorEl(event.currentTarget);

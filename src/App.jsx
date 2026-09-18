@@ -1,26 +1,31 @@
 import { useState, useEffect, useContext } from "react";
 import {
-  Grid2,
+  Grid,
   Box,
   IconButton,
   Button,
-  Dialog,
   DialogActions,
   DialogContent,
   Menu,
   MenuItem,
-  AppBar,
-  Toolbar,
-  Typography,
 } from "@mui/material";
-import { doI18n, getJson } from "pithekos-lib";
-import { i18nContext } from "pankosmia-rcl";
+import { doI18n } from "pankosmia-lib/i18n";
+import { getJson } from "pankosmia-lib/http";
+
+import {
+  i18nContext,
+  PanDialog,
+  PanDialogActions,
+  ScrollableBody,
+  productContext,
+} from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
 import DataGridComponent from "./components/DataGridComponent";
 
 function App() {
   const { i18nRef } = useContext(i18nContext);
+  const { productRef } = useContext(productContext);
   const [newIsOpen, setNewIsOpen] = useState(false);
   const [reposModCount, setReposModCount] = useState(0);
   const [contentFilter, setContentFilter] = useState("");
@@ -31,7 +36,8 @@ function App() {
 
   const [clientConfig, setClientConfig] = useState({});
   const [clientInterfaces, setClientInterfaces] = useState({});
-
+  let isAndroid =
+    productRef && productRef.current && productRef.current.os === "android";
   const isArchiveMenuEnabled =
     clientConfig?.["core-client-content"]
       ?.find((section) => section.id === "config")
@@ -72,161 +78,140 @@ function App() {
    */
 
   return (
-    <Box
-      sx={{
-        mb: 2,
-        position: "fixed",
-        top: "64px",
-        bottom: 0,
-        right: 0,
-        width: "100%",
-      }}
-    >
-      <Grid2 container sx={{ mx: 2 }}>
-        <Grid2 container>
-          <Grid2 item size={12} sx={{ m: 0 }}>
-            <Grid2
-              container
-              spacing={2}
-              direction="row"
-              sx={{ justifyContent: "flex-start", alignItems: "flex-start" }}
-            >
-              <Grid2 item>
-                <FabPlusMenu
-                  newIsOpen={newIsOpen}
-                  setNewIsOpen={setNewIsOpen}
-                  reposModCount={reposModCount}
-                  setReposModCount={setReposModCount}
-                  clientInterfaces={clientInterfaces}
-                />
-              </Grid2>
-              {isArchiveMenuEnabled && (
-                <Grid2 item>
-                  <Box sx={{ boxShadow: 3, borderRadius: 50 }}>
-                    <IconButton
-                      size="small"
-                      color="primary"
-                      onClick={handleExperimentMenuClick}
-                    >
-                      <HandymanOutlinedIcon />
-                    </IconButton>
-                  </Box>
-                  <Menu
-                    id="basic-menu"
-                    anchorEl={experimentMenuAnchorEl}
-                    open={experimentMenuOpen}
-                    onClose={handleExperimentMenuClose}
-                    slotProps={{
-                      list: {
-                        "aria-labelledby": "basic-button",
-                      },
+    <ScrollableBody isAndroid={isAndroid}>
+      <Grid container sx={{ mx: 2 }}>
+        <Grid size={12} sx={{ m: 0 }}>
+          <Grid
+            container
+            spacing={2}
+            direction="row"
+            sx={{
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
+              my: 2,
+            }}
+          >
+            <Grid item>
+              <FabPlusMenu
+                newIsOpen={newIsOpen}
+                setNewIsOpen={setNewIsOpen}
+                reposModCount={reposModCount}
+                setReposModCount={setReposModCount}
+                clientInterfaces={clientInterfaces}
+              />
+            </Grid>
+            {isArchiveMenuEnabled && (
+              <Grid item>
+                <Box sx={{ boxShadow: 3, borderRadius: 50 }}>
+                  <IconButton
+                    size="small"
+                    color="primary"
+                    onClick={handleExperimentMenuClick}
+                  >
+                    <HandymanOutlinedIcon />
+                  </IconButton>
+                </Box>
+                <Menu
+                  id="basic-menu"
+                  anchorEl={experimentMenuAnchorEl}
+                  open={experimentMenuOpen}
+                  onClose={handleExperimentMenuClose}
+                  slotProps={{
+                    list: {
+                      "aria-labelledby": "basic-button",
+                    },
+                  }}
+                >
+                  <MenuItem
+                    onClick={() => {
+                      setContentFilter("?org=_local_/_archive_");
+                      handleExperimentMenuClose();
+                      handleExperimentDialogClickOpen();
                     }}
                   >
-                    <MenuItem
-                      onClick={() => {
-                        setContentFilter("?org=_local_/_archive_");
-                        handleExperimentMenuClose();
-                        handleExperimentDialogClickOpen();
-                      }}
-                    >
-                      {doI18n(
-                        "pages:content:archived_content",
-                        i18nRef.current,
-                      )}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setContentFilter("?org=_local_/_quarantine_");
-                        handleExperimentMenuClose();
-                        handleExperimentDialogClickOpen();
-                      }}
-                    >
-                      {doI18n(
+                    {doI18n("pages:content:archived_content", i18nRef.current)}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setContentFilter("?org=_local_/_quarantine_");
+                      handleExperimentMenuClose();
+                      handleExperimentDialogClickOpen();
+                    }}
+                  >
+                    {doI18n(
+                      "pages:content:quarantined_content",
+                      i18nRef.current,
+                    )}
+                  </MenuItem>
+                  <MenuItem
+                    onClick={() => {
+                      setContentFilter("?org=_local_/_updates_");
+                      handleExperimentMenuClose();
+                      handleExperimentDialogClickOpen();
+                    }}
+                  >
+                    {doI18n("pages:content:content_updates", i18nRef.current)}
+                  </MenuItem>
+                </Menu>
+                <PanDialog
+                  titleLabel={[
+                    contentFilter.includes("archive") &&
+                      doI18n("pages:content:archived_content", i18nRef.current),
+
+                    contentFilter.includes("quarantine") &&
+                      doI18n(
                         "pages:content:quarantined_content",
                         i18nRef.current,
-                      )}
-                    </MenuItem>
-                    <MenuItem
-                      onClick={() => {
-                        setContentFilter("?org=_local_/_updates_");
-                        handleExperimentMenuClose();
-                        handleExperimentDialogClickOpen();
-                      }}
-                    >
-                      {doI18n("pages:content:content_updates", i18nRef.current)}
-                    </MenuItem>
-                  </Menu>
-                  <Dialog
-                    fullWidth={true}
-                    maxWidth={"lg"}
-                    open={experimentDialogOpen}
-                    onClose={handleExperimentDialogClose}
+                      ),
+
+                    contentFilter.includes("updates") &&
+                      doI18n("pages:content:content_updates", i18nRef.current),
+                  ]}
+                  fullWidth={true}
+                  size={"lg"}
+                  isOpen={experimentDialogOpen}
+                  closeFn={() => handleExperimentDialogClose()}
+                >
+                  <DialogContent>
+                    <DataGridComponent
+                      reposModCount={reposModCount}
+                      setReposModCount={setReposModCount}
+                      isNormal={false}
+                      contentFilter={contentFilter}
+                    />
+                  </DialogContent>
+                  <PanDialogActions
+                    onlyCloseButton
+                    closeFn={() => handleExperimentDialogClose()}
+                    closeLabel={doI18n("pages:content:close", i18nRef.current)}
                   >
-                    <AppBar
-                      color="secondary"
-                      sx={{
-                        position: "relative",
-                        borderTopLeftRadius: 4,
-                        borderTopRightRadius: 4,
+                    <Button
+                      onClick={() => {
+                        handleExperimentDialogClose();
                       }}
+                      color="primary"
                     >
-                      <Toolbar>
-                        <Typography variant="h6">
-                          {contentFilter.includes("archive") &&
-                            doI18n(
-                              "pages:content:archived_content",
-                              i18nRef.current,
-                            )}
-                          {contentFilter.includes("quarantine") &&
-                            doI18n(
-                              "pages:content:quarantined_content",
-                              i18nRef.current,
-                            )}
-                          {contentFilter.includes("updates") &&
-                            doI18n(
-                              "pages:content:content_updates",
-                              i18nRef.current,
-                            )}
-                        </Typography>
-                      </Toolbar>
-                    </AppBar>
-                    <DialogContent>
-                      <DataGridComponent
-                        reposModCount={reposModCount}
-                        setReposModCount={setReposModCount}
-                        isNormal={false}
-                        contentFilter={contentFilter}
-                      />
-                    </DialogContent>
-                    <DialogActions>
-                      <Button
-                        onClick={() => {
-                          handleExperimentDialogClose();
-                        }}
-                        color="primary"
-                      >
-                        {doI18n("pages:content:close", i18nRef.current)}
-                      </Button>
-                    </DialogActions>
-                  </Dialog>
-                </Grid2>
-              )}
-            </Grid2>
-          </Grid2>
-          <Grid2 item size={12}>
-            <DataGridComponent
-              reposModCount={reposModCount}
-              setReposModCount={setReposModCount}
-              isNormal={true}
-              contentFilter={""}
-              experimentDialogOpen={experimentDialogOpen}
-              clientInterfaces={clientInterfaces}
-              clientConfig={clientConfig}
-            />
-          </Grid2>
-        </Grid2>
-      </Grid2>
-    </Box>
+                      {doI18n("pages:content:close", i18nRef.current)}
+                    </Button>
+                  </PanDialogActions>
+                </PanDialog>
+              </Grid>
+            )}
+          </Grid>
+        </Grid>
+        <Grid size={12}>
+          <DataGridComponent
+            reposModCount={reposModCount}
+            setReposModCount={setReposModCount}
+            isNormal={true}
+            contentFilter={""}
+            experimentDialogOpen={experimentDialogOpen}
+            clientInterfaces={clientInterfaces}
+            clientConfig={clientConfig}
+          />
+        </Grid>
+      </Grid>
+    </ScrollableBody>
   );
 }
 

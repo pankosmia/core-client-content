@@ -1,11 +1,7 @@
 import { useContext } from "react";
-import {
-  DialogContent,
-  DialogContentText,
-  Typography,
-  useTheme,
-} from "@mui/material";
-import { doI18n, postEmptyJson } from "pithekos-lib";
+import { DialogContent, DialogContentText, Typography } from "@mui/material";
+import { postEmptyJson } from "pankosmia-lib/http";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
@@ -19,7 +15,6 @@ function CopyContent({
 }) {
   const { i18nRef } = useContext(i18nContext);
   const { debugRef } = useContext(debugContext);
-  const theme = useTheme();
 
   const copyRepo = async (repo_path) => {
     const copyRepoPath = `_local_/_local_/${repo_path.split("/")[2]}`;
@@ -58,7 +53,7 @@ function CopyContent({
       setReposModCount(reposModCount + 1);
     } else {
       enqueueSnackbar(
-        doI18n("pages:content:could_not_copy_repo", i18nRef.current),
+        `${doI18n("pages:content:could_not_copy_repo", i18nRef.current)}: ${JSON.parse(copyResponse?.error).reason}`,
         {
           variant: "error",
         },
@@ -71,7 +66,6 @@ function CopyContent({
       titleLabel={doI18n("pages:content:copy_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn()}
-      theme={theme}
     >
       <DialogContent>
         <DialogContentText>

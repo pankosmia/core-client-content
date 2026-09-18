@@ -1,12 +1,18 @@
 import { useState, useEffect, useContext, useCallback } from "react";
-import { IconButton, Grid2, Box } from "@mui/material";
-import { getJson, getAndSetJson, doI18n, postEmptyJson } from "pithekos-lib";
-import { i18nContext, debugContext, netContext } from "pankosmia-rcl";
+import { IconButton, Grid, Box } from "@mui/material";
+import { getJson, getAndSetJson, postEmptyJson } from "pankosmia-lib/http";
+import { doI18n } from "pankosmia-lib/i18n";
+import {
+  i18nContext,
+  debugContext,
+  netContext,
+  currentProjectContext,
+} from "pankosmia-rcl";
 import ContentRowButtonPlusMenu from "./ContentRowButtonPlusMenu";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import Notification from "./Notification";
 import { PanTable } from "pankosmia-rcl";
-import { useTheme, alpha } from "@mui/material/styles";
+import { alpha } from "@mui/material/styles";
 
 const getEditDocumentKeys = (data) => {
   let map = {};
@@ -39,6 +45,7 @@ function DataGridComponent({
 }) {
   const { debugRef } = useContext(debugContext);
   const { i18nRef } = useContext(i18nContext);
+  const { currentProjectRef } = useContext(currentProjectContext);
   const { enabledRef } = useContext(netContext);
   const [projectSummaries, setProjectSummaries] = useState({});
   const [isoOneToThreeLookup, setIsoOneToThreeLookup] = useState([]);
@@ -54,7 +61,6 @@ function DataGridComponent({
   const [localRepos, setLocalRepos] = useState([]);
   const [isDownloading, setIsDownloading] = useState(null);
   const [remoteSource, setRemoteSource] = useState(sourceWhitelist[0]);
-  const theme = useTheme();
 
   /**
    * Top 0 puts the top under the margin under the Import / Create buttons.
@@ -66,7 +72,7 @@ function DataGridComponent({
    * - 16px minus margin
    *        -> (this component's top)
    * - 52px minus DataGrid's pagination bar (because it is separate from this component)
-   * + 16px plus App's Grid2 bottom margin (so that bottom margin isn't doubled-up)
+   * + 16px plus App's Grid bottom margin (so that bottom margin isn't doubled-up)
    * + 16px plus App's outer Box bottom margin (so that bottom margin isn't doubled-up)
    * ======
    * - 134px This is the amount by which to reduce the innerHeight (const adjustment)
@@ -228,11 +234,6 @@ function DataGridComponent({
       headerName: doI18n("pages:content:row_type", i18nRef.current),
       minWidth: 80,
       flex: 1,
-      valueGetter: (v) =>
-        doI18n(
-          `flavors:names:${flavorTypes[v.toLowerCase()]}/${v}`,
-          i18nRef.current,
-        ),
     },
     {
       field: "nBooks",
@@ -305,12 +306,28 @@ function DataGridComponent({
               editUrl && (
                 <IconButton
                   onClick={async () => {
-                    await postEmptyJson(
-                      `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
-                    );
-                    await postEmptyJson(
-                      `/api/app-state/current-project/${params.row.path}`,
-                    );
+                    const clickedProjectBits = params.row.path.split("/");
+                    const clickedProjectJson = {
+                      source: clickedProjectBits[0],
+                      organization: clickedProjectBits[1],
+                      project: clickedProjectBits[2],
+                    };
+                    if (
+                      !currentProjectRef.current ||
+                      clickedProjectJson.source !==
+                        currentProjectRef.current.source ||
+                      clickedProjectJson.organization !==
+                        currentProjectRef.current.organization ||
+                      clickedProjectJson.project !==
+                        currentProjectRef.current.project
+                    ) {
+                      await postEmptyJson(
+                        `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
+                      );
+                      await postEmptyJson(
+                        `/api/app-state/current-project/${params.row.path}`,
+                      );
+                    }
                     window.location.href = "/clients/" + editUrl;
                   }}
                 >
@@ -336,6 +353,7 @@ function DataGridComponent({
   });
 
   const rows = filteredProject.map((rep, n) => {
+    console.log(rep);
     return {
       ...rep,
       id: n,
@@ -349,7 +367,15 @@ function DataGridComponent({
           isoOneToThreeLookup[rep.language_code] ?? rep.language_code
         ]?.en ?? rep.language_code,
       nBooks: rep.book_codes.length,
-      type: rep.flavor,
+      type: doI18n(
+        `flavors:names:${rep.flavor_type}/${rep.flavor}`,
+        i18nRef.current,
+      ).includes("flavors:names")
+        ? `${rep.flavor_type}/${rep.flavor}`
+        : doI18n(
+            `flavors:names:${rep.flavor_type}/${rep.flavor}`,
+            i18nRef.current,
+          ),
       source: rep.path.startsWith("_local_")
         ? rep.path.startsWith("_local_/_sideloaded_")
           ? doI18n("pages:content:local_resource", i18nRef.current)
@@ -360,7 +386,7 @@ function DataGridComponent({
   });
 
   return (
-    <Grid2 item size={12}>
+    <Grid size={12}>
       <Box
         sx={{
           height: `${maxWindowHeight}px`,
@@ -371,7 +397,6 @@ function DataGridComponent({
       >
         <PanTable
           showColumnFilters
-          theme={theme}
           rows={rows}
           columns={columns}
           sx={{
@@ -399,7 +424,7 @@ function DataGridComponent({
           }}
         />
       </Box>
-    </Grid2>
+    </Grid>
   );
 }
 

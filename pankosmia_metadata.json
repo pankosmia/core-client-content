@@ -4,7 +4,7 @@
     "net": false,
     "debug": false
   },
-  "minServerVersion": "0.16.1",
+  "minServerVersion": "0.16.4",
   "i18n": {
     "title": {
       "en": "Documents",
@@ -338,11 +338,17 @@
       "fr": "Voulez-vous mettre ce document en quarantaine ?",
       "id": "@Konten akan dikarantina"
     },
-    "accept": {
+    "label": {
       "en": "Label",
       "es": "Etiqueta",
       "fr": "Étiqueter",
-      "id": "@Terima"
+      "id": "@Label"
+    },
+    "accept": {
+      "en": "Accept",
+      "fr": "Accepter",
+      "es": "Aceptar",
+      "id": "Terima"
     },
     "could_not_quarantine_repo": {
       "en": "The document could not be quarantined",
@@ -889,6 +895,15 @@
     },
     "could_not_reload": {
       "en": "Could not reload ingredients"
+    },
+    "could_not_fetch_repos": {
+      "en": "Could not fetch repos",
+      "es": "No se pudo hacer fetch de los repositorios"
+    },
+    "connect_to_internet": {
+      "en": "Switch the app online to use this feature",
+      "es": "Cambia la aplicación a modo en línea para utilizar esta función",
+      "fr": "Passez l'application en ligne pour utiliser cette fonctionnalité"
     }
   }
 }

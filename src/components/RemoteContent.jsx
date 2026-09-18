@@ -9,10 +9,10 @@ import {
   ListItemButton,
   ListItemIcon,
   ListItemText,
-  useTheme,
 } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
-import { doI18n, postEmptyJson, getJson } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
+import { postEmptyJson, getJson } from "pankosmia-lib/http";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
@@ -31,7 +31,6 @@ function RemoteContent({
   const [remotes, setRemotes] = useState(null);
   const [branchList, setBranchList] = useState([]);
   const [selectedBranchIndex, setSelectedBranchIndex] = useState();
-  const theme = useTheme();
 
   useEffect(() => {
     const doFetch = async () => {
@@ -164,7 +163,6 @@ function RemoteContent({
       titleLabel={doI18n("pages:content:remote_content", i18nRef.current)}
       isOpen={open}
       closeFn={() => closeFn}
-      theme={theme}
     >
       <DialogContent>
         <DialogContentText>

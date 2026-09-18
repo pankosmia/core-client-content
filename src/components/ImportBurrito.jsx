@@ -1,7 +1,7 @@
 import { useContext, useState, useEffect } from "react";
-import { Button, DialogContent, Tooltip, useTheme } from "@mui/material";
+import { Button, DialogContent, Tooltip } from "@mui/material";
 import { enqueueSnackbar } from "notistack";
-import { doI18n } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext } from "pankosmia-rcl";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
@@ -11,7 +11,6 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
   const [loading, setLoading] = useState(false);
   const [filePicked, setFilePicked] = useState(null);
-  const theme = useTheme();
 
   const { openFilePicker, plainFiles } = useFilePicker({
     accept: [".zip"],
@@ -19,14 +18,12 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
   });
   const isZip = filePicked?.name?.toLowerCase().endsWith(".zip");
   useEffect(() => {
-    console.log(plainFiles);
     if (plainFiles.length > 0) {
       const file = plainFiles[0];
 
       setFilePicked(file);
     }
   }, [plainFiles]);
-  console.log(plainFiles);
 
   const handleImport = async (file) => {
     const formData = new FormData();
@@ -65,7 +62,6 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
         setFilePicked(null);
         closeFn();
       }}
-      theme={theme}
     >
       <DialogContent sx={{ mt: 1 }}>
         <Button
@@ -99,7 +95,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
               setTimeout(() => setFilePicked(null), 1500);
             }}
             isDisabled={!filePicked || !isZip}
-            actionLabel={doI18n("pages:content:create", i18nRef.current)}
+            actionLabel={doI18n("pages:content:fab_import", i18nRef.current)}
             closeFn={() => {
               closeFn();
               setFilePicked(null);

@@ -10,7 +10,8 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { doI18n, getJson } from "pithekos-lib";
+import { doI18n } from "pankosmia-lib/i18n";
+import { getJson } from "pankosmia-lib/http";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 
 import { enqueueSnackbar } from "notistack";

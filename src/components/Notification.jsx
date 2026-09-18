@@ -2,7 +2,8 @@ import { useContext, useCallback } from "react";
 import { CircularProgress, IconButton } from "@mui/material";
 import SyncOutlinedIcon from "@mui/icons-material/SyncOutlined";
 import { enqueueSnackbar } from "notistack";
-import { doI18n, postEmptyJson } from "pithekos-lib";
+import { postEmptyJson } from "pankosmia-lib/http";
+import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext, netContext } from "pankosmia-rcl";
 function Notification({
   remoteRepoPath,
