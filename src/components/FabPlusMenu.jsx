@@ -3,7 +3,7 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import CreateNewFolderOutlinedIcon from "@mui/icons-material/CreateNewFolderOutlined";
 import { useState, useContext } from "react";
 import { doI18n } from "pankosmia-lib/i18n";
-import { i18nContext, netContext } from "pankosmia-rcl";
+import { i18nContext, netContext, clientConfigContext } from "pankosmia-rcl";
 import ImportBurrito from "./ImportBurrito";
 
 function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
@@ -13,6 +13,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
   const [createAnchorEl, setCreateAnchorEl] = useState(null);
   const [importBurritoAnchorEl, setImportBurritoAnchorEl] = useState(null);
   const importBurritoOpen = Boolean(importBurritoAnchorEl);
+  const { clientConfigRef } = useContext(clientConfigContext);
 
   const handleImportClose = () => {
     setImportAnchorEl(null);
@@ -46,7 +47,10 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
 
     return all;
   })();
-
+  const internetAccess =
+    clientConfigRef.current["_global"]
+      ?.find((e) => e.id === "internetConfig")
+      ?.fields.find((e) => e.id === "internetConnectionAccess")?.value ?? true;
   return (
     <>
       <Box>
@@ -68,7 +72,7 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
           open={!!importAnchorEl}
           onClose={handleImportClose}
         >
-          {!enabledRef?.current ? (
+          {internetAccess && (
             <Tooltip
               slotProps={{
                 popper: {
@@ -77,27 +81,20 @@ function FabPlusMenu({ clientInterfaces, reposModCount, setReposModCount }) {
                   ],
                 },
               }}
-              title={doI18n(
-                "pages:content:connect_to_internet",
-                i18nRef.current,
-              )}
+              title={
+                !enabledRef?.current &&
+                doI18n("pages:content:connect_to_internet", i18nRef.current)
+              }
             >
               <span>
                 <MenuItem
                   onClick={() => (window.location.href = "/clients/download")}
-                  disabled
+                  disabled={!enabledRef.current}
                 >
                   {doI18n("pages:content:download_content", i18nRef.current)}
                 </MenuItem>
               </span>
             </Tooltip>
-          ) : (
-            <MenuItem
-              onClick={() => (window.location.href = "/clients/download")}
-              disabled={!enabledRef.current}
-            >
-              {doI18n("pages:content:download_content", i18nRef.current)}
-            </MenuItem>
           )}
           <MenuItem
             onClick={(event) => {
