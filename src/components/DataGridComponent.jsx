@@ -353,7 +353,6 @@ function DataGridComponent({
   });
 
   const rows = filteredProject.map((rep, n) => {
-    console.log(rep);
     return {
       ...rep,
       id: n,
