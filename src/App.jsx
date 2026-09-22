@@ -18,6 +18,7 @@ import {
   PanDialogActions,
   ScrollableBody,
   productContext,
+  clientConfigContext,
 } from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
