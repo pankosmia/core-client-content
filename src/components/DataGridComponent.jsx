@@ -236,14 +236,14 @@ function DataGridComponent({
       flex: 1,
     },
     {
-      field: "nBooks",
+      field: "books",
       headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
       type: "number",
       minWidth: 150,
       flex: 0.5,
     },
     {
-      field: "dateUpdated",
+      field: "update",
       headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
       minWidth: 200,
       flex: 1,
