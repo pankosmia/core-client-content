@@ -236,14 +236,14 @@ function DataGridComponent({
       flex: 1,
     },
     {
-      field: "nBooks",
+      field: "books",
       headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
       type: "number",
       minWidth: 150,
       flex: 0.5,
     },
     {
-      field: "dateUpdated",
+      field: "update",
       headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
       minWidth: 200,
       flex: 1,
@@ -365,7 +365,7 @@ function DataGridComponent({
         isoThreeLookup?.[
           isoOneToThreeLookup[rep.language_code] ?? rep.language_code
         ]?.en ?? rep.language_code,
-      nBooks: rep.book_codes.length,
+      books: rep.book_codes.length,
       type: doI18n(
         `flavors:names:${rep.flavor_type}/${rep.flavor}`,
         i18nRef.current,
