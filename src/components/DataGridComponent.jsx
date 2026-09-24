@@ -352,38 +352,51 @@ function DataGridComponent({
     return { ...obj[1], path: obj[0] };
   });
 
-  const rows = filteredProject.map((rep, n) => {
-    return {
-      ...rep,
-      id: n,
-      name: `${rep.name.trim()}${
-        rep.description.trim() !== rep.name.trim()
-          ? ": " + rep.description.trim()
-          : ""
-      }`,
-      language:
-        isoThreeLookup?.[
-          isoOneToThreeLookup[rep.language_code] ?? rep.language_code
-        ]?.en ?? rep.language_code,
-      nBooks: rep.book_codes.length,
-      type: doI18n(
-        `flavors:names:${rep.flavor_type}/${rep.flavor}`,
-        i18nRef.current,
-      ).includes("flavors:names")
-        ? `${rep.flavor_type}/${rep.flavor}`
-        : doI18n(
-            `flavors:names:${rep.flavor_type}/${rep.flavor}`,
-            i18nRef.current,
-          ),
-      source: rep.path.startsWith("_local_")
-        ? rep.path.startsWith("_local_/_sideloaded_")
-          ? doI18n("pages:content:local_resource", i18nRef.current)
-          : doI18n("pages:content:local_project", i18nRef.current)
-        : `${rep.path.split("/")[1]} (${rep.path.split("/")[0]})`,
-      dateUpdated: rep.generated_date,
-    };
-  });
-
+  const rows = filteredProject
+    .map((rep, n) => {
+      return {
+        ...rep,
+        id: n,
+        name: `${rep.name.trim()}${
+          rep.description.trim() !== rep.name.trim()
+            ? ": " + rep.description.trim()
+            : ""
+        }`,
+        language:
+          isoThreeLookup?.[
+            isoOneToThreeLookup[rep.language_code] ?? rep.language_code
+          ]?.en ?? rep.language_code,
+        nBooks: rep.book_codes.length,
+        type: doI18n(
+          `flavors:names:${rep.flavor_type}/${rep.flavor}`,
+          i18nRef.current,
+        ).includes("flavors:names")
+          ? `${rep.flavor_type}/${rep.flavor}`
+          : doI18n(
+              `flavors:names:${rep.flavor_type}/${rep.flavor}`,
+              i18nRef.current,
+            ),
+        source: rep.path.startsWith("_local_")
+          ? rep.path.startsWith("_local_/_sideloaded_")
+            ? doI18n("pages:content:local_resource", i18nRef.current)
+            : doI18n("pages:content:local_project", i18nRef.current)
+          : `${rep.path.split("/")[1]} (${rep.path.split("/")[0]})`,
+        dateUpdated: rep.generated_date,
+      };
+    })
+    .sort((a, b) => {
+      const x = a.abbreviation;
+      const y = b.abbreviation;
+      const base = x.localeCompare(y, undefined, { sensitivity: "base" });
+      if (base !== 0) return base;
+      for (let i = 0; i < Math.min(x.length, y.length); i++) {
+        if (x[i] !== y[i]) {
+          const xUpper = x[i] !== x[i].toLowerCase();
+          return xUpper ? -1 : 1;
+        }
+      }
+      return 0;
+    });
   return (
     <Grid size={12}>
       <Box
