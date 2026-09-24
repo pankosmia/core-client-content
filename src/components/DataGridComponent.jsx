@@ -365,7 +365,7 @@ function DataGridComponent({
         isoThreeLookup?.[
           isoOneToThreeLookup[rep.language_code] ?? rep.language_code
         ]?.en ?? rep.language_code,
-      nBooks: rep.book_codes.length,
+      books: rep.book_codes.length,
       type: doI18n(
         `flavors:names:${rep.flavor_type}/${rep.flavor}`,
         i18nRef.current,
