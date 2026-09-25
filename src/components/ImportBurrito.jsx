@@ -6,6 +6,7 @@ import { i18nContext } from "pankosmia-rcl";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
 import { useFilePicker } from "use-file-picker";
+import { getJson, postEmptyJson } from "pankosmia-lib/http";
 
 function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
@@ -44,6 +45,27 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
         doI18n("pages:content:burrito_imported", i18nRef.current),
         { variant: "success" },
       );
+      const remotes = await getJson(
+        `/api/git/remotes/_local_/_sideloaded_/${encodeURIComponent(fileName)}`,
+      );
+      if (remotes.ok) {
+        for (let r of remotes.json.payload.remotes) {
+          let removeRemote = await postEmptyJson(
+            `/api/git/remote/delete/_local_/_sideloaded_/${encodeURIComponent(fileName)}?remote_name=${r.name}`,
+          );
+          if (!removeRemote.ok) {
+            enqueueSnackbar(
+              `${doI18n("pages:content:could_not_import_burrito", i18nRef.current)}: ${removeRemote.reason}`,
+              { variant: "error" },
+            );
+          }
+        }
+      } else {
+        enqueueSnackbar(
+          `${doI18n("pages:content:could_not_import_burrito", i18nRef.current)}: ${error.reason}`,
+          { variant: "error" },
+        );
+      }
       setReposModCount(reposModCount + 1);
     } else {
       const error = await response.json();

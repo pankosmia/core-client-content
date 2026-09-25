@@ -21,8 +21,11 @@ function CopyContent({
     const copyUrl = `/api/git/copy/${repo_path}?target_path=${copyRepoPath}&add_ignore`;
     const copyResponse = await postEmptyJson(copyUrl, debugRef.current);
     if (copyResponse.ok) {
+      let remote = repo_path.split("/").find((e) => e === "_sideloaded_")
+        ? "sideloaded"
+        : "downloaded";
       // Set up remote for copy (pulls from downloaded) - assume there's no 'downloaded' remote
-      const addUrl = `/api/git/remote/add/${copyRepoPath}?remote_name=downloaded&remote_url=${repo_path}`;
+      const addUrl = `/api/git/remote/add/${copyRepoPath}?remote_name=${remote}&remote_url=${repo_path}`;
       const addResponse = await postEmptyJson(addUrl, debugRef.current);
       if (!addResponse.ok) {
         enqueueSnackbar(
