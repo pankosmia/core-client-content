@@ -185,7 +185,7 @@ function DataGridComponent({
   }, [isDownloading, remoteSource, catalog, localRepos, enabledRef.current]);
 
   const flavorTypes = {
-    texttranslation: "scripture",
+    textTranslation: "scripture",
     audiotranslation: "scripture",
     "x-bcvnotes": "parascriptural",
     "x-bnotes": "parascriptural",
@@ -276,8 +276,8 @@ function DataGridComponent({
       numeric: 1,
       renderCell: (params) => {
         let editUrl;
-        if (editTable[params.row.type]) {
-          editUrl = editTable[params.row.type][0];
+        if (editTable[params.row.flavor]) {
+          editUrl = editTable[params.row.flavor][0];
         }
 
         return (
