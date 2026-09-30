@@ -60,7 +60,6 @@ function ContentRowButtonPlusMenu({
   const [subMenuAnchorEl, setSubMenuAnchorEl] = useState(null);
 
   const subMenuCloseTimeoutRef = useRef(null);
-
   const handleOpenSubMenu = (event) => {
     clearTimeout(subMenuCloseTimeoutRef.current);
     setSubMenuAnchorEl(event.currentTarget);
@@ -405,7 +404,8 @@ function ContentRowButtonPlusMenu({
                   setContentRowAnchorEl(null);
                 }}
                 disabled={
-                  repoInfo.path.split("/")[0] === "_local_" ||
+                  (repoInfo.path.split("/")[0] === "_local_" &&
+                    !repoInfo.path.split("/")[1] === "_sideload_") ||
                   repoInfo.path.split("/")[1] === "_local_" ||
                   localRepos.includes(
                     "_local_/_local_/" + repoInfo.path.split("/")[2],

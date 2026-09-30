@@ -185,7 +185,7 @@ function DataGridComponent({
   }, [isDownloading, remoteSource, catalog, localRepos, enabledRef.current]);
 
   const flavorTypes = {
-    texttranslation: "scripture",
+    textTranslation: "scripture",
     audiotranslation: "scripture",
     "x-bcvnotes": "parascriptural",
     "x-bnotes": "parascriptural",
@@ -236,14 +236,14 @@ function DataGridComponent({
       flex: 1,
     },
     {
-      field: "nBooks",
+      field: "books",
       headerName: doI18n("pages:content:row_nbooks", i18nRef.current),
       type: "number",
       minWidth: 150,
       flex: 0.5,
     },
     {
-      field: "dateUpdated",
+      field: "update",
       headerName: doI18n("pages:content:row_date_updated", i18nRef.current),
       minWidth: 200,
       flex: 1,
@@ -276,8 +276,8 @@ function DataGridComponent({
       numeric: 1,
       renderCell: (params) => {
         let editUrl;
-        if (editTable[params.row.type]) {
-          editUrl = editTable[params.row.type][0];
+        if (editTable[params.row.flavor]) {
+          editUrl = editTable[params.row.flavor][0];
         }
 
         return (
@@ -365,7 +365,7 @@ function DataGridComponent({
         isoThreeLookup?.[
           isoOneToThreeLookup[rep.language_code] ?? rep.language_code
         ]?.en ?? rep.language_code,
-      nBooks: rep.book_codes.length,
+      books: rep.book_codes.length,
       type: doI18n(
         `flavors:names:${rep.flavor_type}/${rep.flavor}`,
         i18nRef.current,
