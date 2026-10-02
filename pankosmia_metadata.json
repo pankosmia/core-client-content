@@ -904,6 +904,12 @@
       "en": "Switch the app online to use this feature",
       "es": "Cambia la aplicación a modo en línea para utilizar esta función",
       "fr": "Passez l'application en ligne pour utiliser cette fonctionnalité"
+    },
+    "no_book": {
+      "en": "There are no books to edit",
+      "fr": "Il n'y a pas de livres à éditer",
+      "es": "No hay libros para editar",
+      "id": "Tidak ada buku untuk diedit"
     }
   }
 }
