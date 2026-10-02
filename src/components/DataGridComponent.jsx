@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useCallback } from "react";
-import { IconButton, Grid, Box } from "@mui/material";
+import { IconButton, Grid, Box, Tooltip } from "@mui/material";
 import { getJson, getAndSetJson, postEmptyJson } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import {
@@ -304,35 +304,47 @@ function DataGridComponent({
             {isNormal &&
               params.row.path.startsWith("_local_/_local_") &&
               editUrl && (
-                <IconButton
-                  onClick={async () => {
-                    const clickedProjectBits = params.row.path.split("/");
-                    const clickedProjectJson = {
-                      source: clickedProjectBits[0],
-                      organization: clickedProjectBits[1],
-                      project: clickedProjectBits[2],
-                    };
-                    if (
-                      !currentProjectRef.current ||
-                      clickedProjectJson.source !==
-                        currentProjectRef.current.source ||
-                      clickedProjectJson.organization !==
-                        currentProjectRef.current.organization ||
-                      clickedProjectJson.project !==
-                        currentProjectRef.current.project
-                    ) {
-                      await postEmptyJson(
-                        `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
-                      );
-                      await postEmptyJson(
-                        `/api/app-state/current-project/${params.row.path}`,
-                      );
+                <>
+                  <Tooltip
+                    title={
+                      params.row.book_codes.length === 0 &&
+                      doI18n("pages:content:no_book", i18nRef.current)
                     }
-                    window.location.href = "/clients/" + editUrl;
-                  }}
-                >
-                  <EditOutlinedIcon />
-                </IconButton>
+                  >
+                    <span>
+                      <IconButton
+                        disabled={params.row.book_codes.length === 0}
+                        onClick={async () => {
+                          const clickedProjectBits = params.row.path.split("/");
+                          const clickedProjectJson = {
+                            source: clickedProjectBits[0],
+                            organization: clickedProjectBits[1],
+                            project: clickedProjectBits[2],
+                          };
+                          if (
+                            !currentProjectRef.current ||
+                            clickedProjectJson.source !==
+                              currentProjectRef.current.source ||
+                            clickedProjectJson.organization !==
+                              currentProjectRef.current.organization ||
+                            clickedProjectJson.project !==
+                              currentProjectRef.current.project
+                          ) {
+                            await postEmptyJson(
+                              `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
+                            );
+                            await postEmptyJson(
+                              `/api/app-state/current-project/${params.row.path}`,
+                            );
+                          }
+                          window.location.href = "/clients/" + editUrl;
+                        }}
+                      >
+                        <EditOutlinedIcon />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                </>
               )}
             <ContentRowButtonPlusMenu
               repoInfo={params.row}
