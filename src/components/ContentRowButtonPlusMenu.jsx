@@ -16,9 +16,25 @@ import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef, useMemo } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+const getEditFlavors = (data) => {
+  let map = {};
+  if (data) {
+    for (let v of Object.values(data)) {
+      if (!v.endpoints) continue;
+      for (let [k, t] of Object.entries(v.endpoints)) {
+        if (t.edit) {
+          if (!map[k]) {
+            map[k] = 1;
+          }
+        }
+      }
+    }
+  }
+  return Object.keys(map);
+};
 function ContentRowButtonPlusMenu({
   repoInfo,
   reposModCount,
@@ -36,7 +52,6 @@ function ContentRowButtonPlusMenu({
 
   const [copyContentAnchorEl, setCopyContentAnchorEl] = useState(null);
   const copyContentOpen = Boolean(copyContentAnchorEl);
-
   const [archiveContentAnchorEl, setArchiveContentAnchorEl] = useState(null);
   const archiveContentOpen = Boolean(archiveContentAnchorEl);
 
@@ -84,25 +99,7 @@ function ContentRowButtonPlusMenu({
       ?.find((section) => section.id === "config")
       ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
 
-  const getEditFlavors = (data) => {
-    let map = {};
-    if (data) {
-      for (let v of Object.values(data)) {
-        if (!v.endpoints) continue;
-        for (let [k, t] of Object.entries(v.endpoints)) {
-          if (t.edit) {
-            if (!map[k]) {
-              map[k] = 1;
-            }
-          }
-        }
-      }
-    }
-    return Object.keys(map);
-  };
-
   let editFlavors = getEditFlavors(clientInterfaces);
-
   let createItemNewBook;
   let createItemImportBook;
   let createItemExport;
@@ -404,12 +401,13 @@ function ContentRowButtonPlusMenu({
                   setContentRowAnchorEl(null);
                 }}
                 disabled={
-                  (repoInfo.path.split("/")[0] === "_local_" &&
+                  !editFlavors.includes(repoInfo.flavor) &&
+                  ((repoInfo.path.split("/")[0] === "_local_" &&
                     !repoInfo.path.split("/")[1] === "_sideload_") ||
-                  repoInfo.path.split("/")[1] === "_local_" ||
-                  localRepos.includes(
-                    "_local_/_local_/" + repoInfo.path.split("/")[2],
-                  )
+                    repoInfo.path.split("/")[1] === "_local_" ||
+                    localRepos.includes(
+                      "_local_/_local_/" + repoInfo.path.split("/")[2],
+                    ))
                 }
               >
                 {doI18n("pages:content:copy_content", i18nRef.current)}
