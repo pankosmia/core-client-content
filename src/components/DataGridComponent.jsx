@@ -25,7 +25,7 @@ const getEditDocumentKeys = (data) => {
             map[k] = [];
           }
 
-          map[k].push(`${l}#${t.edit.url}`);
+          map[k].push(`${t.edit.url}`);
         }
       }
     }
@@ -278,6 +278,7 @@ function DataGridComponent({
         let editUrl;
         if (editTable[params.row.flavor]) {
           editUrl = editTable[params.row.flavor][0];
+          console.log(editUrl, editTable);
         }
 
         return (
