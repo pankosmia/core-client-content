@@ -401,13 +401,13 @@ function ContentRowButtonPlusMenu({
                   setContentRowAnchorEl(null);
                 }}
                 disabled={
-                  !editFlavors.includes(repoInfo.flavor) &&
-                  ((repoInfo.path.split("/")[0] === "_local_" &&
+                  !editFlavors.includes(repoInfo.flavor) ||
+                  (repoInfo.path.split("/")[0] === "_local_" &&
                     !repoInfo.path.split("/")[1] === "_sideload_") ||
-                    repoInfo.path.split("/")[1] === "_local_" ||
-                    localRepos.includes(
-                      "_local_/_local_/" + repoInfo.path.split("/")[2],
-                    ))
+                  repoInfo.path.split("/")[1] === "_local_" ||
+                  localRepos.includes(
+                    "_local_/_local_/" + repoInfo.path.split("/")[2],
+                  )
                 }
               >
                 {doI18n("pages:content:copy_content", i18nRef.current)}
