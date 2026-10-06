@@ -397,6 +397,7 @@ function DataGridComponent({
       >
         <PanTable
           showColumnFilters
+          initialState={{ sorting: { field: "abbreviation", order: "asc" } }}
           rows={rows}
           columns={columns}
           sx={{
