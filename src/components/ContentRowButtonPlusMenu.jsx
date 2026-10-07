@@ -439,11 +439,6 @@ function ContentRowButtonPlusMenu({
               onClick={handleOpenSubMenu}
               onMouseEnter={handleOpenSubMenu}
               onMouseLeave={handleCloseSubMenu}
-              disabled={
-                createItemExport.filter(
-                  (item) => item.endpoint === repoInfo.flavor,
-                ).length <= 0
-              }
             >
               <ListItemText>
                 {doI18n("pages:content:export", i18nRef.current)}
@@ -542,7 +537,10 @@ function ContentRowButtonPlusMenu({
       >
         {createItemExport &&
           createItemExport
-            .filter((item) => item.endpoint === repoInfo.flavor)
+            .filter(
+              (item) =>
+                item.endpoint === repoInfo.flavor || item.endpoint === "all",
+            )
             .map((item) => (
               <MenuItem
                 key={item.label}
