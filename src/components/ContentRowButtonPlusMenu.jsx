@@ -553,7 +553,7 @@ function ContentRowButtonPlusMenu({
             setSubMenuAnchorEl(null);
           }}
         >
-          {doI18n("pages:content:export_burrito", i18nRef.current)}
+          {doI18n("pages:content:core-contenthandler-generic", i18nRef.current)}
         </MenuItem>
       </Menu>
       <ExportBurrito
