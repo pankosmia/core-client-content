@@ -11,7 +11,6 @@ import { getJson, postJson } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext, productContext } from "pankosmia-rcl";
 import CopyContent from "./CopyContent";
-import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
@@ -440,6 +439,11 @@ function ContentRowButtonPlusMenu({
               onClick={handleOpenSubMenu}
               onMouseEnter={handleOpenSubMenu}
               onMouseLeave={handleCloseSubMenu}
+              disabled={
+                createItemExport.filter(
+                  (item) => item.endpoint === repoInfo.flavor,
+                ).length <= 0
+              }
             >
               <ListItemText>
                 {doI18n("pages:content:export", i18nRef.current)}
@@ -516,6 +520,7 @@ function ContentRowButtonPlusMenu({
           </>
         )}
       </Menu>
+
       <Menu
         id="basic-sub-menu"
         anchorEl={subMenuAnchorEl}
@@ -546,23 +551,8 @@ function ContentRowButtonPlusMenu({
                 {item.label}
               </MenuItem>
             ))}
-        <MenuItem
-          onClick={(event) => {
-            setExportBurritoAnchorEl(event.currentTarget);
-            setContentRowAnchorEl(null);
-            setSubMenuAnchorEl(null);
-          }}
-        >
-          {doI18n("pages:content:core-contenthandler-generic", i18nRef.current)}
-        </MenuItem>
       </Menu>
-      <ExportBurrito
-        repoInfo={repoInfo}
-        open={exportBurritoOpen}
-        closeFn={() => setExportBurritoAnchorEl(null)}
-        reposModCount={reposModCount}
-        setReposModCount={setReposModCount}
-      />
+
       <CopyContent
         repoInfo={repoInfo}
         open={copyContentOpen}
