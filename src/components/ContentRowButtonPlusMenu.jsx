@@ -477,7 +477,8 @@ function ContentRowButtonPlusMenu({
             >
               {doI18n("pages:content:delete_content", i18nRef.current)}
             </MenuItem>
-            {/* {repoInfo.path.includes("_local_/_local_") && (
+
+            {repoInfo.path.includes("_local_/_local_") && debugRef.current && (
               <MenuItem
                 onClick={() => {
                   reloadIngredient();
@@ -487,7 +488,7 @@ function ContentRowButtonPlusMenu({
               >
                 {doI18n("pages:content:remake_metadata", i18nRef.current)}
               </MenuItem>
-            )} */}
+            )}
           </>
         ) : (
           <>
