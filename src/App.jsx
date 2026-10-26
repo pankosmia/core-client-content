@@ -19,6 +19,7 @@ import {
   ScrollableBody,
   productContext,
   clientConfigContext,
+  debugContext,
 } from "pankosmia-rcl";
 import FabPlusMenu from "./components/FabPlusMenu";
 import HandymanOutlinedIcon from "@mui/icons-material/HandymanOutlined";
@@ -32,7 +33,7 @@ function App() {
   const [contentFilter, setContentFilter] = useState("");
   const [experimentMenuAnchorEl, setExperimentMenuAnchorEl] = useState(null);
   const experimentMenuOpen = Boolean(experimentMenuAnchorEl);
-
+  const { debugRef } = useContext(debugContext);
   const [experimentDialogOpen, setExperimentDialogOpen] = useState(false);
 
   const [clientConfig, setClientConfig] = useState({});

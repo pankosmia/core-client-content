@@ -11,14 +11,29 @@ import { getJson, postJson } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext, productContext } from "pankosmia-rcl";
 import CopyContent from "./CopyContent";
-import ExportBurrito from "./ExportBurrito";
 import ArchiveContent from "./ArchiveContent";
 import QuarantineContent from "./QuarantineContent";
 import RestoreContent from "./RestoreContent";
 import DeleteContent from "./DeleteContent";
-import { useState, useContext, useEffect, useRef } from "react";
+import { useState, useContext, useEffect, useRef, useMemo } from "react";
 import { enqueueSnackbar } from "notistack";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+const getEditFlavors = (data) => {
+  let map = {};
+  if (data) {
+    for (let v of Object.values(data)) {
+      if (!v.endpoints) continue;
+      for (let [k, t] of Object.entries(v.endpoints)) {
+        if (t.edit) {
+          if (!map[k]) {
+            map[k] = 1;
+          }
+        }
+      }
+    }
+  }
+  return Object.keys(map);
+};
 function ContentRowButtonPlusMenu({
   repoInfo,
   reposModCount,
@@ -36,7 +51,6 @@ function ContentRowButtonPlusMenu({
 
   const [copyContentAnchorEl, setCopyContentAnchorEl] = useState(null);
   const copyContentOpen = Boolean(copyContentAnchorEl);
-
   const [archiveContentAnchorEl, setArchiveContentAnchorEl] = useState(null);
   const archiveContentOpen = Boolean(archiveContentAnchorEl);
 
@@ -84,25 +98,7 @@ function ContentRowButtonPlusMenu({
       ?.find((section) => section.id === "config")
       ?.fields?.find((field) => field.id === "archiveMenu")?.value !== false;
 
-  const getEditFlavors = (data) => {
-    let map = {};
-    if (data) {
-      for (let v of Object.values(data)) {
-        if (!v.endpoints) continue;
-        for (let [k, t] of Object.entries(v.endpoints)) {
-          if (t.edit) {
-            if (!map[k]) {
-              map[k] = 1;
-            }
-          }
-        }
-      }
-    }
-    return Object.keys(map);
-  };
-
   let editFlavors = getEditFlavors(clientInterfaces);
-
   let createItemNewBook;
   let createItemImportBook;
   let createItemExport;
@@ -404,6 +400,7 @@ function ContentRowButtonPlusMenu({
                   setContentRowAnchorEl(null);
                 }}
                 disabled={
+                  !editFlavors.includes(repoInfo.flavor) ||
                   (repoInfo.path.split("/")[0] === "_local_" &&
                     !repoInfo.path.split("/")[1] === "_sideload_") ||
                   repoInfo.path.split("/")[1] === "_local_" ||
@@ -480,7 +477,8 @@ function ContentRowButtonPlusMenu({
             >
               {doI18n("pages:content:delete_content", i18nRef.current)}
             </MenuItem>
-            {/* {repoInfo.path.includes("_local_/_local_") && (
+
+            {repoInfo.path.includes("_local_/_local_") && debugRef.current && (
               <MenuItem
                 onClick={() => {
                   reloadIngredient();
@@ -490,7 +488,7 @@ function ContentRowButtonPlusMenu({
               >
                 {doI18n("pages:content:remake_metadata", i18nRef.current)}
               </MenuItem>
-            )} */}
+            )}
           </>
         ) : (
           <>
@@ -518,6 +516,7 @@ function ContentRowButtonPlusMenu({
           </>
         )}
       </Menu>
+
       <Menu
         id="basic-sub-menu"
         anchorEl={subMenuAnchorEl}
@@ -539,7 +538,10 @@ function ContentRowButtonPlusMenu({
       >
         {createItemExport &&
           createItemExport
-            .filter((item) => item.endpoint === repoInfo.flavor)
+            .filter(
+              (item) =>
+                item.endpoint === repoInfo.flavor || item.endpoint === "all",
+            )
             .map((item) => (
               <MenuItem
                 key={item.label}
@@ -548,23 +550,8 @@ function ContentRowButtonPlusMenu({
                 {item.label}
               </MenuItem>
             ))}
-        <MenuItem
-          onClick={(event) => {
-            setExportBurritoAnchorEl(event.currentTarget);
-            setContentRowAnchorEl(null);
-            setSubMenuAnchorEl(null);
-          }}
-        >
-          {doI18n("pages:content:export_burrito", i18nRef.current)}
-        </MenuItem>
       </Menu>
-      <ExportBurrito
-        repoInfo={repoInfo}
-        open={exportBurritoOpen}
-        closeFn={() => setExportBurritoAnchorEl(null)}
-        reposModCount={reposModCount}
-        setReposModCount={setReposModCount}
-      />
+
       <CopyContent
         repoInfo={repoInfo}
         open={copyContentOpen}
