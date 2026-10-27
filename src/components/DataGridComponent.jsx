@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext, useCallback } from "react";
 import { IconButton, Grid, Box } from "@mui/material";
-import { getJson, getAndSetJson, postEmptyJson } from "pankosmia-lib/http";
+import { getJson, getAndSetJson, postEmpty } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import {
   i18nContext,
@@ -322,10 +322,10 @@ function DataGridComponent({
                       clickedProjectJson.project !==
                         currentProjectRef.current.project
                     ) {
-                      await postEmptyJson(
+                      await postEmpty(
                         `/api/navigation/bcv/${params.row.book_codes[0]}/1/1`,
                       );
-                      await postEmptyJson(
+                      await postEmpty(
                         `/api/app-state/current-project/${params.row.path}`,
                       );
                     }
