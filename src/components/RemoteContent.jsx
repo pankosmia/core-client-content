@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
 import { doI18n } from "pankosmia-lib/i18n";
-import { postEmptyJson, getJson } from "pankosmia-lib/http";
+import { postEmpty, getJson } from "pankosmia-lib/http";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
@@ -61,7 +61,7 @@ function RemoteContent({
   const addRemoteRepo = async (repo_path) => {
     if (remotes.filter((p) => p.name === "origin")[0]) {
       const deleteUrl = `/api/git/remote/delete/${repo_path}?remote_name=origin`;
-      const deleteResponse = await postEmptyJson(deleteUrl, debugRef.current);
+      const deleteResponse = await postEmpty(deleteUrl, debugRef.current);
       if (!deleteResponse.ok) {
         enqueueSnackbar(
           doI18n("pages:content:could_not_delete_remote", i18nRef.current),
@@ -73,7 +73,7 @@ function RemoteContent({
     }
 
     const addUrl = `/api/git/remote/add/${repo_path}?remote_name=origin&remote_url=${remoteUrlValue}`;
-    const addResponse = await postEmptyJson(addUrl, debugRef.current);
+    const addResponse = await postEmpty(addUrl, debugRef.current);
     if (addResponse.ok) {
       enqueueSnackbar(
         doI18n("pages:content:remote_repo_added", i18nRef.current),
@@ -109,7 +109,7 @@ function RemoteContent({
 
   const checkoutBranch = async (repo_path, branch) => {
     const branchUrl = `/api/git/branch/${branch}/${repo_path}`;
-    const branchResponse = await postEmptyJson(branchUrl, debugRef.current);
+    const branchResponse = await postEmpty(branchUrl, debugRef.current);
 
     if (branchResponse.ok) {
       setReposModCount(reposModCount + 1);
