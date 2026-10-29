@@ -6,7 +6,7 @@ import { i18nContext } from "pankosmia-rcl";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
 import { useFilePicker } from "use-file-picker";
-import { getJson, postEmptyJson } from "pankosmia-lib/http";
+import { getJson, postEmpty } from "pankosmia-lib/http";
 
 function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
   const { i18nRef } = useContext(i18nContext);
@@ -50,7 +50,7 @@ function ImportBurrito({ open, closeFn, reposModCount, setReposModCount }) {
       );
       if (remotes.ok) {
         for (let r of remotes.json.payload.remotes) {
-          let removeRemote = await postEmptyJson(
+          let removeRemote = await postEmpty(
             `/api/git/remote/delete/_local_/_sideloaded_/${encodeURIComponent(fileName)}?remote_name=${r.name}`,
           );
           if (!removeRemote.ok) {

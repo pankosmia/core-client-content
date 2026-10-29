@@ -2,7 +2,7 @@ import { useContext, useCallback } from "react";
 import { CircularProgress, IconButton } from "@mui/material";
 import SyncOutlinedIcon from "@mui/icons-material/SyncOutlined";
 import { enqueueSnackbar } from "notistack";
-import { postEmptyJson } from "pankosmia-lib/http";
+import { postEmpty } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext, netContext } from "pankosmia-rcl";
 function Notification({
@@ -30,7 +30,7 @@ function Notification({
         postType === "clone"
           ? `/api/git/clone-repo/${remoteRepoPath}`
           : `/api/git/pull-repo/origin/${remoteRepoPath}`;
-      const fetchResponse = await postEmptyJson(fetchUrl, debugRef.current);
+      const fetchResponse = await postEmpty(fetchUrl, debugRef.current);
       if (fetchResponse.ok) {
         enqueueSnackbar(
           `${params.row.abbreviation} ${doI18n(postType === "clone" ? "pages:core-remote-resources:downloaded" : "pages:core-remote-resources:updated", i18nRef.current)}`,

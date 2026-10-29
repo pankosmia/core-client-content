@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { DialogContent, DialogContentText, Typography } from "@mui/material";
-import { postEmptyJson } from "pankosmia-lib/http";
+import { postEmpty } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
@@ -18,7 +18,7 @@ function ArchiveContent({
 
   const archiveRepo = async (repo_path) => {
     const archiveUrl = `/api/git/copy/${repo_path}?target_path=_local_/_archive_/${repo_path.split("/")[2]}&delete_src`;
-    const archiveResponse = await postEmptyJson(archiveUrl, debugRef.current);
+    const archiveResponse = await postEmpty(archiveUrl, debugRef.current);
     if (archiveResponse.ok) {
       enqueueSnackbar(doI18n("pages:content:repo_archived", i18nRef.current), {
         variant: "success",

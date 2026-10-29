@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { DialogContent, DialogContentText, Typography } from "@mui/material";
 import { doI18n } from "pankosmia-lib/i18n";
-import { postEmptyJson } from "pankosmia-lib/http";
+import { postEmpty } from "pankosmia-lib/http";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
 import { PanDialog, PanDialogActions } from "pankosmia-rcl";
@@ -17,7 +17,7 @@ function RestoreContent({
 
   const restoreRepo = async (repo_path) => {
     const restoreUrl = `/api/git/copy/${repo_path}?target_path=_local_/_local_/${repo_path.split("/")[2]}&delete_src`;
-    const restoreResponse = await postEmptyJson(restoreUrl, debugRef.current);
+    const restoreResponse = await postEmpty(restoreUrl, debugRef.current);
     if (restoreResponse.ok) {
       enqueueSnackbar(doI18n("pages:content:repo_restored", i18nRef.current), {
         variant: "success",

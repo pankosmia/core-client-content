@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { DialogContent, DialogContentText, Typography } from "@mui/material";
-import { postEmptyJson } from "pankosmia-lib/http";
+import { postEmpty } from "pankosmia-lib/http";
 import { doI18n } from "pankosmia-lib/i18n";
 import { i18nContext, debugContext } from "pankosmia-rcl";
 import { enqueueSnackbar } from "notistack";
@@ -19,14 +19,14 @@ function CopyContent({
   const copyRepo = async (repo_path) => {
     const copyRepoPath = `_local_/_local_/${repo_path.split("/")[2]}`;
     const copyUrl = `/api/git/copy/${repo_path}?target_path=${copyRepoPath}&add_ignore`;
-    const copyResponse = await postEmptyJson(copyUrl, debugRef.current);
+    const copyResponse = await postEmpty(copyUrl, debugRef.current);
     if (copyResponse.ok) {
       let remote = repo_path.split("/").find((e) => e === "_sideloaded_")
         ? "sideloaded"
         : "downloaded";
       // Set up remote for copy (pulls from downloaded) - assume there's no 'downloaded' remote
       const addUrl = `/api/git/remote/add/${copyRepoPath}?remote_name=${remote}&remote_url=${repo_path}`;
-      const addResponse = await postEmptyJson(addUrl, debugRef.current);
+      const addResponse = await postEmpty(addUrl, debugRef.current);
       if (!addResponse.ok) {
         enqueueSnackbar(
           doI18n("pages:content:could_not_add_remote_repo", i18nRef.current),
@@ -38,7 +38,7 @@ function CopyContent({
       }
       const updatesPath = `_local_/_updates_/${repo_path.split("/")[2]}`;
       const addUrl2 = `/api/git/remote/add/${copyRepoPath}?remote_name=updates&remote_url=${updatesPath}`;
-      const addResponse2 = await postEmptyJson(addUrl2, debugRef.current);
+      const addResponse2 = await postEmpty(addUrl2, debugRef.current);
       if (!addResponse2.ok) {
         enqueueSnackbar(
           doI18n("pages:content:could_not_add_remote_repo", i18nRef.current) +
