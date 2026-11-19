@@ -24,7 +24,7 @@ const getEditFlavors = (data) => {
     for (let v of Object.values(data)) {
       if (!v.endpoints) continue;
       for (let [k, t] of Object.entries(v.endpoints)) {
-        if (t.edit) {
+        if (t.edit?.length > 0) {
           if (!map[k]) {
             map[k] = 1;
           }
