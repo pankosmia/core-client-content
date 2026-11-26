@@ -35,8 +35,8 @@ importers:
         specifier: ^0.0.5
         version: 0.0.5
       pankosmia-rcl:
-        specifier: 0.8.5
-        version: 0.8.5(3e20000332ecb44860f905e70a86dc23)
+        specifier: 0.8.18
+        version: 0.8.18(3e20000332ecb44860f905e70a86dc23)
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -2590,6 +2590,13 @@ packages:
         integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==,
       }
 
+  cookie@1.1.1:
+    resolution:
+      {
+        integrity: sha512-ei8Aos7ja0weRpFzJnEA9UHJ/7XQmqglbRwnf2ATjcB9Wq874VKH9kfjjirM6UhU2/E5fFYadylyhFldcqSidQ==,
+      }
+    engines: { node: ">=18" }
+
   core-js-compat@3.50.0:
     resolution:
       {
@@ -3957,12 +3964,6 @@ packages:
       }
     engines: { node: ">=10" }
 
-  pankosmia-lib@0.0.3:
-    resolution:
-      {
-        integrity: sha512-aOANGTQvag5anAadz7Jn52wQYhJiDlEDPT6pRBXzEf9JecKyvW1sQL82wTFdeRU8PRJghIl1oMW9AhFBocPr9g==,
-      }
-
   pankosmia-lib@0.0.5:
     resolution:
       {
@@ -3970,10 +3971,10 @@ packages:
       }
     engines: { node: ">=24", pnpm: 11.20.0 }
 
-  pankosmia-rcl@0.8.5:
+  pankosmia-rcl@0.8.18:
     resolution:
       {
-        integrity: sha512-sm8+TTdCm3y49cTvc0e/hULsEL6gQ8TDQ+C99OWK+eeTih2VvzFDwBjgtF5extPZa7gUs6QnDf+JlHG6X1WSeQ==,
+        integrity: sha512-LY6h1vdPBqA/7zASNtP8ZEQ3riSB3lXWJsaTUUWe4le0KgF2tUDsybfqmMrqOry3MrMZStyA2ceaU8YXq15ZjQ==,
       }
     engines: { node: ">=24", pnpm: 11.20.0 }
     peerDependencies:
@@ -4133,6 +4134,32 @@ packages:
         integrity: sha512-z6F7K9bV85EfseRCp2bzrpyQ0Gkw1uLoCel9XBVWPg/TjRj94SkJzUTGfOa4bs7iJvBWtQG0Wq7wnI0syw3EBQ==,
       }
     engines: { node: ">=0.10.0" }
+
+  react-router-dom@7.18.7:
+    resolution:
+      {
+        integrity: sha512-EBWBKV1TjvScebAIvidowN0Bfh9Bg7p54IDBRVJkFXz0wBKTBblDNLxUvCewx/GdzTiC7VWV/MOjWqsLWEMygA==,
+      }
+    engines: { node: ">=20.0.0" }
+    peerDependencies:
+      react: ">=18"
+      react-dom: ">=18"
+
+  react-router@7.18.7:
+    resolution:
+      {
+        integrity: sha512-nXl672FFobymVY/Ywbo0DnlXV/+VXOB5pOslCeuVqoegwwL7sau2yASdyGoWHvPRxAoqUBrAiFZRdli4nT7Wow==,
+      }
+    engines: { node: ">=20.0.0" }
+    peerDependencies:
+      "@types/react": ">=18"
+      react: ">=18"
+      react-dom: ">=18"
+    peerDependenciesMeta:
+      "@types/react":
+        optional: true
+      react-dom:
+        optional: true
 
   react-transition-group@4.4.5:
     resolution:
@@ -4296,6 +4323,12 @@ packages:
       }
     engines: { node: ">=10" }
     hasBin: true
+
+  set-cookie-parser@2.7.3:
+    resolution:
+      {
+        integrity: sha512-irZHtTqurLna57KQG/s+fzOwv/J6XSH4cs8M/vsrY3uCaQ3S6+QJguAH0WdN47SXlk82voMZ4naWMQf8fdEoIg==,
+      }
 
   set-function-length@1.2.2:
     resolution:
@@ -6602,6 +6635,8 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
+  cookie@1.1.1: {}
+
   core-js-compat@3.50.0:
     dependencies:
       browserslist: 4.28.7
@@ -7594,11 +7629,9 @@ snapshots:
     dependencies:
       p-limit: 3.1.0
 
-  pankosmia-lib@0.0.3: {}
-
   pankosmia-lib@0.0.5: {}
 
-  pankosmia-rcl@0.8.5(3e20000332ecb44860f905e70a86dc23):
+  pankosmia-rcl@0.8.18(3e20000332ecb44860f905e70a86dc23):
     dependencies:
       "@emotion/cache": 11.14.0
       "@emotion/react": 11.13.3(@types/react@19.2.18)(react@19.2.8)(supports-color@7.2.0)
@@ -7611,10 +7644,11 @@ snapshots:
       deep-copy: 1.4.2
       eslint-config-react-app: 7.0.1(@babel/plugin-syntax-flow@7.29.7(@babel/core@7.29.7(supports-color@7.2.0)))(@babel/plugin-transform-react-jsx@7.29.7(@babel/core@7.29.7(supports-color@7.2.0))(supports-color@7.2.0))(eslint@8.57.1(supports-color@7.2.0))(supports-color@7.2.0)(typescript@6.0.3)
       notistack: 3.0.2(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
-      pankosmia-lib: 0.0.3
+      pankosmia-lib: 0.0.5
       prop-types: 15.8.1
       react: 19.2.8
       react-dom: 19.2.8(react@19.2.8)
+      react-router-dom: 7.18.7(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       stylis: 4.4.0
       stylis-plugin-rtl: 2.1.1(stylis@4.4.0)
     transitivePeerDependencies:
@@ -7691,6 +7725,23 @@ snapshots:
   react-is@19.2.8: {}
 
   react-refresh@0.17.0: {}
+
+  react-router-dom@7.18.7(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+      react-router: 7.18.7(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+    transitivePeerDependencies:
+      - "@types/react"
+
+  react-router@7.18.7(@types/react@19.2.18)(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
+    dependencies:
+      cookie: 1.1.1
+      react: 19.2.8
+      set-cookie-parser: 2.7.3
+    optionalDependencies:
+      "@types/react": 19.2.18
+      react-dom: 19.2.8(react@19.2.8)
 
   react-transition-group@4.4.5(react-dom@19.2.8(react@19.2.8))(react@19.2.8):
     dependencies:
@@ -7830,6 +7881,8 @@ snapshots:
   semver@6.3.1: {}
 
   semver@7.8.5: {}
+
+  set-cookie-parser@2.7.3: {}
 
   set-function-length@1.2.2:
     dependencies:
